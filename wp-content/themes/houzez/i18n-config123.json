@@ -1,0 +1,14 @@
+{"vendor":{"themes/houzez":"1.3.5"},
+"admin-config":{
+"property":{
+	"forms":{
+		"post":{
+			"fields":{
+				"fave_additional_feature_title":{},
+				"fave_additional_feature_value":{},
+			}
+		}
+	}
+}
+}
+}
