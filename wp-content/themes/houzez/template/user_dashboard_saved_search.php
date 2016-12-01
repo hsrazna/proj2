@@ -6,9 +6,9 @@
  * Date: 11/01/16
  * Time: 4:35 PM
  */
-if ( !is_user_logged_in() ) {
-    wp_redirect(  home_url() );
-}
+// if ( !is_user_logged_in() ) {
+//     wp_redirect(  home_url() );
+// }
 
 global $current_user;
 
@@ -36,9 +36,15 @@ get_header(); ?>
                     <?php
 
                     global $wpdb;
-
-                    $table_name     = $wpdb->prefix . 'houzez_search';
-                    $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
+                    if(is_user_logged_in()){
+                        $table_name     = $wpdb->prefix . 'houzez_search';
+                        $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
+                        // print_r($results);
+                    } else {
+                        $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
+                        // print_r($results);
+                    }
+                    
 
                     if ( sizeof( $results ) !== 0 ) :
 

@@ -193,6 +193,7 @@ if( !function_exists('houzez_check_saved_search') ) :
     function houzez_check_saved_search() {
         global $wpdb;
 
+
         $table_name     = $wpdb->prefix . 'houzez_search';
         $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name, OBJECT );
 

@@ -67,6 +67,9 @@ class Houzez_Compare_Properties {
             if(isset($_COOKIE['az_favorites'])){
                 setcookie('az_favorites', $_COOKIE['az_favorites'], time()+2592000, '/');
             }
+            if(isset($_COOKIE['az_saved_search'])){
+                setcookie('az_favorites', $_COOKIE['az_favorites'], time()+2592000, '/');
+            }
             /*ajax puller*/
             // setcookie(session_name(), session_id(), time()+60);
             if( !isset( $_SESSION[ 'houzez_compare_starttime' ] ) ) $_SESSION[ 'houzez_compare_starttime' ] = time();

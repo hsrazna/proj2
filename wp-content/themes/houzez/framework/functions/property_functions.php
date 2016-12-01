@@ -405,9 +405,10 @@ if ( ! function_exists('houzez_custom_post_status') ) {
     add_action( 'init', 'houzez_custom_post_status', 1 );
 }
 
-add_action( 'wp_ajax_houzez_save_search', 'houzez_save_search' );
-if( !function_exists('houzez_save_search') ) {
-    function houzez_save_search() {
+add_action( 'wp_ajax_nopriv_houzez_save_search', 'houzez_save_search' );
+add_action( 'wp_ajax_houzez_save_search', 'houzez_save_search_reg' );
+if( !function_exists('houzez_save_search_reg') ) {
+    function houzez_save_search_reg() {
 
         $nonce = $_REQUEST['houzez_save_search_ajax'];
         if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
@@ -450,6 +451,67 @@ if( !function_exists('houzez_save_search') ) {
     }
 }
 
+if( !function_exists('houzez_save_search') ) {
+    function houzez_save_search() {
+
+        $nonce = $_REQUEST['houzez_save_search_ajax'];
+        if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+            echo json_encode(array(
+                'success' => false,
+                'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+            ));
+            wp_die();
+        }
+
+        global $wpdb, $current_user;
+
+        wp_get_current_user();
+        // $userID       =  $current_user->ID;
+        // $userEmail    =  $current_user->user_email;
+        $search_args  =  $_REQUEST['search_args'];
+        // $table_name   = $wpdb->prefix . 'houzez_search';
+        $request_url  = $_REQUEST['search_URI'];
+
+        $az_arr = [
+            // 'id'        => -1,
+            // 'auther_id' => -1,
+            'query'     => $search_args,
+            // 'email'     => get_option('admin_email'),
+            'url'       => $request_url,
+            'time'      => current_time( 'mysql' )
+        ];
+
+        if(isset($_COOKIE['az_saved_search'])){
+            $temp_arr = unserialize(base64_decode($_COOKIE['az_saved_search']));
+            $temp_arr[] = $az_arr;
+            setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+25920000, '/');
+        } else {
+            $temp_arr[] = $az_arr;
+            setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+25920000, '/');
+        }
+
+        // $wpdb->insert(
+        //     $table_name,
+        //     array(
+        //         'auther_id' => $userID,
+        //         'query'     => $search_args,
+        //         'email'     => $userEmail,
+        //         'url'       => $request_url,
+        //         'time'      => current_time( 'mysql' )
+        //     ),
+        //     array(
+        //         '%d',
+        //         '%s',
+        //         '%s',
+        //         '%s',
+        //         '%s'
+        //     )
+        // );
+
+        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved.', 'houzez') ) );
+        wp_die();
+    }
+}
 /*-----------------------------------------------------------------------------------*/
 /*     Remove Search
 /*-----------------------------------------------------------------------------------*/

@@ -101,6 +101,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <!-- <div class="ls-favorites">
                 <a href="/favorite/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
             </div> -->
+            <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i></a>
 
             <nav class="navi main-nav">
             <?php //echo [:ru]'Услуги'[:en]'Services'[:]; ?>

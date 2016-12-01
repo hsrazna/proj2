@@ -1,8 +1,14 @@
 <?php
 global $houzez_search_data;
 
-$search_args = $houzez_search_data->query;
+if(is_user_logged_in()){
+    $search_args = $houzez_search_data->query;
+} else {
+    $search_args = $houzez_search_data['query'];
+}
+
 $search_args_decoded = unserialize( base64_decode( $search_args ) );
+// print_r($search_args_decoded);
 ?>
 <div class="saved-search-block">
     <p><strong><?php esc_html_e( 'Search Parameters:', 'houzez' ); ?></strong></p>
@@ -112,6 +118,12 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
         }
         ?>
     </p>
+    <?php if(is_user_logged_in()){ ?>
     <button class="remove-search" data-propertyid='<?php echo intval($houzez_search_data->id); ?>'><i class="fa fa-remove"></i></button>
     <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data->url; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
+    <?php } else { ?>
+    <button class="remove-search" data-propertyid='<?php echo intval($houzez_search_data['id']); ?>'><i class="fa fa-remove"></i></button>
+    <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data['url']; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
+    <?php } ?>
+    
 </div>

@@ -932,9 +932,9 @@ jQuery(document).ready(function ($) {
             var $this = $(this);
             var $from = $('#save_search_form');
 
-            if( parseInt( userID, 10 ) === 0 ) {
-                $('#pop-login').modal('show');
-            } else {
+            // if( parseInt( userID, 10 ) === 0 ) {
+            //     $('#pop-login').modal('show');
+            // } else {
                 $.ajax({
                     url: ajaxurl,
                     data: $from.serialize(),
@@ -958,7 +958,7 @@ jQuery(document).ready(function ($) {
                         $this.children('i').removeClass(process_loader_spinner);
                     }
                 });
-            }
+            // }
 
         });
 
