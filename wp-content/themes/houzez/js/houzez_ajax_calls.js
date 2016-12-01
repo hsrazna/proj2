@@ -1219,7 +1219,7 @@ jQuery(document).ready(function ($) {
 
             var $form = currnt.parents('form');
             var $messages = currnt.parents('.login-block').find('.houzez_messages_register');
-
+            alert($form.serialize());
             $.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -1229,6 +1229,7 @@ jQuery(document).ready(function ($) {
                     $messages.empty().append('<p class="success text-success"> '+ login_sending +'</p>');
                 },
                 success: function( response ) {
+                    // alert(response);
                     if( response.success ) {
                         $messages.empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ response.msg +'</p>');
                     } else {

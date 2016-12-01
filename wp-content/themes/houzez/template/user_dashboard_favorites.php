@@ -7,8 +7,22 @@
  * Time: 4:35 PM
  */
 // session_start();
+global $current_user;
 
-$fav_ids = unserialize(base64_decode($_COOKIE['az_favorites']));
+wp_get_current_user();
+// $userID         = $current_user->ID;
+// // $user_login     = $current_user->user_login;
+// $fav_ids = 'houzez_favorites-'.$userID;
+// $fav_ids = get_option( $fav_ids );
+if(is_user_logged_in()){
+    $userID         = $current_user->ID;
+    $user_login     = $current_user->user_login;
+    $fav_ids = 'houzez_favorites-'.$userID;
+    $fav_ids = get_option( $fav_ids );
+    // $fav_ids = get_option( $fav_option );
+} else {
+    $fav_ids = unserialize(base64_decode($_COOKIE['az_favorites']));
+}
 if ( empty($fav_ids) ) {
     // echo $_COOKIE['PHPSESSID'];
     wp_redirect(  home_url() );

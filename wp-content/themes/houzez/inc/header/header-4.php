@@ -40,17 +40,40 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <?php get_template_part('inc/header/logo'); ?>
             </div>
             
+            <div class="ls-soc">
+                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+            </div>
+
             <div class="ls-phone"><a href="tel:88002000600">8(800)-2000-600 <i class="fa fa-phone" aria-hidden="true"></i></a></div>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+            <?php } elseif ( qtrans_getLanguage() == 'de' ) { ?>
+            <?php } ?>
+            <div class="ls-call">
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <a href="#" class="btn btn-orange az-btn">Feed back</a>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <a href="#" class="btn btn-orange az-btn">Заказать звонок</a>
+                <?php } ?>
+                <!-- <a href="#" class="btn btn-orange az-btn">Заказать звонок</a> -->
+            </div>
             <?php if(is_front_page()): ?>
             <?php global $houzez_local; ?>
             <div class="ls-search">
                 <form role="search" method="get" id="searchform" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-                    <div>
+                    <div class="az-rel">
                         <!-- <input value="" name="s" id="s" type="text" placeholder="<?php echo $houzez_local['blog_search']; ?>"> -->
                         <input value="" name="s" id="s" type="text">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        <i class="fa fa-search ls-i" aria-hidden="true"></i>
-                        <i class="fa fa-times ls-i ls-disp-none" aria-hidden="true"></i>
+                        <div class="az-azsearch"></div>
+                        <!-- <i class="fa fa-search ls-i" aria-hidden="true"></i> -->
+                        <!-- <i class="fa fa-times ls-i ls-disp-none" aria-hidden="true"></i> -->
                     </div>
                 </form>
             </div>
@@ -58,9 +81,9 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 
             
 
-            <div class="ls-currency">
+            <!-- <div class="ls-currency">
                 <i class="fa fa-rub" aria-hidden="true"></i>
-            </div>
+            </div> -->
 
             <div class="ls-lang">
                 <!-- <div class="az-select"> -->

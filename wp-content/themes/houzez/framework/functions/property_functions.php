@@ -1369,7 +1369,65 @@ add_filter('houzez_search_parameters_2', 'houzez_property_search_2');
 // Add to favorite
 /*-----------------------------------------------------------------------------------*/
 add_action( 'wp_ajax_nopriv_houzez_add_to_favorite', 'houzez_favorites' );
-add_action( 'wp_ajax_houzez_add_to_favorite', 'houzez_favorites' );
+add_action( 'wp_ajax_houzez_add_to_favorite', 'houzez_favorites_reg' );
+if( !function_exists( 'houzez_favorites_reg' ) ) {
+    // a:1:{i:0;i:543;}
+    function houzez_favorites_reg () {
+        global $current_user;
+        wp_get_current_user();
+        $userID      =   $current_user->ID;
+        $fav_option = 'houzez_favorites-'.$userID;
+        $property_id = intval( $_POST['property_id'] );
+        // $property_id = $_POST['property_id'];
+        // print_r($property_id);
+        // if(!isset($_COOKIE['az_favorites'])){
+        //     $az_houzez_favorites = [];
+        //     $az_str = base64_encode(serialize($az_houzez_favorites));
+        //     setcookie('az_favorites', $az_str, time()+2592000, '/');
+        // }
+        // $current_prop_fav = unserialize(base64_decode($_COOKIE['az_favorites']));
+        $current_prop_fav = get_option( 'houzez_favorites-'.$userID );
+
+        // Check if empty or not
+        if( empty( $current_prop_fav ) ) {
+            $prop_fav = array();
+            $prop_fav['1'] = $property_id;
+            $az_str = base64_encode(serialize($prop_fav));
+            // setcookie('az_favorites', $az_str, time()+2592000, '/');
+            // $_COOKIE['az_houzez_favorites'] = $prop_fav;
+            update_option( $fav_option, $prop_fav );
+            $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
+            echo json_encode($arr);
+            wp_die();
+        } else {
+            if(  ! in_array ( $property_id, $current_prop_fav )  ) {
+                $current_prop_fav[] = $property_id;
+                update_option( $fav_option,  $current_prop_fav );
+                // $_COOKIE['az_houzez_favorites'] = $current_prop_fav;
+                // $az_str = base64_encode(serialize($current_prop_fav));
+                // setcookie('az_favorites', $az_str, time()+2592000, '/');
+                $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
+                echo json_encode($arr);
+                wp_die();
+            } else {
+                $key = array_search( $property_id, $current_prop_fav );
+
+                if( $key != false ) {
+                    unset( $current_prop_fav[$key] );
+                }
+
+                update_option( $fav_option, $current_prop_fav );
+                // $_SESSION['az_houzez_favorites'] = $current_prop_fav;
+                // $az_str = base64_encode(serialize($current_prop_fav));
+                // setcookie('az_favorites', $az_str, time()+2592000);
+                $arr = array( 'added' => false, 'response' => esc_html__('Removed', 'houzez') );
+                echo json_encode($arr);
+                wp_die();
+            }
+        }
+        wp_die();
+    }
+}
 if( !function_exists( 'houzez_favorites' ) ) {
     // a:1:{i:0;i:543;}
     function houzez_favorites () {

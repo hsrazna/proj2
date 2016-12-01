@@ -5,7 +5,11 @@ wp_get_current_user();
 $key = '';
 $userID      =   $current_user->ID;
 $fav_option = 'houzez_favorites-'.$userID;
-$fav_option = unserialize(base64_decode($_COOKIE['az_favorites']));//$_SESSION['az_houzez_favorites'];//get_option( $fav_option );
+if(is_user_logged_in()){
+	$fav_option = get_option( $fav_option );
+} else {
+	$fav_option = unserialize(base64_decode($_COOKIE['az_favorites']));//$_SESSION['az_houzez_favorites'];//get_option( $fav_option );
+}
 if( !empty($fav_option) ) {
     $key = array_search($post->ID, $fav_option);
 }

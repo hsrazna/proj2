@@ -3904,8 +3904,8 @@ input[type="button"].btn-block {
   width: 290px;
   z-index: 2; }
 
-.houzez-header-transparent {
-  background-color: transparent !important; }
+/*.houzez-header-transparent {*/
+  /*background-color: transparent !important; }*/
 
 /*START NAVIGATION*/
 .sticky_nav {

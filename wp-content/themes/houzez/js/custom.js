@@ -11,16 +11,40 @@ var nice = false;
 "use strict";
 
 /*ajax puller*/
-    var ls_temp;
-    $('.ls-search .ls-i').click(function(){
-        ls_temp = $(this).siblings('input[type="text"]');
+
+                // $(function() {
+                    $('input[name="daterange"]').daterangepicker();
+                // });
+
+// $('#pop-login').modal('show');
+    // var ls_search = $('.ls-search .ls-i');
+    // $('body').on('click', '.ls-search .ls-i', function(){
+    //     // alert(1);
+    //     var ls_temp = $('.ls-search .ls-i').siblings('input[type="text"]');
+    //     ls_temp.toggleClass('slide');
+    //     if (ls_temp.hasClass('slide')){
+    //         $(this).siblings('input[type="text"]').focus();
+    //         // ls_temp.focus();
+    //     } else {
+    //         $(this).siblings('input[type="text"]').blur();
+    //         // ls_temp.blur();
+    //     }
+    //     $('.ls-search .ls-i').toggleClass('ls-disp-none');
+        
+    // });
+
+    $('body').on('click', '.ls-search .az-azsearch', function(){
+        // alert(1);
+        var ls_temp = $('.ls-search .az-azsearch').siblings('input[type="text"]');
         ls_temp.toggleClass('slide');
         if (ls_temp.hasClass('slide')){
-            ls_temp.focus();
+            $(this).siblings('input[type="text"]').focus();
+            // ls_temp.focus();
         } else {
-            ls_temp.blur();
+            $(this).siblings('input[type="text"]').blur();
+            // ls_temp.blur();
         }
-        $('.ls-search .ls-i').toggleClass('ls-disp-none');
+        // $('.ls-search .ls-i').toggleClass('ls-disp-none');
         
     });
 
@@ -28,8 +52,10 @@ var nice = false;
     /*languages*/
     var is_open = false;
     $('.qtranxs_widget li').click(function(){
-
+        // var ls_widget = $(this).parent
+        // alert(is_open);
         if($(this).hasClass('active') && is_open){
+            // alert(is);
             $('.qtranxs_widget li:not(.active)').slideUp(300);
             is_open = false;
             return false;
@@ -42,6 +68,7 @@ var nice = false;
         }
     });
     $(window).click(function(){
+        // alert(is_open);
         if(is_open){
             $('.qtranxs_widget li:not(.active)').slideUp(300);
             is_open = false;
