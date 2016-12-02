@@ -516,9 +516,10 @@ if( !function_exists('houzez_save_search') ) {
 /*     Remove Search
 /*-----------------------------------------------------------------------------------*/
 
-add_action('wp_ajax_houzez_delete_search', 'houzez_delete_search');
-if(!function_exists('houzez_delete_search') ) {
-    function houzez_delete_search () {
+add_action('wp_ajax_nopriv_houzez_delete_search', 'houzez_delete_search');
+add_action('wp_ajax_houzez_delete_search', 'houzez_delete_search_reg');
+if(!function_exists('houzez_delete_search_reg') ) {
+    function houzez_delete_search_reg () {
         global $current_user;
         wp_get_current_user();
         $userID = $current_user->ID;
@@ -561,7 +562,50 @@ if(!function_exists('houzez_delete_search') ) {
         }
     }
 }
+if(!function_exists('houzez_delete_search') ) {
+    function houzez_delete_search () {
+        // global $current_user;
+        // wp_get_current_user();
+        // $userID = $current_user->ID;
 
+        // $property_id = intval( $_POST['property_id']);
+
+        // if( !is_numeric( $property_id ) ){
+        //     echo json_encode( array(
+        //         'success' => false,
+        //         'msg' => esc_html__('you don\'t have the right to delete this', 'houzez')
+        //     ));
+        //     wp_die();
+        // }else{
+
+        //     global $wpdb;
+
+        //     $table_name     = $wpdb->prefix . 'houzez_search';
+        //     $results        = $wpdb->get_row( 'SELECT * FROM ' . $table_name . ' WHERE id = ' . $property_id );
+        //     if ( $userID != $results->auther_id ) :
+
+        //         echo json_encode( array(
+        //             'success' => false,
+        //             'msg' => esc_html__('you don\'t have the right to delete this', 'houzez')
+        //         ));
+
+        //         wp_die();
+
+        //     else :
+
+        //         $wpdb->delete( $table_name, array( 'id' => $property_id ), array( '%d' ) );
+
+        //         echo json_encode( array(
+        //             'success' => true,
+        //             'msg' => esc_html__('Deleted Successfully', 'houzez')
+        //         ));
+
+        //         wp_die();
+
+        //     endif;
+        // }
+    }
+}
 
 /*-----------------------------------------------------------------------------------*/
 // Property paypal payment

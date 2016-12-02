@@ -6,6 +6,20 @@
  * Date: 11/01/16
  * Time: 4:35 PM
  */
+
+global $wpdb;
+if(is_user_logged_in()){
+    $table_name     = $wpdb->prefix . 'houzez_search';
+    $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
+    // print_r($results);
+} else {
+    $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
+    // print_r($results);
+}
+
+if ( sizeof( $results ) === 0 ){
+    wp_redirect(  home_url() );
+}
 // if ( !is_user_logged_in() ) {
 //     wp_redirect(  home_url() );
 // }
@@ -35,15 +49,15 @@ get_header(); ?>
                 <div class="saved-search-list">
                     <?php
 
-                    global $wpdb;
-                    if(is_user_logged_in()){
-                        $table_name     = $wpdb->prefix . 'houzez_search';
-                        $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
-                        // print_r($results);
-                    } else {
-                        $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
-                        // print_r($results);
-                    }
+                    // global $wpdb;
+                    // if(is_user_logged_in()){
+                    //     $table_name     = $wpdb->prefix . 'houzez_search';
+                    //     $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
+                    //     // print_r($results);
+                    // } else {
+                    //     $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
+                    //     // print_r($results);
+                    // }
                     
 
                     if ( sizeof( $results ) !== 0 ) :
