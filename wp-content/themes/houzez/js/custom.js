@@ -29,7 +29,10 @@ var nice = false;
                 // $(function() {
     // $.cookie.defaults = { expires: 30, path: "/"};
 
-
+    $('.az-reg').click(function(){
+        $('#pop-login').modal('show');
+        return false;
+    });
 
     $('input[name="area[]"]').click(function(){
         if($(this).hasAttr('checked')){

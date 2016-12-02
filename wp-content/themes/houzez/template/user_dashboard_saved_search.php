@@ -17,7 +17,7 @@ if(is_user_logged_in()){
     // print_r($results);
 }
 
-if ( sizeof( $results ) === 0 ){
+if ( sizeof( $results ) === 0 || (!isset($results))){
     wp_redirect(  home_url() );
 }
 // if ( !is_user_logged_in() ) {

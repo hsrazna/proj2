@@ -1583,7 +1583,7 @@ if( !function_exists( 'houzez_favorites' ) ) {
                 // update_option( $fav_option, $current_prop_fav );
                 // $_SESSION['az_houzez_favorites'] = $current_prop_fav;
                 $az_str = base64_encode(serialize($current_prop_fav));
-                setcookie('az_favorites', $az_str, time()+2592000);
+                setcookie('az_favorites', $az_str, time()+2592000, "/");
                 $arr = array( 'added' => false, 'response' => esc_html__('Removed', 'houzez') );
                 echo json_encode($arr);
                 wp_die();

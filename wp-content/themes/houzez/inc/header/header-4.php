@@ -59,7 +59,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <a href="#" class="btn btn-orange az-btn">Feed back</a>
                 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                    <a href="#" class="btn btn-orange az-btn">Заказать звонок</a>
+                    <a href="#" class="btn btn-orange az-btn az-reg">Заказать звонок</a>
                 <?php } ?>
                 <!-- <a href="#" class="btn btn-orange az-btn">Заказать звонок</a> -->
             </div>

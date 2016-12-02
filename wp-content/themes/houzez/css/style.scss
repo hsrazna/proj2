@@ -92,6 +92,7 @@
         position: absolute;
         top: 50%;
         right: 200%;
+        -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
         height: 0px;
         width: 0px;
@@ -323,6 +324,7 @@
     position: absolute;
     top: 20px;
     left: 50%;
+    -webkit-transform: translate(-75px, -50%);
     transform: translate(-75px, -50%);
 }
 .ls-mask{
@@ -424,6 +426,7 @@ input[name="daterange"]{
 .tparrows:before{
     position: absolute;
     top: 50%;
+    -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
     background: rgba(0,0,0,0.5);
     padding: 20px 40px;
@@ -434,17 +437,10 @@ input[name="daterange"]{
     animation: pulsate 1.2s linear infinite;
 }
 @-webkit-keyframes pulsate {
- 50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.3), 0 0 5px #ffd, 0 0 8px #fff; }
+ 50% { color: #fff; -webkit-text-shadow: 0 -1px rgba(0,0,0,.3), 0 0 5px #ffd, 0 0 8px #fff; }
 }
 @keyframes pulsate {
  50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.3), 0 0 5px #ffd, 0 0 8px #fff; }
-}
-#blink7 {
-  color: rgb(245,245,245);
-  text-shadow: 0 -1px rgba(0,0,0,.1);
-  background: green;
-  -webkit-animation: pulsate 1.2s linear infinite;
-  animation: pulsate 1.2s linear infinite;
 }
 /*slide arrows*/
 
