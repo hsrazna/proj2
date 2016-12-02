@@ -8,6 +8,9 @@
 .az-title1{
 	font-family: "OpenSans-Semibold" !important;
 }
+.btn{
+    font-family: "OpenSans-Regular";
+}
 .az-text1{
 	font-family: "OpenSans-Regular";
     *{
@@ -306,6 +309,9 @@
         position: relative;
         display: block;
         font-weight: bold;
+        input{
+            display: none;
+        }
     }
 }
 
@@ -385,7 +391,62 @@
 // }
 /*menu*/
 
+// .daterangepicker td.in-range{
+//     background-color: darken(#ebf4f8, 10%); //#c5dfeb
+// }
 
+input[name="daterange"]{
+    background-color: #fff !important;
+    box-shadow: none !important;
+    background-image: none;
+    color: #333;
+    border-color: #adadad;
+    border: 1px solid #cccccc;
+    text-transform: none;
+    height: 42px;
+    width: 100%;
+    outline: none !important;
+    border-radius: 4px;
+    vertical-align: middle;
+    padding: 6px 11px;
+    font-size: 16px;
+}
+
+/*slide arrows*/
+.tparrows{
+    height: 100% !important;
+    width: 10% !important;
+    line-height: 70% !important;
+    vertical-align: middle !important;
+    background: transparent !important;
+    padding: 0 20px;
+}
+.tparrows:before{
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    background: rgba(0,0,0,0.5);
+    padding: 20px 40px;
+    font-size: 30px !important;
+    color: rgb(245,245,245);
+    text-shadow: 0 -1px rgba(0,0,0,.1);
+    -webkit-animation: pulsate 1.2s linear infinite;
+    animation: pulsate 1.2s linear infinite;
+}
+@-webkit-keyframes pulsate {
+ 50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.3), 0 0 5px #ffd, 0 0 8px #fff; }
+}
+@keyframes pulsate {
+ 50% { color: #fff; text-shadow: 0 -1px rgba(0,0,0,.3), 0 0 5px #ffd, 0 0 8px #fff; }
+}
+#blink7 {
+  color: rgb(245,245,245);
+  text-shadow: 0 -1px rgba(0,0,0,.1);
+  background: green;
+  -webkit-animation: pulsate 1.2s linear infinite;
+  animation: pulsate 1.2s linear infinite;
+}
+/*slide arrows*/
 
 @media only screen and (min-width: 768px){
 	.az-stamp{

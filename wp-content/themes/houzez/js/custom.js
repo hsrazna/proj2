@@ -6,6 +6,20 @@
  Version: 1.0
  */
 
+/*ajax puller*/
+jQuery.fn.hasAttr = function(name) {  
+   return this.attr(name) !== undefined;
+};
+// revapi2.bind("revolution.slide.onchange",function (e,data) {
+//         alert(1);
+//         // console.log("slide changed to: "+data.slideIndex);
+//         // console.log("current slide <li> Index: "+data.slideLIIndex);
+//         //data.currentslide - Текущий слайд как объект jQuery
+//         //data.prevslide - Предыдущий слайд как объект jQuery  
+//     });
+    // alert(1);
+/*ajax puller*/
+
 var nice = false;
 (function($){
 "use strict";
@@ -13,7 +27,88 @@ var nice = false;
 /*ajax puller*/
 
                 // $(function() {
-                    $('input[name="daterange"]').daterangepicker();
+    // $.cookie.defaults = { expires: 30, path: "/"};
+
+
+
+    $('input[name="area[]"]').click(function(){
+        if($(this).hasAttr('checked')){
+            $('input[name="area[]"][value="'+$(this).val()+'"]').attr('checked', 'checked');
+        } else {
+            $('input[name="area[]"][value="'+$(this).val()+'"]').removeAttr('checked');
+        }
+    });
+    if($.cookie('az_range')){
+        $('input[name="daterange"]').val($.cookie('az_range'));
+    }
+    $('input[name="daterange"]').daterangepicker({
+    "locale": {
+        "format": "MM/DD/YYYY",
+        "separator": " - ",
+        // "applyLabel": "Apply",
+        // "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        // "daysOfWeek": [
+        //     "Su",
+        //     "Mo",
+        //     "Tu",
+        //     "We",
+        //     "Th",
+        //     "Fr",
+        //     "Sa"
+        // ],
+        // "monthNames": [
+        //     "January",
+        //     "February",
+        //     "March",
+        //     "April",
+        //     "May",
+        //     "June",
+        //     "July",
+        //     "August",
+        //     "September",
+        //     "October",
+        //     "November",
+        //     "December"
+        // ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+    // "startDate": "11/26/2016",
+    // "endDate": "12/02/2016"
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+});
+    // $('input[name="daterange"]').daterangepicker({
+    //         "daysOfWeek": [
+    //       "Mo",
+    //       "Tu",
+    //       "We",
+    //       "Th",
+    //       "Fr",
+    //       "Sa",
+    //       "Su",
+          
+    //     ],
+    //     },function(start, end, label) {
+    //         console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+    //     });
+    // $('input[name="daterange"]').daterangepicker({},function(start, end, label) {
+    //     console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+    // });
+    $('input[name="daterange"]').change(function(){
+        // alert(1);
+        // var date = new Date();
+        // var minutes = 43200;
+        // date.setTime(date.getTime() + (minutes * 60 * 1000));
+        $.cookie("az_range", $(this).val(), { expires: 30});
+        // $.cookie('az_range', $(this).val(), );
+        // alert($.cookie('az_range'));
+        // alert( document.cookie );
+    });
                 // });
 
 // $('#pop-login').modal('show');
@@ -73,6 +168,7 @@ var nice = false;
             $('.qtranxs_widget li:not(.active)').slideUp(300);
             is_open = false;
         }
+        // alert($.cookie('az_range'));
     });
     /*languages*/
 

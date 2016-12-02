@@ -15,10 +15,26 @@ $houzez_local = houzez_get_localization();
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/style.css">
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css">
 	<?php wp_head(); ?>
-	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<?php if ( qtrans_getLanguage() == 'en' ) {?>
+  <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script>
 	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+  <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.ru.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.ru.js"></script>
+	<?php } ?>
+	<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script> -->
+	<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script> -->
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.css" />
 	
+	<script>
+	
+	$(document).ready(function(){
+
+	});
+	
+		
+	</script>
+
 </head>
 
 <?php

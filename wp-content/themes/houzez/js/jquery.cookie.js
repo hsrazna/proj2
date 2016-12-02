@@ -5,6 +5,7 @@
  * Copyright 2006, 2014 Klaus Hartl
  * Released under the MIT license
  */
+ // alert(1);
 (function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD (Register as an anonymous module)
@@ -59,7 +60,7 @@
 		if (arguments.length > 1 && !$.isFunction(value)) {
 			options = $.extend({}, config.defaults, options);
 
-			if (typeof options.expires === 'number') {
+			if (typeof(options.expires) === 'number') {
 				var days = options.expires, t = options.expires = new Date();
 				t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
 			}
