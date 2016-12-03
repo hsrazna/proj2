@@ -33,7 +33,10 @@ var nice = false;
     //     $('#pop-login').modal('show');
     //     return false;
     // });
-
+    $('.ls-menu').click(function(){
+        $('.navi.main-nav').toggleClass('open');
+        return false;
+    });
     $('input[name="area[]"]').click(function(){
         if($(this).hasAttr('checked')){
             $('input[name="area[]"][value="'+$(this).val()+'"]').attr('checked', 'checked');

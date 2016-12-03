@@ -23,30 +23,52 @@ $allowed_html_array = array(
         <div id="houzez_messages" class="houzez_messages message"></div>
         <form>
             <div class="form-group field-group">
-                <div class="input-user input-icon">
-                    <input id="login_username" name="username" placeholder="<?php esc_html_e('Username','houzez'); ?>" type="text" />
-                </div>
-                <div class="input-pass input-icon">
-                    <input id="password" name="password" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
-                </div>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <div class="input-user input-icon">
+                        <input id="login_username" name="username" placeholder="<?php esc_html_e('Username','houzez'); ?>" type="text" />
+                    </div>
+                    <div class="input-pass input-icon">
+                        <input id="password" name="password" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                    </div>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <div class="input-user input-icon">
+                        <input id="login_username" name="username" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Логин','houzez'); ?>" type="text" />
+                    </div>
+                    <div class="input-pass input-icon">
+                        <input id="password" name="password" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
+                    </div>
+                <?php } ?>
+                
             </div>
             <div class="forget-block clearfix">
                 <div class="form-group pull-left">
                     <div class="checkbox">
                         <label>
                             <input name="remember" id="remember" type="checkbox">
-                            <?php esc_html_e( 'Remember me', 'houzez' ); ?>
+                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                <?php esc_html_e( 'Remember me', 'houzez' ); ?>
+                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                <?php esc_html_e( 'Запомнить', 'houzez' ); ?>
+                            <?php } ?>
                         </label>
                     </div>
                 </div>
                 <div class="form-group pull-right">
-                    <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Забыли пароль?', 'houzez' ); ?></a>
+                    <?php } ?>
                 </div>
             </div>
 
             <?php wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
             <input type="hidden" name="action" id="login_action" value="houzez_login">
-            <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php esc_html_e('Login','houzez');?></button>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php esc_html_e('Login','houzez');?></button>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php esc_html_e('Войти','houzez');?></button>
+            <?php } ?>
         </form>
         <?php if( $facebook_login != 'no' || $google_login != 'no' || $yahoo_login != 'no' ) { ?>
             <hr>
@@ -67,20 +89,39 @@ $allowed_html_array = array(
         <div id="houzez_messages_register" class="houzez_messages_register message"></div>
         <form>
             <div class="form-group field-group">
-                <div class="input-user input-icon">
-                    <input id="register_username" name="username" type="text" placeholder="<?php esc_html_e('Username','houzez'); ?>" />
-                </div>
-                <div class="input-email input-icon">
-                    <input id="useremail" name="useremail" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
-                </div>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <div class="input-user input-icon">
+                        <input id="register_username" name="username" type="text" placeholder="<?php esc_html_e('Username','houzez'); ?>" />
+                    </div>
+                    <div class="input-email input-icon">
+                        <input id="useremail" name="useremail" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
+                    </div>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <div class="input-user input-icon">
+                        <input id="register_username" name="username" style="font-family: 'OpenSans-Regular';" type="text" placeholder="<?php esc_html_e('Логин','houzez'); ?>" />
+                    </div>
+                    <div class="input-email input-icon">
+                        <input id="useremail" name="useremail" style="font-family: 'OpenSans-Regular';" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
+                    </div>
+                <?php } ?>
+                
 
                 <?php if( $enable_password == 'yes' ) { ?>
-                    <div class="input-pass input-icon">
-                        <input id="register_pass" name="register_pass" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <div class="input-pass input-icon">
+                            <input id="register_pass" name="register_pass" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                        </div>
+                        <div class="input-pass input-icon">
+                            <input id="register_pass_retype" name="register_pass_retype" placeholder="<?php esc_html_e('Retype Password','houzez'); ?>" type="password" />
+                        </div>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <div class="input-pass input-icon">
+                        <input id="register_pass" name="register_pass" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
                     </div>
                     <div class="input-pass input-icon">
-                        <input id="register_pass_retype" name="register_pass_retype" placeholder="<?php esc_html_e('Retype Password','houzez'); ?>" type="password" />
+                        <input id="register_pass_retype" name="register_pass_retype" placeholder="<?php esc_html_e('Подтверждение пароля','houzez'); ?>" style="font-family: 'OpenSans-Regular';" type="password" />
                     </div>
+                    <?php } ?>
                 <?php } ?>
 
             </div>
@@ -88,13 +129,23 @@ $allowed_html_array = array(
                 <div class="checkbox">
                     <label>
                         <input name="term_condition" id="term_condition" type="checkbox">
-                        <?php echo sprintf( wp_kses(__( 'I agree with your <a href="%s">Terms & Conditions</a>', 'houzez' ), $allowed_html_array), get_permalink($terms_conditions) ); ?>
+                        <?php if( $enable_password == 'yes' ) { ?>
+                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                <?php echo sprintf( wp_kses(__( 'I agree with your <a href="%s">Terms & Conditions</a>', 'houzez' ), $allowed_html_array), get_permalink($terms_conditions) ); ?>
+                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                <?php echo sprintf( wp_kses(__( 'Я согласен с <a href="%s">условиями</a>', 'houzez' ), $allowed_html_array), get_permalink($terms_conditions) ); ?>
+                            <?php } ?>
+                        <?php } ?>
                     </label>
                 </div>
             </div>
             <?php wp_nonce_field( 'houzez_register_nonce', 'houzez_register_security' ); ?>
             <input type="hidden" name="action" value="houzez_register" id="register_action">
-            <button type="submit" class="fave-register-button btn btn-primary btn-block"><?php esc_html_e('Register','houzez');?></button>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                <button type="submit" class="fave-register-button btn btn-primary btn-block"><?php esc_html_e('Register','houzez');?></button>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                <button type="submit" class="fave-register-button btn btn-primary btn-block"><?php esc_html_e('Зарегистрироваться','houzez');?></button>
+            <?php } ?>
         </form>
         <?php } else {
             esc_html_e('User registration is disabled in this demo.', 'houzez');

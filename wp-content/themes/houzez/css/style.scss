@@ -162,9 +162,10 @@
 
 .ls-lang{
     float: right;
-    line-height: 90px;
+    line-height: 90px !important;
     height: 90px;
     vertical-align: middle;
+    margin-left: 25px;
     .qtranxs_widget{
         padding: 0px;
         display: inline-block;
@@ -504,6 +505,55 @@ input[name="daterange"]{
 /*margins*/
 .az-margin-right15{
     margin-right: 15px;
+}
+
+.navi.main-nav{
+    position: fixed;
+    background: #fff;
+    border: 1px solid #000;
+    left: -200px;
+    transition: all 0.8s ease-in-out;
+    margin-left: 0px !important;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    height: 100%;
+    width: 200px;
+    .menu-item{
+        display: block;
+        a:hover{
+
+            padding: 0 30px;
+            display: block;
+            color: #f7941d !important;
+            line-height: 50px !important;
+        }
+        a{
+            font-family: "OpenSans-Regular";
+            padding: 0 30px;
+            display: block;
+            color: #333 !important;
+            line-height: 50px !important;
+        }
+        
+    }
+}
+.navi.main-nav.open{
+    left: 0px;
+}
+.ls-menu{
+    padding: 0 15px 0 25px;
+    float: right;
+    line-height: 90px !important;
+    height: 90px;
+    vertical-align: middle;
+    font-size: 24px;
+    a{
+        i{
+            font-size: 24px !important;
+        }
+    }
+    cursor: pointer;
+    text-align: center;
 }
 
 

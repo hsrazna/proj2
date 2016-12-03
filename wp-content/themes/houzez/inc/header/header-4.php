@@ -85,53 +85,49 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <i class="fa fa-rub" aria-hidden="true"></i>
             </div> -->
 
-            <div class="ls-lang">
-                <!-- <div class="az-select"> -->
-                <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
-                    <?php //echo qtranxf_generateLanguageSelectCode('dropdown'); ?>
-                <!-- <div class="az-select">
-                    <select name="" id="">
-                        <option value="1">RU</option>
-                        <option value="2">EN</option>
-                    </select>
-                </div> -->
-                <!-- </div> -->
-            </div>
             
-            <!-- <div class="ls-favorites">
-                <a href="/favorite/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-            </div> -->
-            <!-- <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i></a> -->
-
-            <nav class="navi main-nav">
-            <?php //echo [:ru]'Услуги'[:en]'Services'[:]; ?>
-                <?php
-                // Pages Menu
-                if ( has_nav_menu( 'main-menu' ) ) :
-                    wp_nav_menu( array (
-                        'theme_location' => 'main-menu',
-                        'container' => '',
-                        'container_class' => '',
-                        'menu_class' => '',
-                        'menu_id' => 'main-nav',
-                        'depth' => 4
-                    ));
-                endif;
-                ?>
-            </nav>
             
         </div>
 
         <?php if( class_exists('Houzez_login_register') ): ?>
             <?php if( houzez_option('header_login') != 'no' ): ?>
                 <div class="header-right">
+                    
+                    <div class="ls-menu">
+                        <a href="#" class="az-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                    </div>
+                    <nav class="navi main-nav">
+                        <?php
+                        // Pages Menu
+                        if ( has_nav_menu( 'main-menu' ) ) :
+                            wp_nav_menu( array (
+                                'theme_location' => 'main-menu',
+                                'container' => '',
+                                'container_class' => '',
+                                'menu_class' => '',
+                                'menu_id' => 'main-nav',
+                                'depth' => 4
+                            ));
+                        endif;
+                        ?>
+                    </nav>
+                    <div class="ls-lang">
+                        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
+                    </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
+                    <div class="clearfix"></div>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
+
     </div>
 
 </header>
 <!--end section header-->
 
 <?php get_template_part( 'inc/header/mobile-header' ); ?>
+
+            <!-- <div class="ls-favorites">
+                <a href="/favorite/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+            </div> -->
+            <!-- <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i></a> -->
