@@ -406,112 +406,86 @@ if ( ! function_exists('houzez_custom_post_status') ) {
 }
 
 add_action( 'wp_ajax_nopriv_houzez_save_search', 'houzez_save_search' );
-add_action( 'wp_ajax_houzez_save_search', 'houzez_save_search_reg' );
-if( !function_exists('houzez_save_search_reg') ) {
-    function houzez_save_search_reg() {
-
-        $nonce = $_REQUEST['houzez_save_search_ajax'];
-        if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
-            echo json_encode(array(
-                'success' => false,
-                'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
-            ));
-            wp_die();
-        }
-
-        global $wpdb, $current_user;
-
-        wp_get_current_user();
-        $userID       =  $current_user->ID;
-        $userEmail    =  $current_user->user_email;
-        $search_args  =  $_REQUEST['search_args'];
-        $table_name   = $wpdb->prefix . 'houzez_search';
-        $request_url  = $_REQUEST['search_URI'];
-
-        $wpdb->insert(
-            $table_name,
-            array(
-                'auther_id' => $userID,
-                'query'     => $search_args,
-                'email'     => $userEmail,
-                'url'       => $request_url,
-                'time'      => current_time( 'mysql' )
-            ),
-            array(
-                '%d',
-                '%s',
-                '%s',
-                '%s',
-                '%s'
-            )
-        );
-
-        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
-        wp_die();
-    }
-}
-
+add_action( 'wp_ajax_houzez_save_search', 'houzez_save_search' );
 if( !function_exists('houzez_save_search') ) {
     function houzez_save_search() {
 
-        $nonce = $_REQUEST['houzez_save_search_ajax'];
-        if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
-            echo json_encode(array(
-                'success' => false,
-                'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
-            ));
+        if(is_user_logged_in()){
+            $nonce = $_REQUEST['houzez_save_search_ajax'];
+            if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+                echo json_encode(array(
+                    'success' => false,
+                    'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+                ));
+                wp_die();
+            }
+
+            global $wpdb, $current_user;
+
+            wp_get_current_user();
+            $userID       =  $current_user->ID;
+            $userEmail    =  $current_user->user_email;
+            $search_args  =  $_REQUEST['search_args'];
+            $table_name   = $wpdb->prefix . 'houzez_search';
+            $request_url  = $_REQUEST['search_URI'];
+
+            $wpdb->insert(
+                $table_name,
+                array(
+                    'auther_id' => $userID,
+                    'query'     => $search_args,
+                    'email'     => $userEmail,
+                    'url'       => $request_url,
+                    'time'      => current_time( 'mysql' )
+                ),
+                array(
+                    '%d',
+                    '%s',
+                    '%s',
+                    '%s',
+                    '%s'
+                )
+            );
+
+            echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
+            wp_die();
+        } else {
+            $nonce = $_REQUEST['houzez_save_search_ajax'];
+            if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+                echo json_encode(array(
+                    'success' => false,
+                    'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+                ));
+                wp_die();
+            }
+
+            global $wpdb, $current_user;
+
+            wp_get_current_user();
+            $search_args  =  $_REQUEST['search_args'];
+            $request_url  = $_REQUEST['search_URI'];
+
+            $az_arr = [
+                'query'     => $search_args,
+                'url'       => $request_url,
+                'time'      => current_time( 'mysql' )
+            ];
+
+            if(isset($_COOKIE['az_saved_search'])){
+                $temp_arr = unserialize(base64_decode($_COOKIE['az_saved_search']));
+                $temp_arr[] = $az_arr;
+                setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
+            } else {
+                $temp_arr[] = $az_arr;
+                setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
+            }
+            echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved.', 'houzez') ) );
             wp_die();
         }
-
-        global $wpdb, $current_user;
-
-        wp_get_current_user();
-        // $userID       =  $current_user->ID;
-        // $userEmail    =  $current_user->user_email;
-        $search_args  =  $_REQUEST['search_args'];
-        // $table_name   = $wpdb->prefix . 'houzez_search';
-        $request_url  = $_REQUEST['search_URI'];
-
-        $az_arr = [
-            // 'id'        => -1,
-            // 'auther_id' => -1,
-            'query'     => $search_args,
-            // 'email'     => get_option('admin_email'),
-            'url'       => $request_url,
-            'time'      => current_time( 'mysql' )
-        ];
-
-        if(isset($_COOKIE['az_saved_search'])){
-            $temp_arr = unserialize(base64_decode($_COOKIE['az_saved_search']));
-            $temp_arr[] = $az_arr;
-            setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+25920000, '/');
-        } else {
-            $temp_arr[] = $az_arr;
-            setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+25920000, '/');
-        }
-
-        // $wpdb->insert(
-        //     $table_name,
-        //     array(
-        //         'auther_id' => $userID,
-        //         'query'     => $search_args,
-        //         'email'     => $userEmail,
-        //         'url'       => $request_url,
-        //         'time'      => current_time( 'mysql' )
-        //     ),
-        //     array(
-        //         '%d',
-        //         '%s',
-        //         '%s',
-        //         '%s',
-        //         '%s'
-        //     )
-        // );
-
-        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved.', 'houzez') ) );
-        wp_die();
     }
 }
+
+
 /*-----------------------------------------------------------------------------------*/
 /*     Remove Search
 /*-----------------------------------------------------------------------------------*/
@@ -564,24 +538,26 @@ if(!function_exists('houzez_delete_search_reg') ) {
 }
 if(!function_exists('houzez_delete_search') ) {
     function houzez_delete_search () {
+
         // global $current_user;
         // wp_get_current_user();
         // $userID = $current_user->ID;
 
-        // $property_id = intval( $_POST['property_id']);
+        $property_id = intval( $_POST['property_id']);
 
-        // if( !is_numeric( $property_id ) ){
-        //     echo json_encode( array(
-        //         'success' => false,
-        //         'msg' => esc_html__('you don\'t have the right to delete this', 'houzez')
-        //     ));
-        //     wp_die();
-        // }else{
+        if( !is_numeric( $property_id ) ){
+            echo json_encode( array(
+                'success' => false,
+                'msg' => esc_html__('you don\'t have the right to delete this', 'houzez')
+            ));
+            wp_die();
+        }else{
 
         //     global $wpdb;
 
         //     $table_name     = $wpdb->prefix . 'houzez_search';
         //     $results        = $wpdb->get_row( 'SELECT * FROM ' . $table_name . ' WHERE id = ' . $property_id );
+        $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
         //     if ( $userID != $results->auther_id ) :
 
         //         echo json_encode( array(
@@ -594,16 +570,17 @@ if(!function_exists('houzez_delete_search') ) {
         //     else :
 
         //         $wpdb->delete( $table_name, array( 'id' => $property_id ), array( '%d' ) );
+        unset($results[$property_id]);
+        setcookie('az_saved_search', base64_encode(serialize($results)), time()+2592000, '/');
+        echo json_encode( array(
+            'success' => true,
+            'msg' => esc_html__('Deleted Successfully', 'houzez')
+        ));
 
-        //         echo json_encode( array(
-        //             'success' => true,
-        //             'msg' => esc_html__('Deleted Successfully', 'houzez')
-        //         ));
-
-        //         wp_die();
+        wp_die();
 
         //     endif;
-        // }
+        }
     }
 }
 

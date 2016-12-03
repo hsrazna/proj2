@@ -6,6 +6,13 @@
  * Date: 11/01/16
  * Time: 4:35 PM
  */
+global $current_user;
+
+wp_get_current_user();
+$userID     = $current_user->ID;
+$user_login = $current_user->user_login;
+$fav_ids = 'houzez_favorites-'.$userID;
+$fav_ids = get_option( $fav_ids );
 
 global $wpdb;
 if(is_user_logged_in()){
@@ -17,20 +24,19 @@ if(is_user_logged_in()){
     // print_r($results);
 }
 
-if ( sizeof( $results ) === 0 || (!isset($results))){
-    wp_redirect(  home_url() );
-}
+// if(is_user_logged_in()){
+//     if ( sizeof( $results ) === 0 ){
+//         wp_redirect(  home_url() );
+//     }
+// } elseif( (!isset($_COOKIE['az_saved_search'])) || empty($results) ){
+//     wp_redirect(  home_url() );
+// }
 // if ( !is_user_logged_in() ) {
 //     wp_redirect(  home_url() );
 // }
 
-global $current_user;
 
-wp_get_current_user();
-$userID     = $current_user->ID;
-$user_login = $current_user->user_login;
-$fav_ids = 'houzez_favorites-'.$userID;
-$fav_ids = get_option( $fav_ids );
+
 
 get_header(); ?>
 
@@ -61,8 +67,8 @@ get_header(); ?>
                     
 
                     if ( sizeof( $results ) !== 0 ) :
-
-                        foreach ( $results as $houzez_search_data ) :
+                        // $az_num ==
+                        foreach ( $results as $az_search_key => $houzez_search_data ) :
 
                             get_template_part( 'template-parts/search', 'list' );
 

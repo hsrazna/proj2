@@ -23,10 +23,10 @@ if(is_user_logged_in()){
 } else {
     $fav_ids = unserialize(base64_decode($_COOKIE['az_favorites']));
 }
-if ( empty($fav_ids) ) {
-    // echo $_COOKIE['PHPSESSID'];
-    wp_redirect(  home_url() );
-}
+// if ( empty($fav_ids) ) {
+//     // echo $_COOKIE['PHPSESSID'];
+//     wp_redirect(  home_url() );
+// }
 // $fav_ids = $_SESSION['az_houzez_favorites'];
 // echo "<br><br><br><br><br><br><br><br><br>sdasd";
 // print_r($fav_ids);

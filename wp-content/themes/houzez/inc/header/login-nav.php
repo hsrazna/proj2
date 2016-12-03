@@ -75,10 +75,15 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
         </li>
     </ul>
 <?php } else { ?>
-    <div class="user">
+    <div class="user az-margin-right15">
         <?php //if( $header_type != 2 ) { ?>
-            <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"><?php esc_html_e( 'Sign In / Register', 'houzez' ); ?></span></a>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"><?php esc_html_e( 'Sign In / Register', 'houzez' ); ?></span></a>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1"><?php esc_html_e( 'Вход / Регистрация', 'houzez' ); ?></span></a>
+            <?php } ?>
 
+<?php if(0): ?>
             <?php if( $create_listing_button_required_login == 'yes' ) { ?>
                 <a href="#" data-toggle="modal" data-target="#pop-login" class="btn btn-default hidden-xs hidden-sm"><?php esc_html_e( 'Create Listing', 'houzez' ); ?></a>
             <?php } else { ?>
@@ -88,7 +93,7 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                 <?php } ?>
 
            <?php } ?>
-
+<?php endif; ?>
         <?php //} else { ?>
             <!--<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user"></i> <span class="hidden-sm hidden-xs"><?php /*esc_html_e( 'Sign In / Register', 'houzez' ); */?></span></a>-->
         <?php //} ?>

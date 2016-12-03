@@ -15,7 +15,11 @@ $user_login             =   $current_user->user_login;
         <div class="col-sm-12">
             <div class="page-title-left">
             <?php if(is_user_logged_in()){ ?>
-                <h1 class="title-head"><?php esc_html_e('Welcome back, ','houzez'); echo esc_attr( $user_login );?></h1>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <h1 class="title-head"><?php esc_html_e('Welcome back, ','houzez'); echo esc_attr( $user_login );?></h1>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <h1 class="title-head az-title1"><?php esc_html_e('Добро пожаловать, ','houzez'); echo esc_attr( $user_login );?></h1>
+                <?php } ?>
             <?php }else{ ?>
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <h1 class="title-head"><?php esc_html_e('Welcome back, ','houzez'); echo esc_attr( 'guest' );?></h1>

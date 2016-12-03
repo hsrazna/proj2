@@ -40,7 +40,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <?php get_template_part('inc/header/logo'); ?>
             </div>
             
-            <div class="ls-soc">
+            <div class="ls-soc" style="display: none;">
                 <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a>

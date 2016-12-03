@@ -1,6 +1,6 @@
 <?php
 global $houzez_search_data;
-
+global $az_search_key;
 if(is_user_logged_in()){
     $search_args = $houzez_search_data->query;
 } else {
@@ -39,9 +39,21 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
                 }
 
                 if (isset($val['taxonomy']) && isset($val['terms']) && $val['taxonomy'] == 'property_area') {
-                    $page = get_term_by('slug', $val['terms'], 'property_area');
-                    if (!empty($page)) {
-                        echo '<strong>' . esc_html__('Neighborhood', 'houzez') . ':</strong> ' . esc_attr( $page->name ). ', ';
+                    // print_r($val['terms']);
+                    if(is_array($val['terms'])){
+                        echo '<strong>' . esc_html__('Neighborhood', 'houzez') . ':</strong> ';
+                        foreach($val['terms'] as $az_term_val){
+                            $page = get_term_by('slug', $az_term_val, 'property_area');
+                            // print_r($page);
+                            if (!empty($page)) {
+                                echo esc_attr( $page->name ). ', ';
+                            }
+                        }
+                    } else {
+                        $page = get_term_by('slug', $val['terms'], 'property_area');
+                        if (!empty($page)) {
+                            echo '<strong>' . esc_html__('Neighborhood', 'houzez') . ':</strong> ' . esc_attr( $page->name ). ', ';
+                        }
                     }
                 }
 
@@ -122,7 +134,7 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
     <button class="remove-search" data-propertyid='<?php echo intval($houzez_search_data->id); ?>'><i class="fa fa-remove"></i></button>
     <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data->url; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
     <?php } else { ?>
-    <button class="remove-search" data-propertyid='-1'><i class="fa fa-remove"></i></button>
+    <button class="remove-search" data-propertyid='<?php echo intval($az_search_key); ?>'><i class="fa fa-remove"></i></button>
     <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data['url']; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
     <?php } ?>
     

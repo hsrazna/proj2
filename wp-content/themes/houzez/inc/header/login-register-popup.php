@@ -51,53 +51,53 @@
     </div>
 </div>
 
-/*ajax puller*/
-<div class="modal fade" id="az-call-back" tabindex="-1" role="dialog">
+<!-- /*ajax puller*/ -->
+<!-- <div class="modal fade" id="az-call-back" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <!-- <ul class="login-tabs">
-                    <li class="active"><?php esc_html_e( 'Login', 'houzez' ); ?></li>
-                    <li><?php esc_html_e( 'Register', 'houzez' ); ?></li>
+                <ul class="login-tabs">
+                    <li class="active"><?php //esc_html_e( 'Login', 'houzez' ); ?></li>
+                    <li><?php //esc_html_e( 'Register', 'houzez' ); ?></li>
 
-                </ul> -->
+                </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
 
             </div>
             <div class="modal-body login-block">
                 <form>
-                <?php if(is_user_logged_in()): ?>
+                <?php //if(is_user_logged_in()): ?>
                     <?php 
-                        global $current_user;
-                        wp_get_current_user();
-                        $userID = $current_user->ID;
-                        $az_phone = get_user_meta( $userID, 'fave_author_phone', true );
-                        $az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
-                        if(!isset($az_phone)){
-                            echo '<input type="hidden" name="az_phone" value="'.$az_phone.'">';
-                        }
-                        if(!isset($az_mobile)){
-                            echo '<input type="hidden" name="az_mobile" value="'.$az_mobile.'">';
-                        }
-                        if(!isset($az_phone)&&!isset($az_mobile)){
+                        //global $current_user;
+                        //wp_get_current_user();
+                        //$userID = $current_user->ID;
+                        //$az_phone = get_user_meta( $userID, 'fave_author_phone', true );
+                        //$az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
+                        // if(!isset($az_phone)){
+                        //     echo '<input type="hidden" name="az_phone" value="'.$az_phone.'">';
+                        // }
+                        // if(!isset($az_mobile)){
+                        //     echo '<input type="hidden" name="az_mobile" value="'.$az_mobile.'">';
+                        // }
+                        // if(!isset($az_phone)&&!isset($az_mobile)){
                     ?>
                     <div class="form-group field-group">
                         <div class="input-user input-icon">
-                            <input id="" name="username" placeholder="<?php esc_html_e('Your name','houzez'); ?>" type="text" />
+                            <input id="" name="username" placeholder="<?php //esc_html_e('Your name','houzez'); ?>" type="text" />
                         </div>
                         <div class="input-pass input-icon">
-                            <input id="" name="" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                            <input id="" name="" placeholder="<?php //esc_html_e('Password','houzez'); ?>" type="password" />
                         </div>
                     </div>
-                    <?php } ?>
-                <?php else: ?>
-                <?php endif; ?>
+                    <?php //} ?>
+                <?php //else: ?>
+                <?php //endif; ?>
                     <div class="form-group field-group">
                         <div class="input-user input-icon">
-                            <input id="" name="username" placeholder="<?php esc_html_e('Username','houzez'); ?>" type="text" />
+                            <input id="" name="username" placeholder="<?php //esc_html_e('Username','houzez'); ?>" type="text" />
                         </div>
                         <div class="input-pass input-icon">
-                            <input id="" name="password" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
+                            <input id="" name="password" placeholder="<?php //esc_html_e('Password','houzez'); ?>" type="password" />
                         </div>
                     </div>
                     <div class="forget-block clearfix">
@@ -105,21 +105,21 @@
                             <div class="checkbox">
                                 <label>
                                     <input name="remember" id="remember" type="checkbox">
-                                    <?php esc_html_e( 'Remember me', 'houzez' ); ?>
+                                    <?php //esc_html_e( 'Remember me', 'houzez' ); ?>
                                 </label>
                             </div>
                         </div>
                         <div class="form-group pull-right">
-                            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
+                            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php //esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
                         </div>
                     </div>
 
-                    <?php wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
+                    <?php //wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
                     <input type="hidden" name="action" id="login_action" value="houzez_login">
-                    <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php esc_html_e('Login','houzez');?></button>
+                    <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php //esc_html_e('Login','houzez');?></button>
                 </form>
             </div>
         </div>
     </div>
-</div>
-/*ajax puller*/
+</div> -->
+<!-- /*ajax puller*/ -->
