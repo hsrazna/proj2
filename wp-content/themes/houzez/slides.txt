@@ -41,11 +41,6 @@
 </div>
 /*первый слайд en*/
 
-<!-- <select class="selectpicker" name="status" data-live-search="false" data-live-search-style="begins">
-	<option value="for-rent">Аренда</option>
-	<option value="for-sale">Продажа</option>
-</select> -->
-
 /*первый слайд ru*/
 <div class="ls-mask2">
 	<form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
@@ -434,6 +429,10 @@
 </div>
 /*второй слайд en*/
 
+<!-- <select class="selectpicker" name="status" data-live-search="false" data-live-search-style="begins">
+	<option value="for-rent">Аренда</option>
+	<option value="for-sale">Продажа</option>
+</select> -->
 <!-- <div class="ls-mask">
 	<form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
 		<div class="ls-form-ru">
@@ -596,7 +595,7 @@
 		<div class="clearfix"></div>
 	</form>
 </div> -->
-/*второй слайд ru*/
+<!-- /*второй слайд ru*/ -->
 
 
 <!-- <div class="ls-mask">
@@ -799,7 +798,7 @@
 </div> -->
 
 
-<div class="ls-mask2">
+<!-- <div class="ls-mask2">
 	<form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
 		<div class="ls-form">
 			<input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
@@ -820,7 +819,7 @@
 				</select>
 			</div>
 			<div class="col-md-6">
-			<input type="text" name="daterange" value=""/>
+			<input type="text" name="daterange" value=""/> -->
 <!-- 01/01/2015 - 01/31/2015 -->
 <!-- 				<div class="form-group">
 				    <div class="input-group date">
@@ -836,7 +835,7 @@
 		                <input type="text" id="endDate" class="input_date form-control" placeholder="Departure">
 		            </div>
 		        </div> -->
-			</div>
+	<!-- 		</div>
 			<div class="clearfix"></div>
 		</div>
 		<div class="ls-submit">
@@ -847,4 +846,4 @@
 		</div>
 		<div class="clearfix"></div>
 	</form>
-</div>
+</div> -->

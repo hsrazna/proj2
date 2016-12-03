@@ -11,12 +11,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <ul class="login-tabs">
-                    <li class="active"><?php esc_html_e( 'Login', 'houzez' ); ?></li>
-                    <li><?php esc_html_e( 'Register', 'houzez' ); ?></li>
-
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <li class="active"><?php esc_html_e( 'Login', 'houzez' ); ?></li>
+                        <li><?php esc_html_e( 'Register', 'houzez' ); ?></li>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <li class="active"><?php esc_html_e( 'Вход', 'houzez' ); ?></li>
+                        <li><?php esc_html_e( 'Регистрация', 'houzez' ); ?></li>
+                    <?php } ?>
                 </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
-
             </div>
             <div class="modal-body login-block">
                 <?php get_template_part('template-parts/login-register'); ?>
@@ -29,22 +32,37 @@
         <div class="modal-content">
             <div class="modal-header">
                 <ul class="login-tabs">
-                    <li class="active"><?php esc_html_e( 'Reset Password', 'houzez' ); ?></li>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <li class="active"><?php esc_html_e( 'Reset Password', 'houzez' ); ?></li>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <li class="active"><?php esc_html_e( 'Сброс пароля', 'houzez' ); ?></li>
+                    <?php } ?>
                 </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
-
             </div>
             <div class="modal-body login-block">
-                <p><?php esc_html_e( 'Please enter your username or email address. You will receive a link to create a new password via email.', 'houzez' ); ?></p>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <p><?php esc_html_e( 'Please enter your username or email address. You will receive a link to create a new password via email.', 'houzez' ); ?></p>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <p><?php esc_html_e( 'Введите пожалуйста Ваш логин или адрес эл. почты. Вы получите ссылку для смены пароля по почте.', 'houzez' ); ?></p>
+                <?php } ?>
                 <div id="houzez_msg_reset" class="message"></div>
                 <form>
                     <div class="form-group">
                         <div class="input-user input-icon">
-                            <input name="user_login_forgot" id="user_login_forgot" placeholder="<?php esc_html_e( 'Enter your username or email', 'houzez' ); ?>" class="form-control">
+                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                <input name="user_login_forgot" id="user_login_forgot" placeholder="<?php esc_html_e( 'Enter your username or email', 'houzez' ); ?>" class="form-control">
+                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                <input name="user_login_forgot" style="font-family: 'OpenSans-Regular';" id="user_login_forgot" placeholder="<?php esc_html_e( 'Введите Ваш логин или адрес эл. почты', 'houzez' ); ?>" class="form-control">
+                            <?php } ?>
                         </div>
                     </div>
                     <?php wp_nonce_field( 'fave_resetpassword_nonce', 'fave_resetpassword_security' ); ?>
-                    <button type="button" id="houzez_forgetpass" class="btn btn-primary btn-block"><?php esc_html_e( 'Get new password', 'houzez' ); ?></button>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <button type="button" id="houzez_forgetpass" class="btn btn-primary btn-block"><?php esc_html_e( 'Get new password', 'houzez' ); ?></button>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <button type="button" id="houzez_forgetpass" class="btn btn-primary btn-block"><?php esc_html_e( 'Получить новый пароль', 'houzez' ); ?></button>
+                    <?php } ?>
                 </form>
             </div>
         </div>
