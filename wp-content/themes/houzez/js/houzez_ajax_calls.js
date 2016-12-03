@@ -946,7 +946,7 @@ jQuery(document).ready(function ($) {
                         $this.prepend('<i class="fa-left ' + process_loader_spinner + '"></i>');
                     },
                     success: function (response) {
-                        alert(JSON.stringify(response));
+                        // alert(JSON.stringify(response));
                         if (response.success) {
                             $('#save_search_click').addClass('saved');
                         }

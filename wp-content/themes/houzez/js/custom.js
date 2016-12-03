@@ -108,9 +108,23 @@ var nice = false;
         // var minutes = 43200;
         // date.setTime(date.getTime() + (minutes * 60 * 1000));
         $.cookie("az_range", $(this).val(), { expires: 30});
+        $('input[name="daterange"]').val($(this).val());
         // $.cookie('az_range', $(this).val(), );
         // alert($.cookie('az_range'));
         // alert( document.cookie );
+    });
+    $('select[name="bedrooms"]').on('changed.bs.select', function(){
+        $('select[name="bedrooms"]').val($(this).val());
+        var az_temp_val = $(this).next('.bootstrap-select').find('.dropdown-menu li.selected').attr('data-original-index');
+        $('select[name="bedrooms"]').next('.bootstrap-select').find('.dropdown-menu li').removeClass('selected');
+        $('select[name="bedrooms"]').next('.bootstrap-select').find('.dropdown-menu li').each(function(){
+            if($(this).attr('data-original-index') == az_temp_val){
+                $(this).addClass('selected');
+            }
+        });
+        var az_temp_text = $(this).next('.bootstrap-select').find('.filter-option').text();
+        $('select[name="bedrooms"]').next('.bootstrap-select').find('.filter-option').text(az_temp_text);
+        
     });
                 // });
 

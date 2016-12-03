@@ -261,15 +261,18 @@
   white-space: nowrap;
   cursor: pointer;
   background: #fff;
-  background-color: rgba(255, 255, 255, 0.75);
-  color: #888;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #333;
   left: -50%;
   margin-top: -23px;
   position: relative;
   display: block;
   font-weight: bold; }
-  .loc label input {
-    display: none; }
+.loc input {
+  display: none; }
+.loc input:checked ~ label {
+  background-color: rgba(0, 174, 239, 0.5);
+  color: #fff; }
 
 /*------------------------------*/
 .newmap {
@@ -437,225 +440,6 @@
 
 .phuket .locationGuide .mapLabel.EAS:after {
   display: none; }
-
-.samui .houseEdit #location {
-  padding-top: 36px; }
-
-.samui .newmap label.CHO {
-  left: -75%;
-  top: -5px; }
-
-.samui .newmap label.CHO:after {
-  left: 70%; }
-
-.samui .newmap label.BAR {
-  top: 17px;
-  left: -53%; }
-
-.samui .newmap label.BAR:after {
-  display: none; }
-
-.samui .newmap label.BAP {
-  left: -70%; }
-
-.samui .newmap label.BAP:after {
-  left: 70%; }
-
-.samui .newmap label.BOP {
-  left: -60%;
-  top: 5px; }
-
-.samui .newmap label.PLA {
-  top: -3px;
-  left: -55%; }
-
-.samui .newmap label.PLA:after {
-  left: 60%; }
-
-.samui .newmap label.MAE {
-  top: -7px;
-  left: -60%; }
-
-.samui .newmap label.NAM {
-  top: 4px;
-  left: -45%; }
-
-.samui .newmap label.TAL {
-  left: -55%; }
-
-.samui .newmap label.HUT {
-  left: -67%;
-  top: 2px; }
-
-.samui .newmap label.HUT:after {
-  left: 70%; }
-
-.samui .newmap label.LAM {
-  left: -60%; }
-
-.samui .newmap label.BTA {
-  top: 280px;
-  left: 20px; }
-
-.samui .newmap label.BTA:after {
-  display: none; }
-
-.samui .contentBody .newmap label.BTA {
-  top: 0px;
-  left: 0; }
-
-.krabi .newmap label.HAD, .krabi .newmap label.NAM {
-  left: -10%;
-  margin-top: -5px; }
-
-.krabi .newmap label.HAD:after, .krabi .newmap label.NAM:after {
-  display: none; }
-
-.krabi .newmap label.KRA {
-  left: -20%; }
-
-.krabi .newmap label.KRA:after {
-  left: 20%; }
-
-.krabi .newmap label.NAN {
-  left: -90%;
-  margin-top: -2px; }
-
-.krabi .newmap label.NAN:after {
-  display: none; }
-
-.krabi .newmap label.KLO {
-  margin-top: -13px; }
-
-.krabi .newmap label.KLO:after {
-  display: none; }
-
-.pattaya .newmap label.PAT, .pattaya .newmap label.JOM, .pattaya .newmap label.PLA {
-  left: -70%; }
-
-.pattaya .newmap label.PAT:after, .pattaya .newmap label.JOM:after, .pattaya .newmap label.PLA:after {
-  left: 70%; }
-
-.bali .houseEdit #location .newmap {
-  margin: 15px 0 0 0; }
-
-.bali .contentSidebar .mapWrapper {
-  padding: 12px 0 0 0; }
-
-.bali .newmap label.PEN {
-  left: -40%; }
-
-.bali .newmap label.PEN:after {
-  left: 40%; }
-
-.bali .newmap label.WES {
-  left: -30%; }
-
-.bali .newmap label.WES:after {
-  display: none; }
-
-.bali .newmap label.EAS {
-  left: -60%; }
-
-.bali .newmap label.EAS:after {
-  display: none; }
-
-.bali .newmap label.CEN:after, .bali .newmap label.NOR:after {
-  display: none; }
-
-.bali .newmap label.NUS {
-  margin-top: -2px;
-  left: 0; }
-
-.bali .newmap label.NUS:after {
-  display: none; }
-
-.bali .newmap label.ULU {
-  left: -90%;
-  margin-top: -8px; }
-
-.bali .newmap label.ULU:after {
-  display: none; }
-
-.bali .newmap label.JIM {
-  left: -100%;
-  margin-top: -17px; }
-
-.bali .newmap label.JIM:after {
-  display: none; }
-
-.bali .newmap label.KUT {
-  left: -100%;
-  top: -2px; }
-
-.bali .newmap label.KUT:after {
-  display: none; }
-
-.bali .newmap label.SEM {
-  margin-top: -42px;
-  left: -120%; }
-
-.bali .newmap label.SEM:after {
-  display: none; }
-
-.bali .newmap label.SAN {
-  margin-top: 2px;
-  left: -10%; }
-
-.bali .newmap label.SAN:after {
-  display: none; }
-
-.bali .newmap label.DEN {
-  left: -20%;
-  top: -5px; }
-
-.bali .newmap label.DEN:after {
-  left: 20%; }
-
-.bali .newmap label.LEM {
-  left: -60%;
-  top: -4px; }
-
-.bali .newmap label.LEM:after {
-  left: 60%; }
-
-.bali .houseEdit .newmap label.LEM {
-  left: -10%; }
-
-.bali .houseEdit .newmap label.LEM:after {
-  left: 20%; }
-
-.bali .house .newmap label.LOM {
-  top: 15px;
-  left: 105px; }
-
-.bali .houseEdit .newmap label.LOM {
-  left: 365px;
-  top: 130px; }
-
-.bali .contentSidebar .newmap label.LOM {
-  left: 205px;
-  top: 11px; }
-
-.bali .house .newmap label.LOM:after {
-  display: none; }
-
-.bali .contentSidebar .newmap label.LOM:after {
-  left: 100%;
-  top: 50%;
-  margin-top: -5px;
-  margin-left: 0;
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0px;
-  height: 0px;
-  border: 10px solid red;
-  border-width: 5px 0px 5px 5px;
-  border-top-color: transparent !important;
-  border-right-color: transparent !important;
-  border-bottom-color: transparent !important;
-  border-left-color: #fff !important; }
 
 /*------------------------------*/
 .ls-absol {
