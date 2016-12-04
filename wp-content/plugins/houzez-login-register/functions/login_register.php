@@ -216,7 +216,6 @@ if( !function_exists('houzez_reset_password') ) {
         $user_login = wp_kses( $_POST['user_login'], $allowed_html );
 
         if ( empty( $user_login ) ) {
-            
             echo json_encode(array( 'success' => false, 'msg' => esc_html__('Enter a username or email address.', 'houzez') ) );
             wp_die();
         }

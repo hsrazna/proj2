@@ -3041,6 +3041,95 @@ jQuery(document).ready(function ($) {
         }
 
 
+        /*--------------------------------------------------------------------------
+         *  call back (ajax puller)
+         * -------------------------------------------------------------------------*/
+        $('.az-btn').click(function(){
+            if($(this).hasAttr('data-user-id') && $(this).hasAttr('data-user-login')){
+                if($(this).attr('data-user-id') !== '' && $(this).attr('data-user-login') !== ''){
+                    // alert($(this).attr('data-user-id')+ '/' + $(this).attr('data-user-login')+'/'+$(this).attr('data-user-phone')+'/'+$(this).attr('data-user-mobile'));
+                    var user_id = $(this).attr('data-user-id');
+                    var user_name = $(this).attr('data-user-login');
+                    var user_phone = $(this).attr('data-user-phone');
+                    var user_mobile = $(this).attr('data-user-mobile');
+                    if(user_phone == 1 || user_mobile == 1){
+                        $.ajax({
+                            url: ajaxurl,
+                            dataType: 'JSON',
+                            method: 'POST',
+                            data: {
+                                'action' : 'az_call_back',
+                                'user_id' : user_id,
+                                'user_name' : user_name,
+                                'user_phone' : user_phone,
+                                'user_mobile' : user_mobile
+                            },
+                            success: function (res) {
+                                // alert(res);
+                                if( res.success ) {
+                                    // alert(res.msg);
+                                    $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                                    $('#az-call-back').modal("show");
+                                    // window.location.reload();
+                                } else {
+                                    // alert(res.msg);
+                                    console.log( res );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                console.log(err.Message);
+                            }
+                        });
+                    } else {
+                        $('#az-call-back').modal("show");
+                    }
+                }
+            } else {
+                $('#az-call-back').modal("show");
+            }
+            // alert(1);
+            // $('#pop-login').modal('show');
+            return false;
+        });
+        $('.az-send').click(function(){
+            var send_data = $(this).parents('form').serialize();
+
+            // alert(send_data[0].name+send_data[0].value);
+            // alert(data_temp.length);
+            // var data_temp = {
+            //     'action'          : 'az_call_back',
+            //     send_data[0].name : send_data[0].value
+            // };
+            // if(data_temp.length==2){
+            //     alert(2);
+            // }
+            $.ajax({
+                url: ajaxurl,
+                dataType: 'JSON',
+                method: 'POST',
+                data: send_data + '&action=az_call_back',
+                success: function (res) {
+                    // alert(res);
+                    if( res.success ) {
+                        // alert(res.msg);
+                        $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                        // $('#az-call-back').modal("show");
+                        // window.location.reload();
+                    } else {
+                        // alert(res.msg);
+                        console.log( res );
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+        });
+
+
+
     }// typeof HOUZEZ_ajaxcalls_vars
 
 }); // end document ready

@@ -70,55 +70,74 @@
 </div>
 
 <!-- /*ajax puller*/ -->
-<!-- <div class="modal fade" id="az-call-back" tabindex="-1" role="dialog">
+<div class="modal fade" id="az-call-back" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <ul class="login-tabs">
-                    <li class="active"><?php //esc_html_e( 'Login', 'houzez' ); ?></li>
-                    <li><?php //esc_html_e( 'Register', 'houzez' ); ?></li>
-
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <li class="active"><?php esc_html_e( 'Call back', 'houzez' ); ?></li>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <li class="active"><?php esc_html_e( 'Обратный звонок', 'houzez' ); ?></li>
+                    <?php } ?>
                 </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
 
             </div>
             <div class="modal-body login-block">
+                <div id="az_msg_reset" class="message"></div>
                 <form>
-                <?php //if(is_user_logged_in()): ?>
+                <?php if(is_user_logged_in()): ?>
+
                     <?php 
-                        //global $current_user;
-                        //wp_get_current_user();
-                        //$userID = $current_user->ID;
-                        //$az_phone = get_user_meta( $userID, 'fave_author_phone', true );
-                        //$az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
-                        // if(!isset($az_phone)){
+                        global $current_user;
+                        wp_get_current_user();
+                        $userID = $current_user->ID;
+                        $userLogin = $current_user->user_login;
+                        $az_phone = get_user_meta( $userID, 'fave_author_phone', true );
+                        $az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
+                        // if(!$az_phone){
                         //     echo '<input type="hidden" name="az_phone" value="'.$az_phone.'">';
                         // }
-                        // if(!isset($az_mobile)){
+                        // if(!$az_mobile){
                         //     echo '<input type="hidden" name="az_mobile" value="'.$az_mobile.'">';
                         // }
-                        // if(!isset($az_phone)&&!isset($az_mobile)){
+                        if(!$az_phone&&!$az_mobile){
                     ?>
-                    <div class="form-group field-group">
-                        <div class="input-user input-icon">
-                            <input id="" name="username" placeholder="<?php //esc_html_e('Your name','houzez'); ?>" type="text" />
+                            <div class="form-group field-group">
+                                <div class="input-phone input-icon">
+                                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                        <input id="" name="az_phone" placeholder="<?php esc_html_e('Your phone','houzez'); ?>" type="text" />
+                                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                        <input id="" name="az_phone" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
+                                    <?php } ?>
+                                </div>
+                            </div>
+                    <?php 
+                        }
+                    ?>
+                <?php else: ?>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <div class="form-group field-group">
+                            <div class="input-user input-icon">
+                                <input id="" name="az_name" placeholder="<?php esc_html_e('Your name','houzez'); ?>" type="text" />
+                            </div>
+                            <div class="input-phone input-icon">
+                                <input id="" name="az_phone" placeholder="<?php esc_html_e('Your Phone','houzez'); ?>" type="text" />
+                            </div>
                         </div>
-                        <div class="input-pass input-icon">
-                            <input id="" name="" placeholder="<?php //esc_html_e('Password','houzez'); ?>" type="password" />
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <div class="form-group field-group">
+                            <div class="input-user input-icon">
+                                <input id="" name="az_name" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваше имя','houzez'); ?>" type="text" />
+                            </div>
+                            <div class="input-phone input-icon">
+                                <input id="" name="az_phone" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
+                            </div>
                         </div>
-                    </div>
-                    <?php //} ?>
-                <?php //else: ?>
-                <?php //endif; ?>
-                    <div class="form-group field-group">
-                        <div class="input-user input-icon">
-                            <input id="" name="username" placeholder="<?php //esc_html_e('Username','houzez'); ?>" type="text" />
-                        </div>
-                        <div class="input-pass input-icon">
-                            <input id="" name="password" placeholder="<?php //esc_html_e('Password','houzez'); ?>" type="password" />
-                        </div>
-                    </div>
-                    <div class="forget-block clearfix">
+                    <?php } ?>
+                <?php endif; ?>
+                    <!-- <div class="forget-block clearfix">
                         <div class="form-group pull-left">
                             <div class="checkbox">
                                 <label>
@@ -128,16 +147,32 @@
                             </div>
                         </div>
                         <div class="form-group pull-right">
-                            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php //esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
+                            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
                         </div>
-                    </div>
+                    </div> -->
 
                     <?php //wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
-                    <input type="hidden" name="action" id="login_action" value="houzez_login">
-                    <button type="submit" class="fave-login-button btn btn-primary btn-block"><?php //esc_html_e('Login','houzez');?></button>
+                    <!-- <input type="hidden" name="action" id="login_action" value="houzez_login"> -->
+                    <?php if(is_user_logged_in()): ?>
+                        <input type="hidden" name="user_id" value="<?=$userID?>">
+                        <input type="hidden" name="user_name" value="<?=$userLogin?>">
+                        <?php if(!$az_phone&&!$az_mobile): ?>
+                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Request','houzez');?></button>
+                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Запросить','houzez');?></button>
+                            <?php } ?>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                            <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Request','houzez');?></button>
+                        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                            <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Запросить','houzez');?></button>
+                        <?php } ?>
+                    <?php endif; ?>
                 </form>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <!-- /*ajax puller*/ -->

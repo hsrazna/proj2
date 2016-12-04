@@ -3211,3 +3211,176 @@ if( !function_exists('houzez_invoices_ajax_search') ){
         wp_die();
     }
 }
+
+add_action( 'wp_ajax_nopriv_az_call_back', 'az_call_back' );
+add_action( 'wp_ajax_az_call_back', 'az_call_back' );
+if( !function_exists('az_call_back') ) {
+    function az_call_back() {
+        global $wpdb, $current_user;
+
+        wp_get_current_user();
+        $userID       =  $current_user->ID;
+        $userEmail    =  $current_user->user_email;
+        $userLogin    =  $current_user->user_login;
+        $userPhone    =  get_user_meta( $userID, 'fave_author_phone', true );
+        $userMobile   =  get_user_meta( $userID, 'fave_author_mobile', true );
+
+        $postId = $_POST['user_id'];
+        $postName = $_POST['user_name'];
+        $postPhone = $_POST['user_phone'];
+        $postMobile = $_POST['user_mobile'];
+        $az_name = $_POST['az_name'];
+        $az_phone = $_POST['az_phone'];
+
+        if(is_user_logged_in()){
+            if($userID == $postId && $userLogin == $postName && ($postPhone == 1 || $postMobile == 1)){
+                $subject  = "Новое сообщение";
+                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+                $msg  = "<html><body>";
+                $msg .= "<h2>Новое сообщение</h2>\r\n";
+                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
+                if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$userPhone."</p>\r\n";}
+                if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
+                if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
+                $msg .= "</body></html>";
+
+                // отправка сообщения
+                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                    // echo "true";
+                } else {
+                    // echo "false";
+                }
+                echo json_encode(array(
+                    'success' => true,
+                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                ));
+                wp_die();
+            } elseif($userID == $postId && $userLogin == $postName && !empty($az_phone)){
+                $subject  = "Новое сообщение";
+                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+                $msg  = "<html><body>";
+                $msg .= "<h2>Новое сообщение</h2>\r\n";
+                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
+                if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
+                //if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
+                //if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
+                $msg .= "</body></html>";
+
+                // отправка сообщения
+                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                    // echo "true";
+                } else {
+                    // echo "false";
+                }
+                update_user_meta($userID, 'fave_author_phone', $az_phone);
+                echo json_encode(array(
+                    'success' => true,
+                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                ));
+                wp_die();
+            }
+        } else {
+            $subject  = "Новое сообщение";
+            $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+            $headers .= "Reply-To: ". "\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+            $msg  = "<html><body>";
+            $msg .= "<h2>Новое сообщение</h2>\r\n";
+            if($az_phone!=''){$msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$az_name."</p>\r\n";}
+            if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
+            //if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
+            //if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
+            $msg .= "</body></html>";
+
+            // отправка сообщения
+            if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                // echo "true";
+            } else {
+                // echo "false";
+            }
+            echo json_encode(array(
+                'success' => true,
+                'msg' => esc_html__( 'Request is sent!', 'houzez')
+            ));
+            wp_die();
+        }
+        //     $nonce = $_REQUEST['houzez_save_search_ajax'];
+        //     if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+        //         echo json_encode(array(
+        //             'success' => false,
+        //             'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+        //         ));
+        //         wp_die();
+        //     }
+
+        //     global $wpdb, $current_user;
+
+        //     wp_get_current_user();
+        //     $userID       =  $current_user->ID;
+        //     $userEmail    =  $current_user->user_email;
+        //     $search_args  =  $_REQUEST['search_args'];
+        //     $table_name   = $wpdb->prefix . 'houzez_search';
+        //     $request_url  = $_REQUEST['search_URI'];
+
+        //     $wpdb->insert(
+        //         $table_name,
+        //         array(
+        //             'auther_id' => $userID,
+        //             'query'     => $search_args,
+        //             'email'     => $userEmail,
+        //             'url'       => $request_url,
+        //             'time'      => current_time( 'mysql' )
+        //         ),
+        //         array(
+        //             '%d',
+        //             '%s',
+        //             '%s',
+        //             '%s',
+        //             '%s'
+        //         )
+        //     );
+
+        //     echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
+        //     wp_die();
+        // } else {
+        //     $nonce = $_REQUEST['houzez_save_search_ajax'];
+        //     if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
+        //         echo json_encode(array(
+        //             'success' => false,
+        //             'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
+        //         ));
+        //         wp_die();
+        //     }
+
+        //     global $wpdb, $current_user;
+
+        //     wp_get_current_user();
+        //     $search_args  =  $_REQUEST['search_args'];
+        //     $request_url  = $_REQUEST['search_URI'];
+
+        //     $az_arr = [
+        //         'query'     => $search_args,
+        //         'url'       => $request_url,
+        //         'time'      => current_time( 'mysql' )
+        //     ];
+
+        //     if(isset($_COOKIE['az_saved_search'])){
+        //         $temp_arr = unserialize(base64_decode($_COOKIE['az_saved_search']));
+        //         $temp_arr[] = $az_arr;
+        //         setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
+        //     } else {
+        //         $temp_arr[] = $az_arr;
+        //         setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
+        //     }
+        //     echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved.', 'houzez') ) );
+        //     wp_die();
+        // }
+    }
+}

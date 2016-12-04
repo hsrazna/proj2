@@ -10,11 +10,14 @@ $allowed_html = array();
 global $current_user, $post;
 wp_get_current_user();
 $userID  =  $current_user->ID;
+$user_login = $current_user->user_login;
 $user_custom_picture =  get_the_author_meta( 'fave_author_custom_picture' , $userID );
 $header_layout = houzez_option('header_4_width');
 $main_menu_sticky = houzez_option('main-menu-sticky');
 $header_4_menu_align = houzez_option('header_4_menu_align');
 $top_bar = houzez_option('top_bar');
+$az_phone = get_user_meta( $userID, 'fave_author_phone', true );
+$az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
 
 $trans_class = '';
 $fave_main_menu_trans = get_post_meta( $post->ID, 'fave_main_menu_trans', true );
@@ -53,16 +56,46 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 
             <div class="ls-phone"><a href="tel:88002000600">8(800)-2000-600 <i class="fa fa-phone" aria-hidden="true"></i></a></div>
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
-            <?php } elseif ( qtrans_getLanguage() == 'de' ) { ?>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
             <?php } ?>
             <div class="ls-call">
-                <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                    <a href="#" class="btn btn-orange az-btn">Feed back</a>
-                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                    <a href="#" class="btn btn-orange az-btn az-reg">Заказать звонок</a>
-                <?php } ?>
+                <?php if(is_user_logged_in()): ?>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <a href="#" class="btn btn-orange az-btn" data-user-id="<?=$userID?>" data-user-login="<?=$user_login?>" data-user-phone="<?=$az_phone?1:0?>" data-user-mobile="<?=$az_mobile?1:0?>">Feed back</a>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <a href="#" class="btn btn-orange az-btn az-reg" data-user-id="<?=$userID?>" data-user-login="<?=$user_login?>" data-user-phone="<?=$az_phone?1:0?>" data-user-mobile="<?=$az_mobile?1:0?>">Заказать звонок</a>
+                    <?php } ?>
+                <?php else: ?>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <a href="#" class="btn btn-orange az-btn">Feed back</a>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <a href="#" class="btn btn-orange az-btn az-reg">Заказать звонок</a>
+                    <?php } ?>
+                <?php endif; ?>
                 <!-- <a href="#" class="btn btn-orange az-btn">Заказать звонок</a> -->
             </div>
+            <!-- <div class="ls-menu">
+                <a href="#" class="az-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
+            </div> -->
+            <div class="ls-lang">
+                <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
+            </div>
+            <nav class="navi main-nav">
+                <?php
+                // Pages Menu
+                if ( has_nav_menu( 'main-menu' ) ) :
+                    wp_nav_menu( array (
+                        'theme_location' => 'main-menu',
+                        'container' => '',
+                        'container_class' => '',
+                        'menu_class' => '',
+                        'menu_id' => 'main-nav',
+                        'depth' => 4
+                    ));
+                endif;
+                ?>
+            </nav>
+            
             <?php if(is_front_page()): ?>
             <?php global $houzez_local; ?>
             <div class="ls-search">
@@ -92,30 +125,8 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
         <?php if( class_exists('Houzez_login_register') ): ?>
             <?php if( houzez_option('header_login') != 'no' ): ?>
                 <div class="header-right">
-                    
-                    <div class="ls-menu">
-                        <a href="#" class="az-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                    </div>
-                    <nav class="navi main-nav">
-                        <?php
-                        // Pages Menu
-                        if ( has_nav_menu( 'main-menu' ) ) :
-                            wp_nav_menu( array (
-                                'theme_location' => 'main-menu',
-                                'container' => '',
-                                'container_class' => '',
-                                'menu_class' => '',
-                                'menu_id' => 'main-nav',
-                                'depth' => 4
-                            ));
-                        endif;
-                        ?>
-                    </nav>
-                    <div class="ls-lang">
-                        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
-                    </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
-                    <div class="clearfix"></div>
+                    <!-- <div class="clearfix"></div> -->
                 </div>
             <?php endif; ?>
         <?php endif; ?>
