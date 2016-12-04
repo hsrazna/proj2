@@ -101,7 +101,7 @@ $prop_description = get_the_content();
 
             if( $j == 1 ) { $tab_start = '<div class="tab-pane fade in active">'; } else { $tab_start = '<div class="tab-pane fade">'; }
 
-            switch($key) {
+            switch('address'/*$key*/) {
 
                 case 'description':
                     if( !empty($prop_description) ) {

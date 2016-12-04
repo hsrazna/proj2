@@ -46,6 +46,8 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 
             <div class="account-dropdown">
                 <ul>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                
                     <?php
                         if( $home_link != $dash_profile_link ) {
                             echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_html__('My profile', 'houzez') . '</a></li>';
@@ -68,7 +70,30 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 
                         echo '<li><a href="'.wp_logout_url( home_url('/') ).'"> <i class="fa fa-unlock"></i>'.esc_html__( 'Log out', 'houzez' ).'</a></li>';
                     ?>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <?php
+                        if( $home_link != $dash_profile_link ) {
+                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '" class="az-text3"> <i class="fa fa-user"></i>' . esc_html__('Профиль', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_listings ) {
+                            echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '" class="az-text3"> <i class="fa fa-building"></i>' . esc_html__('Недвижимость', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_add_listing ) {
+                            echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '" class="az-text3"> <i class="fa fa-plus-circle"></i>' . esc_html__('Добавить нов. недв.', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_favorites ) {
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '" class="az-text3"> <i class="fa fa-heart"></i>' . esc_html__('Избранное', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_search ) {
+                            echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '" class="az-text3"> <i class="fa fa-search-plus"></i>' . esc_html__('Сохр. поиск', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_invoices ) {
+                            echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '" class="az-text3"> <i class="fa fa-file"></i>' . esc_html__('Счета', 'houzez') . '</a></li>';
+                        }
 
+                        echo '<li><a href="'.wp_logout_url( home_url('/') ).'" class="az-text3"> <i class="fa fa-unlock"></i>'.esc_html__( 'Выход', 'houzez' ).'</a></li>';
+                    ?>
+                <?php } ?>
                 </ul>
             </div>
 

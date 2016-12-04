@@ -98,6 +98,9 @@ if( is_page_template( 'template/property-listings-map.php' ) ) { $infobox_trigge
                     <div class="label-wrap hide-on-grid">
                         <?php //get_template_part('template-parts/listing', 'status' ); ?>
                     </div>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+            <?php } ?>
                     <?php
                     
                     
@@ -107,7 +110,11 @@ if( is_page_template( 'template/property-listings-map.php' ) ) { $infobox_trigge
                     echo '<h2 class="property-title"><a href="'.esc_url( get_permalink() ).'" class="az-title1">'.$ls_title. '</a></h2>';
 
                     if( !empty( $ls_beds /*$prop_address*/ )) {
-                        echo '<address class="property-address az-text1">Количество спален: '.esc_attr( $ls_beds ).'</address>';
+                        if ( qtrans_getLanguage() == 'en' ) {
+                            echo '<address class="property-address az-text1">Beds: '.esc_attr( $ls_beds ).'</address>';
+                        } elseif ( qtrans_getLanguage() == 'ru' ) {
+                            echo '<address class="property-address az-text1">Количество спален: '.esc_attr( $ls_beds ).'</address>';                           
+                        }
                     }
                     ?>
                 </div>

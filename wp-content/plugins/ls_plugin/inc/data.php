@@ -162,6 +162,32 @@
 	$ls_gallery = 'gallery';
 	$remove = Array(
 			'card_id', 'card_name', 'code_name', 'list_id', 'list_name', 'area_code', 'name1_en', 'name2_en', 'cleaning_en', 'changetowels_en', 'loundry_en', 'cpayments_en', 'descr_en', 'descr_internal', 'contacts'
+	);
+	$area_en_ru = Array(
+			'Mai Khao' => 'Май Као',
+			'Nai Yang' => 'Най Йанг',
+			'Nai Thon' => 'Най Тон',
+			'Layan'		 => 'Лайан',
+			'Bang Tao' => 'Банг Тао',
+			'Surin' => 'Сурин',
+			'Kamala' => 'Камала',
+			'Patong' => 'Патонг',
+			'Karon' => 'Карон',
+			'Kata' => 'Ката',
+			'Kata Noi' => 'Ката Ной',
+			'Nai Harn' => 'Най Харн',
+			'Kathu' => 'Кату',
+			'Phuket Town' => 'Пхукет Таун',
+			'Rawai' => 'Раваи',
+			'Panwa' => 'Панва',
+			'East' => 'Восток',
+			'Talang' => 'Таланг',
+			'Cherng Talay' => 'Чентале',
+			'Chalong' => 'Чалонг',
+			'Phang Nga' => 'Панг Нга',
 		);
-	
+
+
+
+
 	/*arrays for separating array $az_json*/
