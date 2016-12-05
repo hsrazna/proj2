@@ -38,6 +38,14 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 <header id="header-section" class="houzez-header-main <?php echo esc_attr( $css_class ).' '.esc_attr( $header_4_menu_align ).' '.esc_attr($trans_class).' '.esc_attr($menu_righ_no_user); ?> hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
     <div class="<?php echo sanitize_html_class( $header_layout ); ?>">
         <div class="header-left">
+            
+            <div class="ls-md-menu">
+                <div class="mobile-nav">
+                    <span class="nav-trigger"><i class="fa fa-navicon"></i></span>
+                    <div class="nav-dropdown main-nav-dropdown"></div>
+                </div>
+            </div>
+            
 
             <div class="logo logo-desktop">
                 <?php get_template_part('inc/header/logo'); ?>
@@ -77,10 +85,8 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <!-- <div class="ls-menu">
                 <a href="#" class="az-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
             </div> -->
-            <div class="ls-lang">
-                <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
-            </div>
-            <nav class="navi main-nav">
+            
+            <nav class="navi main-nav ls-lg-menu">
                 <?php
                 // Pages Menu
                 if ( has_nav_menu( 'main-menu' ) ) :
@@ -121,12 +127,16 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             
             
         </div>
-
+        
         <?php if( class_exists('Houzez_login_register') ): ?>
             <?php if( houzez_option('header_login') != 'no' ): ?>
                 <div class="header-right">
+                    <div class="ls-lang">
+                        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
+                    </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
                     <!-- <div class="clearfix"></div> -->
+
                 </div>
             <?php endif; ?>
         <?php endif; ?>

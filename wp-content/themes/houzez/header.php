@@ -12,9 +12,11 @@ $houzez_local = houzez_get_localization();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/animate.css">
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/style.css">
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css">
 	<?php wp_head(); ?>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jssor.slider-21.1.6.min.js"></script>
 	<?php if ( qtrans_getLanguage() == 'en' ) {?>
   <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script>
 	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script>

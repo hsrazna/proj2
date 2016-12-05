@@ -17,6 +17,9 @@ if ( is_page_template( 'template/template-onepage.php' ) ) {
 		<div class="header-logo logo-mobile">
 			<?php get_template_part('inc/header/logo-mobile'); ?>
 		</div>
+		<div class="ls-lang">
+        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
+    </div>
 		<?php if( class_exists('Houzez_login_register') ): ?>
 			<?php if( houzez_option('header_login') != 'no' ): ?>
 				<div class="header-user">
