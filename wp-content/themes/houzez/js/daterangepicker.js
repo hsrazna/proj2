@@ -7,6 +7,7 @@
 */
 // Follow the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 (function (root, factory) {
+    // alert(1);
     if (typeof define === 'function' && define.amd) {
         // AMD. Make globaly available as well
         define(['moment', 'jquery'], function (moment, jquery) {
@@ -1393,8 +1394,8 @@
         },
 
         clickApply: function(e) {
-            this.hide();
-            this.element.trigger('apply.daterangepicker', this);
+            // this.hide();
+            // this.element.trigger('apply.daterangepicker', this);
         },
 
         clickCancel: function(e) {

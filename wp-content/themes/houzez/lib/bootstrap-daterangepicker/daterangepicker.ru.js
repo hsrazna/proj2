@@ -6,6 +6,8 @@
 * @website: https://www.improvely.com/
 */
 // Follow the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
+var datapicker_temp = new Array();
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Make globaly available as well
@@ -1393,8 +1395,16 @@
         },
 
         clickApply: function(e) {
+            // alert(1);
+            $('.daterangepicker').hide();
             this.hide();
-            this.element.trigger('apply.daterangepicker', this);
+            // $('input[name="daterange"]').hide();
+            // $('.daterangepicker').trigger('apply.daterangepicker', this);
+            for (var yry = 0; yry<datapicker_temp.length; yry++){
+                datapicker_temp[yry].trigger('apply.daterangepicker', $('.daterangepicker').eq(yry));
+            }
+            // this.element.trigger('apply.daterangepicker', this);
+            // alert(JSON.stringify(this.element));
         },
 
         clickCancel: function(e) {
@@ -1613,6 +1623,7 @@
             if (el.data('daterangepicker'))
                 el.data('daterangepicker').remove();
             el.data('daterangepicker', new DateRangePicker(el, options, callback));
+            datapicker_temp.push(el);
         });
         return this;
     };
@@ -1620,3 +1631,5 @@
     return DateRangePicker;
 
 }));
+
+// alert(1);

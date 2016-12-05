@@ -675,6 +675,18 @@ input[name="daterange"]{
 .az-owl-carousel {
     position: relative;
     height: 100%;
+    .owl-stage-outer{
+        height: 100%;
+        .owl-stage{
+            height: 100%;
+            .owl-item{
+                height: 100%;
+                .az-item1, .az-item2, .az-item3{
+                    height: 100%;
+                }
+            }
+        }
+    }
     .owl-prev{
         left: 0px !important;
         background: transparent !important;
@@ -737,9 +749,10 @@ input[name="daterange"]{
         font-family: "revicons";
     }
     
-    div:not(.owl-controls) {
-        height: 100%;
-    }
+    // div:not(.owl-controls) {
+    //     height: 100%;
+    // }
+
     .az-item1{
         background-image: url('../images/az/slide1.jpg');
         background-repeat: no-repeat;

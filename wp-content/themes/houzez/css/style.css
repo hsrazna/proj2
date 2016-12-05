@@ -633,6 +633,14 @@ input[name="daterange"] {
 .az-owl-carousel {
   position: relative;
   height: 100%; }
+  .az-owl-carousel .owl-stage-outer {
+    height: 100%; }
+    .az-owl-carousel .owl-stage-outer .owl-stage {
+      height: 100%; }
+      .az-owl-carousel .owl-stage-outer .owl-stage .owl-item {
+        height: 100%; }
+        .az-owl-carousel .owl-stage-outer .owl-stage .owl-item .az-item1, .az-owl-carousel .owl-stage-outer .owl-stage .owl-item .az-item2, .az-owl-carousel .owl-stage-outer .owl-stage .owl-item .az-item3 {
+          height: 100%; }
   .az-owl-carousel .owl-prev {
     left: 0px !important;
     background: transparent !important;
@@ -683,8 +691,6 @@ input[name="daterange"] {
   .az-owl-carousel .az-owl-next:before {
     content: '\e825';
     font-family: "revicons"; }
-  .az-owl-carousel div:not(.owl-controls) {
-    height: 100%; }
   .az-owl-carousel .az-item1 {
     background-image: url("../images/az/slide1.jpg");
     background-repeat: no-repeat;

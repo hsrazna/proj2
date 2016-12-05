@@ -7,11 +7,26 @@
  */
 
 /*ajax puller*/
-jQuery.fn.hasAttr = function(name) {  
-   return this.attr(name) !== undefined;
-};
+/*rubish*/
 
-// revapi2.bind("revolution.slide.onchange",function (e,data) {
+// $('#pop-login').modal('show');
+    // var ls_search = $('.ls-search .ls-i');
+    // $('body').on('click', '.ls-search .ls-i', function(){
+    //     // alert(1);
+    //     var ls_temp = $('.ls-search .ls-i').siblings('input[type="text"]');
+    //     ls_temp.toggleClass('slide');
+    //     if (ls_temp.hasClass('slide')){
+    //         $(this).siblings('input[type="text"]').focus();
+    //         // ls_temp.focus();
+    //     } else {
+    //         $(this).siblings('input[type="text"]').blur();
+    //         // ls_temp.blur();
+    //     }
+    //     $('.ls-search .ls-i').toggleClass('ls-disp-none');
+        
+    // });
+
+    // revapi2.bind("revolution.slide.onchange",function (e,data) {
 //         alert(1);
 //         // console.log("slide changed to: "+data.slideIndex);
 //         // console.log("current slide <li> Index: "+data.slideLIIndex);
@@ -19,15 +34,8 @@ jQuery.fn.hasAttr = function(name) {
 //         //data.prevslide - Предыдущий слайд как объект jQuery  
 //     });
     // alert(1);
-/*ajax puller*/
 
-var nice = false;
-(function($){
-"use strict";
-
-/*ajax puller*/
-
-                // $(function() {
+                    // $(function() {
     // $.cookie.defaults = { expires: 30, path: "/"};
 
     
@@ -35,53 +43,42 @@ var nice = false;
     //     $('.navi.main-nav').toggleClass('open');
     //     return false;
     // });
-    var az_owl = $("#az-owl");
-    var windowSize = function(){
-        // alert(1);
-        if(window.matchMedia('(min-width: 992px)').matches){
-            var az_temp_height221122 = $(window).height();
-            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122);
-        } else {
-            var az_temp_height221122 = $(window).height();
-            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122 - 60);
-            // $('.az-slider').height($(window).height() - 60);
-        }
-        // $('.az-slider').height($(window).height());
-        // owl = $("#az-owl");
+    // if(window.matchMedia('(min-width: 992px)').matches){
+    //         var az_temp_height221122 = $(window).height();
+    //         az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+    //         $('.az-slider').height(az_temp_height221122);
+    //     } else {
+    //         var az_temp_height221122 = $(window).height();
+    //         az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+    //         $('.az-slider').height(az_temp_height221122 - 60);
+    //         // $('.az-slider').height($(window).height() - 60);
+    //     }
 
-        az_owl.owlCarousel({
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            mouseDrag: false,
-            // loop: true,
-            autoplay: true,
-            autoplayTimeout:60000,
-            autoplayHoverPause:true,
-            // animateOut: 'slideOutDown',
-            // animateIn: 'flipInX',
-            items:1,
-            dots: false,
-            nav: true,
-            navText:['<span class="az-owl-prev"></span>', '<span class="az-owl-next"></span>']
-            // margin:30,
-            // stagePadding:30,
-            // smartSpeed:450
-            
-        });
-        // $('.az-slider2').width($(window).width());
-        // $('.az-slider2').height($(window).height());
-    }
-    // var windowSize2 = function(){
-    //     // alert(1);
-    //     $('.az-slider2').width($(window).width());
-    //     $('.az-slider2').height($(window).height());
-    // }
-    $(window).on('load resize',windowSize);
+    // "daysOfWeek": [
+                        //     "Su",
+                        //     "Mo",
+                        //     "Tu",
+                        //     "We",
+                        //     "Th",
+                        //     "Fr",
+                        //     "Sa"
+                        // ],
+                        // "monthNames": [
+                        //     "January",
+                        //     "February",
+                        //     "March",
+                        //     "April",
+                        //     "May",
+                        //     "June",
+                        //     "July",
+                        //     "August",
+                        //     "September",
+                        //     "October",
+                        //     "November",
+                        //     "December"
+                        // ],
 
-    
-    // setTimeout(function(){
+                            // setTimeout(function(){
         // var _SlideshowTransitions = [
         // //Fade
         // { $Duration: 1200, $Opacity: 2, $Delay: 10000}
@@ -98,60 +95,14 @@ var nice = false;
         // var jssor_slider1 = new $JssorSlider$('slider1_container', options);
         
     // }, 2000);
-    
 
-    $('input[name="area[]"]').click(function(){
-        if($(this).hasAttr('checked')){
-            $('input[name="area[]"][value="'+$(this).val()+'"]').attr('checked', 'checked');
-        } else {
-            $('input[name="area[]"][value="'+$(this).val()+'"]').removeAttr('checked');
-        }
-    });
-    if($.cookie('az_range')){
-        $('input[name="daterange"]').val($.cookie('az_range'));
-    }
-    $('input[name="daterange"]').daterangepicker({
-    "locale": {
-        "format": "MM/DD/YYYY",
-        "separator": " - ",
-        // "applyLabel": "Apply",
-        // "cancelLabel": "Cancel",
-        "fromLabel": "From",
-        "toLabel": "To",
-        "customRangeLabel": "Custom",
-        "weekLabel": "W",
-        // "daysOfWeek": [
-        //     "Su",
-        //     "Mo",
-        //     "Tu",
-        //     "We",
-        //     "Th",
-        //     "Fr",
-        //     "Sa"
-        // ],
-        // "monthNames": [
-        //     "January",
-        //     "February",
-        //     "March",
-        //     "April",
-        //     "May",
-        //     "June",
-        //     "July",
-        //     "August",
-        //     "September",
-        //     "October",
-        //     "November",
-        //     "December"
-        // ],
-        "firstDay": 1
-    },
-    "showCustomRangeLabel": false,
-    // "startDate": "11/26/2016",
-    // "endDate": "12/02/2016"
-}, function(start, end, label) {
-  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
-});
-    // $('input[name="daterange"]').daterangepicker({
+        // var windowSize2 = function(){
+    //     // alert(1);
+    //     $('.az-slider2').width($(window).width());
+    //     $('.az-slider2').height($(window).height());
+    // }
+
+        // $('input[name="daterange"]').daterangepicker({
     //         "daysOfWeek": [
     //       "Mo",
     //       "Tu",
@@ -168,13 +119,159 @@ var nice = false;
     // $('input[name="daterange"]').daterangepicker({},function(start, end, label) {
     //     console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
     // });
+/*rubish*/
+
+
+jQuery.fn.hasAttr = function(name) {  
+   return this.attr(name) !== undefined;
+};
+
+
+/*ajax puller*/
+
+var nice = false;
+(function($){
+"use strict";
+
+/*ajax puller*/
+
+
+
+    
+
+            if($.cookie('az_range')){
+                $('input[name="daterange"]').val($.cookie('az_range'));
+            }
+
+                // $('input[name="daterange"]').daterangepicker({
+                //     "locale": {
+                //         "format": "MM/DD/YYYY",
+                //         "separator": " - ",
+                //         // "applyLabel": "Apply",
+                //         // "cancelLabel": "Cancel",
+                //         "fromLabel": "From",
+                //         "toLabel": "To",
+                //         "customRangeLabel": "Custom",
+                //         "weekLabel": "W",
+                        
+                //         "firstDay": 1
+                //     },
+                //     "showCustomRangeLabel": false,
+                //     // "startDate": "11/26/2016",
+                //     // "endDate": "12/02/2016"
+                // });
+                var az_owl = $("#az-owl");
+                // az_owl.on('initialize.owl.carousel', function(event) {
+                    $('input[name="daterange"]').daterangepicker({
+                        "locale": {
+                            "format": "MM/DD/YYYY",
+                            "separator": " - ",
+                            // "applyLabel": "Apply",
+                            // "cancelLabel": "Cancel",
+                            "fromLabel": "From",
+                            "toLabel": "To",
+                            "customRangeLabel": "Custom",
+                            "weekLabel": "W",
+                            
+                            "firstDay": 1
+                        },
+                        "showCustomRangeLabel": false,
+                        // "startDate": "11/26/2016",
+                        // "endDate": "12/02/2016"
+                    });
+                    // alert(JSON.stringify(datapicker_temp));
+                // });
+                az_owl.on('initialized.owl.carousel', function(event) {
+                    if(window.matchMedia('(min-width: 992px)').matches){
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122);
+        } else {
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122 - 60);
+            // $('.az-slider').height($(window).height() - 60);
+        }
+                    
+                    
+                });
+            az_owl.owlCarousel({
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn',
+                mouseDrag: false,
+                // loop: true,
+                autoplay: true,
+                autoplayTimeout:60000,
+                autoplayHoverPause:true,
+                // animateOut: 'slideOutDown',
+                // animateIn: 'flipInX',
+                items:1,
+                dots: false,
+                nav: true,
+                navText:['<span class="az-owl-prev"></span>', '<span class="az-owl-next"></span>']
+                // margin:30,
+                // stagePadding:30,
+                // smartSpeed:450
+                
+            });
+    // az_owl.on('initialized.owl.carousel', function(event) {
+    //     alert(1);
+    //     // $('input[name="daterange"]').daterangepicker({
+    //     //     "locale": {
+    //     //         "format": "MM/DD/YYYY",
+    //     //         "separator": " - ",
+    //     //         // "applyLabel": "Apply",
+    //     //         // "cancelLabel": "Cancel",
+    //     //         "fromLabel": "From",
+    //     //         "toLabel": "To",
+    //     //         "customRangeLabel": "Custom",
+    //     //         "weekLabel": "W",
+                
+    //     //         "firstDay": 1
+    //     //     },
+    //     //     "showCustomRangeLabel": false,
+    //     //     // "startDate": "11/26/2016",
+    //     //     // "endDate": "12/02/2016"
+    //     // });
+    // })
+                // $('.range_inputs button').click(function(){
+                //     $(this).parents('.daterangepicker').attr('style', 'display: none;');
+                // });
+            // }, 10000);
+            
+
+     var windowSize = function(){
+        // alert(1);
+        
+        
+        // $('.az-slider').height($(window).height());
+        // owl = $("#az-owl");
+
+        // var az_owl = $("#az-owl");
+        
+
+        // $('.az-slider2').width($(window).width());
+        // $('.az-slider2').height($(window).height());
+    }
+
+    $(window).on('load',windowSize);
+    
+    $('input[name="area[]"]').click(function(){
+        if($(this).hasAttr('checked')){
+            $('input[name="area[]"][value="'+$(this).val()+'"]').attr('checked', 'checked');
+        } else {
+            $('input[name="area[]"][value="'+$(this).val()+'"]').removeAttr('checked');
+        }
+    });
+    
+
     $('input[name="daterange"]').change(function(){
         // alert(1);
         // var date = new Date();
         // var minutes = 43200;
         // date.setTime(date.getTime() + (minutes * 60 * 1000));
         $.cookie("az_range", $(this).val(), { expires: 30});
-        $('input[name="daterange"]').val($(this).val());
+        // $('input[name="daterange"]').val($(this).val());
         // $.cookie('az_range', $(this).val(), );
         // alert($.cookie('az_range'));
         // alert( document.cookie );
@@ -194,22 +291,6 @@ var nice = false;
     });
                 // });
 
-// $('#pop-login').modal('show');
-    // var ls_search = $('.ls-search .ls-i');
-    // $('body').on('click', '.ls-search .ls-i', function(){
-    //     // alert(1);
-    //     var ls_temp = $('.ls-search .ls-i').siblings('input[type="text"]');
-    //     ls_temp.toggleClass('slide');
-    //     if (ls_temp.hasClass('slide')){
-    //         $(this).siblings('input[type="text"]').focus();
-    //         // ls_temp.focus();
-    //     } else {
-    //         $(this).siblings('input[type="text"]').blur();
-    //         // ls_temp.blur();
-    //     }
-    //     $('.ls-search .ls-i').toggleClass('ls-disp-none');
-        
-    // });
 
     $('body').on('click', '.ls-search .az-azsearch', function(){
         // alert(1);
@@ -245,14 +326,14 @@ var nice = false;
             }            
         }
     });
-    $(window).click(function(){
-        // alert(is_open);
-        if(is_open){
-            $('.qtranxs_widget li:not(.active)').slideUp(300);
-            is_open = false;
-        }
-        // alert($.cookie('az_range'));
-    });
+    // $(window).click(function(){
+    //     // alert(is_open);
+    //     if(is_open){
+    //         $('.qtranxs_widget li:not(.active)').slideUp(300);
+    //         is_open = false;
+    //     }
+    //     // alert($.cookie('az_range'));
+    // });
     /*languages*/
 
 //     $.prototype.az_select = function(class1){

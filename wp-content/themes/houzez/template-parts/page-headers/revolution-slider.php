@@ -31,7 +31,7 @@ if (is_plugin_active('revslider/revslider.php')) {
     </div>
     <div class="header-media az-dispay-sm">
         <div class="page-banner-revolution-slider">
-            <div class="az-slider">
+            <div class="az-slider" style="height: 100px;">
                 <!-- <div id="custom-pag-place"></div> -->
 
                 <div id="az-owl" class="az-owl-carousel owl-theme">
@@ -63,7 +63,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-sm-12 az-sm-margin10">
-                                            <input type="text" name="daterange" value=""/>
+                                            <input type="text" name="daterange" value="" id="as123"/>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
