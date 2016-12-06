@@ -672,36 +672,63 @@ input[name="daterange"]{
 }
 
 /*owl-carousel*/
-.az-owl-carousel {
+.az-carousel {
     position: relative;
     height: 100%;
-    .owl-stage-outer{
-        height: 100%;
-        .owl-stage{
-            height: 100%;
-            .owl-item{
-                height: 100%;
+    // .owl-stage-outer{
+    //     height: 100%;
+        // .owl-stage{
+        //     height: 100%;
+            // .owl-item{
+            //     height: 100%;
+                // .az-item{
+                //     transition: all 1.2s ease-out;
+                // }
+
                 .az-item1, .az-item2, .az-item3{
                     height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+
                 }
-            }
-        }
-    }
-    .owl-prev{
+                .az-item1{
+                    opacity: 1;
+                    z-index: 3;
+                }
+                .az-item2{
+                    opacity: 0;
+                    z-index: 2;
+                }
+                .az-item3{
+                    opacity: 0;
+                    z-index: 2;
+                }
+            // }
+        // }
+    // }
+    .az-prev{
+        position: absolute;
         left: 0px !important;
         background: transparent !important;
         height: 100% !important;
         width: 20% !important;
         opacity: 1 !important;
+        z-index: 5;
+        cursor: pointer;
     }
-    .owl-next{
+    .az-next{
+        position: absolute;
         right: 0px !important;
         height: 100% !important;
         width: 20% !important;
         background: transparent !important;
         opacity: 1 !important;
+        z-index: 5;
+        cursor: pointer;
     }
-    .az-owl-prev{
+    .az-inner-prev{
         position: absolute;
     // top: 50%;
         -webkit-transform: translate(0, -50%);
@@ -719,8 +746,9 @@ input[name="daterange"]{
         width: unset !important;
         opacity: 1 !important;
         // top: calc(50% + 30px);
+        z-index: 5;
     }
-    .az-owl-next{
+    .az-inner-next{
         position: absolute;
     // top: 50%;
         -webkit-transform: translate(0, -50%);
@@ -739,12 +767,13 @@ input[name="daterange"]{
         opacity: 1 !important;
         // text-align: center;
         // top: calc(50% + 30px);
+        z-index: 5;
     }
-    .az-owl-prev:before{
+    .az-inner-prev:before{
         content: '\e824';
         font-family: "revicons";
     }
-    .az-owl-next:before{
+    .az-inner-next:before{
         content: '\e825';
         font-family: "revicons";
     }

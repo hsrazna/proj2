@@ -139,9 +139,7 @@ var nice = false;
 
     
 
-            if($.cookie('az_range')){
-                $('input[name="daterange"]').val($.cookie('az_range'));
-            }
+            
 
                 // $('input[name="daterange"]').daterangepicker({
                 //     "locale": {
@@ -160,60 +158,35 @@ var nice = false;
                 //     // "startDate": "11/26/2016",
                 //     // "endDate": "12/02/2016"
                 // });
-                var az_owl = $("#az-owl");
+                // var az_owl = $("#az-owl");
                 // az_owl.on('initialize.owl.carousel', function(event) {
-                    $('input[name="daterange"]').daterangepicker({
-                        "locale": {
-                            "format": "MM/DD/YYYY",
-                            "separator": " - ",
-                            // "applyLabel": "Apply",
-                            // "cancelLabel": "Cancel",
-                            "fromLabel": "From",
-                            "toLabel": "To",
-                            "customRangeLabel": "Custom",
-                            "weekLabel": "W",
-                            
-                            "firstDay": 1
-                        },
-                        "showCustomRangeLabel": false,
-                        // "startDate": "11/26/2016",
-                        // "endDate": "12/02/2016"
-                    });
+                    
                     // alert(JSON.stringify(datapicker_temp));
                 // });
-                az_owl.on('initialized.owl.carousel', function(event) {
-                    if(window.matchMedia('(min-width: 992px)').matches){
-            var az_temp_height221122 = $(window).height();
-            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122);
-        } else {
-            var az_temp_height221122 = $(window).height();
-            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122 - 60);
-            // $('.az-slider').height($(window).height() - 60);
-        }
+                // az_owl.on('initialized.owl.carousel', function(event) {
                     
                     
-                });
-            az_owl.owlCarousel({
-                animateOut: 'fadeOut',
-                animateIn: 'fadeIn',
-                mouseDrag: false,
-                // loop: true,
-                autoplay: true,
-                autoplayTimeout:60000,
-                autoplayHoverPause:true,
-                // animateOut: 'slideOutDown',
-                // animateIn: 'flipInX',
-                items:1,
-                dots: false,
-                nav: true,
-                navText:['<span class="az-owl-prev"></span>', '<span class="az-owl-next"></span>']
-                // margin:30,
-                // stagePadding:30,
-                // smartSpeed:450
+                    
+                // });
+            // az_owl.owlCarousel({
+            //     animateOut: 'fadeOut',
+            //     animateIn: 'fadeIn',
+            //     mouseDrag: false,
+            //     // loop: true,
+            //     autoplay: true,
+            //     autoplayTimeout:60000,
+            //     autoplayHoverPause:true,
+            //     // animateOut: 'slideOutDown',
+            //     // animateIn: 'flipInX',
+            //     items:1,
+            //     dots: false,
+            //     nav: true,
+            //     navText:['<span class="az-owl-prev"></span>', '<span class="az-owl-next"></span>']
+            //     // margin:30,
+            //     // stagePadding:30,
+            //     // smartSpeed:450
                 
-            });
+            // });
     // az_owl.on('initialized.owl.carousel', function(event) {
     //     alert(1);
     //     // $('input[name="daterange"]').daterangepicker({
@@ -242,19 +215,20 @@ var nice = false;
 
      var windowSize = function(){
         // alert(1);
-        
-        
-        // $('.az-slider').height($(window).height());
-        // owl = $("#az-owl");
+        if(window.matchMedia('(min-width: 992px)').matches){
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122);
+        } else {
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122 - 60);
+            // $('.az-slider').height($(window).height() - 60);
+        }
 
-        // var az_owl = $("#az-owl");
-        
-
-        // $('.az-slider2').width($(window).width());
-        // $('.az-slider2').height($(window).height());
     }
 
-    $(window).on('load',windowSize);
+    $(window).on('load resize',windowSize);
     
     $('input[name="area[]"]').click(function(){
         if($(this).hasAttr('checked')){
@@ -265,17 +239,7 @@ var nice = false;
     });
     
 
-    $('input[name="daterange"]').change(function(){
-        // alert(1);
-        // var date = new Date();
-        // var minutes = 43200;
-        // date.setTime(date.getTime() + (minutes * 60 * 1000));
-        $.cookie("az_range", $(this).val(), { expires: 30});
-        // $('input[name="daterange"]').val($(this).val());
-        // $.cookie('az_range', $(this).val(), );
-        // alert($.cookie('az_range'));
-        // alert( document.cookie );
-    });
+    
     $('select[name="bedrooms"]').on('changed.bs.select', function(){
         $('select[name="bedrooms"]').val($(this).val());
         var az_temp_val = $(this).next('.bootstrap-select').find('.dropdown-menu li.selected').attr('data-original-index');

@@ -6,8 +6,9 @@
 * @website: https://www.improvely.com/
 */
 // Follow the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
-var datapicker_temp = new Array();
+// var datapicker_temp = new Array();
 
+// setTimeout(function(){
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Make globaly available as well
@@ -1396,14 +1397,14 @@ var datapicker_temp = new Array();
 
         clickApply: function(e) {
             // alert(1);
-            $('.daterangepicker').hide();
+            // $('.daterangepicker').hide();
             this.hide();
             // $('input[name="daterange"]').hide();
             // $('.daterangepicker').trigger('apply.daterangepicker', this);
-            for (var yry = 0; yry<datapicker_temp.length; yry++){
-                datapicker_temp[yry].trigger('apply.daterangepicker', $('.daterangepicker').eq(yry));
-            }
-            // this.element.trigger('apply.daterangepicker', this);
+            // for (var yry = 0; yry<datapicker_temp.length; yry++){
+            //     datapicker_temp[yry].trigger('apply.daterangepicker', $('.daterangepicker').eq(yry));
+            // }
+            this.element.trigger('apply.daterangepicker', this);
             // alert(JSON.stringify(this.element));
         },
 
@@ -1623,7 +1624,8 @@ var datapicker_temp = new Array();
             if (el.data('daterangepicker'))
                 el.data('daterangepicker').remove();
             el.data('daterangepicker', new DateRangePicker(el, options, callback));
-            datapicker_temp.push(el);
+            // alert(JSON.stringify(el));
+            // datapicker_temp.push(el);
         });
         return this;
     };
@@ -1631,5 +1633,5 @@ var datapicker_temp = new Array();
     return DateRangePicker;
 
 }));
-
+// }, 15000);
 // alert(1);

@@ -1,0 +1,6 @@
+#f7941d
+rgba(247, 148, 29, 0.8)
+#f7941d
+
+Open/Close Button Background Color
+#ff6e00

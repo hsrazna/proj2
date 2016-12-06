@@ -92,6 +92,14 @@ global $houzez_local;
 </footer>
 <!--end footer section-->
 <?php } // End splash template if ?>
+<?php if ( qtrans_getLanguage() == 'en' ) {?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+<?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.ru.js"></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.ru.js"></script>
+<?php } ?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
 
 <?php wp_footer(); ?>
 
