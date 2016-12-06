@@ -294,10 +294,12 @@
   .ls-submit-ru * {
     font-family: "OpenSans-Regular"; }
 
-.newmap {
+.phuket-map-inner {
+  height: 335px;
+  width: 150px;
   background: url(../images/map/filter-map2.png) no-repeat top left; }
 
-.loc label {
+.phuket-district label {
   line-height: 18px;
   padding: 0 3px 0 3px;
   border-radius: 3px;
@@ -314,177 +316,173 @@
   position: relative;
   display: block;
   font-weight: bold; }
-.loc input {
+.phuket-district input {
   display: none; }
-.loc input:checked ~ label {
+.phuket-district input:checked ~ label {
   background-color: rgba(0, 174, 239, 0.5);
   color: #fff; }
 
 /*------------------------------*/
-.newmap {
-  height: 335px;
-  width: 150px; }
-
-.phuket .contentSidebar .newmap {
+.phuket-map .contentSidebar .newmap {
   margin: 0 0 0 70px; }
 
-.phuket .houseEdit #location {
+.phuket-map .houseEdit #location {
   padding-left: 54px; }
 
-.phuket .newmap label.NAI {
+.phuket-map .NAI {
   left: -90%; }
 
-.phuket .newmap label.NAI:after {
+.phuket-map .NAI:after {
   left: 85%; }
 
-.phuket .newmap label.RAW {
+.phuket-map .RAW {
   left: 0%; }
 
-.phuket .newmap label.RAW:after {
+.phuket-map .RAW:after {
   display: none; }
 
-.phuket .newmap label.PAN {
+.phuket-map .PAN {
   left: -20%;
   top: 3px; }
 
-.phuket .newmap label.PAN:after {
+.phuket-map .PAN:after {
   left: 20%; }
 
-.phuket .newmap label.KAR {
+.phuket-map .KAR {
   left: -80%;
   top: -5px; }
 
-.phuket .newmap label.KAR:after {
+.phuket-map .KAR:after {
   left: 75%; }
 
-.phuket .newmap label.PAT {
+.phuket-map .PAT {
   left: -80%;
   top: -5px; }
 
-.phuket .newmap label.PAT:after {
+.phuket-map .PAT:after {
   left: 80%; }
 
-.phuket .newmap label.CHA {
+.phuket-map .CHA {
   left: -20%;
   top: -3px; }
 
-.phuket .newmap label.CHA:after {
+.phuket-map .CHA:after {
   left: 30%; }
 
-.phuket .newmap label.KTH {
+.phuket-map .KTH {
   left: -35%;
   top: -5px; }
 
-.phuket .newmap label.KTH:after {
+.phuket-map .KTH:after {
   left: 20%; }
 
-.phuket .newmap label.PHU {
+.phuket-map .PHU {
   left: -40%; }
 
-.phuket .newmap label.PHU:after {
+.phuket-map .PHU:after {
   left: 40%; }
 
-.phuket .newmap label.KAM {
+.phuket-map .KAM {
   top: 5px; }
 
-.phuket .newmap label.CHE {
+.phuket-map .CHE {
   left: -5%;
   top: 10px; }
 
-.phuket .newmap label.CHE:after {
+.phuket-map .CHE:after {
   left: 10%; }
 
-.phuket .newmap label.SUR {
+.phuket-map .SUR {
   left: -70%;
   top: 4px; }
 
-.phuket .newmap label.SUR:after {
+.phuket-map .SUR:after {
   left: 70%; }
 
-.phuket .newmap label.KAM {
+.phuket-map .KAM {
   left: -75%;
   top: 4px; }
 
-.phuket .newmap label.KAM:after {
+.phuket-map .KAM:after {
   left: 75%; }
 
-.phuket .newmap label.BAN {
+.phuket-map .BAN {
   left: -80%;
   top: -1px; }
 
-.phuket .newmap label.BAN:after {
+.phuket-map .BAN:after {
   left: 80%; }
 
-.phuket .newmap label.TAL {
+.phuket-map .TAL {
   left: -10%;
   top: 3px; }
 
-.phuket .newmap label.TAL:after {
+.phuket-map .TAL:after {
   left: 15%; }
 
-.phuket .newmap label.NAT {
+.phuket-map .NAT {
   left: -70%;
   top: -3px; }
 
-.phuket .newmap label.NAT:after {
+.phuket-map .NAT:after {
   left: 70%; }
 
-.phuket .newmap label.LAY {
+.phuket-map .LAY {
   left: -80%;
   top: 1px; }
 
-.phuket .newmap label.LAY:after {
+.phuket-map .LAY:after {
   left: 80%; }
 
-.phuket .newmap label.NYG {
+.phuket-map .NYG {
   left: -80%;
   top: -2px; }
 
-.phuket .newmap label.NYG:after {
+.phuket-map .NYG:after {
   left: 80%; }
 
-.phuket .newmap label.EAS:after {
+.phuket-map .EAS:after {
   display: none; }
 
-.phuket .newmap label.PHA {
+.phuket-map .PHA {
   top: 20px; }
 
-.phuket .newmap label.PHA:after {
+.phuket-map .PHA:after {
   display: none; }
 
-.phuket .newmap label.COC {
+.phuket-map .COC {
   top: -3px; }
 
-.phuket .newmap label.YAM {
+.phuket-map .YAM {
   top: -8px; }
 
-.phuket .house .houseLocation {
+.phuket-map .house .houseLocation {
   width: 100px;
   height: 230px; }
 
-.phuket .locationGuide .mapLabel.CHE {
+.phuket-map .locationGuide .mapLabel.CHE {
   left: -40%;
   top: -15px; }
 
-.phuket .locationGuide .mapLabel.CHE:after {
+.phuket-map .locationGuide .mapLabel.CHE:after {
   left: 30%; }
 
-.phuket .locationGuide .mapLabel.CHA {
+.phuket-map .locationGuide .mapLabel.CHA {
   left: -40%; }
 
-.phuket .locationGuide .mapLabel.NAI {
+.phuket-map .locationGuide .mapLabel.NAI {
   left: -80%; }
 
-.phuket .locationGuide .mapLabel.NAI:after {
+.phuket-map .locationGuide .mapLabel.NAI:after {
   left: 80%; }
 
-.phuket .locationGuide .mapLabel.RAW {
+.phuket-map .locationGuide .mapLabel.RAW {
   left: 0%; }
 
-.phuket .locationGuide .mapLabel.RAW:after {
+.phuket-map .locationGuide .mapLabel.RAW:after {
   left: 20%; }
 
-.phuket .locationGuide .mapLabel.EAS:after {
+.phuket-map .locationGuide .mapLabel.EAS:after {
   display: none; }
 
 /*------------------------------*/
@@ -632,7 +630,8 @@ input[name="daterange"] {
 /*owl-carousel*/
 .az-carousel {
   position: relative;
-  height: 100%; }
+  height: 100%;
+  overflow: hidden; }
   .az-carousel .az-item1, .az-carousel .az-item2, .az-carousel .az-item3 {
     height: 100%;
     width: 100%;
@@ -671,13 +670,13 @@ input[name="daterange"] {
     -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
     background: rgba(0, 0, 0, 0.5) !important;
-    padding: 20px 40px;
+    padding: 20px 10px;
     font-size: 30px !important;
     color: whitesmoke;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.1);
     -webkit-animation: pulsate 1.2s linear infinite;
     animation: pulsate 1.2s linear infinite;
-    left: 15px !important;
+    left: 2px;
     top: 50%;
     height: unset !important;
     width: unset !important;
@@ -688,13 +687,13 @@ input[name="daterange"] {
     -webkit-transform: translate(0, -50%);
     transform: translate(0, -50%);
     background: rgba(0, 0, 0, 0.5) !important;
-    padding: 20px 40px;
+    padding: 20px 10px;
     font-size: 30px !important;
     color: whitesmoke;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.1);
     -webkit-animation: pulsate 1.2s linear infinite;
     animation: pulsate 1.2s linear infinite;
-    right: 15px !important;
+    right: 2px;
     top: 50%;
     height: unset !important;
     width: unset !important;
@@ -722,13 +721,37 @@ input[name="daterange"] {
     background-size: cover;
     background-position: center center; }
   .az-carousel .az-item1-wrap {
-    width: calc(100% - 250px);
+    width: calc(100% - 80px);
     position: absolute;
     top: 50%;
-    left: 125px;
+    left: 40px;
     height: unset !important;
     transform: translate(0, -50%); }
 
+@media only screen and (min-width: 345px) {
+  .az-carousel .az-inner-prev {
+    left: 15px; }
+  .az-carousel .az-inner-next {
+    right: 15px; }
+  .az-carousel .az-item1-wrap {
+    width: calc(100% - 130px);
+    left: 65px; } }
+@media only screen and (min-width: 390px) {
+  .az-carousel .az-inner-prev {
+    padding: 20px 10px; }
+  .az-carousel .az-inner-next {
+    padding: 20px 10px; }
+  .az-carousel .az-item1-wrap {
+    width: calc(100% - 130px);
+    left: 65px; } }
+@media only screen and (min-width: 500px) {
+  .az-carousel .az-inner-prev {
+    padding: 20px 40px; }
+  .az-carousel .az-inner-next {
+    padding: 20px 40px; }
+  .az-carousel .az-item1-wrap {
+    width: calc(100% - 250px);
+    left: 125px; } }
 @media only screen and (min-width: 768px) {
   .az-stamp {
     font-size: 30px; }
