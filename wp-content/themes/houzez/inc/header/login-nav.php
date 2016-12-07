@@ -100,12 +100,12 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
         </li>
     </ul>
 <?php } else { ?>
-    <div class="user az-margin-right15">
+    <div class="user az-margin-right0">
         <?php //if( $header_type != 2 ) { ?>
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs"><?php esc_html_e( 'Sign In / Register', 'houzez' ); ?></span></a>
+                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-margin-right15"><?php esc_html_e( 'Sign In / Register', 'houzez' ); ?></span></a>
             <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1"><?php esc_html_e( 'Вход / Регистрация', 'houzez' ); ?></span></a>
+                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1 az-margin-right15"><?php esc_html_e( 'Вход / Регистрация', 'houzez' ); ?></span></a>
             <?php } ?>
 
 <?php if(0): ?>

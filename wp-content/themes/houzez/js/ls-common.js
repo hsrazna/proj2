@@ -39,6 +39,9 @@
         var az_slides = $('.az-item');
 
         // alert(az_slige_length);
+        // setTimeout(function(){
+        //     $('.az-next').trigger('click');
+        // }, 60000);
         $('.az-prev').click(function(){
             az_slide_num--;
             if(az_slide_num<0){
@@ -51,6 +54,9 @@
             } else if(az_slide_num==az_slide_length-2){
                 $('.az-next').fadeIn(0);
             }
+            // setTimeout(function(){
+            //     $('.az-next').trigger('click');
+            // }, 60000);
             // az_slide_num=az_slide_num%az_slige_length;
             // alert(az_slide_num);
         });
@@ -66,6 +72,9 @@
             } else if(az_slide_num==1){
                 $('.az-prev').fadeIn(0);
             }
+            // setTimeout(function(){
+            //     $('.az-next').trigger('click');
+            // }, 60000);
             // az_slide_num=az_slide_num%az_slige_length;
             // alert(az_slide_num);
         });

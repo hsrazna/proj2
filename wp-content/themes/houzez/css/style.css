@@ -280,212 +280,156 @@
   width: 100%; }
   .ls-submit-owl button {
     width: 100%;
-    text-align: center; }
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0; }
 
-.ls-form-ru {
+.ls-form-owl-ru {
   float: left;
-  width: 88%; }
-  .ls-form-ru * {
+  width: 100%; }
+  .ls-form-owl-ru * {
     font-family: "OpenSans-Regular"; }
 
-.ls-submit-ru {
+.ls-submit-owl-ru {
   float: left;
-  width: 12%; }
-  .ls-submit-ru * {
+  width: 100%; }
+  .ls-submit-owl-ru * {
     font-family: "OpenSans-Regular"; }
+  .ls-submit-owl-ru button {
+    width: 100%;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0; }
 
+/*phuket map*/
 .phuket-map-inner {
   height: 335px;
   width: 150px;
-  background: url(../images/map/filter-map2.png) no-repeat top left; }
+  background: url(../images/map/phuket-map.png) no-repeat top left; }
 
 .phuket-district label {
   line-height: 18px;
   padding: 0 3px 0 3px;
   border-radius: 3px;
   white-space: nowrap;
-  text-decoration: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-  white-space: nowrap;
   cursor: pointer;
-  background: #fff;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: #333;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
   left: -50%;
   margin-top: -23px;
   position: relative;
-  display: block;
-  font-weight: bold; }
+  display: block; }
 .phuket-district input {
   display: none; }
 .phuket-district input:checked ~ label {
   background-color: rgba(0, 174, 239, 0.5);
   color: #fff; }
 
-/*------------------------------*/
-.phuket-map .contentSidebar .newmap {
-  margin: 0 0 0 70px; }
+.p-dist1 {
+  position: absolute;
+  left: 40px;
+  top: 51px; }
 
-.phuket-map .houseEdit #location {
-  padding-left: 54px; }
+.p-dist2 {
+  position: absolute;
+  left: 30px;
+  top: 82px; }
 
-.phuket-map .NAI {
-  left: -90%; }
+.p-dist3 {
+  position: absolute;
+  left: 16px;
+  top: 107px; }
 
-.phuket-map .NAI:after {
-  left: 85%; }
+.p-dist4 {
+  position: absolute;
+  left: 16px;
+  top: 128px; }
 
-.phuket-map .RAW {
-  left: 0%; }
+.p-dist5 {
+  position: absolute;
+  left: 20px;
+  top: 148px; }
 
-.phuket-map .RAW:after {
-  display: none; }
+.p-dist6 {
+  position: absolute;
+  left: 19px;
+  top: 170px; }
 
-.phuket-map .PAN {
-  left: -20%;
-  top: 3px; }
+.p-dist7 {
+  position: absolute;
+  left: 20px;
+  top: 192px; }
 
-.phuket-map .PAN:after {
-  left: 20%; }
+.p-dist8 {
+  position: absolute;
+  left: 20px;
+  top: 222px; }
 
-.phuket-map .KAR {
-  left: -80%;
-  top: -5px; }
+.p-dist9 {
+  position: absolute;
+  left: 22px;
+  top: 262px; }
 
-.phuket-map .KAR:after {
-  left: 75%; }
+.p-dist10 {
+  position: absolute;
+  left: 38px;
+  top: 291px; }
 
-.phuket-map .PAT {
-  left: -80%;
-  top: -5px; }
+.p-dist11 {
+  position: absolute;
+  left: 18px;
+  top: 311px; }
 
-.phuket-map .PAT:after {
-  left: 80%; }
+.p-dist12 {
+  position: absolute;
+  left: 20px;
+  top: 332px; }
 
-.phuket-map .CHA {
-  left: -20%;
-  top: -3px; }
+.p-dist13 {
+  position: absolute;
+  left: 78px;
+  top: 210px; }
 
-.phuket-map .CHA:after {
-  left: 30%; }
+.p-dist14 {
+  position: absolute;
+  left: 118px;
+  top: 232px; }
 
-.phuket-map .KTH {
-  left: -35%;
-  top: -5px; }
+.p-dist15 {
+  position: absolute;
+  left: 74px;
+  top: 316px; }
 
-.phuket-map .KTH:after {
-  left: 20%; }
+.p-dist16 {
+  position: absolute;
+  left: 124px;
+  top: 285px; }
 
-.phuket-map .PHU {
-  left: -40%; }
+.p-dist17 {
+  position: absolute;
+  left: 128px;
+  top: 95px; }
 
-.phuket-map .PHU:after {
-  left: 40%; }
+.p-dist18 {
+  position: absolute;
+  left: 82px;
+  top: 125px; }
 
-.phuket-map .KAM {
-  top: 5px; }
+.p-dist19 {
+  position: absolute;
+  left: 100px;
+  top: 169px; }
 
-.phuket-map .CHE {
-  left: -5%;
-  top: 10px; }
+.p-dist20 {
+  position: absolute;
+  left: 80px;
+  top: 269px; }
 
-.phuket-map .CHE:after {
-  left: 10%; }
+.p-dist21 {
+  position: absolute;
+  left: 34px;
+  top: 21px; }
 
-.phuket-map .SUR {
-  left: -70%;
-  top: 4px; }
-
-.phuket-map .SUR:after {
-  left: 70%; }
-
-.phuket-map .KAM {
-  left: -75%;
-  top: 4px; }
-
-.phuket-map .KAM:after {
-  left: 75%; }
-
-.phuket-map .BAN {
-  left: -80%;
-  top: -1px; }
-
-.phuket-map .BAN:after {
-  left: 80%; }
-
-.phuket-map .TAL {
-  left: -10%;
-  top: 3px; }
-
-.phuket-map .TAL:after {
-  left: 15%; }
-
-.phuket-map .NAT {
-  left: -70%;
-  top: -3px; }
-
-.phuket-map .NAT:after {
-  left: 70%; }
-
-.phuket-map .LAY {
-  left: -80%;
-  top: 1px; }
-
-.phuket-map .LAY:after {
-  left: 80%; }
-
-.phuket-map .NYG {
-  left: -80%;
-  top: -2px; }
-
-.phuket-map .NYG:after {
-  left: 80%; }
-
-.phuket-map .EAS:after {
-  display: none; }
-
-.phuket-map .PHA {
-  top: 20px; }
-
-.phuket-map .PHA:after {
-  display: none; }
-
-.phuket-map .COC {
-  top: -3px; }
-
-.phuket-map .YAM {
-  top: -8px; }
-
-.phuket-map .house .houseLocation {
-  width: 100px;
-  height: 230px; }
-
-.phuket-map .locationGuide .mapLabel.CHE {
-  left: -40%;
-  top: -15px; }
-
-.phuket-map .locationGuide .mapLabel.CHE:after {
-  left: 30%; }
-
-.phuket-map .locationGuide .mapLabel.CHA {
-  left: -40%; }
-
-.phuket-map .locationGuide .mapLabel.NAI {
-  left: -80%; }
-
-.phuket-map .locationGuide .mapLabel.NAI:after {
-  left: 80%; }
-
-.phuket-map .locationGuide .mapLabel.RAW {
-  left: 0%; }
-
-.phuket-map .locationGuide .mapLabel.RAW:after {
-  left: 20%; }
-
-.phuket-map .locationGuide .mapLabel.EAS:after {
-  display: none; }
-
-/*------------------------------*/
 .ls-absol {
   position: absolute;
   top: 20px;
@@ -556,7 +500,8 @@ input[name="daterange"] {
   border-radius: 4px;
   vertical-align: middle;
   padding: 6px 11px;
-  font-size: 16px; }
+  font-size: 16px;
+  font-family: "OpenSans-Regular"; }
 
 /*slide arrows*/
 .tparrows {
@@ -612,14 +557,15 @@ input[name="daterange"] {
 /*margins*/
 .az-margin-right15 {
   margin-right: 15px; }
-  .az-margin-right15 a {
-    margin-right: 15px !important; }
 
 .az-margin-bottom10 {
   margin-bottom: 10px; }
 
 .az-sm-margin10 {
   margin-bottom: 10px; }
+
+.az-margin-right0 {
+  margin-right: 0px; }
 
 .az-dispay-lg {
   display: none !important; }
@@ -652,7 +598,7 @@ input[name="daterange"] {
     left: 0px !important;
     background: transparent !important;
     height: 100% !important;
-    width: 20% !important;
+    width: 50px;
     opacity: 1 !important;
     z-index: 5;
     cursor: pointer; }
@@ -660,7 +606,7 @@ input[name="daterange"] {
     position: absolute;
     right: 0px !important;
     height: 100% !important;
-    width: 20% !important;
+    width: 50px;
     background: transparent !important;
     opacity: 1 !important;
     z-index: 5;
@@ -729,6 +675,10 @@ input[name="daterange"] {
     transform: translate(0, -50%); }
 
 @media only screen and (min-width: 345px) {
+  .az-carousel .az-prev {
+    width: 75px; }
+  .az-carousel .az-next {
+    width: 75px; }
   .az-carousel .az-inner-prev {
     left: 15px; }
   .az-carousel .az-inner-next {
@@ -745,6 +695,10 @@ input[name="daterange"] {
     width: calc(100% - 130px);
     left: 65px; } }
 @media only screen and (min-width: 500px) {
+  .az-carousel .az-prev {
+    width: 130px; }
+  .az-carousel .az-next {
+    width: 130px; }
   .az-carousel .az-inner-prev {
     padding: 20px 40px; }
   .az-carousel .az-inner-next {
@@ -760,12 +714,16 @@ input[name="daterange"] {
     font-size: 16px; } }
 @media only screen and (min-width: 992px) {
   .ls-form-owl {
-    float: left;
     width: 90%; }
 
   .ls-submit-owl {
-    float: left;
     width: 10%; }
+
+  .ls-form-owl-ru {
+    width: 88%; }
+
+  .ls-submit-owl-ru {
+    width: 12%; }
 
   .ls-lang {
     float: right;
@@ -774,7 +732,10 @@ input[name="daterange"] {
     height: 90px; }
 
   .az-sm-margin10 {
-    margin-bottom: 0px; } }
+    margin-bottom: 0px; }
+
+  .az-md-margin146 {
+    margin-top: 146px; } }
 @media only screen and (min-width: 1075px) {
   .az-dispay-lg {
     display: block !important; }
