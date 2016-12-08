@@ -6,6 +6,23 @@
  * Date: 08/01/16
  * Time: 2:46 PM
  */
+global $ls_en_ru, $ls_cats, $type_to_icon, $area_en_ru;
+$ls_add = get_post_meta( get_the_ID(), 'additional_features', true );
+$ls_property = &$ls_add;
+$ls_beds = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
+$ls_terms = get_the_terms(get_the_id(), $ls_cats['type']);
+$ls_title_temp = 'нет названия';
+$ls_stars = 0;
+$ls_date_check = '';
+foreach ($ls_add as $ls_add_value) {
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["name2"])
+        $ls_title_second = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["stars"])
+        $ls_stars = (int)esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["date_check"])
+        $ls_date_check = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+}
+
 global $post, $property_map, $property_streetView, $prop_address, $prop_agent_email, $property_layout, $property_top_area;
 
 $featured_img = houzez_get_image_url('houzez-imageSize1170_738');
@@ -72,7 +89,7 @@ if( $property_layout == 'v2' ) {
                         <div class="header-left table-cell">
 
                             <?php get_template_part('inc/breadcrumb'); ?>
-                            <div class="table-cell"><h1><?php the_title(); ?></h1></div>
+                            <div class="table-cell"><h1 class="az-title1"><?php the_title(); ?></h1></div>
 
                             <div class="table-cell">
                                 <ul class="actions">
@@ -85,11 +102,34 @@ if( $property_layout == 'v2' ) {
                                             <span id="houzez-print" data-toggle="tooltip" data-original-title="<?php esc_html_e('Print', 'houzez'); ?>" data-propid="<?php echo esc_attr( $post->ID );?>"><i class="fa fa-print"></i></span>
                                         </li>
                                     <?php } ?>
+                                    <?php foreach ($ls_terms as $ls_terms_value): ?>
+                                        <li>
+                                          <span data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $ls_terms_value->name; ?>"><?= $type_to_icon[$ls_terms_value->name] ?></span>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
+                            <address class="property-address">
+                            <?php foreach ($ls_property as $ls_property_value): ?>
+                                <?php if($ls_property_value['fave_additional_feature_title'] == $ls_en_ru['code_id']): ?>
+                                  <span class="az-text1">
+                                    <?=$ls_property_value['fave_additional_feature_value']?>
+                                  </span>
+                                <?php elseif($ls_property_value['fave_additional_feature_title'] == $ls_en_ru['area']): ?>
+                                  <span class="az-text1">
+                                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                                        <?=$ls_property_value['fave_additional_feature_value']?>
+                                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                        <?=$area_en_ru[$ls_property_value['fave_additional_feature_value']]?>
+                                    <?php } ?>
+                                  </span class="az-text1">
+                                <?php endif; ?>
+                              <?php endforeach; ?>
+                            </address>
+
 
                             <?php
-                            if( !empty( $prop_address )) {
+                            if( 0/*!empty( $prop_address )*/) {
                                 echo '<address class="property-address">'.esc_attr( $prop_address ).'</address>';
                             } ?>
                         </div>

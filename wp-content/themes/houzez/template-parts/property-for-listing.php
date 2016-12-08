@@ -5,6 +5,22 @@
  * Date: 16/12/15
  * Time: 6:21 PM
  */
+global $ls_en_ru ;
+$ls_add = get_post_meta( get_the_ID(), 'additional_features', true );
+$ls_beds = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
+$ls_title_temp = 'нет названия';
+$ls_stars = 0;
+$ls_date_check = '';
+// $ls_price = ''
+foreach ($ls_add as $ls_add_value) {
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["name2"])
+        $ls_title_second = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["stars"])
+        $ls_stars = (int)esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["date_check"])
+        $ls_date_check = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+}
+
 global $post, $prop_images, $current_page_template;
 $post_meta_data     = get_post_custom($post->ID);
 $prop_images        = get_post_meta( get_the_ID(), 'fave_property_images', false );
@@ -73,7 +89,18 @@ if( is_page_template( 'template/property-listings-map.php' ) ) { $infobox_trigge
                         ?>
                     </div>
 
-                    <div class="price hide-on-list"><?php echo houzez_listing_price_v1(); ?></div>
+                    <!-- class  hide-on-list -->
+                    <div class="price">
+                    <!-- ajax puller -->
+                    <?php global $price_type; ?>
+                    <?php
+                    if($price_type){
+                        echo houzez_listing_price_v1($price_type);
+                    } else {
+                        echo houzez_listing_price_v1();
+                    } ?>
+                    <!-- ajax puller -->
+                    </div>
                     <a class="hover-effect" href="<?php the_permalink() ?>">
                         <?php
                         if( has_post_thumbnail( $post->ID ) ) {
@@ -87,67 +114,58 @@ if( is_page_template( 'template/property-listings-map.php' ) ) { $infobox_trigge
                 </figure>
             </div>
         </div>
-        <div class="item-body table-cell">
+        <div class="item-body table-cell az-rel">
 
             <div class="body-left table-cell">
                 <div class="info-row">
                     <div class="label-wrap hide-on-grid">
-                        <?php get_template_part('template-parts/listing', 'status' ); ?>
+                        <?php //get_template_part('template-parts/listing', 'status' ); ?>
                     </div>
                     <?php
 
                     echo '<h2 class="property-title"><a href="'.esc_url( get_permalink() ).'">'. esc_attr( get_the_title() ). '</a></h2>';
 
-                    if( !empty( $prop_address )) {
-                        echo '<address class="property-address">'.esc_attr( $prop_address ).'</address>';
+                    if( !empty( $ls_beds /*$prop_address*/ )) {
+                        if ( qtrans_getLanguage() == 'en' ) {
+                            echo '<address class="property-address az-text1">Beds: '.esc_attr( $ls_beds ).'</address>';
+                        } elseif ( qtrans_getLanguage() == 'ru' ) {
+                            echo '<address class="property-address az-text1">Количество спален: '.esc_attr( $ls_beds ).'</address>';                           
+                        }
                     }
                     ?>
                 </div>
                 <div class="info-row amenities hide-on-grid">
-                    <?php echo houzez_listing_meta_v1(); ?>
-                    <p><?php echo houzez_taxonomy_simple('property_type'); ?></p>
+                    <?php
+                        for($i=0; $i<$ls_stars; $i++){
+                            echo '<img src="'.get_template_directory_uri().'/images/az-star-yellow2.png" alt="">';
+                        }
+                    ?>
+                    <?php //echo houzez_listing_meta_v1(); ?>
+                    <p><?php //echo houzez_taxonomy_simple('property_type'); ?></p>
                 </div>
-                <div class="info-row date hide-on-grid">
-                    <?php if( !empty( $listing_agent ) ) { ?>
-                        <p class="prop-user-agent"><i class="fa fa-user"></i> <?php echo implode( ', ', $listing_agent ); ?></p>
-                    <?php } ?>
-                    <p><i class="fa fa-calendar"></i><?php printf( __( '%s ago', 'houzez' ), human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) ); ?></p>
+                <div class="info-row amenities hide-on-grid">
+                    <?php if($ls_date_check): ?>
+                        <div class="az-stamp"><?=$ls_date_check?></div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="body-right table-cell hidden-gird-cell">
-
-                <div class="info-row price"><?php echo houzez_listing_price_v1(); ?></div>
-
+                <div class="info-row price"><?php //echo houzez_listing_price_v1(); ?></div>
                 <div class="info-row phone text-right">
                     <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"><?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
                 </div>
             </div>
 
             <div class="table-list full-width hide-on-list">
-                <div class="cell">
-                    <div class="info-row amenities">
-                        <?php echo houzez_listing_meta_v1(); ?>
-                        <p><?php echo houzez_taxonomy_simple('property_type'); ?></p>
-
-                    </div>
-                </div>
-                <div class="cell">
-                    <div class="phone">
-                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"> <?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
-                    </div>
-                </div>
+                <?php
+                    for($i=0; $i<$ls_stars; $i++){
+                        echo '<img src="'.get_template_directory_uri().'/images/az-star-yellow2.png" alt="">';
+                    }
+                ?>
+                <?php if($ls_date_check): ?>
+                    <div class="az-stamp az-stamp_style"><?=$ls_date_check?></div>
+                <?php endif; ?>
             </div>
-        </div>
-    </div>
-
-    <div class="item-foot date hide-on-list">
-        <div class="item-foot-left">
-            <?php if( !empty( $listing_agent ) ) { ?>
-                <p class="prop-user-agent"><i class="fa fa-user"></i> <?php echo implode( ', ', $listing_agent ); ?></p>
-            <?php } ?>
-        </div>
-        <div class="item-foot-right">
-            <p class="prop-date"><i class="fa fa-calendar"></i><?php printf( __( '%s ago', 'houzez' ), human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) ); ?></p>
         </div>
     </div>
 </div>

@@ -22,7 +22,7 @@ $prop_description = get_the_content();
     <ul class="detail-tabs">
         <?php
         $i = 0;
-        if ($layout): foreach ($layout as $key => $value) {
+        if (0/*$layout*/): foreach ($layout as $key => $value) {
 
             if( $i == 1 ) { $li_start = '<li class="active">'; } else { $li_start = '<li>'; }
 
@@ -100,7 +100,7 @@ $prop_description = get_the_content();
 
             if( $j == 1 ) { $tab_start = '<div class="tab-pane fade in active">'; } else { $tab_start = '<div class="tab-pane fade">'; }
 
-            switch($key) {
+            switch('address'/*$key*/) {
 
                 case 'description':
                     if( !empty($prop_description) ) {
