@@ -12,7 +12,7 @@ if( $enable_multi_units != 'disable' && !empty( $enable_multi_units ) ) {
 
     if (!empty($multi_units)) {
         ?>
-        <div id="sub_property" class="detail-multi-properties detail-block">
+        <div id="sub_property" class="detail-multi-properties detail-block target-block">
             <div class="table-wrapper">
                 <table class="table  table-striped table-multi-properties">
                     <thead>

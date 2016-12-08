@@ -20,4 +20,4 @@ if( $key != false || $key != '' ) {
     $fav_class = 'fa fa-heart-o';
 }
 ?>
-<span class="add_fav" data-propid="<?php echo intval( $post->ID ); ?>"><i class="<?php echo esc_attr( $fav_class ); ?>"></i></span>
+<span class="add_fav" data-toggle="tooltip" data-original-title="<?php esc_html_e('Favorite', 'houzez'); ?>" data-propid="<?php echo intval( $post->ID ); ?>"><i class="<?php echo esc_attr( $fav_class ); ?>"></i></span>

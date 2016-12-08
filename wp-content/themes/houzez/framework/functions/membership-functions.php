@@ -7,6 +7,93 @@
  * Time: 5:38 PM
  */
 
+/*-----------------------------------------------------------------------------------*/
+// Houzez Register user with membership
+/*-----------------------------------------------------------------------------------*/
+add_action( 'wp_ajax_nopriv_houzez_register_user_with_membership', 'houzez_register_user_with_membership' );
+add_action( 'wp_ajax_houzez_register_user_with_membership', 'houzez_register_user_with_membership' );
+
+if( !function_exists('houzez_register_user_with_membership') ) {
+    function houzez_register_user_with_membership() {
+
+        check_ajax_referer('houzez_register_nonce2', 'houzez_register_security2');
+
+        $allowed_html = array();
+
+        $username          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
+        $email             = trim( sanitize_text_field( wp_kses( $_POST['useremail'], $allowed_html ) ));
+        $first_name        = trim( sanitize_text_field( wp_kses( $_POST['first_name'], $allowed_html ) ));
+        $last_name         = trim( sanitize_text_field( wp_kses( $_POST['last_name'], $allowed_html ) ));
+
+        if( empty( $username ) ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__(' The username field is empty.', 'houzez') ) );
+            wp_die();
+        }
+        if (preg_match("/^[0-9A-Za-z_]+$/", $username) == 0) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username (do not use special characters or spaces)!', 'houzez') ) );
+            wp_die();
+        }
+        if( empty( $email ) ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            wp_die();
+        }
+        if( username_exists( $username ) ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
+            wp_die();
+        }
+        if( email_exists( $email ) ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+            wp_die();
+        }
+
+        if( !is_email( $email ) ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            wp_die();
+        }
+
+        $user_pass         = trim( sanitize_text_field(wp_kses( $_POST['register_pass'] ,$allowed_html) ) );
+        $user_pass_retype  = trim( sanitize_text_field(wp_kses( $_POST['register_pass_retype'] ,$allowed_html) ) );
+
+        if ($user_pass == '' || $user_pass_retype == '' ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+            wp_die();
+        }
+
+        if ($user_pass !== $user_pass_retype ){
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+            wp_die();
+        }
+
+        $user_id = wp_create_user( $username, $user_pass, $email );
+
+
+        $user = get_user_by( 'id', $user_id );
+
+        if( $user_id ) {
+            update_user_meta( $user_id, 'first_name', $first_name );
+            update_user_meta( $user_id, 'last_name', $last_name );
+            houzez_update_profile( $user_id );
+            houzez_wp_new_user_notification( $user_id, $user_pass );
+            $user_as_agent = houzez_option('user_as_agent');
+            if( $user_as_agent == 'yes' ) {
+                houzez_register_as_agent ( $username, $email, $user_id );
+            }
+
+            if( !is_wp_error($user) ) {
+                wp_clear_auth_cookie();
+                wp_set_current_user($user->ID);
+                wp_set_auth_cookie($user->ID);
+                do_action( 'wp_login', $user->user_login );
+
+                echo json_encode( array( 'success' => true, 'msg' => $user_id ) );
+                wp_die();
+            }
+        }
+        wp_die();
+
+    }
+}
+
 /* -----------------------------------------------------------------------------------------------------------
  *  Set Listings as expire for per listing - keep
  -------------------------------------------------------------------------------------------------------------*/
@@ -459,12 +546,34 @@ if( ! function_exists( 'houzez_update_membership_package' ) ) {
         $pack_featured_listings   =   get_post_meta( $package_id, 'fave_package_featured_listings', true );
         $pack_unlimited_listings  =   get_post_meta( $package_id, 'fave_unlimited_listings', true );
 
-        if ( $pack_unlimited_listings == 1 ) {
-            $pack_listings = -1 ;
+        $user_current_posted_listings           =   houzez_get_user_num_posted_listings ( $user_id ); // get user current number of posted listings ( no expired )
+        $user_current_posted_featured_listings  =   houzez_get_user_num_posted_featured_listings( $user_id ); // get user number of posted featured listings ( no expired )
+
+
+        if( houzez_check_user_existing_package_status( $user_id, $package_id ) ) {
+            $new_pack_listings           =  $pack_listings - $user_current_posted_listings;
+            $new_pack_featured_listings  =  $pack_featured_listings -  $user_current_posted_featured_listings;
+        } else {
+            $new_pack_listings           =  $pack_listings;
+            $new_pack_featured_listings  =  $pack_featured_listings;
         }
 
-        update_user_meta( $user_id, 'package_listings', $pack_listings) ;
-        update_user_meta( $user_id, 'package_featured_listings', $pack_featured_listings);
+        if( $new_pack_listings < 0 ) {
+            $new_pack_listings = 0;
+        }
+
+        if( $new_pack_featured_listings < 0 ) {
+            $new_pack_featured_listings = 0;
+        }
+
+        if ( $pack_unlimited_listings == 1 ) {
+            $new_pack_listings = -1 ;
+        }
+
+
+
+        update_user_meta( $user_id, 'package_listings', $new_pack_listings) ;
+        update_user_meta( $user_id, 'package_featured_listings', $new_pack_featured_listings);
 
 
         // Use for user who submit property without having account and membership
@@ -499,12 +608,57 @@ if( !function_exists('houzez_user_has_membership') ) {
     function houzez_user_has_membership( $user_id ) {
         $has_package = get_the_author_meta( 'package_id', $user_id );
         $has_listing = get_the_author_meta( 'package_listings', $user_id );
-        if( !empty( $has_package ) && $has_listing != 0 ) {
+        if( !empty( $has_package ) && ( $has_listing != 0 || $has_listing != '' ) ) {
             return true;
         }
         return false;
     }
 }
+
+if( !function_exists('houzez_downgrade_package') ):
+    function houzez_downgrade_package( $user_id, $pack_id ) {
+
+        $pack_listings           =  get_post_meta( $pack_id, 'pack_listings', true );
+        $pack_featured_listings  =  get_post_meta( $pack_id, 'pack_featured_listings', true );
+
+        update_user_meta( $user_id, 'package_listings', $pack_listings );
+        update_user_meta( $user_id, 'package_featured_listings', $pack_featured_listings );
+
+        $args = array(
+            'post_type'   => 'property',
+            'author'      => $user_id,
+            'post_status' => 'any'
+        );
+
+        $query = new WP_Query( $args );
+        global $post;
+        while( $query->have_posts()){
+            $query->the_post();
+
+            $property = array(
+                'ID'          => $post->ID,
+                'post_type'   => 'property',
+                'post_status' => 'expired'
+            );
+
+            wp_update_post( $property );
+            update_post_meta( $post->ID, 'fave_featured', 0 );
+        }
+        wp_reset_postdata();
+
+        $user = get_user_by( 'id', $user_id );
+        $user_email = $user->user_email;
+
+        $headers = 'From: No Reply <noreply@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
+        $message  = esc_html__('Account Downgraded,','houzez') . "\r\n\r\n";
+        $message .= sprintf( esc_html__("Hello, You downgraded your subscription on  %s. Because your listings number was greater than what the actual package offers, we set the status of all your listings to \"expired\". You will need to choose which listings you want live and send them again for approval. Thank you!",'houzez'), get_option('blogname')) . "\r\n\r\n";
+
+        wp_mail($user_email,
+            sprintf(esc_html__('[%s] Account Downgraded','houzez'), get_option('blogname')),
+            $message,
+            $headers);
+    }
+endif;
 
 /* -----------------------------------------------------------------------------------------------------------
  *  Save user package record in custom Post type
@@ -577,7 +731,7 @@ if( !function_exists('houzez_resend_for_approval') ) {
             $prop = array(
                 'ID' => $prop_id,
                 'post_type' => 'property',
-                'post_status' => 'pending'
+                'post_status' => 'publish'
             );
             wp_update_post($prop);
             update_post_meta($prop_id, 'fave_featured', 0);
@@ -585,7 +739,7 @@ if( !function_exists('houzez_resend_for_approval') ) {
             if ($available_listings != -1) { // if !unlimited
                 update_user_meta($userID, 'package_listings', $available_listings - 1);
             }
-            echo json_encode(array('success' => true, 'msg' => esc_html__('Sent for approval', 'houzez')));
+            echo json_encode(array('success' => true, 'msg' => esc_html__('Reactivated', 'houzez')));
 
             $submit_title = get_the_title($prop_id);
 
@@ -593,7 +747,7 @@ if( !function_exists('houzez_resend_for_approval') ) {
                 'submission_title' => $submit_title,
                 'submission_url' => get_permalink($prop_id)
             );
-            houzez_email_type(get_option('admin_email'), 'admin_expired_listings', $args);
+            //houzez_email_type(get_option('admin_email'), 'admin_expired_listings', $args);
 
 
         } else {
@@ -702,7 +856,7 @@ if( !function_exists('houzez_direct_pay_per_listing') ) {
         $price_featured_submission = floatval( $price_featured_listing_submission );
         $currency                  = esc_html( houzez_option('currency_symbol') );
         $where_currency            = esc_html( houzez_option('currency_position') );
-        $wire_payment_instruction  = houzez_option('wire_payment_instruction');
+        $wire_payment_instruction  = houzez_option('direct_payment_instruction');
         $paymentMethod = 'Direct Bank Transfer';
 
         $total_price = 0;
@@ -837,7 +991,7 @@ if( !function_exists('houzez_wire_transfer_per_listing') ) {
         $price_featured_submission  = floatval( $price_featured_listing_submission );
         $currency                   = esc_html( houzez_option('currency_symbol') );
         $where_currency             = esc_html( houzez_option('currency_position') );
-        $wire_payment_instruction   = houzez_option('wire_payment_instruction');
+        $wire_payment_instruction   = houzez_option('direct_payment_instruction');
         $paymentMethod = 'Direct Bank Transfer';
 
         $total_price = 0;
@@ -909,8 +1063,9 @@ add_action( 'wp_ajax_houzez_direct_pay_package', 'houzez_direct_pay_package' );
 
 if( !function_exists('houzez_direct_pay_package') ) {
 
-    function houzez_direct_pay_package()
-    {
+    function houzez_direct_pay_package() {
+        global $current_user;
+
         $current_user = wp_get_current_user();
 
         if (!is_user_logged_in()) {
@@ -923,7 +1078,7 @@ if( !function_exists('houzez_direct_pay_package') ) {
         $total_price = get_post_meta($selected_pack, 'fave_package_price', true);
         $currency = esc_html(houzez_option('currency_symbol'));
         $where_currency = esc_html(houzez_option('currency_position'));
-        $wire_payment_instruction = houzez_option('wire_payment_instruction');
+        $wire_payment_instruction = houzez_option('direct_payment_instruction');
         $is_featured = 0;
         $is_upgrade = 0;
         $paypal_tax_id = '';
@@ -976,6 +1131,80 @@ if( !function_exists('houzez_direct_pay_package') ) {
         wp_die();
     }
 }
+
+
+/* -----------------------------------------------------------------------------------------------------------
+*  Free Membership package
+-------------------------------------------------------------------------------------------------------------*/
+add_action( 'wp_ajax_nopriv_houzez_free_membership_package', 'houzez_free_membership_package' );
+add_action( 'wp_ajax_houzez_free_membership_package', 'houzez_free_membership_package' );
+
+if( !function_exists('houzez_free_membership_package') ) {
+
+    function houzez_free_membership_package() {
+
+        global $current_user;
+        $current_user = wp_get_current_user();
+
+        if (!is_user_logged_in()) {
+            exit('Are you kidding?');
+        }
+
+        $userID = $current_user->ID;
+        $user_email = $current_user->user_email;
+        $selected_pack = intval($_POST['selected_package']);
+        $total_price = get_post_meta($selected_pack, 'fave_package_price', true);
+        $currency = esc_html(houzez_option('currency_symbol'));
+        $where_currency = esc_html(houzez_option('currency_position'));
+        $wire_payment_instruction = houzez_option('direct_payment_instruction');
+        $is_featured = 0;
+        $is_upgrade = 0;
+        $paypal_tax_id = '';
+        $paymentMethod = '';
+        $time = time();
+        $date = date('Y-m-d H:i:s', $time);
+
+        if ($total_price != 0) {
+            if ($where_currency == 'before') {
+                $total_price = $currency . ' ' . $total_price;
+            } else {
+                $total_price = $total_price . ' ' . $currency;
+            }
+        }
+
+        // insert invoice
+        $invoiceID = houzez_generate_invoice('package', 'one_time', $selected_pack, $date, $userID, $is_featured, $is_upgrade, $paypal_tax_id, $paymentMethod);
+
+        houzez_save_user_packages_record($userID);
+        houzez_update_membership_package($userID, $selected_pack);
+        update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
+        update_user_meta( $userID, 'user_had_free_package', 'yes' );
+
+
+        $admin_email      =  get_bloginfo('admin_email');
+
+        $args = array(
+            'invoice_no'      =>  $invoiceID,
+            'total_price'     =>  $total_price,
+        );
+
+        /*
+         * Send email
+         * */
+        //houzez_email_type( $user_email, 'new_wire_transfer', $args);
+        //houzez_email_type( $admin_email, 'admin_new_wire_transfer', $args);
+
+        $thankyou_page_link = houzez_get_template_link('template/template-thankyou.php');
+
+        if (!empty($thankyou_page_link)) {
+            $separator = (parse_url($thankyou_page_link, PHP_URL_QUERY) == NULL) ? '?' : '&';
+            $parameter = 'free_package='.$invoiceID;
+            print $thankyou_page_link . $separator . $parameter;
+        }
+        wp_die();
+    }
+}
+
 
 /* -----------------------------------------------------------------------------------------------------------
 *  Recurring paypal payment
@@ -1074,10 +1303,26 @@ if( !function_exists('houzez_activate_pack_purchase') ) {
         $invoiceID = intval($_POST['invoice_id']);
         $userID = get_post_meta($invoiceID, 'HOUZEZ_invoice_buyer', true);
 
+        $ownerID        =   get_post_meta($invoiceID, 'invoice_buyer_id', true);
+
+        $user           =   get_user_by('id', $ownerID );
+        $user_email     =   $user->user_email;
+
+
         houzez_save_user_packages_record($userID);
-        houzez_update_membership_package($userID, $packID);
+        if( houzez_check_user_existing_package_status( $userID, $packID) ){
+            houzez_downgrade_package( $userID, $packID );
+            houzez_update_membership_package($userID, $packID);
+        }else{
+            houzez_update_membership_package($userID, $packID);
+        }
 
         update_post_meta($invoiceID, 'invoice_payment_status', 1);
+
+        $args = array();
+
+        houzez_email_type( $user_email,'purchase_activated_pack', $args );
+        wp_die();
     }
 }
 
@@ -1102,12 +1347,28 @@ if( !function_exists('houzez_get_user_package_id') ) {
 if( !function_exists('houzez_update_package_listings') ) {
     function houzez_update_package_listings($user_id) {
         $package_listings = get_the_author_meta( 'package_listings' , $user_id );
+        $user_submit_has_no_membership = get_the_author_meta( 'user_submit_has_no_membership', $user_id );
 
         if ( $package_listings-1 >= 0 ) {
-            update_user_meta( $user_id, 'package_listings', $package_listings - 1 );
+            if( empty($user_submit_has_no_membership) ) {
+                update_user_meta($user_id, 'package_listings', $package_listings - 1);
+            } else {
+                update_user_meta($user_id, 'package_listings', $package_listings );
+            }
         } else if( $package_listings == 0 ) {
             update_user_meta( $user_id, 'package_listings', 0 ) ;
         }
+    }
+}
+
+if( !function_exists('houzez_user_had_free_package') ) {
+    function houzez_user_had_free_package($user_id) {
+        $free_package = get_the_author_meta( 'user_had_free_package' , $user_id );
+
+        if ( $free_package == 'yes' ) {
+            return false;
+        }
+        return true;
     }
 }
 
@@ -1132,6 +1393,77 @@ if( !function_exists('houzez_update_package_featured_listings') ) {
         }
     }
 }
+
+
+if( !function_exists('houzez_check_user_existing_package_status') ) {
+    function  houzez_check_user_existing_package_status( $userID, $packID ) {
+
+        $pack_listings            =  get_post_meta( $packID, 'fave_package_listings', true );
+        $pack_featured_listings   =  get_post_meta( $packID, 'fave_package_featured_listings', true );
+        $pack_unlimited_listings  =  get_post_meta( $packID, 'fave_unlimited_listings', true );
+
+        $user_num_posted_listings = houzez_get_user_num_posted_listings( $userID );
+        $user_num_posted_featured_listings = houzez_get_user_num_posted_featured_listings( $userID );
+
+        $current_listings =  get_user_meta( $userID, 'package_listings', true ) ;
+
+        if( $pack_unlimited_listings == 1 || $current_listings == 0 ) {
+            return false;
+        }
+
+        // if is unlimited and go to non unlimited pack
+        if ( $current_listings == -1 && $pack_unlimited_listings != 1 ) {
+            return true;
+        }
+
+        if ( ( $user_num_posted_listings > $pack_listings ) || ( $user_num_posted_featured_listings > $pack_featured_listings ) ) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+}
+
+if( !function_exists('houzez_get_user_num_posted_listings') ):
+    function houzez_get_user_num_posted_listings( $userID ) {
+        $args = array(
+            'post_type'   => 'property',
+            'post_status' => 'any',
+            'author'      => $userID,
+
+        );
+        $posts = new WP_Query( $args );
+        return $posts->found_posts;
+        wp_reset_postdata();
+    }
+endif;
+
+/* -----------------------------------------------------------------------------------------------------------
+ *  Get user current featured listings
+ -------------------------------------------------------------------------------------------------------------*/
+if( !function_exists('houzez_get_user_num_posted_featured_listings') ):
+    function houzez_get_user_num_posted_featured_listings( $userID ) {
+
+        $args = array(
+            'post_type'     =>  'property',
+            'post_status'   =>  'any',
+            'author'        =>  $userID,
+            'meta_query'    =>  array(
+                array(
+                    'key'   => 'fave_featured',
+                    'value' => 1,
+                    'meta_compare '=>'='
+                )
+            )
+        );
+        $posts = new WP_Query( $args );
+        return $posts->found_posts;
+        wp_reset_postdata();
+
+    }
+endif;
 
 if( !function_exists('houzez_retrive_user_by_profile') ) {
     function houzez_retrive_user_by_profile($recurring_payment_id)

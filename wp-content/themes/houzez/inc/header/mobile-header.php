@@ -1,5 +1,6 @@
 <?php
 $mobile_menu_sticky = houzez_option('mobile-menu-sticky');
+$create_lisiting_enable = houzez_option('create_lisiting_enable');
 $header_onepage = '';
 if ( is_page_template( 'template/template-onepage.php' ) ) {
 	$header_onepage = 'header-single-page';
@@ -21,9 +22,9 @@ if ( is_page_template( 'template/template-onepage.php' ) ) {
         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
     </div>
 		<?php if( class_exists('Houzez_login_register') ): ?>
-			<?php if( houzez_option('header_login') != 'no' ): ?>
+			<?php if( houzez_option('header_login') != 'no' || $create_lisiting_enable != 0 ): ?>
 				<div class="header-user">
-					<?php get_template_part('inc/header/login', 'nav'); ?>
+					<?php get_template_part('inc/header/login-nav', 'mobile'); ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>

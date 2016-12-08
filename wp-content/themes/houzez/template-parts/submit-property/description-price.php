@@ -5,16 +5,12 @@
  * Date: 18/01/16
  * Time: 5:31 PM
  */
-global $hide_add_prop_fields, $required_fields;
-$rq_sale_rent_price = $rq_price_label = '';
-
-if( $required_fields['sale_rent_price'] != 0 ) { $rq_sale_rent_price = 'required'; }
-if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
+global $houzez_local, $hide_add_prop_fields, $required_fields;
 ?>
 
 <div class="account-block">
     <div class="add-title-tab">
-        <h3><?php esc_html_e( 'Property description and price', 'houzez'); ?></h3>
+        <h3><?php echo $houzez_local['prop_des_price']; ?></h3>
         <div class="add-expand"></div>
     </div>
     <div class="add-tab-content">
@@ -22,13 +18,13 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="prop_title"><?php esc_html_e('Title*', 'houzez'); ?> </label>
-                        <input type="text" id="prop_title" class="form-control" name="prop_title" placeholder="<?php esc_html_e( 'Enter your property title', 'houzez' ); ?>"/>
+                        <label for="prop_title"><?php echo $houzez_local['prop_title'].houzez_required_field( $required_fields['title'] ); ?> </label>
+                        <input type="text" id="prop_title" class="form-control" name="prop_title" placeholder="<?php echo $houzez_local['prop_title_placeholder']; ?>"/>
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label><?php esc_html_e('Description', 'houzez'); ?></label>
+                        <label><?php echo $houzez_local['prop_des']; ?></label>
                         <!-- <textarea id="prop_des" class="form-control" tabindex="3" name="prop_des" rows="6"></textarea> -->
                         <?php 
                         // default settings - Kv_front_editor.php
@@ -38,7 +34,7 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                             'wpautop' => true, // use wpautop?
                             'media_buttons' => true, // show insert/upload button(s)
                             'textarea_name' => $editor_id, // set the textarea name to something different, square brackets [] can be used here
-                            'textarea_rows' => get_option('default_post_edit_rows', 5), // rows="..."
+                            'textarea_rows' => get_option('default_post_edit_rows', 18 ), // rows="..."
                             'tabindex' => '',
                             'editor_css' => '', //  extra styles for both visual and HTML editors buttons, 
                             'editor_class' => '', // add extra class(es) to the editor textarea
@@ -47,7 +43,7 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                             'tinymce' => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
                             'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
                         );
-                        wp_editor( $content, $editor_id, $settings = array() ); ?>
+                        wp_editor( $content, $editor_id, $settings ); ?>
                     </div>
                 </div>
             </div>
@@ -58,9 +54,9 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <div class="col-sm-4">
                     <div class="form-group">
 
-                        <label for="prop_type"><?php esc_html_e('Type', 'houzez'); ?></label>
+                        <label for="prop_type"><?php echo $houzez_local['prop_type'].houzez_required_field( $required_fields['prop_type'] ); ?></label>
                         <select name="prop_type" id="prop_type" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                            <option selected="selected" value="-1"><?php esc_html_e('None', 'houzez'); ?></option>
+                            <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
                             <?php
                             /* Property Type */
                             $property_types_terms = get_terms (
@@ -87,9 +83,9 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <?php if( $hide_add_prop_fields['prop_status'] != 1 ) { ?>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="prop_status"><?php esc_html_e( 'Status', 'houzez'); ?></label>
+                        <label for="prop_status"><?php echo $houzez_local['prop_status'].houzez_required_field( $required_fields['prop_status'] ); ?></label>
                         <select name="prop_status" id="prop_status" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                            <option selected="selected" value="-1"><?php esc_html_e('None', 'houzez'); ?></option>
+                            <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
                             <?php
                             /* Property Status */
                             $property_status = get_terms (
@@ -115,9 +111,9 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <?php if( $hide_add_prop_fields['prop_label'] != 1 ) { ?>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="prop_labels"><?php esc_html_e( 'Label', 'houzez'); ?></label>
+                            <label for="prop_labels"><?php echo $houzez_local['prop_label'].houzez_required_field( $required_fields['prop_labels'] ); ?></label>
                             <select name="prop_labels" id="prop_labels" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                                <option selected="selected" value="-1"><?php esc_html_e('None', 'houzez'); ?></option>
+                                <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
                                 <?php
                                 /* Property Label */
                                 $property_label = get_terms (
@@ -148,9 +144,9 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <?php if( $hide_add_prop_fields['sale_rent_price'] != 1 ) { ?>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="prop_price"> <?php esc_html_e('Sale or Rent Price ', 'houzez');
+                        <label for="prop_price"> <?php echo $houzez_local['prop_sale_rent_price'].houzez_required_field( $required_fields['sale_rent_price'] );
                             print esc_html(get_option('houzez_currency_symbol', '')) . ' ';?>  </label>
-                        <input type="text" <?php echo esc_attr($rq_sale_rent_price); ?> id="prop_price" class="form-control" name="prop_price" value="" placeholder="<?php esc_html_e( 'Enter Sale or Rent Price', 'houzez' ); ?>">
+                        <input type="text" id="prop_price" class="form-control" name="prop_price" value="" placeholder="<?php echo $houzez_local['prop_sale_rent_price_placeholder']; ?>">
                     </div>
                 </div>
                 <?php } ?>
@@ -158,8 +154,8 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <?php if( $hide_add_prop_fields['second_price'] != 1 ) { ?>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="prop_sec_price"><?php esc_html_e('Second Price (Optional)', 'houzez'); ?></label>
-                        <input type="text" id="prop_sec_price" class="form-control" name="prop_sec_price" placeholder="<?php esc_html_e( 'Enter your property second price', 'houzez' ); ?>">
+                        <label for="prop_sec_price"><?php echo $houzez_local['prop_second_price']; ?></label>
+                        <input type="text" id="prop_sec_price" class="form-control" name="prop_sec_price" placeholder="<?php echo $houzez_local['prop_second_price_placeholder']; ?>">
                     </div>
                 </div>
                 <?php } ?>
@@ -167,10 +163,19 @@ if( $required_fields['price_label'] != 0 ) { $rq_price_label = 'required'; }
                 <?php if( $hide_add_prop_fields['price_postfix'] != 1 ) { ?>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="prop_label"><?php esc_html_e('After Price Label (ex: monthly)', 'houzez'); ?></label>
-                        <input type="text" <?php echo esc_attr($rq_price_label); ?> id="prop_label" class="form-control" name="prop_label" placeholder="<?php esc_html_e( 'Enter after price label', 'houzez' ); ?>" >
+                        <label for="prop_label"><?php echo $houzez_local['prop_price_label'].houzez_required_field( $required_fields['price_label'] ); ?></label>
+                        <input type="text" id="prop_label" class="form-control" name="prop_label" placeholder="<?php echo $houzez_local['prop_price_label_placeholder']; ?>" >
                     </div>
                 </div>
+                <?php } ?>
+
+                <?php if( $hide_add_prop_fields['price_prefix'] != 1 ) { ?>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="prop_price_prefix"><?php echo $houzez_local['prop_price_prefix']; ?></label>
+                            <input type="text" id="prop_price_prefix" class="form-control" name="prop_price_prefix" placeholder="<?php echo $houzez_local['prop_price_prefix_placeholder']; ?>" >
+                        </div>
+                    </div>
                 <?php } ?>
 
             </div>

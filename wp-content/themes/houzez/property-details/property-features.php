@@ -8,7 +8,7 @@
 global $prop_features;
 if( !empty($prop_features) ) {
 ?>
-<div id="features" class="detail-features detail-block">
+<div id="features" class="detail-features detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'Features', 'houzez' ); ?></h2>
     </div>

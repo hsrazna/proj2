@@ -7,6 +7,7 @@
  * Date: 02/08/16
  * Time: 11:51 PM
  */
+global $houzez_local;
 ?>
 
 <?php get_header(); ?>
@@ -58,7 +59,7 @@ if( $the_query->have_posts() ): while( $the_query->have_posts() ): $the_query->t
                     <div class="compare-caption">
                         <h3 class="compare-title">'.get_the_title().'</h3>
                         <p class="compare-price">'.houzez_listing_price().'</p>
-                        <p class="compare-type"><strong>'.esc_html__('Type', 'houzez').':</strong> '.houzez_taxonomy_simple('property_type').'</p>
+                        <p class="compare-type"><strong>'.$houzez_local['type'].':</strong> '.houzez_taxonomy_simple('property_type').'</p>
                     </div>
                 </div>
             </th>';
@@ -152,124 +153,130 @@ endwhile; endif;
 
                     <?php if( !empty($prop_address) ) { ?>
                     <tr>
-                        <td class="table-title"><?php esc_html_e( 'Address', 'houzez' ); ?></td>
+                        <td class="table-title"><?php echo $houzez_local['address']; ?></td>
                         <?php echo $prop_address; ?>
                     </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_city) ) { ?>
                     <tr>
-                        <td class="table-title"><?php esc_html_e( 'City', 'houzez' ); ?></td>
+                        <td class="table-title"><?php echo $houzez_local['city']; ?></td>
                         <?php echo $prop_city; ?>
                     </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_state) ) { ?>
                     <tr>
-                        <td class="table-title"><?php esc_html_e( 'State/County', 'houzez' ); ?></td>
+                        <td class="table-title"><?php echo $houzez_local['state_county']; ?></td>
                         <?php echo $prop_state; ?>
                     </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_zipcode) ) { ?>
                     <tr>
-                        <td class="table-title"><?php esc_html_e( 'Zip/Post Code', 'houzez' ); ?></td>
+                        <td class="table-title"><?php echo $houzez_local['zip_post']; ?></td>
                         <?php echo $prop_zipcode; ?>
                     </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_country) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Country', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['country']; ?></td>
                             <?php echo $prop_country; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_size) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Property Size', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['prop_size']; ?></td>
                             <?php echo $prop_size; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($property_id) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Property ID', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['prop_id']; ?></td>
                             <?php echo $property_id; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_beds) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Bedrooms', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['bedrooms']; ?></td>
                             <?php echo $prop_beds; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_baths) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Bathrooms', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['bathrooms']; ?></td>
                             <?php echo $prop_baths; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_garage) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Garage', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['garage']; ?></td>
                             <?php echo $prop_garage; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_garage_size) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Garage Size', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['garage_size']; ?></td>
                             <?php echo $prop_garage_size; ?>
                         </tr>
                     <?php } ?>
 
                     <?php if( !empty($prop_year) ) { ?>
                         <tr>
-                            <td class="table-title"><?php esc_html_e( 'Year Built', 'houzez' ); ?></td>
+                            <td class="table-title"><?php echo $houzez_local['year_built']; ?></td>
                             <?php echo $prop_year; ?>
                         </tr>
                     <?php } ?>
 
-
-                    <!--Additional Details-->
-                    <!--<tr class="tr-head">
-                        <td class="table-title"><?php /*esc_html_e( 'Additional details', 'houzez' ); */?></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>-->
-
                     <?php
-                    /*foreach( $prop_ids as $pids ) {
-                        $additional_features = get_post_meta( $pids, 'additional_features', true );
+                    $all_featurs = get_terms( array( 'taxonomy' => 'property_feature', 'fields' => 'names' ) );
+                    $compare_terms = array();
 
-                        foreach( $additional_features as $ad_del ) {
-                           echo esc_attr( $ad_del['fave_additional_feature_title'] ).' '.esc_attr( $ad_del['fave_additional_feature_value'] );
-                        }
-                    }*/
+                    // echo '<pre>';
+                       // print_r( $all_featurs );
+                       // echo '</pre>';
+
+                    foreach ( $prop_ids as $post_ID ) :
+
+                    $compare_terms[ $post_ID ] = wp_get_post_terms( $post_ID, 'property_feature', array( 'fields' => 'names' ) );
+
+                    endforeach;
+
+                    foreach ( $all_featurs as $data ) :
+
                     ?>
-
-                    <!--Features-->
-                    <!--<tr class="tr-head">
-                        <td class="table-title"><?php /*esc_html_e( 'Features', 'houzez' ); */?></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
                     <tr>
-                        <td class="table-title">Air Conditioning</td>
-                        <td><div class="feature-mark mark-yes"><i class="fa fa-check"></i></div></td>
-                        <td><div class="feature-mark mark-no"><i class="fa fa-remove"></i></div></td>
-                        <td><div class="feature-mark mark-yes"><i class="fa fa-check"></i></div></td>
-                        <td><div class="feature-mark mark-no"><i class="fa fa-remove"></i></div></td>
-                    </tr>-->
+                        <td class="table-title"><?php echo $data; ?></td>
+                        <?php
+
+                        foreach ( $prop_ids as $post_ID ) :
+
+                            if ( in_array( $data, $compare_terms[ $post_ID ] ) ) :
+
+                                echo '<td><div class="feature-mark mark-yes"><i class="fa fa-check"></i></div></td>';
+
+                            else :
+
+                                echo '<td><div class="feature-mark mark-no"><i class="fa fa-remove"></i></div></td>';
+
+                            endif;
+
+                        endforeach;
+
+                        ?>
+                    </tr>
+                    <?php
+
+                    endforeach;
+
+                    ?>
 
 
                     </tbody>

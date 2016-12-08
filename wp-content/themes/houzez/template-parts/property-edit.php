@@ -20,7 +20,7 @@ if( is_page_template( 'template/submit_property.php' ) ) {
         $prop_meta_data = get_post_custom( $prop_data->ID );
         ?>
 
-        <form id="new_post" name="new_post" method="post" action="" enctype="multipart/form-data" class="update-frontend-property">
+        <form id="submit_property_form" name="new_post" method="post" action="" enctype="multipart/form-data" class="update-frontend-property">
 
             <?php
             $layout = houzez_option('property_form_sections');
@@ -48,6 +48,10 @@ if( is_page_template( 'template/submit_property.php' ) ) {
 
                     case 'location':
                         get_template_part( 'template-parts/edit-property/location' );
+                        break;
+
+                    case 'virtual_tour':
+                        get_template_part('template-parts/edit-property/virtual-tour');
                         break;
 
                     case 'floorplans':

@@ -6,7 +6,7 @@
  * Date: 21/12/15
  * Time: 1:35 PM
  */
-global $post;
+global $houzez_local, $post;
 
 $page_bg = $content_area = '';
 

@@ -32,10 +32,9 @@ if( $top_bar != 0 ) {
                 <div class="col-lg-3 col-md-3 col-sm-3 hidden-sm hidden-xs">
                     <div class="logo logo-desktop">
                         <?php get_template_part('inc/header/logo'); ?>
-                        
                     </div>
                 </div>
-                
+
                 <?php if( $contact_info != false ) { ?>
                 <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 <?php echo sanitize_html_class( $contact_pull_right ); ?>">
                     <?php get_template_part( 'inc/header/contact', 'info' ); ?>
@@ -53,37 +52,33 @@ if( $top_bar != 0 ) {
     </div>
     <div class="header-bottom hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="header-nav">
-                        <nav class="navi main-nav">
-                            <?php
-                            // Pages Menu
-                            if ( has_nav_menu( 'main-menu' ) ) :
-                                wp_nav_menu( array (
-                                    'theme_location' => 'main-menu',
-                                    'container' => '',
-                                    'container_class' => '',
-                                    'menu_class' => '',
-                                    'menu_id' => 'main-nav',
-                                    'depth' => 4
-                                ));
-                            endif;
-                            ?>
-                        </nav>
-                        <!--start mobile nav-->
-                        <?php get_template_part( 'inc/header/mobile', 'menu' ); ?>
-                        <!--end mobile nav-->
-                    </div>
-                    <?php if( class_exists('Houzez_login_register') ): ?>
-                        <?php if( houzez_option('header_login') != 'no' ): ?>
-                            <div class="header-right">
-                                <?php get_template_part('inc/header/login', 'nav'); ?>
-                            </div>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
+            <div class="header-nav">
+                <nav class="navi main-nav">
+                    <?php
+                    // Pages Menu
+                    if ( has_nav_menu( 'main-menu' ) ) :
+                        wp_nav_menu( array (
+                            'theme_location' => 'main-menu',
+                            'container' => '',
+                            'container_class' => '',
+                            'menu_class' => '',
+                            'menu_id' => 'main-nav',
+                            'depth' => 4
+                        ));
+                    endif;
+                    ?>
+                </nav>
+                <!--start mobile nav-->
+                <?php get_template_part( 'inc/header/mobile', 'menu' ); ?>
+                <!--end mobile nav-->
             </div>
+            <?php if( class_exists('Houzez_login_register') ): ?>
+                <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
+                    <div class="header-right">
+                        <?php get_template_part('inc/header/login', 'nav'); ?>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </header>

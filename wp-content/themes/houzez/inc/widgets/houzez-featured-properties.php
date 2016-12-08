@@ -81,7 +81,7 @@ class HOUZEZ_featured_properties extends WP_Widget {
 										<?php if( $prop_featured != 0 ) { ?>
 											<span class="label-featured label label-success"><?php esc_html_e( 'Featured', 'houzez' ); ?></span>
 										<?php } ?>
-										<div class="label-wrap">
+										<div class="label-wrap label-right">
 											<?php get_template_part('template-parts/listing', 'status' ); ?>
 										</div>
 
@@ -98,9 +98,9 @@ class HOUZEZ_featured_properties extends WP_Widget {
 											<div class="cap-price pull-left"><?php echo houzez_listing_price(); ?></div>
 											<ul class="list-unstyled actions pull-right">
 												<li>
-											<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Photos">
-												<i class="fa fa-camera"></i> <span class="blue"><?php echo count($prop_images); ?></span>
-											</span>
+													<span title="" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo count($prop_images); ?> <?php echo esc_html__('Photos', 'houzez'); ?>">
+														<i class="fa fa-camera"></i>
+													</span>
 												</li>
 											</ul>
 										</figcaption>
@@ -114,7 +114,7 @@ class HOUZEZ_featured_properties extends WP_Widget {
 								<?php if( $prop_featured != 0 ) { ?>
 									<span class="label-featured label label-success"><?php esc_html_e( 'Featured', 'houzez' ); ?></span>
 								<?php } ?>
-								<div class="label-wrap">
+								<div class="label-wrap label-right">
 									<?php get_template_part('template-parts/listing', 'status' ); ?>
 								</div>
 
@@ -132,8 +132,8 @@ class HOUZEZ_featured_properties extends WP_Widget {
 
 									<ul class="list-unstyled actions pull-right">
 										<li>
-											<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Photos">
-												<i class="fa fa-camera"></i> <span class="blue"><?php echo count($prop_images); ?></span>
+											<span title="" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo count($prop_images); ?> <?php echo esc_html__('Photos', 'houzez'); ?>">
+												<i class="fa fa-camera"></i>
 											</span>
 										</li>
 									</ul>

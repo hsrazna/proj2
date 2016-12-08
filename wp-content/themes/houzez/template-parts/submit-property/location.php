@@ -5,6 +5,15 @@
  * Date: 18/01/16
  * Time: 5:45 PM
  */
+global $required_fields;
+$location_dropdowns = houzez_option('location_dropdowns');
+$default_country = houzez_option('default_country');
+$geo_country_limit = houzez_option('geo_country_limit');
+
+$geocomplete_country = '';
+if( $geo_country_limit != 0 ) {
+    $geocomplete_country = houzez_option('geocomplete_country');
+}
 ?>
 <div class="account-block">
 
@@ -14,6 +23,38 @@
                 map: ".map_canvas",
                 details: "form",
                 types: ["geocode", "establishment"],
+                country: '<?php echo esc_attr($geocomplete_country);?>',
+                markerOptions: {
+                    draggable: true
+                }
+            });
+
+            $("#geocomplete").bind("geocode:dragged", function(event, latLng){
+                $("input[name=lat]").val(latLng.lat());
+                $("input[name=lng]").val(latLng.lng());
+                $("#reset").show();
+
+                var map = $("#geocomplete").geocomplete("map");
+                map.panTo(latLng);
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'latLng': latLng }, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) { //alert(JSON.stringify(results));
+                        if (results[0]) {
+                            var road = results[0].address_components[1].short_name;
+                            var town = results[0].address_components[2].short_name;
+                            var county = results[0].address_components[3].short_name;
+                            var country = results[0].address_components[4].short_name;
+                            $("input[name=property_map_address]").val(road+' '+town+' '+county+' '+country);
+                        }
+                    }
+                });
+            });
+
+
+            $("#reset").click(function(){
+                $("#geocomplete").geocomplete("resetMarker");
+                $("#reset").hide();
+                return false;
             });
 
             $("#find").click(function(e){
@@ -32,20 +73,62 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="geocomplete"><?php esc_html_e( 'Address', 'houzez' ); ?></label>
+                        <label for="geocomplete"><?php echo esc_html__( 'Address', 'houzez' ).houzez_required_field( $required_fields['property_map_address'] ); ?></label>
                         <input class="form-control" name="property_map_address" id="geocomplete" placeholder="<?php esc_html_e( 'Enter your property address', 'houzez' ); ?>">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="neighborhood"><?php esc_html_e( 'Neighborhood', 'houzez' ); ?></label>
-                        <input class="form-control" name="neighborhood" id="neighborhood" placeholder="<?php esc_html_e( 'Enter your property neighborhood', 'houzez' ); ?>">
+                        <?php if( $location_dropdowns == 'yes' ) { ?>
+                            <select name="neighborhood" id="neighborhood" class="selectpicker" data-live-search="true" data-live-search-style="begins">
+                                <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
+                                <?php
+                                /* Property Area */
+                                $property_area_terms = get_terms (
+                                    array(
+                                        "property_area"
+                                    ),
+                                    array(
+                                        'orderby' => 'name',
+                                        'order' => 'ASC',
+                                        'hide_empty' => false,
+                                        'parent' => 0
+                                    )
+                                );
+                                houzez_taxonomy_hirarchical_options_for_search( 'property_area', $property_area_terms, -1);
+                                ?>
+                            </select>
+                        <?php } else { ?>
+                            <input class="form-control" name="neighborhood" id="neighborhood" placeholder="<?php esc_html_e( 'Enter your property neighborhood', 'houzez' ); ?>">
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="city"><?php esc_html_e( 'City', 'houzez' ); ?></label>
-                        <input class="form-control" name="locality" id="city" placeholder="<?php esc_html_e( 'Enter your property city', 'houzez' ); ?>">
+                        <?php if( $location_dropdowns == 'yes' ) { ?>
+                            <select name="locality" id="locality" class="selectpicker" data-live-search="true" data-live-search-style="begins">
+                                <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
+                                <?php
+                                /* Property City */
+                                $property_cities_terms = get_terms (
+                                    array(
+                                        "property_city"
+                                    ),
+                                    array(
+                                        'orderby' => 'name',
+                                        'order' => 'ASC',
+                                        'hide_empty' => false,
+                                        'parent' => 0
+                                    )
+                                );
+                                houzez_taxonomy_hirarchical_options_for_search( 'property_city', $property_cities_terms, -1);
+                                ?>
+                            </select>
+                        <?php } else { ?>
+                            <input class="form-control" name="locality" id="city" placeholder="<?php esc_html_e( 'Enter your property city', 'houzez' ); ?>">
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -57,14 +140,46 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="countyState"><?php esc_html_e( 'County / State', 'houzez' ); ?></label>
-                        <input class="form-control" name="administrative_area_level_1" id="countyState" placeholder="<?php esc_html_e( 'Enter your property county/state', 'houzez' ); ?>">
+                        <?php if( $location_dropdowns == 'yes' ) { ?>
+                            <select name="administrative_area_level_1" id="administrative_area_level_1" class="selectpicker" data-live-search="true" data-live-search-style="begins">
+                                <option selected="selected" value=""><?php esc_html_e('None', 'houzez'); ?></option>
+                                <?php
+                                /* Property State */
+                                $property_state_terms = get_terms (
+                                    array(
+                                        "property_state"
+                                    ),
+                                    array(
+                                        'orderby' => 'name',
+                                        'order' => 'ASC',
+                                        'hide_empty' => false,
+                                        'parent' => 0
+                                    )
+                                );
+                                houzez_taxonomy_hirarchical_options_for_search( 'property_state', $property_state_terms, -1);
+                                ?>
+                            </select>
+                        <?php } else { ?>
+                            <input class="form-control" name="administrative_area_level_1" id="countyState" placeholder="<?php esc_html_e( 'Enter your property county/state', 'houzez' ); ?>">
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="col-sm-6 submit_country_field">
                     <div class="form-group">
                         <label for="country"><?php esc_html_e( 'Country', 'houzez' ); ?></label>
-                        <input class="form-control" name="country" id="country" placeholder="<?php esc_html_e( 'Enter your property country', 'houzez' ); ?>">
-                        <input name="country_short" type="hidden" value="">
+                        <?php if( $location_dropdowns == 'yes' ) { ?>
+                            <select name="country_short" id="country" class="selectpicker" data-live-search="true" data-live-search-style="begins">
+                                <?php
+                                    $countries_list = houzez_countries_list();
+                                    foreach( $countries_list as $key => $country ):
+                                        echo '<option '.selected( $default_country, $key, false ).' value="'.$key.'">'.$country.'</option>';
+                                    endforeach;
+                                ?>
+                            </select>
+                        <?php } else { ?>
+                            <input class="form-control" name="country" id="country" placeholder="<?php esc_html_e( 'Enter your property country', 'houzez' ); ?>">
+                            <input name="country_short" type="hidden" value="">
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -75,6 +190,7 @@
                     <div class="map_canvas" id="map">
                     </div>
                     <button id="find" class="btn btn-primary btn-block"><?php esc_html_e( 'Place the pin the address above', 'houzez' ); ?></button>
+                    <a id="reset" href="#" style="display:none;"><?php esc_html_e('Reset Marker', 'houzez');?></a>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">

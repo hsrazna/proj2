@@ -13,8 +13,6 @@ class Houzez_Compare_Properties {
     public function __construct() {
 
         // Check if disabled on mobile devices
-        $disable_mobile = 'yes';
-        if( $disable_mobile == 'yes' && wp_is_mobile() ) return;
 
         add_action( 'init', array( &$this, 'houzez_open_session' ), 1 );
         add_action( 'wp_logout', array( &$this, 'houzez_close_session' ) );
@@ -68,10 +66,9 @@ class Houzez_Compare_Properties {
                 setcookie('az_favorites', $_COOKIE['az_favorites'], time()+2592000, '/');
             }
             if(isset($_COOKIE['az_saved_search'])){
-                setcookie('az_favorites', $_COOKIE['az_favorites'], time()+2592000, '/');
+                setcookie('az_saved_search', $_COOKIE['az_saved_search'], time()+2592000, '/');
             }
             /*ajax puller*/
-            // setcookie(session_name(), session_id(), time()+60);
             if( !isset( $_SESSION[ 'houzez_compare_starttime' ] ) ) $_SESSION[ 'houzez_compare_starttime' ] = time();
             if( !isset( $_SESSION[ 'houzez_compare_properties' ] ) ) $_SESSION[ 'houzez_compare_properties' ] = array();
         }
@@ -88,39 +85,42 @@ class Houzez_Compare_Properties {
 
         $max_set = 4;//(int) houzez_option();
         $current = 0;
-        if( isset($_SESSION[ 'houzez_compare_properties' ] ) ) {
+        if (isset($_SESSION['houzez_compare_properties'])) {
             $current = count($_SESSION['houzez_compare_properties']);
         }
-        //print_r($_SESSION[ 'houzez_compare_properties' ]);
-
         ?>
-        <div id="compare-properties-messages"></div>
-		<div id="compare-properties-basket">
-        <?php if( isset( $_SESSION[ 'houzez_compare_properties' ] ) && count( $_SESSION[ 'houzez_compare_properties' ] ) ) : ?>
-            <div class="list-compare-wrap">
 
-                <?php foreach( $_SESSION[ 'houzez_compare_properties' ] as $key ) : ?>
-                    <?php if( $key != 0 ) : ?>
+        <div id="compare-properties-basket">
+        <?php if (isset($_SESSION['houzez_compare_properties']) && count($_SESSION['houzez_compare_properties'])): ?>
+                <div class="compare-panel-body">
+                    <div class="compare-thumb-main row">
 
-                        <figure class="compare-thumb-block compare-property" property-id="<?php echo $key; ?>">
-                            <?php echo get_the_post_thumbnail( (double) $key, 'houzez-widget-prop', array( 'class' => 'compare-property-img' ) ); ?>
-                            <a href="#" class="compare-property-remove"><i class="fa fa-trash"></i> uy</a>
-                        </figure>
+                        <?php foreach( $_SESSION[ 'houzez_compare_properties' ] as $key ) : ?>
+                            <?php if( $key != 0 ) : ?>
 
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                                <figure class="compare-thumb compare-property" property-id="<?php echo $key; ?>"">
+                                    <?php echo get_the_post_thumbnail( (double) $key, 'houzez-widget-prop', array( 'class' => 'compare-property-img' ) ); ?>
+                                    <button class="btn-trash compare-property-remove"><i class="fa fa-trash"></i></button>
+                                </figure>
 
-                <?php if( $current < $max_set ) : ?>
-                    <?php for( $i = $current; $i < $max_set; $i++ ) : ?>
-                        <div class="compare-property-placeholder"></div>
-                    <?php endfor; ?>
-                <?php endif; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
 
-                <button class="btn btn-primary btn-compare compare-properties-button basket"><?php esc_html_e( 'Compare', 'houzez' ); ?></button>
-            </div>
+                        <?php if( $current < $max_set ) : ?>
+                            <?php for( $i = $current; $i < $max_set; $i++ ) : ?>
+                                <figure class="compare-thumb">
+                                    <div class="thumb-inner-empty"></div>
+                                </figure>
+                            <?php endfor; ?>
+                        <?php endif; ?>
+
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block compare-properties-button basket"><?php esc_html_e( 'Compare', 'houzez' ); ?></button>
+                </div>
+                <button class="btn btn-primary panel-btn"><i class="fa fa-angle-left"></i></button>
         <?php endif; ?>
         </div>
-    <?php
+<?php
     }
 
     /**

@@ -21,6 +21,14 @@ if( !empty($properties_images) ) {
     <div class="tab-content">
 
         <div id="gallery" class="tab-pane fade <?php echo esc_attr( $gallery_view );?>">
+            <span class="label-wrap visible-sm visible-xs">
+                <?php if( houzez_taxonomy_simple('property_status') ) { ?>
+                    <span class="label label-primary label-status-<?php echo intval(houzez_get_taxonomy_id('property_status')); ?>"><?php echo houzez_taxonomy_simple('property_status'); ?></span>
+                <?php } ?>
+                <?php if( houzez_taxonomy_simple('property_label') ) { ?>
+                    <span class="label label-primary label-color-<?php echo intval(houzez_get_taxonomy_id('property_label')); ?>"><?php echo houzez_taxonomy_simple('property_label'); ?></span>
+                <?php } ?>
+            </span>
             <div class="detail-slideshow">
                 <div class="slideshow-main">
                     <div class="detail-slider">
@@ -67,25 +75,6 @@ if( !empty($properties_images) ) {
             <div id="street-map" class="tab-pane fade <?php echo esc_attr( $street_view );?>"></div>
         <?php } ?>
 
-    </div>
-
-    <div class="visible-xs">
-        <div class="header-detail table-list">
-            <div class="header-left table-cell">
-                <h1><?php the_title(); ?>
-                    <?php if( houzez_taxonomy_simple('property_status') ) { ?>
-                    <span class="label label-primary"><?php echo houzez_taxonomy_simple('property_status'); ?></span>
-                    <?php } ?>
-                </h1>
-                <?php
-                if( !empty( $prop_address )) {
-                echo '<p>'.esc_attr( $prop_address ).'</p>';
-                } ?>
-            </div>
-            <div class="header-right table-cell">
-                <?php echo houzez_listing_price_v1(); ?>
-            </div>
-        </div>
     </div>
 
     <?php get_template_part( 'property-details/media-tabs' ); ?>

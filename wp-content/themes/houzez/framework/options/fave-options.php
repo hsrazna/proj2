@@ -541,6 +541,36 @@ Redux::setSection( $opt_name, array(
             'default' => 'US'
         ),
         array(
+            'id'       => 'use_houzez_roles',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Use Houzez Custom Role', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'If Enable only user which has role Houzez Agent or Author can add new property', 'houzez' ),
+            'default'  => 1,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
+            'id'       => 'disable_compare',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Compare', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable property compare', 'houzez' ),
+            'default'  => 1,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
+            'id'       => 'disable_favorite',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Favorite', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable property favorite', 'houzez' ),
+            'default'  => 1,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
             'id'       => 'users_admin_access',
             'type'     => 'switch',
             'title'    => esc_html__( 'Users Admin Access ?', 'houzez' ),
@@ -630,6 +660,15 @@ Redux::setSection( $opt_name, array(
             'off'      => esc_html__( 'Disabled', 'houzez' ),
         ),
         array(
+            'id'       => 'video_audio',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Video Audio', 'houzez' ),
+            'subtitle' => esc_html__( 'Enable/Disable video audio on splash page and video header', 'houzez' ),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
             'id'       => 'images_overlay',
             'type'     => 'switch',
             'title'    => esc_html__( 'Images overlay ?', 'houzez' ),
@@ -650,6 +689,16 @@ Redux::setSection( $opt_name, array(
             'off'      => esc_html__( 'Disabled', 'houzez' ),
         ),
         array(
+            'id'       => 'site_scroll_top',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Scroll To Top?', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable Scroll to top', 'houzez' ),
+            'default'  => 1,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
             'id'       => 'sticky_sidebar',
             'type'     => 'checkbox',
             'title'    => esc_html__( 'Sticky Sidebar', 'houzez' ),
@@ -660,6 +709,7 @@ Redux::setSection( $opt_name, array(
                 'property_listings' => esc_html__('Property listings', 'houzez'),
                 'single_property' => esc_html__('Single Property', 'houzez'),
                 'agent_sidebar' => esc_html__('Agent Sidebar', 'houzez'),
+                'agency_sidebar' => esc_html__('Agency Sidebar', 'houzez'),
                 'search_sidebar' => esc_html__('Search Sidebar', 'houzez'),
                 'page_sidebar' => esc_html__('Page Sidebar', 'houzez'),
                 'create_listing' => esc_html__('Create listing Sidebar', 'houzez')
@@ -669,6 +719,7 @@ Redux::setSection( $opt_name, array(
                 'property_listings' => '0',
                 'single_property' => '0',
                 'agent_sidebar' => '0',
+                'agency_sidebar' => '0',
                 'search_sidebar' => '0',
                 'page_sidebar' => '0',
                 'create_listing' => '0'
@@ -739,6 +790,27 @@ Redux::setSection( $opt_name, array(
             'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/logos/logo-houzez-white@2x.png' ),
             'subtitle'	=> esc_html__( 'Upload your retina logo for splash page and transparent header (optional).', 'houzez' ),
         ),
+
+
+        array(
+            'id'		=> 'custom_logo_mobile_splash',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Mobile Logo Splash', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/logos/logo-houzez-white.png' ),
+            'subtitle'	=> esc_html__( 'Upload your custom logo for mobile splash page.', 'houzez' ),
+        ),
+
+        array(
+            'id'		=> 'retina_logo_mobile_splash',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Mobile Retina Logo Splash', 'houzez' ),
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/logos/logo-houzez-white@2x.png' ),
+            'subtitle'	=> esc_html__( 'Upload your retina logo for mobile splash page(optional).', 'houzez' ),
+        ),
+
 
         array(
             'id'       => 'logo_desktop_dimensions',
@@ -1309,11 +1381,21 @@ Redux::setSection( $opt_name, array(
     'desc'             => '',
     'fields'           => array(
         array(
+            'id'       => 'create_lisiting_enable',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Create Listing Button', 'houzez' ),
+            'subtitle' => esc_html__('Enable/Disable create lising button', 'houzez'),
+            'desc'     => '',
+            'default'  => 1,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
             'id'       => 'create_listing_button',
             'type'     => 'select',
             'title'    => esc_html__( 'Create Listing', 'houzez' ),
-            'desc'     => '',
             'subtitle' => esc_html__('Header create listing button required login or not', 'houzez'),
+            'desc'     => '',
             'default'  => 'no',
             'options'  => array(
                 'no' => esc_html__('No', 'houzez'),
@@ -1464,7 +1546,7 @@ if ( class_exists( 'WP_Currencies' ) ) {    // if wp-currencies plugins is activ
                 'type' => 'textarea',
                 'title' => esc_html__('Currencies you want to support.', 'houzez'),
                 'subtitle' => esc_html__('Only provide comma separated list of currency codes in capital letters. Do not add dashes, spaces or currency signs.', 'houzez'),
-                'default' => 'AUD,CAD,CHF,EUR,GBP,HKD,JPY,NOK,SEK,USD'
+                'default' => 'AUD,CAD,CHF,EUR,GBP,HKD,JPY,NOK,SEK,USD,NGN'
             ),
             array(
                 'id' => 'houzez_currency_expiry',
@@ -1534,6 +1616,26 @@ Redux::setSection( $opt_name, array(
             'default'  => 'no'// 1 = on | 0 = off
         ),
         array(
+            'id'       => 'user_show_roles',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Enable user roles on regsiter form', 'houzez' ),
+            'subtitle' => esc_html__( 'Roles on regsiter form', 'houzez' ),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+            'desc'     => ''
+        ),
+        array(
+            'id'       => 'user_show_roles_profile',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Enable user roles on profile page', 'houzez' ),
+            'subtitle' => esc_html__( 'Roles on user profile page which will account user to change his role', 'houzez' ),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+            'desc'     => ''
+        ),
+        array(
             'id'       => 'enable_password',
             'type'     => 'select',
             'title'    => esc_html__( 'Users can type the password on registration form', 'houzez' ),
@@ -1569,7 +1671,7 @@ Redux::setSection( $opt_name, array(
         array(
             'id'       => 'user_as_agent',
             'type'     => 'select',
-            'title'    => esc_html__( 'Enable frontend regsiter user as agent', 'houzez' ),
+            'title'    => esc_html__( 'Enable frontend register user as agent', 'houzez' ),
             'subtitle' => '',
             'options'	=> array(
                 'yes'	=> esc_html__( 'Yes', 'houzez' ),
@@ -2762,6 +2864,37 @@ Redux::setSection( $opt_name, array(
             'default'  => '#ffffff'
         ),
 
+        /*
+         * Call Us Header 3
+         * --------------------------------------------------------------------- */
+        array(
+            'id'     => 'info-callus',
+            'type'   => 'info',
+            'notice' => false,
+            'required' => array('styling_headers_type', '=', 'header-3'),
+            'style'  => 'info',
+            'title'  => esc_html__( 'Call Us', 'houzez' ),
+            'desc'   => ''
+        ),
+        array(
+            'id'       => 'header_3_callus_color',
+            'type'     => 'color',
+            'title'    => esc_html__( 'Text color', 'houzez' ),
+            'required' => array('styling_headers_type', '=', 'header-3'),
+            'subtitle' => '',
+            'default'  => '#ffffff',
+            'transparent' => false
+        ),
+        array(
+            'id'       => 'header_3_callus_bg_color',
+            'type'     => 'color',
+            'title'    => esc_html__( 'Background Color', 'houzez' ),
+            'required' => array('styling_headers_type', '=', 'header-3'),
+            'subtitle' => '',
+            'default'  => '#00aeef',
+            'transparent' => true
+        ),
+
 
          /*
          * Header 4 transparent
@@ -3319,7 +3452,8 @@ Redux::setSection( $opt_name, array(
             'options'  => array(
                 'simple' => esc_html__( 'Default', 'houzez' ),
                 'tabs'   => esc_html__( 'Tabs', 'houzez' ),
-                'tabs-vertical' => esc_html__( 'Tabs Vertical', 'houzez' )
+                'tabs-vertical' => esc_html__( 'Tabs Vertical', 'houzez' ),
+                'v2' => esc_html__( 'Luxury Homes ( Since v1.4.0 )', 'houzez' ),
             ),
             'default'  => 'simple',
         ),
@@ -3327,9 +3461,8 @@ Redux::setSection( $opt_name, array(
             'id'       => 'prop-detail-nav',
             'type'     => 'select',
             'title'    => esc_html__('Property Detail Nav', 'houzez'),
-            'subtitle' => esc_html__('Property detail page sticky navigation', 'houzez'),
+            'subtitle' => esc_html__('Property detail page sticky navigation. only for Default layout', 'houzez'),
             'desc'     => '',
-            'required' => array('prop-content-layout', '=', 'simple'),
             'options'  => array(
                 'no' => esc_html__( 'No', 'houzez' ),
                 'yes'   => esc_html__( 'Yes', 'houzez' )
@@ -3445,6 +3578,7 @@ Redux::setSection( $opt_name, array(
                     'agent_bottom' => esc_html__('Agent bottom', 'houzez'),
                 ),
                 'disabled' => array(
+                    'yelp_nearby'  => esc_html__('Near by Places', 'houzez'),
                 )
             ),
         )
@@ -3571,6 +3705,93 @@ Redux::setSection( $opt_name, array(
 ));
 
 Redux::setSection( $opt_name, array(
+    'title'  => esc_html__( 'Yelp Nearby Places', 'houzez' ),
+    'id'     => 'yelp',
+    'desc'   => '',
+    'subsection' => true,
+    'fields' => array(
+        array(
+            'id'       => 'houzez_yelp',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Yelp', 'houzez' ),
+            'subtitle' => esc_html__( 'Enable/Disable yelp on property detail page.', 'houzez' ),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+        array(
+            'id'       => 'houzez_yelp_consumer_key',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Consumer Key', 'houzez' ),
+            'subtitle' => esc_html__( "Yelp info doesn't show if you don't add the Consumer Key.", 'houzez' ),
+            'required' => array('houzez_yelp', '=', '1')
+        ),
+        array(
+            'id'       => 'houzez_yelp_secret_consumer_key',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Consumer Secret', 'houzez' ),
+            'subtitle' => esc_html__( "Yelp info doesn't show if you don't add the Secret Consumer Key.", 'houzez' ),
+            'required' => array('houzez_yelp', '=', '1')
+        ),
+        array(
+            'id'       => 'houzez_yelp_token',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Token', 'houzez' ),
+            'subtitle' => esc_html__( "Yelp info doesn't show if you don't add the Token.", 'houzez' ),
+            'required' => array('houzez_yelp', '=', '1')
+        ),
+        array(
+            'id'       => 'houzez_yelp_secret_token',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Token Secret', 'houzez' ),
+            'subtitle' => esc_html__( "Yelp info doesn't show if you don't add the Token Secret.", 'houzez' ),
+            'required' => array('houzez_yelp', '=', '1')
+        ),
+        array(
+            'id'       => 'houzez_yelp_term',
+            'type'     => 'select',
+            'multi'    => true,
+            'title'    => esc_html__( 'Select Term', 'houzez' ),
+            'subtitle' => esc_html__( "Select yelp terms.", 'houzez' ),
+            'options'  => $yelp_categories = array (
+                'active' => 'Active Life',
+                'arts' => 'Arts & Entertainment',
+                'auto' => 'Automotive',
+                'beautysvc' => 'Beauty & Spas',
+                'education' => 'Education',
+                'eventservices' => 'Event Planning & Services',
+                'financialservices' => 'Financial Services',
+                'food' => 'Food',
+                'health' => 'Health & Medical',
+                'homeservices' => 'Home Services ',
+                'hotelstravel' => 'Hotels & Travel',
+                'localflavor' => 'Local Flavor',
+                'localservices' => 'Local Services',
+                'massmedia' => 'Mass Media',
+                'nightlife' => 'Nightlife',
+                'pets' => 'Pets',
+                'professional' => 'Professional Services',
+                'publicservicesgovt' => 'Public Services & Government',
+                'realestate' => 'Real Estate',
+                'religiousorgs' => 'Religious Organizations',
+                'restaurants' => 'Restaurants',
+                'shopping' => 'Shoppi'
+            ),
+            'default' => array('food', 'health', 'education', 'realestate'),
+            'required' => array('houzez_yelp', '=', '1')
+        ),
+        array(
+            'id'       => 'houzez_yelp_limit',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Result Limit', 'houzez' ),
+            'subtitle' => esc_html__( "Yelp result limit", 'houzez' ),
+            'required' => array('houzez_yelp', '=', '1'),
+            'default' => 3
+        ),
+    )
+));
+
+Redux::setSection( $opt_name, array(
     'title'  => esc_html__( 'Show/Hide Data', 'houzez' ),
     'id'     => 'propertydetail-showhide',
     'desc'   => '',
@@ -3591,6 +3812,7 @@ Redux::setSection( $opt_name, array(
                 'bedrooms' => esc_html__('Bedrooms', 'houzez'),
                 'bathrooms' => esc_html__('Bathrooms', 'houzez'),
                 'area_size' => esc_html__('Area Size', 'houzez'),
+                'land_area' => esc_html__('Land Area', 'houzez'),
                 'garages' => esc_html__('Garages', 'houzez'),
                 'year_built' => esc_html__('Year Built', 'houzez'),
                 'updated_date' => esc_html__('Updated Date', 'houzez'),
@@ -3605,12 +3827,171 @@ Redux::setSection( $opt_name, array(
                 'bedrooms' => '0',
                 'bathrooms' => '0',
                 'area_size' => '0',
+                'land_area' => '0',
                 'garages' => '0',
                 'year_built' => '0',
                 'updated_date' => '0',
                 'additional_details' => '0',
             )
         ),
+    )
+));
+
+/* Icons
+----------------------------------------------------------------*/
+Redux::setSection( $opt_name, array(
+    'title'  => esc_html__( 'Icons', 'houzez' ),
+    'id'     => 'luxury-homes',
+    'desc'   => esc_html__( 'Icons for luxury home type property detail page', 'houzez' ),
+    'subsection' => true,
+    'fields' => array(
+        array(
+            'id'		=> 'icon_prop_id',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Property ID', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-1.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for property ID.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_bedrooms',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Bedrooms', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-2.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for bedrooms.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_rooms',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Rooms', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-8.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for Rooms.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_bathrooms',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Bathrooms', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-3.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for bathrooms.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_prop_size',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Property Size', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-4.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for property size.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_prop_land',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Land Size', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-4.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for property land size.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_garage_size',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Garage Size', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-5.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for garage size.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_garage',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Garage', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-6.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for garage.', 'houzez' ),
+        ),
+        array(
+            'id'		=> 'icon_year',
+            'url'		=> true,
+            'type'		=> 'media',
+            'title'		=> esc_html__( 'Year Built', 'houzez' ),
+            'read-only'	=> false,
+            'default'	=> array( 'url'	=> get_template_directory_uri() .'/images/icons/icon-7.png' ),
+            'subtitle'	=> esc_html__( 'Upload icon for year built.', 'houzez' ),
+        ),
+    )
+));
+
+Redux::setSection( $opt_name, array(
+    'title'  => esc_html__( 'Similar Properties', 'houzez' ),
+    'id'     => 'property-similar-showhide',
+    'desc'   => '',
+    'subsection' => true,
+    'fields' => array(
+
+        array(
+            'id'       => 'houzez_similer_properties',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Similar Properties', 'houzez' ),
+            'subtitle' => esc_html__( 'Enable/Disable similar properties on property detail page.', 'houzez' ),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enabled', 'houzez' ),
+            'off'      => esc_html__( 'Disabled', 'houzez' ),
+        ),
+
+        array(
+            'id'       => 'houzez_similer_properties_type',
+            'type'     => 'select',
+            'title'    => esc_html__( 'Similer Type', 'houzez' ),
+            'subtitle' => esc_html__( "Select type for similer properties.", 'houzez' ),
+            'options'  => array(
+                'property_type' => esc_html__('Property Type', 'houzez'),
+                'property_feature' => esc_html__('Property Feature', 'houzez'),
+                'property_status' => esc_html__('Property Status', 'houzez'),
+                'property_city' => esc_html__('Property City', 'houzez'),
+                'property_label' => esc_html__('Property Label', 'houzez'),
+            ),
+            'default' => 'property_type'
+        ),
+
+        array(
+            'id'       => 'houzez_similer_properties_view',
+            'type'     => 'select',
+            'title'    => esc_html__( 'Similer View', 'houzez' ),
+            'subtitle' => esc_html__( "Select view for similer properties.", 'houzez' ),
+            'options'  => array(
+                'grid-view' => esc_html__('Grid View', 'houzez'),
+                'list-view' => esc_html__('List View', 'houzez'),
+            ),
+            'default' => 'list-view'
+        ),
+
+        array(
+            'id'       => 'houzez_similer_properties_count',
+            'type'     => 'select',
+            'title'    => esc_html__( 'Properties Count', 'houzez' ),
+            'subtitle' => esc_html__( "Select count for similer properties.", 'houzez' ),
+            'options'  => array(
+                1 => 1,
+                2 => 2,
+                3 => 3,
+                4 => 4,
+                5 => 5,
+                6 => 6,
+                7 => 7,
+                8 => 8,
+                9 => 9,
+                10 => 10,
+            ),
+            'default' => 4
+        )
     )
 ));
 
@@ -3726,6 +4107,7 @@ Redux::setSection( $opt_name, array(
                     'details'      => esc_html__('Property Details', 'houzez'),
                     'features'      => esc_html__('Property features', 'houzez'),
                     'location'      => esc_html__('Property location', 'houzez'),
+                    'virtual_tour'  => esc_html__('360° Virtual Tour', 'houzez'),
                     'floorplans'  => esc_html__('Floor Plans', 'houzez'),
                     'multi-units'        => esc_html__('Multi Units / Sub Properties', 'houzez'),
                     'agent_info'    => esc_html__('Agent Information', 'houzez'),
@@ -3746,7 +4128,7 @@ Redux::setSection( $opt_name, array(
             ),
             'default'  => 'yes',
         ),
-        /*array(
+        array(
             'id'       => 'location_dropdowns',
             'type'     => 'select',
             'title'    => esc_html__('Show dropdowns for Property Location ?', 'houzez'),
@@ -3757,7 +4139,28 @@ Redux::setSection( $opt_name, array(
                 'no'   => esc_html__( 'No', 'houzez' )
             ),
             'default'  => 'no',
-        ),*/
+        ),
+        array(
+            'id'		=> 'area_prefix_default',
+            'type'		=> 'select',
+            'title'		=> esc_html__( 'Default area prefix', 'houzez' ),
+            'subtitle'	=> esc_html__( 'Default option for area prefix.', 'houzez' ),
+            'options'	=> array(
+                'SqFt' => 'Square Feet - ft²',
+                'm²' => 'Square Meters - m²',
+            ),
+            'default' => 'SqFt'
+        ),
+        array(
+            'id'       => 'area_prefix_changeable',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Allow user to change area prefix?', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => '',
+            'default'  => 1,
+            'on'       => esc_html__( 'Yes', 'houzez' ),
+            'off'      => esc_html__( 'No', 'houzez' ),
+        ),
         array(
             'id'       => 'max_prop_images',
             'type'     => 'text',
@@ -3797,9 +4200,11 @@ Redux::setSection( $opt_name, array(
                 'sale_rent_price' => esc_html__('Sale or Rent Price', 'houzez'),
                 'second_price' => esc_html__('Second Price (Optional)', 'houzez'),
                 'price_postfix' => esc_html__('After Price Label (ex: monthly)', 'houzez'),
+                'price_prefix' => esc_html__('Price Prefix (ex: Start From)', 'houzez'),
                 'bedrooms' => esc_html__('Bedrooms', 'houzez'),
                 'bathrooms' => esc_html__('Bathrooms', 'houzez'),
                 'area_size' => esc_html__('Area Size', 'houzez'),
+                'land_area' => esc_html__('Land Area', 'houzez'),
                 'garages' => esc_html__('Garage', 'houzez'),
                 'garage_size' => esc_html__('Garage Size', 'houzez'),
                 'additional_details' => esc_html__('Additional Details', 'houzez'),
@@ -3812,9 +4217,11 @@ Redux::setSection( $opt_name, array(
                 'sale_rent_price' => '0',
                 'second_price' => '0',
                 'price_postfix' => '0',
+                'price_prefix' => '0',
                 'bedrooms' => '0',
                 'bathrooms' => '0',
                 'area_size' => '0',
+                'land_area' => '0',
                 'garages' => '0',
                 'garage_size' => '0',
                 'additional_details' => '0',
@@ -3836,22 +4243,38 @@ Redux::setSection( $opt_name, array(
             'desc'     => '',
             'subtitle' => esc_html__('Make add property fields required.', 'houzez'),
             'options'  => array(
+                'title' => esc_html__('Title', 'houzez'),
+                //'description' => esc_html__('Description', 'houzez'),
+                'prop_type' => esc_html__('Type', 'houzez'),
+                'prop_status' => esc_html__('Status', 'houzez'),
+                'prop_labels' => esc_html__('Label', 'houzez'),
                 'sale_rent_price' => esc_html__('Sale or Rent Price', 'houzez'),
                 'price_label' => esc_html__('After Price Label', 'houzez'),
                 'prop_id' => esc_html__('Property ID', 'houzez'),
                 'bedrooms' => esc_html__('Bedrooms', 'houzez'),
                 'bathrooms' => esc_html__('Bathrooms', 'houzez'),
                 'area_size' => esc_html__('Area Size', 'houzez'),
+                'land_area' => esc_html__('Land Area', 'houzez'),
                 'garages' => esc_html__('Garages', 'houzez'),
+                'year_built' => esc_html__('Year Built', 'houzez'),
+                'property_map_address' => esc_html__('Map Address', 'houzez'),
             ),
             'default' => array(
+                'title' => '1',
+                //'description' => '0',
+                'prop_type' => '0',
+                'prop_status' => '0',
+                'prop_labels' => '0',
                 'sale_rent_price' => '1',
                 'price_label' => '0',
                 'prop_id' => '0',
                 'bedrooms' => '0',
                 'bathrooms' => '0',
                 'area_size' => '1',
+                'land_area' => '0',
                 'garages' => '0',
+                'year_built' => '0',
+                'property_map_address' => '1',
             )
         ),
     )
@@ -4029,9 +4452,11 @@ Redux::setSection( $opt_name, array(
                 'ILS'  => 'ILS',
                 'INR'  => 'INR',
                 'JPY'  => 'JPY',
+                'KOR'  => 'KOR',
                 'KSH'  => 'KSH',
                 'MYR'  => 'MYR',
                 'MXN'  => 'MXN',
+                'NGN'  => 'NGN',
                 'NOK'  => 'NOK',
                 'NZD'  => 'NZD',
                 'PHP'  => 'PHP',
@@ -4302,12 +4727,44 @@ Redux::setSection( $opt_name, array(
     'desc'   => esc_html__( 'Global variables: %website_url as website url,%website_name as website name, %user_email as user_email, %username as username', 'houzez' ),
     'icon'   => 'el-icon-envelope el-icon-small',
     'fields'		=> array(
+
+        array(
+            'id'     => 'email-purchase-activated-package-info',
+            'type'   => 'info',
+            'notice' => false,
+            'style'  => 'info',
+            'title'  => wp_kses(__( '<span class="font24">Purchase Activated Packages</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('Packages wire transfer and other payments gateways purchase activate', 'houzez'),
+            'desc'   => ''
+        ),
+
+        array(
+            'id'       => 'houzez_subject_purchase_activated_pack',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Purchase Activated', 'houzez'),
+            'subtitle' => esc_html__('Email subject for purchase activated', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Your purchase was activated', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_purchase_activated_pack',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Purchase Activated', 'houzez'),
+            'subtitle' => esc_html__('Email content for Purchase Activated', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__("Hi there,
+Welcome to %website_url and thank you for purchasing a plan with us. We are excited you have chosen %website_name . %website_name is a great place to advertise and search properties.
+
+You plan on  %website_url activated! You can now list your properties according to you plan.", 'houzez'),
+        ),
+
         array(
             'id'     => 'email-purchase-activated-info',
             'type'   => 'info',
             'notice' => false,
             'style'  => 'info',
             'title'  => wp_kses(__( '<span class="font24">Purchase Activated</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('Per listing wire transfer purchase activate', 'houzez'),
             'desc'   => ''
         ),
 
@@ -4327,6 +4784,68 @@ Redux::setSection( $opt_name, array(
             'desc'     => '',
             'default'  => esc_html__('Hi there,
 Your purchase on %website_url is activated! You should go and check it out.', 'houzez'),
+        ),
+
+        array(
+            'id'     => 'email-approved-info',
+            'type'   => 'info',
+            'notice' => false,
+            'style'  => 'info',
+            'title'  => wp_kses(__( '<span class="font24">Approved Listing</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('You can use %listing_title as listing title, %listing_url as listing link', 'houzez'),
+            'desc'   => ''
+        ),
+
+        array(
+            'id'       => 'houzez_subject_listing_approved',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Approved Listing', 'houzez'),
+            'subtitle' => esc_html__('Email subject for approved listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Your listing approved', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_listing_approved',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Listing Approved', 'houzez'),
+            'subtitle' => esc_html__('Email content for listing approved', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__("Hi there,
+Your listing on %website_url has been approved.
+
+Listins Title:%listing_title
+Listing Url: %listing_url", 'houzez'),
+        ),
+
+        array(
+            'id'     => 'email-expired-info',
+            'type'   => 'info',
+            'notice' => false,
+            'style'  => 'info',
+            'title'  => wp_kses(__( '<span class="font24">Expired Listing</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('You can use %listing_title as listing title, %listing_url as listing link', 'houzez'),
+            'desc'   => ''
+        ),
+
+        array(
+            'id'       => 'houzez_subject_listing_expired',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Expired Listing', 'houzez'),
+            'subtitle' => esc_html__('Email subject for expired listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Your listing expired', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_listing_expired',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Listing Expired', 'houzez'),
+            'subtitle' => esc_html__('Email content for listing expired', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__("Hi there,
+Your listing on %website_url has been expired.
+
+Listins Title:%listing_title
+Listing Url: %listing_url", 'houzez'),
         ),
 
         array(
@@ -4416,7 +4935,7 @@ Instructions:  %payment_details.', 'houzez'),
             'default'  => esc_html__('Somebody ordered a new Wire Transfer', 'houzez'),
         ),
         array(
-            'id'       => 'admin_new_wire_transfer',
+            'id'       => 'houzez_admin_new_wire_transfer',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Admin - New wire Transfer', 'houzez'),
             'subtitle' => esc_html__('Email content for New wire Transfer', 'houzez'),
@@ -4428,47 +4947,154 @@ Instructions:  %payment_details.', 'houzez'),
         ),
 
         array(
-            'id'     => 'email-featured-paid-info',
+            'id'     => 'email-paid-perlisting-info',
             'type'   => 'info',
             'notice' => false,
             'style'  => 'info',
-            'title'  => wp_kses(__( '<span class="font24">Featured and Paid Submission.</span>', 'houzez' ), $allowed_html_array),
+            'title'  => wp_kses(__( '<span class="font24">Paid Submission Per Listing.</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('you can use %invoice_no as invoice number, %listing_title as listing title and %listing_id as listing id', 'houzez'),
             'desc'   => ''
         ),
         array(
-            'id'       => 'houzez_subject_featured_submission',
+            'id'       => 'houzez_subject_paid_submission_listing',
             'type'     => 'text',
-            'title'    => esc_html__('Subject for Featured Submission', 'houzez'),
-            'subtitle' => esc_html__('Email subject for featured submission', 'houzez'),
+            'title'    => esc_html__('Subject for Paid Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for paid submission per listing', 'houzez'),
             'desc'     => '',
-            'default'  => esc_html__('New feature upgrade on %website_url', 'houzez'),
+            'default'  => esc_html__('Your new listing on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'featured_submission',
+            'id'       => 'houzez_paid_submission_listing',
             'type'     => 'textarea',
-            'title'    => esc_html__('Content for Featured Submission', 'houzez'),
-            'subtitle' => esc_html__('Email content for featured submission', 'houzez'),
+            'title'    => esc_html__('Content for Paid Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for paid submission per listing', 'houzez'),
             'desc'     => '',
             'default'  => esc_html__('Hi there,
-You have a new featured submission on  %website_url!', 'houzez'),
+You have submitted new listing on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id
+The invoice number is: %invoice_no', 'houzez'),
         ),
 
         array(
-            'id'       => 'houzez_subject_paid_submission',
+            'id'       => 'houzez_subject_admin_paid_submission_listing',
             'type'     => 'text',
-            'title'    => esc_html__('Subject for Paid Submission', 'houzez'),
-            'subtitle' => esc_html__('Email subject for featured submission', 'houzez'),
+            'title'    => esc_html__('Subject for Admin - Paid Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for paid submission per listing', 'houzez'),
             'desc'     => '',
             'default'  => esc_html__('New paid submission on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'paid_submission',
+            'id'       => 'houzez_admin_paid_submission_listing',
             'type'     => 'textarea',
-            'title'    => esc_html__('Content for Paid Submission', 'houzez'),
-            'subtitle' => esc_html__('Email content for paid submission', 'houzez'),
+            'title'    => esc_html__('Content for Admin - Paid Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for paid submission per listing', 'houzez'),
             'desc'     => '',
             'default'  => esc_html__('Hi there,
-You have a new paid submission on  %website_url!', 'houzez'),
+You have a new paid submission on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id
+The invoice number is: %invoice_no', 'houzez'),
+        ),
+
+        array(
+            'id'     => 'email-featured-perlisting-info',
+            'type'   => 'info',
+            'notice' => false,
+            'style'  => 'info',
+            'title'  => wp_kses(__( '<span class="font24">Featured Submission Per Listing.</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('you can use %invoice_no as invoice number, %listing_title as listing title and %listing_id as listing id', 'houzez'),
+            'desc'   => ''
+        ),
+        array(
+            'id'       => 'houzez_subject_featured_submission_listing',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Featured Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for featured submission per listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('New featured upgrade on %website_url', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_featured_submission_listing',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Featured Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for featured submission per listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Hi there,
+You have a new featured submission on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id
+The invoice number is: %invoice_no', 'houzez'),
+        ),
+
+        array(
+            'id'       => 'houzez_subject_admin_featured_submission_listing',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Admin - Featured Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for featured submission per listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('New featured submission on %website_url', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_admin_featured_submission_listing',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Admin - Featured Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for featured submission per listing', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Hi there,
+You have a new featured submission on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id
+The invoice number is: %invoice_no', 'houzez'),
+        ),
+
+        array(
+            'id'     => 'email-free-package-perlisting-info',
+            'type'   => 'info',
+            'notice' => false,
+            'style'  => 'info',
+            'title'  => wp_kses(__( '<span class="font24">Package and Free Submission Listings.</span>', 'houzez' ), $allowed_html_array),
+            'subtitle' => esc_html__('you can use %listing_title as listing title and %listing_id as listing id', 'houzez'),
+            'desc'   => ''
+        ),
+        array(
+            'id'       => 'houzez_subject_free_submission_listing',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for package and free listing submission', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Your new listing on %website_url', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_free_submission_listing',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for package and free listing submission', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Hi there,
+You have submitted new listing on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id', 'houzez'),
+        ),
+
+        array(
+            'id'       => 'houzez_subject_admin_free_submission_listing',
+            'type'     => 'text',
+            'title'    => esc_html__('Subject for Admin - Submission', 'houzez'),
+            'subtitle' => esc_html__('Email subject for package and free listing submission', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('New submission on %website_url', 'houzez'),
+        ),
+        array(
+            'id'       => 'houzez_admin_free_submission_listing',
+            'type'     => 'textarea',
+            'title'    => esc_html__('Content for Admin - Submission', 'houzez'),
+            'subtitle' => esc_html__('Email content for package and free listing submission', 'houzez'),
+            'desc'     => '',
+            'default'  => esc_html__('Hi there,
+You have a new submission on  %website_url!
+Listing Title: %listing_title
+Listing ID:  %listing_id', 'houzez'),
         ),
 
         array(
@@ -4488,7 +5114,7 @@ You have a new paid submission on  %website_url!', 'houzez'),
             'default'  => esc_html__('Free Listing expired on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'free_listing_expired',
+            'id'       => 'houzez_free_listing_expired',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Free Listing Expired', 'houzez'),
             'subtitle' => esc_html__('Email content for free listing expired', 'houzez'),
@@ -4515,7 +5141,7 @@ Thank you!', 'houzez'),
             'default'  => esc_html__('Expired Listing sent for approval on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'admin_expired_listings',
+            'id'       => 'houzez_admin_expired_listings',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Admin - Expired Listing', 'houzez'),
             'subtitle' => esc_html__('Email content for admin expired listing', 'houzez'),
@@ -4524,7 +5150,6 @@ Thank you!', 'houzez'),
 A user has re-submited a new property on %website_url! You should go and check it out.
 This is the property title: %submission_title.', 'houzez'),
         ),
-
 
         array(
             'id'     => 'email-matching-submissions-info',
@@ -4543,7 +5168,7 @@ This is the property title: %submission_title.', 'houzez'),
             'default'  => esc_html__('Matching Submissions on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'matching_submissions',
+            'id'       => 'houzez_matching_submissions',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Matching Submissions', 'houzez'),
             'subtitle' => esc_html__('Email content for matching submissions', 'houzez'),
@@ -4572,7 +5197,7 @@ These are the new submissions:
             'default'  => esc_html__('Recurring Payment on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'recurring_payment',
+            'id'       => 'houzez_recurring_payment',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Recurring Payment', 'houzez'),
             'subtitle' => esc_html__('Email content for recurring payment', 'houzez'),
@@ -4598,7 +5223,7 @@ We charged your account on %merchant for a subscription on %website_url ! You sh
             'default'  => esc_html__('Membership Cancelled on %website_url', 'houzez'),
         ),
         array(
-            'id'       => 'membership_cancelled',
+            'id'       => 'houzez_membership_cancelled',
             'type'     => 'textarea',
             'title'    => esc_html__('Content for Membership Cancelled', 'houzez'),
             'subtitle' => esc_html__('Email content for membership cancelled', 'houzez'),
@@ -4630,6 +5255,7 @@ Redux::setSection( $opt_name, array(
             'on'       => esc_html__( 'Yes', 'houzez' ),
             'off'      => esc_html__( 'No', 'houzez' ),
         ),
+
         array(
             'id'       => 'adv_search_which_header_show',
             'type'     => 'checkbox',
@@ -4880,26 +5506,6 @@ Redux::setSection( $opt_name, array(
     ),
 ));
 
-/*Redux::setSection( $opt_name, array(
-    'title'  => esc_html__( 'Splash & Banner Search Type', 'houzez' ),
-    'id'     => 'adv-splash-search-type',
-    'desc'   => '',
-    'subsection' => true,
-    'fields' => array(
-        array(
-            'id'       => 'splash_banner_search_type',
-            'type'     => 'select',
-            'title'    => esc_html__( 'Select Splash & Banner Search Type', 'houzez' ),
-            'desc'     => '',
-            'options'  => array(
-                'type1' => esc_html__('Version 1 ( Simple )', 'houzez'),
-                'type2' => esc_html__('Version 2 ( Advanced )', 'houzez')
-            ),
-            'default' => 'type1'
-        ),
-    )
-));*/
-
 Redux::setSection( $opt_name, array(
     'title'  => esc_html__( 'Search Fields', 'houzez' ),
     'id'     => 'adv-search-fields',
@@ -4915,9 +5521,51 @@ Redux::setSection( $opt_name, array(
                 'prop_title' => esc_html__('Property Title or Content', 'houzez'),
                 'prop_address' => esc_html__('Property address, street, zip or property ID', 'houzez'),
                 'prop_city_state_county' => esc_html__('Search State, City or Area', 'houzez'),
-                /*'prop_geocomplete' => esc_html__('Geo Complete', 'houzez'),*/
             ),
             'default' => 'prop_address'
+        ),
+        array(
+            'id'       => 'enable_radius_search',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Enable Radius Search.', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__('Enable/Disable advanced search radius search', 'houzez'),
+            'default'  => 0,
+            'on'       => esc_html__( 'Enable', 'houzez' ),
+            'off'      => esc_html__( 'Disable', 'houzez' ),
+        ),
+        array(
+            'id'       => 'enable_radius_search_halfmap',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Enable Radius Search on half map.', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__('Enable/Disable advanced search radius search on half map', 'houzez'),
+            'default'  => 1,
+            'on'       => esc_html__( 'Enable', 'houzez' ),
+            'off'      => esc_html__( 'Disable', 'houzez' ),
+        ),
+        array(
+            'id' => 'houzez_default_radius',
+            'type' => 'slider',
+            'title' => __('Default Radius', 'houzez'),
+            'subtitle' => __('Choose default radius', 'houzez'),
+            'desc' => '',
+            "default" => 50,
+            "min" => 0,
+            "step" => 1,
+            "max" => 100,
+            'display_value' => ''
+        ),
+        array(
+            'id'       => 'radius_unit',
+            'type'     => 'select',
+            'title'    => __('Radius Unit', 'houzez'),
+            'description' => '',
+            'options'  => array(
+                'km' => 'km',
+                'mi' => 'mi'
+            ),
+            'default' => 'km'
         ),
         array(
             'id'       => 'keyword_autocomplete',
@@ -4929,19 +5577,24 @@ Redux::setSection( $opt_name, array(
             'on'       => esc_html__( 'Enable', 'houzez' ),
             'off'      => esc_html__( 'Disable', 'houzez' ),
         ),
-        /*array(
-            'id'       => 'keyword_field_halfmap',
+
+        array(
+            'id'       => 'splash_v1_dropdown',
             'type'     => 'select',
-            'title'    => __('Keyword Field For Half Map', 'houzez'),
-            'subtitle' => __('What keyword field should search from, only for half map listings?', 'houzez'),
+            'title'    => esc_html__( 'Splash/Banner Search dropdown', 'houzez' ),
+            'subtitle'    => esc_html__( 'What you want to show Splash/Banner Search type 1 first field dropdown data ?', 'houzez' ),
+            'desc'     => '',
             'options'  => array(
-                'prop_title' => esc_html__('Property Title or Content', 'houzez'),
-                'prop_address' => esc_html__('Property address, street, zip or property ID', 'houzez'),
-                'prop_city_state_county' => esc_html__('Search State, City or Area', 'houzez'),
-                'prop_geocomplete' => esc_html__('Geo Complete', 'houzez'),
+                'property_country' => esc_html__('Countries', 'houzez'),
+                'property_state' => esc_html__('States', 'houzez'),
+                'property_city' => esc_html__('Cities', 'houzez'),
+                'property_area' => esc_html__('Areas', 'houzez'),
+                'property_status' => esc_html__('Status', 'houzez'),
+                'property_type' => esc_html__('Type', 'houzez')
             ),
-            'default' => 'prop_address'
-        ),*/
+            'default' => 'property_city'
+        ),
+
         array(
             'id'       => 'adv_show_hide',
             'type'     => 'checkbox',
@@ -4949,6 +5602,9 @@ Redux::setSection( $opt_name, array(
             'desc'     => '',
             'subtitle' => esc_html__('Show/Hide advanced search fields', 'houzez'),
             'options'  => array(
+                'keyword' => esc_html__('Keyword', 'houzez'),
+                'countries' => esc_html__('Countries', 'houzez'),
+                'states' => esc_html__('States', 'houzez'),
                 'cities' => esc_html__('Cities', 'houzez'),
                 'areas' => esc_html__('Areas', 'houzez'),
                 'status' => esc_html__('Status', 'houzez'),
@@ -4962,9 +5618,13 @@ Redux::setSection( $opt_name, array(
                 'max_price' => esc_html__('Max Price', 'houzez'),
                 'price_slider' => esc_html__('Price Range Slider', 'houzez'),
                 'area_slider' => esc_html__('Area Range Slider', 'houzez'),
+                'date_field' => esc_html__('Date', 'houzez'),
                 'other_features' => esc_html__('Other Features', 'houzez'),
             ),
             'default' => array(
+                'keyword' => '0',
+                'countries' => '1',
+                'states' => '1',
                 'cities' => '0',
                 'areas' => '0',
                 'status' => '0',
@@ -4978,23 +5638,59 @@ Redux::setSection( $opt_name, array(
                 'max_price' => '0',
                 'price_slider' => '0',
                 'area_slider' => '0',
+                'date_field' => '1',
                 'other_features' => '0',
             )
         ),
+
         array(
-            'id'       => 'splash_v1_dropdown',
-            'type'     => 'select',
-            'title'    => esc_html__( 'Splash/Banner Search dropdown', 'houzez' ),
-            'subtitle'    => esc_html__( 'What you want to show Splash/Banner Search type 1 first field dropdown data ?', 'houzez' ),
+            'id'       => 'adv_show_hide_halmap',
+            'type'     => 'checkbox',
+            'title'    => esc_html__( 'Hide Half Map Search Fields', 'houzez' ),
             'desc'     => '',
+            'subtitle' => esc_html__('Show/Hide Half map advanced search fields', 'houzez'),
             'options'  => array(
-                'property_city' => esc_html__('Cities', 'houzez'),
-                'property_area' => esc_html__('Areas', 'houzez'),
-                'property_status' => esc_html__('Status', 'houzez'),
-                'property_type' => esc_html__('Type', 'houzez')
+                'keyword' => esc_html__('Keyword', 'houzez'),
+                'countries' => esc_html__('Countries', 'houzez'),
+                'states' => esc_html__('States', 'houzez'),
+                'cities' => esc_html__('Cities', 'houzez'),
+                'areas' => esc_html__('Areas', 'houzez'),
+                'status' => esc_html__('Status', 'houzez'),
+                'type' => esc_html__('Type', 'houzez'),
+                //'property_id' => esc_html__('Property ID', 'houzez'),
+                'beds' => esc_html__('Bedrooms', 'houzez'),
+                'baths' => esc_html__('Bathrooms', 'houzez'),
+                'min_area' => esc_html__('Min Area', 'houzez'),
+                'max_area' => esc_html__('Max Area', 'houzez'),
+                'min_price' => esc_html__('Min Price', 'houzez'),
+                'max_price' => esc_html__('Max Price', 'houzez'),
+                'price_slider' => esc_html__('Price Range Slider', 'houzez'),
+                'area_slider' => esc_html__('Area Range Slider', 'houzez'),
+                'date_field' => esc_html__('Date', 'houzez'),
+                'other_features' => esc_html__('Other Features', 'houzez'),
             ),
-            'default' => 'property_city'
+            'default' => array(
+                'keyword' => '0',
+                'countries' => '1',
+                'states' => '1',
+                'cities' => '1',
+                'areas' => '1',
+                'status' => '0',
+                'type' => '0',
+                //'property_id' => '1',
+                'beds' => '0',
+                'baths' => '0',
+                'min_area' => '0',
+                'max_area' => '0',
+                'min_price' => '0',
+                'max_price' => '0',
+                'price_slider' => '0',
+                'area_slider' => '0',
+                'date_field' => '1',
+                'other_features' => '0',
+            )
         ),
+
     )
 ));
 
@@ -5005,8 +5701,20 @@ Redux::setSection( $opt_name, array(
     'subsection' => true,
     'fields' => array(
         array(
+            'id'       => 'search_result_page',
+            'type'     => 'select',
+            'title'    => __('Search Reslt Page', 'houzez'),
+            'description' => __('<strong>Normal Page:</strong> Create page using "Advanced Search Result" template.<br/><strong>Half Map:</strong> Create page using "Property Listings Half Map" template.', 'houzez'),
+            'options'  => array(
+                'normal_page' => 'Normal Page',
+                'half_map' => 'Half Map'
+            ),
+            'default' => 'normal_page'
+        ),
+        array(
             'id'       => 'search_result_layout',
             'type'     => 'image_select',
+            'required' => array( 'search_result_page', '=', 'normal_page' ),
             'title'    => __('Page Layout', 'houzez'),
             'subtitle' => __('Select layout for search result page.', 'houzez'),
             'options'  => array(
@@ -5028,11 +5736,13 @@ Redux::setSection( $opt_name, array(
         array(
             'id'       => 'search_result_posts_layout',
             'type'     => 'select',
+            'required' => array( 'search_result_page', '=', 'normal_page' ),
             'title'    => __('Properties Layout', 'houzez'),
             'subtitle' => __('Select properties layout for search result page.', 'houzez'),
             'options'  => array(
                 'list-view' => 'List View',
                 'grid-view' => 'Grid View',
+                'grid-view-3-col' => 'Grid View 3 col ( only for full width )'
             ),
             'default' => 'list-view'
         ),
@@ -5040,6 +5750,7 @@ Redux::setSection( $opt_name, array(
         array(
             'id'       => 'search_default_order',
             'type'     => 'select',
+            'required' => array( 'search_result_page', '=', 'normal_page' ),
             'title'    => __('Default Order', 'houzez'),
             'subtitle' => __('Select result page properties default display order.', 'houzez'),
             'options'  => array(
@@ -5054,6 +5765,7 @@ Redux::setSection( $opt_name, array(
         array(
             'id'       => 'search_num_posts',
             'type'     => 'text',
+            'required' => array( 'search_result_page', '=', 'normal_page' ),
             'title'    => esc_html__('Number of Listings to Show', 'houzez'),
             'subtitle' => '',
             'desc'     => '',
@@ -5083,6 +5795,68 @@ Redux::setSection( $opt_name, array(
             ),
             'default'  => 'no'
         ),
+        array(
+            'id'       => 'geo_country_limit',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Limit to Country', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Geo autocomplete limit to specific country', 'houzez' ),
+            'default'  => 0,
+            'on'       => 'Enabled',
+            'off'      => 'Disabled',
+        ),
+        array(
+            'id'		=> 'geocomplete_country',
+            'type'		=> 'select',
+            'required'  => array('geo_country_limit', '=', '1'),
+            'title'		=> esc_html__( 'Geo Auto Complete Country', 'houzez' ),
+            'subtitle'	=> esc_html__( 'Limit Geo auto complete to specific country', 'houzez' ),
+            'options'	=> $Countries,
+            'default' => ''
+        ),
+
+        array(
+            'id'       => 'map_fullscreen',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Map Fullscreen', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable map fullscreen button on half map.', 'houzez' ),
+            'default'  => 1,
+            'on'       => 'Enabled',
+            'off'      => 'Disabled',
+        ),
+
+        array(
+            'id'       => 'geo_location',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'Geo Location', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable geo location.', 'houzez' ),
+            'default'  => 0,
+            'on'       => 'Enabled',
+            'off'      => 'Disabled',
+        ),
+
+        array(
+            'id' => 'geo_location_info',
+            'type' => 'info',
+            'required' => array('geo_location', '=', '1'),
+            'title' => '',
+            'style' => 'info',
+            'desc' => __('Note: Google Geo location not work in chrome without SSL (https://), you can enable IPINFO location below for Google chrome if you don not have SSL. ', 'houzez')
+        ),
+
+        array(
+            'id'       => 'ipinfo_location',
+            'type'     => 'switch',
+            'title'    => esc_html__( 'IPINFO Location', 'houzez' ),
+            'desc'     => '',
+            'subtitle' => esc_html__( 'Enable/Disable Ip info location, only work with chrome withour SSL.', 'houzez' ),
+            'default'  => 0,
+            'on'       => 'Enabled',
+            'off'      => 'Disabled',
+        ),
+
         array(
             'id'       => 'googlemap_api_key',
             'type'     => 'text',
@@ -5127,6 +5901,91 @@ Redux::setSection( $opt_name, array(
             'desc'     => '',
             'default'  => '',
             'mode'     => 'plain'
+        )
+    ),
+));
+
+Redux::setSection( $opt_name, array(
+    'title'  => esc_html__( 'Taxonomies Layout', 'houzez' ),
+    'id'     => 'taxonomies-pages',
+    'desc'   => esc_html__( 'Select taxonomies ( type, status, city, state, features, neighbourhood ) pages layout', 'houzez' ),
+    'subsection' => false,
+    'fields' => array(
+        array(
+            'id'       => 'taxonomy_layout',
+            'type'     => 'image_select',
+            'title'    => __('Page Layout', 'houzez'),
+            'subtitle' => '',
+            'options'  => array(
+                'no-sidebar' => array(
+                    'alt'   => '',
+                    'img'   => ReduxFramework::$_url.'assets/img/1c.png'
+                ),
+                'left-sidebar' => array(
+                    'alt'   => '',
+                    'img'   => ReduxFramework::$_url.'assets/img/2cl.png'
+                ),
+                'right-sidebar' => array(
+                    'alt'   => '',
+                    'img'  => ReduxFramework::$_url.'assets/img/2cr.png'
+                )
+            ),
+            'default' => 'left-sidebar'
+        ),
+        array(
+            'id'       => 'taxonomy_posts_layout',
+            'type'     => 'select',
+            'title'    => __('Listings Layout', 'houzez'),
+            'subtitle' => __('Select Listings layout for taxonomy page.', 'houzez'),
+            'options'  => array(
+                'list-view' => 'List View',
+                'grid-view' => 'Grid View',
+                'grid-view-3-col' => 'Grid View 3 col ( only for full width )'
+            ),
+            'default' => 'list-view'
+        ),
+
+        array(
+            'id'       => 'taxonomy_default_order',
+            'type'     => 'select',
+            'title'    => __('Default Order', 'houzez'),
+            'subtitle' => __('Select taxonomy page listings default display order.', 'houzez'),
+            'options'  => array(
+                'd_date' => esc_html__( 'Date New to Old', 'houzez' ),
+                'a_date' => esc_html__( 'Date Old to New', 'houzez' ),
+                'd_price' => esc_html__( 'Price (High to Low)', 'houzez' ),
+                'a_price' => esc_html__( 'Price (Low to High)', 'houzez' ),
+            ),
+            'default' => 'd_date'
+        ),
+
+        array(
+            'id'       => 'taxonomy_num_posts',
+            'type'     => 'text',
+            'title'    => esc_html__('Number of Listings to Show', 'houzez'),
+            'subtitle' => '',
+            'desc'     => '',
+            'default'  => '9',
+        ),
+    )
+));
+
+/* **********************************************************************
+ * Agencies
+ * **********************************************************************/
+Redux::setSection( $opt_name, array(
+    'title'  => esc_html__( 'Agencies', 'houzez' ),
+    'id'     => 'houzez-agencies',
+    'desc'   => '',
+    'icon'   => 'el-icon-cog el-icon-small',
+    'fields'        => array(
+
+        array(
+            'id'       => 'num_of_agencies',
+            'type'     => 'text',
+            'title'    => esc_html__( 'Number of Agencies to Display', 'houzez' ),
+            'desc'     => '',
+            'default'  => '9'
         )
     ),
 ));

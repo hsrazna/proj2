@@ -1,4 +1,7 @@
-<?php  $active = houzez_option('search_result_posts_layout'); ?>
+<?php
+$active = houzez_option('search_result_posts_layout');
+$search_result_layout = houzez_option('search_result_layout');
+?>
 <div class="page-title breadcrumb-top">
     <div class="row">
         <div class="col-sm-12">
@@ -41,6 +44,9 @@
                     <div class="table-cell">
                         <span class="view-btn btn-list <?php if( $active == 'list-view' ) { echo 'active'; }?>"><i class="fa fa-th-list"></i></span>
                         <span class="view-btn btn-grid <?php if( $active == 'grid-view' ) { echo 'active'; }?>"><i class="fa fa-th-large"></i></span>
+                        <?php if( $search_result_layout == 'no-sidebar' ) { ?>
+                            <span class="view-btn btn-grid-3-col <?php if( $active == 'grid-view-3-col' ) { echo 'active'; }?>"><i class="fa fa-th"></i></span>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,8 @@ if( $page_sidebar == 'none' ) {
 
 } else if( $page_sidebar == 'right_sidebar' ) {
     $content_area = 'col-lg-8 col-md-8 col-sm-12 col-xs-12 container-contentbar';
+} else {
+    $content_area = 'col-lg-8 col-md-8 col-sm-12 col-xs-12 container-contentbar';
 }
 
 if( $page_background == 'none' && $page_sidebar == 'none' ) {

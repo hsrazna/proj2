@@ -9,7 +9,7 @@ global $floor_plans;
 ?>
 
 <?php if( !empty( $floor_plans ) ) { ?>
-<div id="floor_plan" class="property-plans detail-block">
+<div id="floor_plan" class="property-plans detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'Floor plans', 'houzez' ); ?></h2>
     </div>

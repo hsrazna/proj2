@@ -222,13 +222,13 @@ if( !function_exists('houzez_ajax_update_profile') ):
             $useremail = sanitize_email( $_POST['useremail'] );
             $useremail = is_email( $useremail );
             if( !$useremail ) {
-                esc_html_e('The Email you entered is not valid. Please try again.', 'houzez');
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The Email you entered is not valid. Please try again.', 'houzez') ) );
                 wp_die();
             } else {
                 $email_exists = email_exists( $useremail );
                 if( $email_exists ) {
                     if( $email_exists != $userID ) {
-                        esc_html_e('This Email is already used by another user. Please try a different one.', 'houzez');
+                        echo json_encode( array( 'success' => false, 'msg' => esc_html__('This Email is already used by another user. Please try a different one.', 'houzez') ) );
                         wp_die();
                     }
                 } else {
@@ -247,8 +247,7 @@ if( !function_exists('houzez_ajax_update_profile') ):
                 }
             }
         }
-
-        esc_html_e('Profile updated','houzez');
+        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Profile updated', 'houzez') ) );
         die();
     }
 endif; // end   houzez_ajax_update_profile
@@ -306,11 +305,11 @@ if( !function_exists('houzez_ajax_password_reset') ):
         $confirmpass    = wp_kses( $_POST['confirmpass'], $allowed_html );
 
         if( $newpass == '' || $confirmpass == '' ) {
-            esc_html_e('New password or confirm password is blank', 'houzez');
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('New password or confirm password is blank', 'houzez') ) );
             die();
         }
         if( $newpass != $confirmpass ) {
-            esc_html_e('Passwords do not match','houzez');
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
             die();
         }
 
@@ -319,9 +318,9 @@ if( !function_exists('houzez_ajax_password_reset') ):
         $user = get_user_by( 'id', $userID );
         if( $user && wp_check_password( $oldpass, $user->data->user_pass, $userID ) ) {
             wp_set_password( $newpass, $userID );
-            esc_html_e( 'Password Updated','houzez' );
+            echo json_encode( array( 'success' => true, 'msg' => esc_html__('Password Updated', 'houzez') ) );
         } else {
-            esc_html_e( 'Old password is not correct', 'houzez' );
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Old password is not correct', 'houzez') ) );
         }
         die();
     }
@@ -372,9 +371,9 @@ endif; // end   houzez_get_dashboard_profile_link
 / ------------------------------------------------------------------------------ */
 if( !function_exists('houzez_update_profile') ):
 
-function houzez_update_profile( $userID ) {
-   
-}
+    function houzez_update_profile( $userID ) {
+
+    }
 endif; // end houzez_update_profile
 
 
@@ -412,3 +411,286 @@ if ( ! function_exists( 'houzez_author_info' ) ) :
     }
 endif; // add_agent_contact_info
 add_filter( 'user_contactmethods', 'houzez_author_info', 10, 1 );
+
+
+/*-----------------------------------------------------------------------------------*/ /*  Houzez Delete Account
+/*-----------------------------------------------------------------------------------*/
+add_action( 'wp_ajax_nopriv_houzez_delete_account', 'houzez_delete_account' );
+add_action( 'wp_ajax_houzez_delete_account', 'houzez_delete_account' );
+
+if ( !function_exists( 'houzez_delete_account' ) ) :
+
+    function houzez_delete_account() {
+
+        $user_ID    = $_POST['user_id'];
+
+        wp_delete_user( $user_ID );
+
+        echo json_encode( array( 'success' => true, 'msg' => esc_html__('success', 'houzez') ) );
+        wp_die();
+    }
+
+endif;
+
+add_action( 'wp_ajax_nopriv_houzez_change_user_role', 'houzez_change_user_role' );
+add_action( 'wp_ajax_houzez_change_user_role', 'houzez_change_user_role' );
+if ( !function_exists( 'houzez_change_user_role' ) ) :
+    function houzez_change_user_role()
+    {
+        $ajax_response = array();
+
+        if (isset($_POST['role']) && isset($_POST['user_id'])) :
+
+            $user_ID = $_POST['user_id'];
+            $role = $_POST['role'];
+
+            $user_id = wp_update_user(array('ID' => $user_ID, 'role' => $role));
+
+            if (is_wp_error($user_id)) :
+
+                $ajax_response = array('success' => false, 'reason' => 'Role not updated!');
+
+            else :
+
+                $ajax_response = array('success' => true, 'reason' => 'Role updated!');
+
+            endif;
+
+        else :
+
+            $ajax_response = array('success' => false, 'reason' => 'Role not updated!');
+
+        endif;
+
+        echo json_encode($ajax_response);
+
+        wp_die();
+    }
+endif;
+
+add_filter( 'random_user_name', 'random_user_name', 10, 1 );
+
+if( !function_exists('random_user_name') ) {
+    function random_user_name($username)
+    {
+
+        $user_name = $username . rand(3, 5);
+
+        if (username_exists($user_name)) :
+
+            apply_filters( 'random_user_name', $username );
+
+        else :
+
+            return $user_name;
+
+        endif;
+    }
+}
+
+/* -----------------------------------------------------------------------------------------------------------
+ *  Update profile
+ -------------------------------------------------------------------------------------------------------------*/
+add_action( 'profile_update', 'my_profile_update', 10, 2 );
+function my_profile_update( $user_id, $old_user_data ) {
+    $post_id = get_the_author_meta( 'fave_author_agent_id', $user_id );
+    //echo $post_id.' '.$user_id; die;
+    if( !empty( $post_id ) ) {
+        update_post_meta($post_id, 'houzez_user_meta_id', $user_id);  // used when agent custom post type updated
+
+    } else {
+
+    }
+}
+
+/* -----------------------------------------------------------------------------------------------------------
+ *  Forgot PassWord function
+ -------------------------------------------------------------------------------------------------------------*/
+
+$reset_password_link = houzez_get_template_link_2( 'template/reset_password.php' );
+
+if ( !empty( $reset_password_link ) ) :
+
+    add_action( 'login_form_rp', 'redirect_to_custom_password_reset' );
+    add_action( 'login_form_resetpass', 'redirect_to_custom_password_reset' );
+
+endif;
+
+if ( !function_exists( 'redirect_to_custom_password_reset' ) ) :
+
+    function redirect_to_custom_password_reset() {
+
+        if ( 'GET' == $_SERVER['REQUEST_METHOD'] ) :
+
+            $reset_password_link = houzez_get_template_link_2( 'template/reset_password.php' );
+
+            // Verify key / login combo
+            $user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
+
+            if ( ! $user || is_wp_error( $user ) ) :
+
+                if ( $user && $user->get_error_code() === 'expired_key' ) :
+
+                    wp_redirect( home_url( $reset_password_link. '?login=expiredkey' ) );
+
+                else :
+
+                    wp_redirect( home_url( $reset_password_link. '?login=invalidkey' ) );
+
+                endif;
+
+                exit;
+
+            endif;
+
+            $redirect_url = home_url( 'reset-password' );
+            $redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
+            $redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
+
+            wp_redirect( $redirect_url );
+
+            exit;
+
+        endif;
+
+    }
+
+endif;
+
+add_action( 'wp_ajax_nopriv_houzez_reset_password_2', 'houzez_reset_password_2' );
+add_action( 'wp_ajax_houzez_reset_password_2', 'houzez_reset_password_2' );
+
+if( !function_exists('houzez_reset_password_2') ) {
+    function houzez_reset_password_2() {
+        $allowed_html   = array();
+
+        $newpass        = wp_kses( $_POST['password'], $allowed_html );
+        $confirmpass    = wp_kses( $_POST['confirm_pass'], $allowed_html );
+        $rq_login   = wp_kses( $_POST['rq_login'], $allowed_html );
+        $rp_key   = wp_kses( $_POST['rp_key'], $allowed_html );
+
+        $user = check_password_reset_key( $rp_key, $rq_login );
+
+        if ( ! $user || is_wp_error( $user ) ) {
+
+            if ($user && $user->get_error_code() === 'expired_key') {
+                echo json_encode(array('success' => false, 'msg' => esc_html__('Reset password Session key expired.', 'houzez')));
+                die();
+            } else {
+                echo json_encode(array('success' => false, 'msg' => esc_html__('Invalid password reset Key', 'houzez')));
+                die();
+            }
+        }
+
+        if( $newpass == '' || $confirmpass == '' ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('New password or confirm password is blank', 'houzez') ) );
+            die();
+        }
+        if( $newpass != $confirmpass ) {
+            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+            die();
+        }
+
+        reset_password( $user, $newpass );
+        echo json_encode( array( 'success' => true, 'msg' => esc_html__('Password reset successfully, you can login now.', 'houzez') ) );
+        die();
+    }
+}
+
+add_action( 'wp_ajax_nopriv_az_call_back', 'az_call_back' );
+add_action( 'wp_ajax_az_call_back', 'az_call_back' );
+if( !function_exists('az_call_back') ) {
+    function az_call_back() {
+        global $wpdb, $current_user;
+
+        wp_get_current_user();
+        $userID       =  $current_user->ID;
+        $userEmail    =  $current_user->user_email;
+        $userLogin    =  $current_user->user_login;
+        $userPhone    =  get_user_meta( $userID, 'fave_author_phone', true );
+        $userMobile   =  get_user_meta( $userID, 'fave_author_mobile', true );
+
+        $postId = $_POST['user_id'];
+        $postName = $_POST['user_name'];
+        $postPhone = $_POST['user_phone'];
+        $postMobile = $_POST['user_mobile'];
+        $az_name = $_POST['az_name'];
+        $az_phone = $_POST['az_phone'];
+
+        if(is_user_logged_in()){
+            if($userID == $postId && $userLogin == $postName && ($postPhone == 1 || $postMobile == 1)){
+                $subject  = "Новое сообщение";
+                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+                $msg  = "<html><body>";
+                $msg .= "<h2>Новое сообщение</h2>\r\n";
+                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
+                if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$userPhone."</p>\r\n";}
+                if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
+                if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
+                $msg .= "</body></html>";
+
+                // отправка сообщения
+                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                    // echo "true";
+                } else {
+                    // echo "false";
+                }
+                echo json_encode(array(
+                    'success' => true,
+                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                ));
+                wp_die();
+            } elseif($userID == $postId && $userLogin == $postName && !empty($az_phone)){
+                $subject  = "Новое сообщение";
+                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+                $msg  = "<html><body>";
+                $msg .= "<h2>Новое сообщение</h2>\r\n";
+                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
+                if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
+                $msg .= "</body></html>";
+
+                // отправка сообщения
+                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                    // echo "true";
+                } else {
+                    // echo "false";
+                }
+                update_user_meta($userID, 'fave_author_phone', $az_phone);
+                echo json_encode(array(
+                    'success' => true,
+                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                ));
+                wp_die();
+            }
+        } else {
+            $subject  = "Новое сообщение";
+            $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+            $headers .= "Reply-To: ". "\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+            $msg  = "<html><body>";
+            $msg .= "<h2>Новое сообщение</h2>\r\n";
+            if($az_phone!=''){$msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$az_name."</p>\r\n";}
+            if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
+            $msg .= "</body></html>";
+
+            // отправка сообщения
+            if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                // echo "true";
+            } else {
+                // echo "false";
+            }
+            echo json_encode(array(
+                'success' => true,
+                'msg' => esc_html__( 'Request is sent!', 'houzez')
+            ));
+            wp_die();
+        }
+    }
+}

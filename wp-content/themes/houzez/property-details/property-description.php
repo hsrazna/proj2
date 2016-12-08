@@ -10,7 +10,7 @@ $documents_download = houzez_option('documents_download');
 
 if( !empty( $prop_description ) ) {
 ?>
-<div id="description" class="property-description detail-block">
+<div id="description" class="property-description detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'Description', 'houzez' ); ?></h2>
     </div>

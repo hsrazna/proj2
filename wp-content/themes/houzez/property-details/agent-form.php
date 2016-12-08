@@ -15,6 +15,7 @@ $prop_agent_num = $agent_num_call = $prop_agent_email = '';
 
 if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
     $prop_agent_id = get_post_meta( get_the_ID(), 'fave_agents', true );
+    $prop_agent_phone = get_post_meta( $prop_agent_id, 'fave_agent_office_num', true );
     $prop_agent_mobile = get_post_meta( $prop_agent_id, 'fave_agent_mobile', true );
     $prop_agent_email = get_post_meta( $prop_agent_id, 'fave_agent_email', true );
     $agent_num_call = str_replace(array('(',')',' ','-'),'', $prop_agent_mobile);
@@ -27,6 +28,7 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
 } elseif ( $agent_display_option == 'author_info' ) {
     $prop_agent = get_the_author();
     $prop_agent_permalink = get_author_posts_url( get_the_author_meta( 'ID' ) );
+    $prop_agent_phone = get_the_author_meta( 'fave_author_phone' );
     $prop_agent_mobile = get_the_author_meta( 'fave_author_mobile' );
     $agent_num_call = str_replace(array('(',')',' ','-'),'', $prop_agent_num);
     $prop_agent_photo_url = get_the_author_meta( 'fave_author_custom_picture' );
@@ -35,6 +37,7 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
 if( empty( $prop_agent_photo_url )) {
     $prop_agent_photo_url = get_template_directory_uri().'/images/profile-avatar.png';
 }
+
 $agent_email = is_email( $prop_agent_email );
 ?>
 <div class="media agent-media">
@@ -55,6 +58,7 @@ $agent_email = is_email( $prop_agent_email );
             <?php } ?>
             <dd><a href="<?php echo esc_url($prop_agent_permalink); ?>" class="view"><?php esc_html_e('View my listing', 'houzez' ); ?></a></dd>
         </dl>
+
 
     </div>
 </div>
@@ -87,11 +91,10 @@ if( $enable_contact_form_7_prop_detail != 0 ) {
             </div>
             <div class="form-group">
                 <textarea class="form-control" name="message" rows="5"
-                          placeholder="<?php esc_html_e('Description', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in ", "houzez"); ?>[<?php echo get_the_title(); ?>]</textarea>
+                          placeholder="<?php esc_html_e('Description', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in", "houzez"); ?>[<?php echo get_the_title(); ?>]</textarea>
             </div>
             <button class="agent_contact_form btn btn-orange btn-block"><?php esc_html_e('Request info', 'houzez'); ?></button>
             <div class="form_messages"></div>
         </form>
     <?php }
 }?>
-

@@ -37,6 +37,14 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
             }
         }
 
+        $agencies_array = array();
+        $agencies_posts = get_posts(array('post_type' => 'houzez_agency', 'posts_per_page' => -1, 'suppress_filters' => 0));
+        if (!empty($agencies_posts)) {
+            foreach ($agencies_posts as $agency_post) {
+                $agencies_array[$agency_post->ID] = $agency_post->post_title;
+            }
+        }
+
         $users_array = array();
         $order = 'user_nicename';
         $fave_users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY $order"); // query users
@@ -61,6 +69,7 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
         houzez_get_terms_array( 'property_status', $prop_status );
         houzez_get_terms_array( 'property_type', $prop_types );
         houzez_get_terms_array( 'property_city', $prop_locations );
+        houzez_get_terms_array( 'agent_category', $agent_categories );
 
         $Countries = array(
             'US' => esc_html__('United States', 'houzez'),
@@ -321,11 +330,13 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
             }
         }
 
+        $max_prop_images = houzez_option('max_prop_images');
         $default_country = houzez_option('default_country');
-        $hide_add_prop_fields = houzez_option('hide_add_prop_fields');
-        $beds_hidden = $baths_hidden = $garages = $garage_size = $prop_id = $area_size = '';
+        //$hide_add_prop_fields = houzez_option('hide_add_prop_fields');
+        $auto_property_id = houzez_option('auto_property_id');
+        $beds_hidden = $baths_hidden = $garages = $garage_size = $prop_id = $area_size = $land_area = '';
 
-        if( $hide_add_prop_fields['bedrooms'] != 0 ) {
+        /*if( $hide_add_prop_fields['bedrooms'] != 0 ) {
             $beds_hidden = 'houzez_hidden';
         }
         if( $hide_add_prop_fields['bathrooms'] != 0 ) {
@@ -337,12 +348,15 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
         if( $hide_add_prop_fields['garage_size'] != 0 ) {
             $garage_size = 'houzez_hidden';
         }
-        if( $hide_add_prop_fields['prop_id'] != 0 ) {
+        if( $hide_add_prop_fields['prop_id'] != 0 || $auto_property_id != 0 ) {
             $prop_id = 'houzez_hidden';
         }
         if( $hide_add_prop_fields['area_size'] != 0 ) {
             $area_size = 'houzez_hidden';
         }
+        if( $hide_add_prop_fields['land_area'] != 0 ) {
+            $land_area = 'houzez_hidden';
+        }*/
 
         /* ===========================================================================================
         *   Property Custom Post Type Meta
@@ -395,6 +409,10 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                 'attachments' => array(
                     'label' => esc_html__('Attachments', 'houzez'),
                     'icon' => 'dashicons-book',
+                ),
+                'listing_layout' => array(
+                    'label' => esc_html__('Layout', 'houzez'),
+                    'icon' => 'dashicons-laptop',
                 )
 
             ),
@@ -404,17 +422,26 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                 // Property Details
                 array(
                     'id' => "{$houzez_prefix}property_price",
-                    'name' => esc_html__('Sale or Rent Price ( Only digits )', 'houzez'),
-                    'desc' => esc_html__('Eg: 557000', 'houzez'),
+                    'name' => esc_html__('Sale or Rent Price', 'houzez'),
+                    'desc' => esc_html__('Eg: 557000 or See opan request', 'houzez'),
                     'type' => 'text',
                     'std' => "",
-                    'columns' => 12,
+                    'columns' => 6,
                     'tab' => 'property_details',
                 ),
                 array(
                     'id' => "{$houzez_prefix}property_sec_price",
                     'name' => esc_html__('Second Price ( Display optional price for rental or square feet )', 'houzez'),
                     'desc' => esc_html__('Eg: 700', 'houzez'),
+                    'type' => 'text',
+                    'std' => "",
+                    'columns' => 6,
+                    'tab' => 'property_details',
+                ),
+                array(
+                    'id' => "{$houzez_prefix}property_price_prefix",
+                    'name' => esc_html__('Before Price Label', 'houzez'),
+                    'desc' => esc_html__('Eg: Start From', 'houzez'),
                     'type' => 'text',
                     'std' => "",
                     'columns' => 6,
@@ -446,6 +473,26 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'type' => 'text',
                     'std' => "",
                     'class' => $area_size,
+                    'columns' => 6,
+                    'tab' => 'property_details',
+                ),
+                array(
+                    'id' => "{$houzez_prefix}property_land",
+                    'name' => esc_html__('Land Area ( Only digits )', 'houzez'),
+                    'desc' => esc_html__('Eg: 1500', 'houzez'),
+                    'type' => 'text',
+                    'std' => "",
+                    'class' => $land_area,
+                    'columns' => 6,
+                    'tab' => 'property_details',
+                ),
+                array(
+                    'id' => "{$houzez_prefix}property_land_postfix",
+                    'name' => esc_html__('Land Area Postfix', 'houzez'),
+                    'desc' => esc_html__('Eg: SqFt', 'houzez'),
+                    'type' => 'text',
+                    'std' => "",
+                    'class' => $land_area,
                     'columns' => 6,
                     'tab' => 'property_details',
                 ),
@@ -494,6 +541,12 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'name' => esc_html__('Year Built', 'houzez'),
                     'desc' => "",
                     'type' => 'date',
+                    'js_options' => array(
+                        'dateFormat'      => esc_html__( 'yy-mm-dd', 'houzez' ),
+                        'changeMonth'     => true,
+                        'changeYear'      => true,
+                        'showButtonPanel' => true,
+                    ),
                     'std' => "",
                     'columns' => 6,
                     'tab' => 'property_details',
@@ -663,6 +716,7 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'options' => $agents_array,
                     'columns' => 12,
                     'tab' => 'agent',
+                    'multiple' => false
                 ),
 
                 // Homepage Slider
@@ -763,12 +817,6 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                             'type' => 'text',
                             'columns' => 6,
                         ),
-                        /*array(
-                            'name' => esc_html__( 'Image', 'houzez' ),
-                            'id'   => "{$houzez_prefix}mu_image",
-                            'type' => 'file_input',
-                            'columns' => 12,
-                        )*/
 
                     ),
                 ),
@@ -801,7 +849,7 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                             'columns' => 12,
                         ),
                         array(
-                            'name' => esc_html__( 'Plan Bebrooms', 'houzez' ),
+                            'name' => esc_html__( 'Plan Bedrooms', 'houzez' ),
                             'id'   => "{$houzez_prefix}plan_rooms",
                             'type' => 'text',
                             'columns' => 6,
@@ -855,11 +903,46 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'mime_type' => '',
                     'columns' => 12,
                     'tab' => 'attachments',
-                )
+                ),
+
+                //layout
+                array(
+                    'id' => "{$houzez_prefix}single_top_area",
+                    'name' => esc_html__('Property Top Type', 'houzez'),
+                    'desc' => esc_html__('Set property top area type.', 'houzez'),
+                    'type' => 'select',
+                    'std' => "global",
+                    'options' => array(
+                        'global' => esc_html__( 'Global', 'houzez' ),
+                        'v1' => esc_html__( 'Version 1', 'houzez' ),
+                        'v2' => esc_html__( 'Version 2', 'houzez' ),
+                        'v3' => esc_html__( 'Version 3', 'houzez' ),
+                        'v4' => esc_html__( 'Version 4', 'houzez' )
+                    ),
+                    'columns' => 12,
+                    'tab' => 'listing_layout'
+                ),
+                array(
+                    'id' => "{$houzez_prefix}single_content_area",
+                    'name' => esc_html__('Property Content Layout', 'houzez'),
+                    'desc' => esc_html__('Set property content area type.', 'houzez'),
+                    'type' => 'select',
+                    'std' => "global",
+                    'options' => array(
+                        'global' => esc_html__( 'Global', 'houzez' ),
+                        'simple' => esc_html__( 'Default', 'houzez' ),
+                        'tabs'   => esc_html__( 'Tabs', 'houzez' ),
+                        'tabs-vertical' => esc_html__( 'Tabs Vertical', 'houzez' ),
+                        'v2' => esc_html__( 'Luxury Homes ( Since v1.4.0 )', 'houzez' )
+                    ),
+                    'columns' => 12,
+                    'tab' => 'listing_layout'
+                ),
+
             )
         );
 
-        if( $hide_add_prop_fields['additional_details'] != 1 ) {
+        //if( $hide_add_prop_fields['additional_details'] != 1 ) {
             $meta_boxes[] = array(
                 'title' => esc_html__('Additional Details', 'houzez'),
                 'pages' => array('property'),
@@ -875,12 +958,9 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     ),
                     array(
                         'id' => 'additional_features',
-                        // Gropu field
                         'type' => 'group',
-                        // Clone whole group?
                         'clone' => true,
                         'sort_clone' => true,
-                        // Sub-fields
                         'fields' => array(
                             array(
                                 'name' => esc_html__('Title', 'houzez'),
@@ -898,77 +978,7 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     ),
                 ),
             );
-        }
-
-        /*$meta_boxes[] = array(
-            'title'  => esc_html__( 'Floor Plans' ),
-            'pages'  => array('property'),
-            'fields' => array(
-                array(
-                    'id' => "{$houzez_prefix}floor_plans_enable",
-                    'name' => esc_html__('Floor Plans', 'houzez'),
-                    'desc' => esc_html__('Enable/Disable floor plans', 'houzez'),
-                    'type' => 'select',
-                    'std' => "disable",
-                    'options' => array('disable' => 'Disable', 'enable' => 'Enable'),
-                    'columns' => 12
-                ),
-                array(
-                    'id'     => 'floor_plans',
-                    // Gropu field
-                    'type'   => 'group',
-                    // Clone whole group?
-                    'clone'  => true,
-                    'sort_clone' => true,
-                    // Sub-fields
-                    'fields' => array(
-                        array(
-                            'name' => esc_html__( 'Plan Title', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_title",
-                            'type' => 'text',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Image', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_image",
-                            'type' => 'file_input',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Size', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_size",
-                            'type' => 'text',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Bebrooms', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_rooms",
-                            'type' => 'text',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Bathrooms', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_bathrooms",
-                            'type' => 'text',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Price', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_price",
-                            'type' => 'text',
-                            'columns' => 4,
-                        ),
-                        array(
-                            'name' => esc_html__( 'Plan Description', 'houzez' ),
-                            'id'   => "{$houzez_prefix}plan_description",
-                            'type' => 'textarea',
-                            'columns' => 12,
-                        ),
-
-                    ),
-                ),
-            ),
-        );*/
+        //}
 
         /* ===========================================================================================
         *   Agent
@@ -1107,6 +1117,23 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'columns'   => 12
                 )
             ),
+        );
+
+        $meta_boxes[] = array(
+            'title'  => esc_html__( 'Agencies', 'houzez' ),
+            'pages'  => array('houzez_agent'),
+            'context' => 'side',
+            'priority' => 'high',
+            'fields' => array(
+                array(
+                    'id'        => $houzez_prefix . 'agent_agencies',
+                    'type'      => 'select',
+                    'options'   => $agencies_array,
+                    'desc'      => '',
+                    'columns' => 12,
+                    'multiple' => true
+                ),
+            )
         );
 
         /* ===========================================================================================
@@ -1319,6 +1346,78 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
         );
 
         /* ===========================================================================================
+        *   Agencies Template
+        * ============================================================================================*/
+        $meta_boxes[] = array(
+            'id'        => 'fave_agencies_template',
+            'title'     => esc_html__('Agencies Options', 'houzez'),
+            'pages'     => array( 'page' ),
+            'context' => 'normal',
+
+            'fields'    => array(
+                array(
+                    'name'      => esc_html__('Order By', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_orderby',
+                    'type'      => 'select',
+                    'options'   => array('None' => 'none', 'ID' => 'ID', 'title' => 'title', 'Date' => 'date', 'Random' => 'rand', 'Menu Order' => 'menu_order' ),
+                    'desc'      => '',
+                    'columns' => 6,
+                    'multiple' => false
+                ),
+                array(
+                    'name'      => esc_html__('Order', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_order',
+                    'type'      => 'select',
+                    'options'   => array('ASC' => 'ASC', 'DESC' => 'DESC' ),
+                    'desc'      => '',
+                    'columns' => 6,
+                    'multiple' => false
+                ),
+            )
+        );
+
+        /* ===========================================================================================
+        *   Agents Template
+        * ============================================================================================*/
+        $meta_boxes[] = array(
+            'id'        => 'fave_agents_template',
+            'title'     => esc_html__('Agents Options', 'houzez'),
+            'pages'     => array( 'page' ),
+            'context' => 'normal',
+
+            'fields'    => array(
+                array(
+                    'name'      => esc_html__('Order By', 'houzez'),
+                    'id'        => $houzez_prefix . 'agent_orderby',
+                    'type'      => 'select',
+                    'options'   => array('None' => 'none', 'ID' => 'ID', 'title' => 'title', 'Date' => 'date', 'Random' => 'rand', 'Menu Order' => 'menu_order' ),
+                    'desc'      => '',
+                    'columns' => 6,
+                    'multiple' => false
+                ),
+                array(
+                    'name'      => esc_html__('Order', 'houzez'),
+                    'id'        => $houzez_prefix . 'agent_order',
+                    'type'      => 'select',
+                    'options'   => array('ASC' => 'ASC', 'DESC' => 'DESC' ),
+                    'desc'      => '',
+                    'columns' => 6,
+                    'multiple' => false
+                ),
+                //Filters
+                array(
+                    'name'      => esc_html__('Agent Category', 'houzez'),
+                    'id'        => $houzez_prefix . 'agent_category',
+                    'type'      => 'select',
+                    'options'   => $agent_categories,
+                    'desc'      => '',
+                    'columns' => 12,
+                    'multiple' => true
+                )
+            )
+        );
+
+        /* ===========================================================================================
         *   Page Settings
         * ============================================================================================*/
         $meta_boxes[] = array(
@@ -1389,6 +1488,17 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     ),
                     'std'       => array( 'no' ),
                     'desc'      => esc_html__('If "Yes" it will fit according to screen size' ,'houzez'),
+                ),
+                array(
+                    'name'      => esc_html__('Full Screen Type', 'houzez' ),
+                    'id'        => $houzez_prefix . 'header_full_screen_type',
+                    'type'      => 'select',
+                    'options'   => array(
+                        'screen_fix' => esc_html__('Screen fix', 'houzez' ),
+                        'auto_fix' => esc_html__('Auto fix', 'houzez' )
+                    ),
+                    'std'       => array( 'screen_fix' ),
+                    'desc'      => '',
                 ),
                 array(
                     'name'      => esc_html__('Title', 'houzez' ),
@@ -1718,6 +1828,142 @@ if( !function_exists( 'houzez_register_metaboxes' ) ) {
                     'type'      => 'text',
                     'desc'      => esc_html__('Provide website url.','houzez'),
                 )
+            )
+        );
+
+        /* ===========================================================================================
+        *   Partners
+        * ============================================================================================*/
+        $meta_boxes[] = array(
+            'id'        => 'houzez_agencies',
+            'title'     => esc_html__('Agency Information', 'houzez'),
+            'pages'     => array( 'houzez_agency' ),
+            'context' => 'normal',
+
+            'fields'    => array(
+                array(
+                    'name'      => esc_html__('Email', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_email',
+                    'type'      => 'text',
+                    'desc'      => esc_html__('Enter email address','houzez'),
+                    'columns'   => 6
+                ),
+                array(
+                    'name'      => esc_html__('Mobile', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_mobile',
+                    'type'      => 'text',
+                    'desc'      => '',
+                    'columns'   => 6
+                ),
+                array(
+                    'name'      => esc_html__('Phone Number', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_phone',
+                    'type'      => 'text',
+                    'desc'      => '',
+                    'columns'   => 6
+                ),
+                array(
+                    'name'      => esc_html__('Fax', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_fax',
+                    'type'      => 'text',
+                    'desc'      => '',
+                    'columns'   => 6
+                ),
+                array(
+                    'name'      => esc_html__('Licenses', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_licenses',
+                    'type'      => 'text',
+                    'desc'      => '',
+                    'columns'   => 6
+                ),
+                array(
+                    'name'      => esc_html__('Website Url', 'houzez'),
+                    'id'        => $houzez_prefix . 'agency_web',
+                    'type'      => 'text',
+                    'desc'      => esc_html__('Provide website url.','houzez'),
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_facebook",
+                    'name' => "Facebook URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_twitter",
+                    'name' => "Twitter URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_linkedin",
+                    'name' => "LinkedIn URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_googleplus",
+                    'name' => "Google Plus URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agent_youtube",
+                    'name' => "Youtube URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_instagram",
+                    'name' => "Instagram URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_pinterest",
+                    'name' => "Pinterest URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_vimeo",
+                    'name' => "Vimeo URL",
+                    'type' => 'text',
+                    'std' => "",
+                    'columns'   => 6
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_address",
+                    'name' => esc_html__('Address', 'houzez'),
+                    'type' => 'textarea',
+                    'std' => "",
+                    'columns'   => 12
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_map_address",
+                    'name' => esc_html__('Agency Location', 'houzez'),
+                    'desc' => esc_html__('Leave it empty if you want to hide map on agency detail page.', 'houzez'),
+                    'type' => 'text',
+                    'std' => '',
+                    'columns' => 12
+                ),
+                array(
+                    'id' => "{$houzez_prefix}agency_location",
+                    'name' => esc_html__('Agency Location at Google Map*', 'houzez'),
+                    'desc' => esc_html__('Drag the google map marker to point your agency location. You can also use the address field above to search for your agency.', 'houzez'),
+                    'type' => 'map',
+                    'std' => '25.686540,-80.431345,15',   // 'latitude,longitude[,zoom]' (zoom is optional)
+                    'style' => 'width: 95%; height: 400px',
+                    'address_field' => "{$houzez_prefix}agency_map_address",
+                    'columns' => 12
+                ),
             )
         );
 

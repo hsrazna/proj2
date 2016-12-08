@@ -25,6 +25,8 @@ jQuery(document).ready(function ($) {
         var process_loader_cog = HOUZEZ_ajaxcalls_vars.process_loader_cog;
         var success_icon = HOUZEZ_ajaxcalls_vars.success_icon;
         var confirm_message = HOUZEZ_ajaxcalls_vars.confirm;
+        var confirm_featured = HOUZEZ_ajaxcalls_vars.confirm_featured;
+        var confirm_relist = HOUZEZ_ajaxcalls_vars.confirm_relist;
         var is_singular_property = HOUZEZ_ajaxcalls_vars.is_singular_property;
         var property_map = HOUZEZ_ajaxcalls_vars.property_map;
         var property_map_street = HOUZEZ_ajaxcalls_vars.property_map_street;
@@ -54,6 +56,7 @@ jQuery(document).ready(function ($) {
         var simple_logo = HOUZEZ_ajaxcalls_vars.simple_logo;
         var retina_logo = HOUZEZ_ajaxcalls_vars.retina_logo;
         var retina_logo_mobile = HOUZEZ_ajaxcalls_vars.retina_logo_mobile;
+        var retina_logo_mobile_splash = HOUZEZ_ajaxcalls_vars.retina_logo_mobile_splash;
         var retina_logo_splash = HOUZEZ_ajaxcalls_vars.retina_logo_splash;
         var retina_logo_height = HOUZEZ_ajaxcalls_vars.retina_logo_height;
         var retina_logo_width = HOUZEZ_ajaxcalls_vars.retina_logo_width;
@@ -83,6 +86,14 @@ jQuery(document).ready(function ($) {
         var keyword_autocomplete = HOUZEZ_ajaxcalls_vars.keyword_autocomplete;
         var template_thankyou = HOUZEZ_ajaxcalls_vars.template_thankyou;
         var direct_pay_text = HOUZEZ_ajaxcalls_vars.direct_pay_text;
+        var search_result_page = HOUZEZ_ajaxcalls_vars.search_result_page;
+        var houzez_default_radius = HOUZEZ_ajaxcalls_vars.houzez_default_radius;
+        var enable_radius_search = HOUZEZ_ajaxcalls_vars.enable_radius_search;
+        var enable_radius_search_halfmap = HOUZEZ_ajaxcalls_vars.enable_radius_search_halfmap;
+        var houzez_primary_color = HOUZEZ_ajaxcalls_vars.houzez_primary_color;
+        var houzez_geocomplete_country = HOUZEZ_ajaxcalls_vars.geocomplete_country;
+        var houzez_logged_in = HOUZEZ_ajaxcalls_vars.houzez_logged_in;
+        var ipinfo_location = HOUZEZ_ajaxcalls_vars.ipinfo_location;
 
         var compare_button_url = HOUZEZ_ajaxcalls_vars.compare_button_url;
         var compare_page_not_found = HOUZEZ_ajaxcalls_vars.compare_page_not_found;
@@ -92,6 +103,7 @@ jQuery(document).ready(function ($) {
         } else {
             houzez_rtl = false;
         }
+
 
         /*
          *  Retina logo
@@ -128,6 +140,12 @@ jQuery(document).ready(function ($) {
             }
         }
 
+        if( retina_logo_mobile_splash !== '' ) {
+            if (window.devicePixelRatio == 2) {
+                $(".logo-mobile-splash img").attr("src", retina_logo_mobile_splash);
+            }
+        }
+
 
         if( google_map_needed == 'yes' ) {
 
@@ -140,20 +158,21 @@ jQuery(document).ready(function ($) {
             var hospitalsMarkers       = new Array();
 
             var drgflag = true;
+            var houzez_is_mobile = false;
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 drgflag = false;
+                houzez_is_mobile = true;
             }
 
             var houzezMapoptions = {
                 zoom: parseInt(googlemap_default_zoom),
-                mapTypeId: 'Styled',
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 panControl: false,
                 draggable: drgflag,
-                zoomControl: true,
+                zoomControl: false,
                 mapTypeControl: false,
                 scaleControl: false,
-                streetViewControl: true,
+                streetViewControl: false,
                 overviewMapControl: false,
                 zoomControlOptions: {
                     style: google.maps.ZoomControlStyle.SMALL,
@@ -169,7 +188,7 @@ jQuery(document).ready(function ($) {
                 disableDefaultUI: true,
                 scrollwheel: false,
                 scroll:{x:$(window).scrollLeft(),y:$(window).scrollTop()},
-                zoom: 5,//parseInt(googlemap_default_zoom),
+                zoom: parseInt(googlemap_default_zoom),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 draggable: drgflag,
             };
@@ -516,86 +535,112 @@ jQuery(document).ready(function ($) {
         }
 
 
-        if( $('.compare-property').length > 0 ) {
-            $('.compare-property').click(function (e) {
-                e.preventDefault();
+        /* ------------------------------------------------------------------------ */
+        /*  COMPARE PANEL
+         /* ------------------------------------------------------------------------ */
+        var has_compare = $('#compare-controller').length;
 
-                var prop_id = $( this ).attr('data-propid');
+        if( has_compare == 1) {
 
-                var data_ap = { action: 'houzez_compare_add_property', prop_id: prop_id };
-
-                $.post( ajaxurl, data_ap, function( response ) {
-
-                    /*if( response.indexOf( "SHOW_TOOLTIP" ) >= 0 ) {
-                        response = response.replace( "SHOW_TOOLTIP", "" );
-                        show_tooltip = true;
-                    }*/
-
-                    //$(this).parents('li').addClass('wooooow');
-                    //$( this ).parents('.item-thumb').block({ message: '<i class="'+process_loader_spinner+'"></i>' });
-                    //return;
-
-                    //$( '#compare-link-' + prop_id ).replaceWith( response );
-
-                    /*if( show_tooltip == true )
-                        jQuery( '<div class="be-compare-error">' + be_compare_params.text_product_add_error + '</div>' ).appendTo( '#compare-link-' + product_id ).delay(4000).fadeOut();
-                     */
-                    var data_ub = { action: 'houzez_compare_update_basket' };
-
-                    $.post( ajaxurl, data_ub, function( response ) {
-
-                        $( 'div#compare-properties-basket' ).replaceWith( response );
-
-                    });
-
+            var compare_panel = function () {
+                $('.panel-btn').on('click', function () {
+                    if ($('.compare-panel').hasClass('panel-open')) {
+                        $('.compare-panel').removeClass('panel-open');
+                    } else {
+                        $('.compare-panel').addClass('panel-open');
+                    }
                 });
+            }
 
-                return;
-
-            }); // end .compare-property
-
-            // Delete single item from basket
-            $( document ).on( 'click', '#compare-properties-basket .compare-property-remove', function(e) {
-                e.preventDefault();
-
-                var property_id = jQuery( this ).parent().attr('property-id');
-
-               $( this ).parent().block({ message: '<i class="'+process_loader_spinner+'"></i>', css: {
-                   border:         'none',
-                   backgroundColor:'none',
-                   fontSize:       '16px',
-               },  });
-
-               var data_ap = { action: 'houzez_compare_add_property', prop_id: property_id };
-                $.post( ajaxurl, data_ap, function( response ) {
-
-                   //$( '#compare-link-' + property_id ).replaceWith( response );
-
-                    var data_ub = { action: 'houzez_compare_update_basket' };
-                    $.post( ajaxurl, data_ub, function( response ) {
-
-                        $( 'div#compare-properties-basket' ).replaceWith( response );
-
-                    });
-
-                });
-
-                return;
-            }); // End Delete compare
-
-            // Show / Hide category details
-            jQuery(document).on('click', '.compare-properties-button', function(){
-
-                if( compare_button_url != "" ) {
-                    window.location.href = compare_button_url;
-                } else {
-                    alert(compare_page_not_found);
+            var compare_panel_close = function () {
+                if ($('.compare-panel').hasClass('panel-open')) {
+                    $('.compare-panel').removeClass('panel-open');
                 }
-                return false;
-            });
+            }
 
-        }
+            var compare_panel_open = function () {
+                $('.compare-panel').addClass('panel-open');
+            }
 
+
+            if ($('.compare-property').length > 0) {
+                var houzez_compare_listing = function() {
+                    $('.compare-property').click(function (e) {
+                        e.preventDefault();
+                        var $this = $(this);
+
+                        var prop_id = $this.attr('data-propid');
+
+                        var data_ap = {action: 'houzez_compare_add_property', prop_id: prop_id};
+
+                        $this.find('i.fa-plus').addClass('fa-spin');
+
+                        $.post(ajaxurl, data_ap, function (response) {
+
+                            var data_ub = {action: 'houzez_compare_update_basket'};
+
+                            $this.find('i.fa-plus').removeClass('fa-spin');
+
+                            $.post(ajaxurl, data_ub, function (response) {
+
+                                $('div#compare-properties-basket').replaceWith(response);
+
+                                compare_panel();
+                                compare_panel_open();
+
+                            });
+
+                        });
+
+                        return;
+
+                    }); // end .compare-property
+                }
+                houzez_compare_listing();
+
+                // Delete single item from basket
+                $(document).on('click', '#compare-properties-basket .compare-property-remove', function (e) {
+                    e.preventDefault();
+
+                    var property_id = jQuery(this).parent().attr('property-id');
+
+                    $(this).parent().block({
+                        message: '<i class="' + process_loader_spinner + '"></i>', css: {
+                            border: 'none',
+                            backgroundColor: 'none',
+                            fontSize: '16px',
+                        },
+                    });
+
+                    var data_ap = {action: 'houzez_compare_add_property', prop_id: property_id};
+                    $.post(ajaxurl, data_ap, function (response) {
+
+                        var data_ub = {action: 'houzez_compare_update_basket'};
+                        $.post(ajaxurl, data_ub, function (response) {
+
+                            $('div#compare-properties-basket').replaceWith(response);
+                            compare_panel();
+
+                        });
+
+                    });
+
+                    return;
+                }); // End Delete compare
+
+                // Show / Hide category details
+                jQuery(document).on('click', '.compare-properties-button', function () {
+
+                    if (compare_button_url != "") {
+                        window.location.href = compare_button_url;
+                    } else {
+                        alert(compare_page_not_found);
+                    }
+                    return false;
+                });
+
+            }
+        } // has compare
 
         /*
          *  Print Property
@@ -828,42 +873,20 @@ jQuery(document).ready(function ($) {
                         $link.closest('#properties_module_section').find('.fave-load-more').fadeOut('fast').remove();
                     }
 
-                    /*if (page_url != window.location) {
+                    if (page_url != window.location) {
                         window.history.pushState({
                             path: page_url
                         }, '', page_url);
-                    }*/
+                    }
 
                     fave_load_ajax_new_count++;
+                    houzez_compare_listing();
 
                     return false;
 
                 });
 
             });
-
-            /*paginationLink.click(function(e) {
-             e.preventDefault();
-             var currentButton = $(this);
-             fave_loader.slideDown('fast');
-             properties_module_container.load(
-
-             currentButton.attr('href') + ' ' + '#module_properties',
-             function( response, status, xhr ) {
-             if ( status == 'success' ) {
-             properties_module_container.fadeTo('slow',1);
-             fave_loader.slideUp('fast');
-             paginationLink.parent().removeClass('active');
-             currentButton.parent().addClass('active');
-             $('html, body').animate( { scrollTop: properties_module_container.offset().top - 60 }, 'slow' );
-             } else {
-             properties_module_container.fadeTo('slow',1);
-             console.log( status + ' ' + xhr.statusText );
-             }
-             }
-             );
-             });*/
-
 
         }
 
@@ -878,6 +901,7 @@ jQuery(document).ready(function ($) {
                 $form.find('.prices-for-all select').attr('disabled','disabled');
                 $form.find('.prices-only-for-rent').removeClass('hide');
                 $form.find('.prices-only-for-rent select').removeAttr('disabled','disabled');
+                $form.find('.prices-only-for-rent select').selectpicker('refresh');
             } else {
                 $form.find('.prices-only-for-rent').addClass('hide');
                 $form.find('.prices-only-for-rent select').attr('disabled','disabled');
@@ -946,7 +970,6 @@ jQuery(document).ready(function ($) {
                         $this.prepend('<i class="fa-left ' + process_loader_spinner + '"></i>');
                     },
                     success: function (response) {
-                        // alert(JSON.stringify(response));
                         if (response.success) {
                             $('#save_search_click').addClass('saved');
                         }
@@ -1152,13 +1175,16 @@ jQuery(document).ready(function ($) {
                         'action': 'houzez_add_to_favorite',
                         'property_id': propID
                     },
+                    beforeSend: function( ) {
+                        curnt.addClass('faa-pulse animated');
+                    },
                     success: function( data ) {
-                        // alert(JSON.stringify(data));
                         if( data.added ) {
                             curnt.removeClass('fa-heart-o').addClass('fa-heart');
                         } else {
                             curnt.removeClass('fa-heart').addClass('fa-heart-o');
                         }
+                        curnt.removeClass('faa-pulse animated');
                     },
                     error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
@@ -1199,9 +1225,9 @@ jQuery(document).ready(function ($) {
                     if( response.success ) {
                         $messages.empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ response.msg +'</p>');
                         if( login_redirect_type == 'same_page' ) {
-                            location.reload();
+                            window.location.reload();
                         } else {
-                            location.href = login_redirect;
+                            window.location.href = login_redirect;
                         }
                 
                     } else {
@@ -1219,8 +1245,8 @@ jQuery(document).ready(function ($) {
         var houzez_register = function ( currnt ) {
 
             var $form = currnt.parents('form');
-            var $messages = currnt.parents('.login-block').find('.houzez_messages_register');
-            alert($form.serialize());
+            var $messages = currnt.parents('.class-for-register-msg').find('.houzez_messages_register');
+
             $.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -1230,7 +1256,6 @@ jQuery(document).ready(function ($) {
                     $messages.empty().append('<p class="success text-success"> '+ login_sending +'</p>');
                 },
                 success: function( response ) {
-                    // alert(response);
                     if( response.success ) {
                         $messages.empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ response.msg +'</p>');
                     } else {
@@ -1260,6 +1285,9 @@ jQuery(document).ready(function ($) {
                     'user_login': user_login,
                     'security': security
                 },
+                beforeSend: function () {
+                    $('#houzez_msg_reset').empty().append('<p class="success text-success"> '+ login_sending +'</p>');
+                },
                 success: function( response ) {
                     if( response.success ) {
                         $('#houzez_msg_reset').empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ response.msg +'</p>');
@@ -1274,6 +1302,54 @@ jQuery(document).ready(function ($) {
             });
 
         });
+
+
+        if( $('#houzez_reset_password').length > 0 ) {
+            $('#houzez_reset_password').click( function(e) {
+                e.preventDefault();
+
+                var $this = $(this);
+                var rg_login = $('input[name="rp_login"]').val();
+                var rp_key = $('input[name="rp_key"]').val();
+                var pass1 = $('input[name="pass1"]').val();
+                var pass2 = $('input[name="pass2"]').val();
+                var security = $('input[name="fave_resetpassword_security"]').val();
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxurl,
+                    dataType: 'json',
+                    data: {
+                        'action': 'houzez_reset_password_2',
+                        'rq_login': rg_login,
+                        'password': pass1,
+                        'confirm_pass': pass2,
+                        'rp_key': rp_key,
+                        'security': security
+                    },
+                    beforeSend: function( ) {
+                        $this.children('i').remove();
+                        $this.prepend('<i class="fa-left '+process_loader_spinner+'"></i>');
+                    },
+                    success: function(data) {
+                        if( data.success ) {
+                            jQuery('#password_reset_msgs').empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ data.msg +'</p>');
+                            jQuery('#oldpass, #newpass, #confirmpass').val('');
+                        } else {
+                            jQuery('#password_reset_msgs').empty().append('<p class="error text-danger"><i class="fa fa-close"></i> '+ data.msg +'</p>');
+                        }
+                    },
+                    error: function(errorThrown) {
+
+                    },
+                    complete: function(){
+                        $this.children('i').removeClass(process_loader_spinner);
+                    }
+
+                });
+
+            } );
+        }
 
         /* ------------------------------------------------------------------------ */
         /*	Paypal single listing payment
@@ -1374,8 +1450,8 @@ jQuery(document).ready(function ($) {
         /* ------------------------------------------------------------------------ */
         /*	Select Membership payment
          /* ------------------------------------------------------------------------ */
-        $('#houzez_complete_membership').click( function(e) {
-            e.preventDefault();
+
+        var houzez_membership_data = function(currnt) {
             var payment_gateway = $("input[name='houzez_payment_type']:checked").val();
             var houzez_package_price = $("input[name='houzez_package_price']").val();
             var houzez_package_id    = $("input[name='houzez_package_id']").val();
@@ -1390,14 +1466,55 @@ jQuery(document).ready(function ($) {
                 }
 
             } else if ( payment_gateway == 'stripe' ) {
-                var hform = $(this).parents('form');
+                var hform = currnt.parents('form');
                 hform.find('.houzez_stripe_membership button').trigger( "click" );
 
             } else if ( payment_gateway == 'direct_pay' ) {
                 fave_processing_modal( direct_pay_text );
                 direct_bank_transfer_package( houzez_package_id, houzez_package_price, houzez_package_name );
+
+            } else {
+                houzez_free_membership_package(  houzez_package_id );
             }
+
             return false;
+        }
+
+        var houzez_register_user_with_membership = function ( currnt ) {
+
+            var $form = currnt.parents('form');
+            var $messages = currnt.parents('.class-for-register-msg').find('.houzez_messages_register');
+
+            $.ajax({
+                type: 'post',
+                url: ajaxurl,
+                dataType: 'json',
+                data: $form.serialize(),
+                beforeSend: function () {
+                    $messages.empty().append('<p class="success text-success"> '+ login_sending +'</p>');
+                },
+                success: function( response ) {
+                    if( response.success ) {
+                        houzez_membership_data(currnt);
+                    } else {
+                        $messages.empty().append('<p class="error text-danger"><i class="fa fa-close"></i> '+ response.msg +'</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+        }
+
+        $('#houzez_complete_membership').click( function(e) {
+            e.preventDefault();
+            var currnt = $(this);
+            if( houzez_logged_in == 'no' ) {
+                houzez_register_user_with_membership( currnt );
+                return;
+            }
+            houzez_membership_data(currnt);
         } );
 
         var houzez_paypal_package_payment = function( houzez_package_price, houzez_package_name, houzez_package_id ) {
@@ -1460,14 +1577,35 @@ jQuery(document).ready(function ($) {
         }
 
         /*--------------------------------------------------------------------------
+         *   Houzez Free Membership Package
+         * -------------------------------------------------------------------------*/
+        var houzez_free_membership_package = function ( houzez_package_id ) {
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    'action'           : 'houzez_free_membership_package',
+                    'selected_package' : houzez_package_id,
+                },
+                success: function (data) {
+                    window.location.href = data;
+
+                },
+                error: function (errorThrown) {}
+            });
+        }
+
+        /*--------------------------------------------------------------------------
          *   Resend Property For approval - only for membership
          * -------------------------------------------------------------------------*/
         $('.resend-for-approval').click(function (e) {
             e.preventDefault();
 
-            var prop_id = $(this).attr('data-propid');
-            resend_for_approval( prop_id, $(this) );
-            $(this).unbind( "click" );
+            if (confirm(confirm_relist)) {
+                var prop_id = $(this).attr('data-propid');
+                resend_for_approval(prop_id, $(this));
+                $(this).unbind("click");
+            }
         });
 
         var resend_for_approval = function( prop_id, currentDiv ) {
@@ -1505,9 +1643,11 @@ jQuery(document).ready(function ($) {
         $('.make-prop-featured').click(function (e) {
             e.preventDefault();
 
-            var prop_id = $(this).attr('data-propid');
-            make_prop_featured( prop_id, $(this) );
-            $(this).unbind( "click" );
+            if (confirm(confirm_featured)) {
+                var prop_id = $(this).attr('data-propid');
+                make_prop_featured(prop_id, $(this));
+                $(this).unbind("click");
+            }
         });
 
         var make_prop_featured = function( prop_id, currentDiv ) {
@@ -1786,7 +1926,6 @@ jQuery(document).ready(function ($) {
          *  Houzez Add Marker
          * -------------------------------------------------------------------------*/
         var houzezAddMarkers = function( props, map ) {
-            // alert(1);
             $.each(props, function(i, prop) {
 
                 var latlng = new google.maps.LatLng(prop.lat,prop.lng);
@@ -1883,38 +2022,6 @@ jQuery(document).ready(function ($) {
         /*--------------------------------------------------------------------------
          *  Header Map
          * -------------------------------------------------------------------------*/
-
-        var houzez_map_radius = function( houzezMap, keyword, radius ) {
-
-            var geocoder = new google.maps.Geocoder();
-
-            geocoder.geocode( { 'address': keyword }, function(results, status) {
-
-              if (status == 'OK') {
-
-                houzezMap.setCenter(results[0].geometry.location);
-
-                var circle      = new google.maps.Circle({
-                    map: houzezMap,
-                    radius: radius * 100, // 3000 km
-                    center: results[0].geometry.location,
-                    fillColor: '#FF0000',
-                    fillOpacity: 0.2,
-                    strokeColor: '#FF0000',
-                    strokeOpacity: 0.6
-                });
-
-                houzezMap.fitBounds( circle.getBounds() );
-
-              } else {
-
-                // alert('Geocode was not successful for the following reason: ' + status);
-
-              }
-
-            });
-
-        }
 
         var houzez_map_zoomin = function(houzezMap) {
             google.maps.event.addDomListener(document.getElementById('listing-mapzoomin'), 'click', function () {
@@ -2072,27 +2179,100 @@ jQuery(document).ready(function ($) {
 
             // get my location useing HTML5 geolocation
 
-            if ( navigator.geolocation ) {
+            var googleGeoProtocol = true;
+            var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-                navigator.geolocation.getCurrentPosition( function( position ) {
+            if ( isChrome ) {
 
-                    var pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude
+                if (document.location.protocol === 'http:' && ipinfo_location != 0 ) {
+
+                    googleGeoProtocol = false;
+
+                }
+
+            }
+
+            if ( googleGeoProtocol ) {
+
+                if ( navigator.geolocation ) {
+
+                    navigator.geolocation.getCurrentPosition( function( position ) {
+
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        var geocoder = new google.maps.Geocoder;
+                        //var infowindow = new google.maps.InfoWindow;
+
+                        // var latLng   = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
+
+                        geocoder.geocode({'location': pos}, function(results, status) {
+                            if (status === 'OK') {
+                                if (results[1]) {
+                                    console.log( results[1] );
+                                    // map.setZoom(11);
+                                    var marker = new google.maps.Marker({
+                                        position: pos,
+                                        map: map
+                                    });
+                                    /*infowindow.setContent(results[1].formatted_address);
+                                    infowindow.open(map, marker);*/
+                                } else {
+                                    window.alert('No results found');
+                                }
+                            } else {
+                                window.alert('Geocoder failed due to: ' + status);
+                            }
+                        });
+
+
+                        // alert( 'icon : ' + clusterIcon );
+
+                        var circle = new google.maps.Circle({
+                            radius: 10 * 200,
+                            center: pos,
+                            map: map,
+                            //icon: clusterIcon,
+                            fillColor: houzez_primary_color,
+                            fillOpacity: 0.1,
+                            strokeColor: houzez_primary_color,
+                            strokeOpacity: 0.3
+                        });
+
+                        // circle.bindTo('center', marker, 'position');
+                        map.fitBounds( circle.getBounds() );
+                        // map.setCenter(pos);
+
+                    }, function() {
+
+                        handleLocationError(true, map, map.getCenter());
+
+                    });
+
+                }
+
+            } else {
+
+                $.getJSON('http://ipinfo.io', function(data){
+                    // console.log(data);
+                    var localtion = data.loc;
+                    var localtion = localtion.split(",");
+
+                    var localtion = {
+                        lat: localtion[0] * 1,
+                        lng: localtion[1] * 1
                     };
 
-                    var infoWindow = new google.maps.InfoWindow({map: map});
-
-                    alert( 'icon : ' + clusterIcon );
-
                     var circle = new google.maps.Circle({
-                        radius: 10 * 100, 
-                        center: pos,
+                        radius: 10 * 100,
+                        center: localtion,
                         map: map,
                         icon: clusterIcon,
-                        fillColor: '#FF0000',
+                        fillColor: houzez_primary_color,
                         fillOpacity: 0.2,
-                        strokeColor: '#FF0000',
+                        strokeColor: houzez_primary_color,
                         strokeOpacity: 0.6
                     });
 
@@ -2100,19 +2280,12 @@ jQuery(document).ready(function ($) {
                     map.fitBounds( circle.getBounds() );
 
                     var marker=new google.maps.Marker({
-                        position    :pos,
-                        animation   :google.maps.Animation.BOUNCE,
+                        position    :localtion,
+                        animation   :google.maps.Animation.DROP,
+                        // icon: clusterIcon,
                         map: map
                     });
-
-                    infoWindow.setPosition( pos );
-                    infoWindow.setContent('Location found.');
-                    map.setCenter(pos);
-
-                }, function() {
-
-                    handleLocationError(true, map, map.getCenter());
-                
+                    map.setCenter(localtion);
                 });
 
             }
@@ -2132,23 +2305,9 @@ jQuery(document).ready(function ($) {
 
         }
 
-        var houzez_header_listing_map = function(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date ) {
+        var houzez_header_listing_map = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
             var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
-
-            //alert(keyword+' '+location+' '+status+' '+type+' '+bedrooms+' '+bathrooms+' '+min_price+' '+max_price+' '+min_area+' '+max_area);
-            // alert(location+' '+area);
-            //var propLatlng;
-
-            /*if( radius != 'none' ) {
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode( { 'address': keyword }, function(results, status) {
-
-                    if (status == 'OK') {
-                        propLatlng = results[0].geometry.location;
-                    }
-                });
-            }*/
 
             $.ajax({
                 type: 'POST',
@@ -2158,6 +2317,8 @@ jQuery(document).ready(function ($) {
                     'action': 'houzez_header_map_listings',
                     'initial_city': initial_city,
                     'keyword': keyword,
+                    'country': country,
+                    'state': state,
                     'location': location,
                     'area': area,
                     'status': status,
@@ -2168,9 +2329,13 @@ jQuery(document).ready(function ($) {
                     'max_price': max_price,
                     'min_area': min_area,
                     'max_area': max_area,
+                    'features': features,
                     'publish_date': publish_date,
-                    //'radius': radius,
-                    //'propLatlng': propLatlng,
+                    'search_lat': search_lat,
+                    'search_long': search_long,
+                    'use_radius': use_radius,
+                    'search_location': search_location,
+                    'search_radius': search_radius,
                     'security': headerMapSecurity
                 },
                 beforeSend: function() {
@@ -2221,6 +2386,39 @@ jQuery(document).ready(function ($) {
                     }
                     remove_map_loader(houzezMap);
 
+                    //enable/disable dragable on mobile
+                    if (document.getElementById('houzez-gmap-full')) {
+                        if( houzez_is_mobile ) {
+                            $("#houzez-gmap-full").toggle(
+                                function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        draggable: true,
+                                    });
+                                }, function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        draggable: false,
+                                    });
+                                }
+                            );
+                        } else {
+                            $("#houzez-gmap-full").toggle(
+                                function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        scrollwheel: true,
+                                    });
+                                }, function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        scrollwheel: false,
+                                    });
+                                }
+                            );
+                        }
+                    }
+
                     // Parallax
                     houzez_map_parallax(houzezMap);
 
@@ -2229,14 +2427,6 @@ jQuery(document).ready(function ($) {
                         reloadMarkers();
                         houzezAddMarkers( data.properties, houzezMap );
 
-                        /*$( 'select[name=radious]' ).on( 'change', function() {
-                            var radius  = $( "option:selected", this ).val();
-
-                            alert( radius );
-
-                            houzez_map_radius( houzezMap, keyword, radius );
-                        });
-                        */
                         houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
                             return bounds.extend( marker.getPosition() );
                         }, new google.maps.LatLngBounds()));
@@ -2268,41 +2458,23 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var houzez_half_map_listings = function(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date, price_type) {
+        var houzez_half_map_listings = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
             var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
-            // var ttemppp = {data: {
-            //         'action': 'houzez_header_map_listings',
-            //         // 'initial_city': initial_city,
-            //         'keyword': keyword,
-            //         'location': location,
-            //         'area': area,
-            //         'status': $('input[name="status"]').val(),
-            //         'type': type,
-            //         'bedrooms': bedrooms,
-            //         'bathrooms': bathrooms,
-            //         'min_price': min_price,
-            //         'max_price': max_price,
-            //         'min_area': min_area,
-            //         'max_area': max_area,
-            //         'publish_date': publish_date,
-            //         'security': headerMapSecurity,
-            //         'price_type' : price_type
-            //     }};
-            // alert(JSON.stringify(ttemppp));
-            //alert(keyword+' '+location+' '+status+' '+type+' '+bedrooms+' '+bathrooms+' '+min_price+' '+max_price+' '+min_area+' '+max_area);
-            //alert(min_price+' '+max_price);
+
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: ajaxurl,
                 data: {
                     'action': 'houzez_header_map_listings',
-                    //'initial_city': initial_city,
+                    'initial_city': initial_city,
                     'keyword': keyword,
                     'location': location,
+                    'country': country,
+                    'state': state,
                     'area': area,
-                    'status': $('input[name=status]').val(),
+                    'status': status,
                     'type': type,
                     'bedrooms': bedrooms,
                     'bathrooms': bathrooms,
@@ -2310,37 +2482,22 @@ jQuery(document).ready(function ($) {
                     'max_price': max_price,
                     'min_area': min_area,
                     'max_area': max_area,
+                    'features': features,
                     'publish_date': publish_date,
-                    'security': headerMapSecurity,
-                    'price_type' : price_type
+                    'search_lat': search_lat,
+                    'search_long': search_long,
+                    'use_radius': use_radius,
+                    'search_location': search_location,
+                    'search_radius': search_radius,
+                    'security': headerMapSecurity
                 },
                 beforeSend: function() {
                     $('#houzez-map-loading').show();
                 },
                 success: function(data) { //alert(JSON.stringify(data.properties)); return;
-                    // var temp = JSON.stringify(houzezMapoptions);
-                    // alert(temp);
-                    // var houzezMapoptions2 = {
-                    //     zoom: parseInt(googlemap_default_zoom),
-                    // };
-                    // var temp = JSON.stringify(houzezMapoptions2);
-                    // alert(temp);
 
-                    // houzezMapoptions.scrollwheel = false;
-                    houzezMapoptions.maxZoom = 12;
-                    
-                    // houzezMapoptions.scaleControl = true;
-                    // var temp = JSON.stringify(houzezMapoptions);
-                    // houzezMapoptions.zoom = 10;
-                    // alert(temp);
                     houzezMap = new google.maps.Map(document.getElementById('mapViewHalfListings'), houzezMapoptions);
-                    // alert(1);
-                    //google.maps.event.trigger(houzezMap, 'resize');
-                    // var temp = JSON.stringify(houzezMap);
-                    // alert(temp);
-                    // var temp = JSON.stringify(data);
-                    // alert(temp);
-                    // alert(1);
+
                     if( google_map_style !== '' ) {
                         var styles = JSON.parse ( google_map_style );
                         houzezMap.setOptions({styles: styles});
@@ -2356,50 +2513,79 @@ jQuery(document).ready(function ($) {
                         });
                     }
 
+                    //enable/disable dragable on mobile
+                    if (document.getElementById('houzez-gmap-full')) {
+                        if( houzez_is_mobile ) {
+                            $("#houzez-gmap-full").toggle(
+                                function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        draggable: true,
+                                    });
+                                }, function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        draggable: false,
+                                    });
+                                }
+                            );
+                        } else {
+                            $("#houzez-gmap-full").toggle(
+                                function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        scrollwheel: true,
+                                    });
+                                }, function () {
+                                    google.maps.event.trigger(houzezMap, "resize");
+                                    houzezMap.setOptions({
+                                        scrollwheel: false,
+                                    });
+                                }
+                            );
+                        }
+
+                    }
+
+                    if( document.getElementById('listing-mapzoomin') ) {
+                        houzez_map_zoomin(houzezMap);
+                    }
+                    if( document.getElementById('listing-mapzoomout') ) {
+                        houzez_map_zoomout(houzezMap);
+                    }
+                    if( document.getElementById('google-map-search') ) {
+                        var mapInput = document.getElementById('google-map-search');
+                        houzez_map_search_field(houzezMap, mapInput);
+                    }
+
+                    $('.houzezMapType').click(function() {
+                        var maptype = $(this).data('maptype');
+                        houzez_change_map_type(houzezMap, maptype);
+                    })
+
+                    $('#houzez-gmap-next').click(function(){
+                        houzez_map_next(houzezMap);
+                    });
+
+                    $('#houzez-gmap-prev').click(function(){
+                        houzez_map_prev(houzezMap);
+                    });
+
                     remove_map_loader(houzezMap);
 
                     if(data.getProperties === true) {
-                        // var tetemp = JSON.stringify(data.properties);
-                        // alert(tetemp);
+
                         reloadMarkers();
                         houzezAddMarkers( data.properties, houzezMap );
-                        var temp1 = markers.reduce(function(bounds, marker ) {
+
+                        houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
                             return bounds.extend( marker.getPosition() );
-                        }, new google.maps.LatLngBounds());
-                        // var tetemp = JSON.stringify(temp1);
-                        // alert(tetemp);
-                        // temp1[0].south++;
-                        // temp1[0].west--;
-                        // temp1[1].north--;
-                        // temp1[1].east++;
-
-                        // alert(temp1);
-                        // var tempNE = temp1.getNorthEast();
-                        // var tempSW = temp1.getSouthWest();
-                        // var lat1 = tempNE.lat();
-                        // var lng1 = tempNE.lng();
-                        // var lat2 = tempSW.lat();
-                        // var lng2 = tempSW.lng();
-                        // var newTempNE = new google.maps.LatLng({lat: lat1+.05, lng: lng1-.05});
-                        // var newTempSW = new google.maps.LatLng({lat: lat2-.05, lng: lng2+.05});
-                        // var newBounds = new google.maps.LatLngBounds(newTempNE, newTempSW);
-                        houzezMap.fitBounds( temp1 );
-                        // alert(newBounds);
-                        // alert(++lat1);
-                        // alert(++lng1);
-                        // newTempNE = {lat: lat1, lng: lng1};
-                        // alert(newTempNE);
-                        // alert(tempNE);
-                        // alert(tempSW);
-                        // houzezMap.fitBounds( temp1 );
-                        var ls_bounds = houzezMap.getBounds();
-                        // alert(ls_bounds);
-
+                        }, new google.maps.LatLngBounds()));
 
                         google.maps.event.trigger( houzezMap, 'resize' );
 
                         markerCluster = new MarkerClusterer( houzezMap, markers, {
-                            maxZoom: 30,
+                            maxZoom: 18,
                             gridSize: 60,
                             styles: [
                                 {
@@ -2413,6 +2599,7 @@ jQuery(document).ready(function ($) {
                     } else {
                         $('#mapViewHalfListings').empty().html('<div class="map-notfound">'+not_found+'</div>');
                     }
+
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status);
@@ -2422,12 +2609,9 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var houzez_half_map_listings_list = function(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date, price_type) {
+        var houzez_half_map_listings_list = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
-            //var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
-            // alert(price_type);
-            //alert(keyword+' '+location+' '+status+' '+type+' '+bedrooms+' '+bathrooms+' '+min_price+' '+max_price+' '+min_area+' '+max_area);
-            //alert(min_price+' '+max_price);
+
 
             var ajax_container = $('#houzez_ajax_container');
 
@@ -2439,6 +2623,8 @@ jQuery(document).ready(function ($) {
                     'action': 'houzez_half_map_listings',
                     //'initial_city': initial_city,
                     'keyword': keyword,
+                    'country': country,
+                    'state': state,
                     'location': location,
                     'area': area,
                     'status': status,
@@ -2449,9 +2635,14 @@ jQuery(document).ready(function ($) {
                     'max_price': max_price,
                     'min_area': min_area,
                     'max_area': max_area,
+                    'features': features,
                     'publish_date': publish_date,
-                    'security': headerMapSecurity,
-                    'price_type': price_type
+                    'search_lat': search_lat,
+                    'search_long': search_long,
+                    'use_radius': use_radius,
+                    'search_location': search_location,
+                    'search_radius': search_radius,
+                    'security': headerMapSecurity
                 },
                 beforeSend: function() {
                     ajax_container.empty().append(''
@@ -2476,8 +2667,8 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var houzez_search_on_change = function (current_form, form_widget, min_price_onchange_status, max_price_onchange_status, only_city ) {
-            var location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, keyword, publish_date, radius, price_type;
+        var houzez_search_on_change = function (current_form, form_widget, min_price_onchange_status, max_price_onchange_status, only_city, only_state, only_country ) {
+            var country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, keyword, publish_date, search_lat, search_long, search_radius, search_location, use_radius, features;
 
             if( min_price_onchange_status != null && max_price_onchange_status != null ) {
                 min_price = min_price_onchange_status;
@@ -2492,14 +2683,28 @@ jQuery(document).ready(function ($) {
                 }
             }
 
-            location  = current_form.find('select[name="location"]').val();
-            if( location == '' ) {
+            state = current_form.find('select[name="state"]').val();
+            location = current_form.find('select[name="location"]').val();
+            if (location == '' || location == null || typeof location == 'undefined' ) {
                 location = 'all';
             }
 
             if( only_city != 'yes' ) {
                 area = current_form.find('select[name="area"]').val();
             }
+
+            if( only_state == 'yes' ) {
+                area = '';
+                location = 'all';
+            }
+
+            if( only_country == 'yes' ) {
+                state = '';
+                area = '';
+                location = 'all';
+            }
+
+            country    = current_form.find('select[name="country"]').val();
             status    = current_form.find('select[name="status"]').val();
             type      = current_form.find('select[name="type"]').val();
             bedrooms  = current_form.find('select[name="bedrooms"]').val();
@@ -2508,25 +2713,39 @@ jQuery(document).ready(function ($) {
             max_area  = current_form.find('input[name="max-area"]').val();
             keyword   = current_form.find('input[name="keyword"]').val();
             publish_date   = current_form.find('input[name="publish_date"]').val();
-            price_type   = current_form.find('select[name="price_type"]').val();
-            // alert(price_type);
-            /*radius = current_form.find('select[name="radius"]').val();
+            features = current_form.find('.features-list input[type=checkbox]:checked').map(function(_, el) {
+                return $(el).val();
+            }).toArray();
 
-            if( radius == '' ) {
-                radius = 'none';
-            }*/
+            //Radius Search
+            search_lat  = current_form.find('input[name="lat"]').val();
+            search_long  = current_form.find('input[name="lng"]').val();
+            search_location   = current_form.find('input[name="search_location"]').val();
 
             if(current_tempalte == 'template/property-listings-map.php') {
-                houzez_half_map_listings(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date, price_type);
-                houzez_half_map_listings_list(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date, price_type);
+                search_radius = current_form.find('input[name="search_radius"]').val();
             } else {
-                houzez_header_listing_map(keyword, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, publish_date, price_type);
+                search_radius = current_form.find('select[name="radius"]').val();
+            }
+
+            if( $(current_form.find('input[name="use_radius"]')).is(':checked') ) {
+                use_radius = 'on';
+            } else {
+                use_radius = 'off';
+            }
+
+            if(current_tempalte == 'template/property-listings-map.php') {
+                houzez_half_map_listings(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
+                houzez_half_map_listings_list(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
+            } else {
+                houzez_header_listing_map(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
             }
         }
 
         var populate_area_dropdown = function(current_form) {
             var city;
-            city  = current_form.find('select[name="location"]').val();
+            city  = current_form.find('select[name="location"] option:selected').val();
+            //city  = current_form.find('select[name="location"]').val();
 
             if( city != '' ) {
                 current_form.find('select[name="area"]').selectpicker('val', '');
@@ -2540,6 +2759,7 @@ jQuery(document).ready(function ($) {
                     }
                 });
             } else {
+                current_form.find('select[name="area"]').selectpicker('val', '');
                 current_form.find('select[name="area"] option').each(function () {
                     $(this).css('display', 'block');
                 });
@@ -2547,14 +2767,115 @@ jQuery(document).ready(function ($) {
             current_form.find('select[name="area"]').selectpicker('refresh');
         }
 
+        var populate_city_dropdown = function(current_form) {
+            var state;
+            state  = current_form.find('select[name="state"] option:selected').val();
+            //state  = current_form.find('select[name="state"] option:selected').val();
+
+            if( state != '' ) {
+                current_form.find('select[name="location"], select[name="area"]').selectpicker('val', '');
+                current_form.find('select[name="location"] option').each(function () {
+                    var cityState = $(this).data('parentstate');
+                    
+                    if( $(this).val() != '' ) {
+                        $(this).css('display', 'none');
+                    }
+                    if (cityState == state) {
+                        $(this).css('display', 'block');
+                    }
+                });
+            } else {
+                current_form.find('select[name="location"], select[name="area"]').selectpicker('val', '');
+                current_form.find('select[name="location"] option').each(function () {
+                    $(this).css('display', 'block');
+                });
+                current_form.find('select[name="area"] option').each(function () {
+                    $(this).css('display', 'block');
+                });
+            }
+            current_form.find('select[name="location"], select[name="area"]').selectpicker('refresh');
+        }
+
+        var populate_state_dropdown = function(current_form) {
+            var country;
+            country  = current_form.find('select[name="country"] option:selected').val();
+
+            if( country != '' ) {
+                current_form.find('select[name="location"], select[name="area"], select[name="state"]').selectpicker('val', '');
+                current_form.find('select[name="state"] option').each(function () {
+                    var stateCountry = $(this).data('parentcountry');
+
+                    if (typeof stateCountry  !== "undefined") {
+                        stateCountry = stateCountry.toUpperCase();
+                    }
+
+                    if( $(this).val() != '' ) {
+                        $(this).css('display', 'none');
+                    }
+                    if (stateCountry == country) {
+                        $(this).css('display', 'block');
+                    }
+                });
+            } else {
+                current_form.find('select[name="location"], select[name="area"], select[name="state"]').selectpicker('val', '');
+                current_form.find('select[name="state"] option').each(function () {
+                    $(this).css('display', 'block');
+                });
+                current_form.find('select[name="area"] option').each(function () {
+                    $(this).css('display', 'block');
+                });
+            }
+            current_form.find('select[name="location"], select[name="area"], select[name="state"]').selectpicker('refresh');
+        }
+
 
         if($("#houzez-listing-map").length > 0 || $('#mapViewHalfListings').length > 0 ) {
 
-            $('select[name="price_type"], select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"]').on('change', function() {
+            $('select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"]').on('change', function() {
                 var current_form = $(this).parents('form');
                 var form_widget = $(this).parents('.widget_houzez_advanced_search');
                 houzez_search_on_change(current_form, form_widget);
             });
+
+            $("input.search_location").geocomplete({
+                details: "form",
+                country: houzez_geocomplete_country,
+                geocodeAfterResult: true
+            }).bind("geocode:result", function(event, result){
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                houzez_search_on_change(current_form, form_widget);
+                console.log(result);
+            });
+
+            $( '#half_map_update').on('click', function(e) {
+                e.preventDefault();
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                houzez_search_on_change(current_form, form_widget);
+            });
+
+            $('select[name="radius"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                houzez_search_on_change(current_form, form_widget);
+            })
+
+            $('select[name="country"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                var only_country = 'yes';
+                houzez_search_on_change(current_form, form_widget, '', '', '', '', only_country);
+                populate_state_dropdown(current_form);
+            })
+
+            $('select[name="state"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                var only_state = 'yes';
+                houzez_search_on_change(current_form, form_widget, '', '', '', only_state);
+                populate_city_dropdown(current_form);
+            })
 
             $('select[name="location"]').on('change', function() {
                 var current_form = $(this).parents('form');
@@ -2562,6 +2883,13 @@ jQuery(document).ready(function ($) {
                 var only_city = 'yes';
                 houzez_search_on_change(current_form, form_widget, '', '', only_city);
                 populate_area_dropdown(current_form);
+            })
+
+
+            $('input[name="feature[]"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                var form_widget = $(this).parents('.widget_houzez_advanced_search');
+                houzez_search_on_change(current_form, form_widget);
             })
 
             $(".search-date").on("dp.change", function(e) {
@@ -2593,15 +2921,59 @@ jQuery(document).ready(function ($) {
             })
 
             if(current_tempalte == 'template/property-listings-map.php') {
-                houzez_half_map_listings();
+                if( search_result_page == 'half_map' ) {
+                    var state = HOUZEZ_ajaxcalls_vars.search_state;
+                    var country = HOUZEZ_ajaxcalls_vars.search_country;
+                    var keyword = HOUZEZ_ajaxcalls_vars.search_keyword;
+                    var location = HOUZEZ_ajaxcalls_vars.search_city;
+                    var features = HOUZEZ_ajaxcalls_vars.search_feature;
+                    var area = HOUZEZ_ajaxcalls_vars.search_area;
+                    var status = HOUZEZ_ajaxcalls_vars.search_status;
+                    var type = HOUZEZ_ajaxcalls_vars.search_type;
+                    var bedrooms = HOUZEZ_ajaxcalls_vars.search_bedrooms;
+                    var bathrooms = HOUZEZ_ajaxcalls_vars.search_bathrooms;
+                    var min_price = HOUZEZ_ajaxcalls_vars.search_min_price;
+                    var max_price = HOUZEZ_ajaxcalls_vars.search_max_price;
+                    var min_area = HOUZEZ_ajaxcalls_vars.search_min_area;
+                    var max_area = HOUZEZ_ajaxcalls_vars.search_max_area;
+                    var publish_date = HOUZEZ_ajaxcalls_vars.search_publish_date;
+
+                    var search_lat = HOUZEZ_ajaxcalls_vars.search_lat;
+                    var search_long = HOUZEZ_ajaxcalls_vars.search_long;
+                    var search_radius = HOUZEZ_ajaxcalls_vars.search_radius;
+                    var search_location = HOUZEZ_ajaxcalls_vars.search_location;
+                    var use_radius = HOUZEZ_ajaxcalls_vars.use_radius;
+
+                    houzez_half_map_listings(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius);
+                } else {
+                    houzez_half_map_listings();
+                }
             } else {
                 houzez_header_listing_map();
             }
         } else {
+            $('select[name="country"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                populate_state_dropdown(current_form);
+            })
+
             $('select[name="location"]').on('change', function() {
                 var current_form = $(this).parents('form');
                 populate_area_dropdown(current_form);
-            })
+            });
+
+            $('select[name="state"]').on('change', function() {
+                var current_form = $(this).parents('form');
+                populate_city_dropdown(current_form);
+            });
+
+            if( $("input.search_location").length > 0 ) {
+                $("input.search_location").geocomplete({
+                    details: "form",
+                    country: houzez_geocomplete_country,
+                    geocodeAfterResult: true
+                });
+            }
         }
 
         var remove_map_loader = function(map) {
@@ -2740,6 +3112,36 @@ jQuery(document).ready(function ($) {
             });
             $("#min-size").val($("#slider-size").slider("values", 0) +' '+measurement_unit);
             $("#max-size").val($("#slider-size").slider("values", 1) +' '+measurement_unit);
+        }
+
+        var radius_search_slider = function(default_radius) {
+            $("#radius-range-slider").slider(
+                {
+                    value: default_radius,
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    slide: function (event, ui) {
+                        $("#radius-range-text").html(ui.value);
+                        $("#radius-range-value").val(ui.value);
+                    },
+                    stop: function( event, ui ) {
+
+                        if($("#houzez-listing-map").length > 0 || $('#mapViewHalfListings').length > 0 ) {
+                            var current_form = $(this).parents('form');
+                            var form_widget = $(this).parents('form');
+                            houzez_search_on_change(current_form, form_widget);
+                        }
+                    }
+                }
+            );
+
+            $("#radius-range-text").html($('#radius-range-slider').slider('value'));
+            $("#radius-range-value").val($('#radius-range-slider').slider('value'));
+        }
+
+        if($( "#radius-range-slider").length >0) {
+            radius_search_slider(houzez_default_radius);
         }
 
         $('.infobox_trigger').each(function(i) {
@@ -2908,7 +3310,8 @@ jQuery(document).ready(function ($) {
             var houzez_detail_slider_main_settings = function () {
                 return {
                     speed: 500,
-                    autoplay: false,
+                    autoplay: true,
+                    autoplayHoverPause:true,
                     autoplaySpeed: 4000,
                     rtl: houzez_rtl,
                     slidesToShow: 1,
@@ -2930,7 +3333,21 @@ jQuery(document).ready(function ($) {
                     arrows: false,
                     dots: false,
                     centerMode: true,
-                    focusOnSelect: true
+                    focusOnSelect: true,
+                    responsive: [
+                        {
+                            breakpoint: 991,
+                            settings:{
+                                slidesToShow: 8
+                            }
+                        },
+                        {
+                            breakpoint: 767,
+                            settings:{
+                                slidesToShow: 4
+                            }
+                        }
+                    ]
 
                 }
             }
@@ -2987,11 +3404,10 @@ jQuery(document).ready(function ($) {
                 };
 
                 var initialize = function () {
-                    // var temp = JSON.stringify(mapOptions);
-                    // alert(temp);
-                    mapOptions.zoom = 10;
                     map = new google.maps.Map(document.getElementById('singlePropertyMap'), mapOptions);
-                    panorama = new google.maps.StreetViewPanorama(document.getElementById('street-map'), panoramaOptions);
+                    if( $('#street-map').length > 0 ) {
+                        panorama = new google.maps.StreetViewPanorama(document.getElementById('street-map'), panoramaOptions);
+                    }
 
                     var propsSecurity = $('#securityHouzezMap').val();
 
@@ -3023,9 +3439,8 @@ jQuery(document).ready(function ($) {
                 }
 
                 jQuery('a[href="#singlePropertyMap"]').on('shown.bs.tab', function (e) {
-                    var center = panorama.getPosition();
                     google.maps.event.trigger(map, "resize");
-                    map.setCenter(center);
+                    map.setCenter(fenway);
                 });
                 jQuery('a[href="#street-map"]').on('shown.bs.tab', function (e) {
                     fenway = panorama.getPosition();
@@ -3038,7 +3453,20 @@ jQuery(document).ready(function ($) {
 
             }// End map and street
 
+
+            //
+            $(".houzez-gallery-prop-v2:first a[rel^='prettyPhoto']").prettyPhoto({
+                animation_speed:'normal',
+                slideshow:5000,
+                autoplay_slideshow: false,
+                allow_resize: true,
+                keyboard_shortcuts: true,
+                theme: 'pp_default', /* pp_default / light_rounded / dark_rounded / light_square / dark_square / facebook */
+            });
+
         }
+
+
 
 
         /*--------------------------------------------------------------------------
@@ -3047,7 +3475,6 @@ jQuery(document).ready(function ($) {
         $('.az-btn').click(function(){
             if($(this).hasAttr('data-user-id') && $(this).hasAttr('data-user-login')){
                 if($(this).attr('data-user-id') !== '' && $(this).attr('data-user-login') !== ''){
-                    // alert($(this).attr('data-user-id')+ '/' + $(this).attr('data-user-login')+'/'+$(this).attr('data-user-phone')+'/'+$(this).attr('data-user-mobile'));
                     var user_id = $(this).attr('data-user-id');
                     var user_name = $(this).attr('data-user-login');
                     var user_phone = $(this).attr('data-user-phone');
@@ -3065,14 +3492,10 @@ jQuery(document).ready(function ($) {
                                 'user_mobile' : user_mobile
                             },
                             success: function (res) {
-                                // alert(res);
                                 if( res.success ) {
-                                    // alert(res.msg);
                                     $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
                                     $('#az-call-back').modal("show");
-                                    // window.location.reload();
                                 } else {
-                                    // alert(res.msg);
                                     console.log( res );
                                 }
                             },
@@ -3088,36 +3511,19 @@ jQuery(document).ready(function ($) {
             } else {
                 $('#az-call-back').modal("show");
             }
-            // alert(1);
-            // $('#pop-login').modal('show');
             return false;
         });
         $('.az-send').click(function(){
             var send_data = $(this).parents('form').serialize();
-
-            // alert(send_data[0].name+send_data[0].value);
-            // alert(data_temp.length);
-            // var data_temp = {
-            //     'action'          : 'az_call_back',
-            //     send_data[0].name : send_data[0].value
-            // };
-            // if(data_temp.length==2){
-            //     alert(2);
-            // }
             $.ajax({
                 url: ajaxurl,
                 dataType: 'JSON',
                 method: 'POST',
                 data: send_data + '&action=az_call_back',
                 success: function (res) {
-                    // alert(res);
                     if( res.success ) {
-                        // alert(res.msg);
                         $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
-                        // $('#az-call-back').modal("show");
-                        // window.location.reload();
                     } else {
-                        // alert(res.msg);
                         console.log( res );
                     }
                 },
@@ -3127,8 +3533,6 @@ jQuery(document).ready(function ($) {
                 }
             });
         });
-
-
 
     }// typeof HOUZEZ_ajaxcalls_vars
 

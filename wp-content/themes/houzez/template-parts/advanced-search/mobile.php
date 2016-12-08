@@ -8,6 +8,8 @@
 global $status,
        $search_template,
        $type, $location,
+       $searched_country,
+       $state,
        $measurement_unit_adv_search,
        $area,
        $adv_search_price_slider,
@@ -22,6 +24,13 @@ if( $mobile_menu_sticky != 1 ) {
     $mobile_search_sticky = houzez_option('mobile-search-sticky');
 } else {
     $mobile_search_sticky = '0';
+}
+$checked = true;
+$radius_unit = houzez_option('radius_unit');
+$enable_radius_search = houzez_option('enable_radius_search');
+$selected_radius = houzez_option('houzez_default_radius');
+if( isset( $_GET['radius'] ) ) {
+    $selected_radius = $_GET['radius'];
 }
 ?>
 <div class="advanced-search-mobile houzez-adv-price-range" data-sticky='<?php echo esc_attr( $mobile_search_sticky ); ?>'>
@@ -43,6 +52,74 @@ if( $mobile_menu_sticky != 1 ) {
 
                     <div class="advance-fields">
                         <div class="row">
+                            <?php if( $enable_radius_search == 1 ) { ?>
+                                <input type="hidden" name="lat" value="<?php echo isset ( $_GET['lat'] ) ? $_GET['lat'] : ''; ?>" id="latitude">
+                                <input type="hidden" name="lng" value="<?php echo isset ( $_GET['lng'] ) ? $_GET['lng'] : ''; ?>" id="longitude">
+                                <input type="checkbox" name="use_radius" id="use_radius" <?php checked( true, $checked ); ?>">
+                                <div class="col-sm-6 col-xs-6">
+                                    <div class="form-group">
+                                        <div class="search-location">
+                                            <input type="text" class="form-control search_location" value="<?php echo isset ( $_GET['search_location'] ) ? $_GET['search_location'] : ''; ?>" name="search_location" placeholder="<?php echo esc_html__('Location', 'houzez'); ?>">
+                                            <i class="location-trigger fa fa-dot-circle-o"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="form-group">
+                                    <select name="radius" class="selectpicker" data-live-search="true" data-live-search-style="begins">
+                                        <option value="0"><?php esc_html_e('Radius','houzez');?></option>
+                                        <?php
+                                        $i = 0;
+                                        for( $i = 1; $i <= 100; $i++ ) {
+                                            echo '<option '.selected( $selected_radius, $i, false).' value="'.$i.'">'.$i.' '.$radius_unit.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                            <?php if( $adv_show_hide['countries'] != 1 ) { ?>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group">
+                                    <select name="country" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                        <?php
+                                        // All Option
+                                        echo '<option value="">'.esc_html__('All Countries', 'houzez').'</option>';
+
+                                        countries_dropdown( $searched_country );
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php } ?>
+
+                            <?php if( $adv_show_hide['states'] != 1 ) { ?>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group">
+                                    <select name="state" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                        <?php
+                                        // All Option
+                                        echo '<option value="">'.esc_html__('All States', 'houzez').'</option>';
+
+                                        $prop_state = get_terms (
+                                            array(
+                                                "property_state"
+                                            ),
+                                            array(
+                                                'orderby' => 'name',
+                                                'order' => 'ASC',
+                                                'hide_empty' => true,
+                                                'parent' => 0
+                                            )
+                                        );
+                                        houzez_hirarchical_options('property_state', $prop_state, $state );
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php } ?>
+
                             <?php if( $adv_show_hide['cities'] != 1 ) { ?>
                             <div class="col-sm-3 col-xs-6">
                                 <div class="form-group">
@@ -211,7 +288,7 @@ if( $mobile_menu_sticky != 1 ) {
                                         </select>
                                     </div>
                                     <div class="form-group hide prices-only-for-rent">
-                                        <select name="min-price" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <select name="min-price" disabled class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
                                             <option value=""><?php echo $houzez_local['min_price']; ?></option>
                                             <?php houzez_min_price_list_for_rent(); ?>
                                         </select>
@@ -228,7 +305,7 @@ if( $mobile_menu_sticky != 1 ) {
                                         </select>
                                     </div>
                                     <div class="form-group hide prices-only-for-rent">
-                                        <select name="max-price" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <select name="max-price" disabled class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
                                             <option value=""><?php echo $houzez_local['max_price']; ?></option>
                                             <?php houzez_max_price_list_for_rent() ?>
                                         </select>
@@ -236,6 +313,19 @@ if( $mobile_menu_sticky != 1 ) {
                                 </div>
                                 <?php } ?>
                             <?php } ?>
+
+                            <?php if( $adv_show_hide['other_features'] != 1 ) { ?>
+                            <div class="col-sm-12 col-xs-12">
+                                <label class="advance-trigger"><i class="fa fa-plus-square"></i> <?php echo $houzez_local['other_feature']; ?> </label>
+                            </div>
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="features-list field-expand">
+                                    <div class="clearfix"></div>
+                                    <?php get_template_part('template-parts/advanced-search/search-features'); ?>
+                                </div>
+                            </div>
+                            <?php } ?>
+
                             <div class="col-sm-12 col-xs-12">
                                 <button type="submit" class="btn btn-orange btn-block houzez-theme-button"><i class="fa fa-search pull-left"></i> <?php echo $houzez_local['search']; ?></button>
                             </div>

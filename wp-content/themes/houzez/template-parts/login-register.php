@@ -10,6 +10,7 @@ $facebook_login = houzez_option('facebook_login');
 $yahoo_login = houzez_option('yahoo_login');
 $google_login = houzez_option('google_login');
 $enable_password = houzez_option('enable_password');
+$user_show_roles = houzez_option('user_show_roles');
 
 $allowed_html_array = array(
     'a' => array(
@@ -38,7 +39,6 @@ $allowed_html_array = array(
                         <input id="password" name="password" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
                     </div>
                 <?php } ?>
-                
             </div>
             <div class="forget-block clearfix">
                 <div class="form-group pull-left">
@@ -104,7 +104,6 @@ $allowed_html_array = array(
                         <input id="useremail" name="useremail" style="font-family: 'OpenSans-Regular';" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
                     </div>
                 <?php } ?>
-                
 
                 <?php if( $enable_password == 'yes' ) { ?>
                     <?php if ( qtrans_getLanguage() == 'en' ) {?>
@@ -126,16 +125,22 @@ $allowed_html_array = array(
 
             </div>
             <div class="form-group">
+                <?php if ( $user_show_roles != 0 ) : ?>
+                    <select name="role" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                        <option value="houzez_buyer"> <?php esc_html_e('Buyer', 'houzez'); ?> </option>
+                        <option value="houzez_agent"> <?php esc_html_e('Seller (Agent)', 'houzez'); ?> </option>
+                    </select>
+                <?php endif; ?>
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
                         <input name="term_condition" id="term_condition" type="checkbox">
-                        <?php if( $enable_password == 'yes' ) { ?>
-                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
                                 <?php echo sprintf( wp_kses(__( 'I agree with your <a href="%s">Terms & Conditions</a>', 'houzez' ), $allowed_html_array), get_permalink($terms_conditions) ); ?>
                             <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                                 <?php echo sprintf( wp_kses(__( 'Я согласен с <a href="%s">условиями</a>', 'houzez' ), $allowed_html_array), get_permalink($terms_conditions) ); ?>
                             <?php } ?>
-                        <?php } ?>
                     </label>
                 </div>
             </div>

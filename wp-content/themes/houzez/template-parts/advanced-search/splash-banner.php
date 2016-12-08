@@ -7,7 +7,7 @@
  */
 global $keyword_field_placeholder;
 $adv_search_price_slider = houzez_option('adv_search_price_slider');
-$search_template = houzez_get_template_link('template/template-search.php');
+$search_template = houzez_get_search_template_link();
 $adv_show_hide = houzez_option('adv_show_hide');
 $features_limit = houzez_option('features_limit');
 ?>

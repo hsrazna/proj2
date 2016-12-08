@@ -136,8 +136,8 @@ echo $before_title . $title . $after_title; ?>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:', 'houzez'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title']); ?>" />
 		</p>
-		<p><label for="<?php echo $this->get_field_id('userid'); ?>"><?php _e('Instagram user ID:', 'wegotext'); ?> <input class="widefat" id="<?php echo $this->get_field_id('userid'); ?>" name="<?php echo $this->get_field_name('userid'); ?>" type="text" value="<?php echo $instance['userid']; ?>" /></label></p>
-	  	<p><label for="<?php echo $this->get_field_id('accessToken'); ?>"><?php _e('Instagram access token:', 'wegotext'); ?> <input class="widefat" id="<?php echo $this->get_field_id('accessToken'); ?>" name="<?php echo $this->get_field_name('accessToken'); ?>" type="text" value="<?php echo $instance['accessToken']; ?>" /></label></p>
+		<p><label for="<?php echo $this->get_field_id('userid'); ?>"><?php _e('Instagram user ID:', 'houzez'); ?> <input class="widefat" id="<?php echo $this->get_field_id('userid'); ?>" name="<?php echo $this->get_field_name('userid'); ?>" type="text" value="<?php echo $instance['userid']; ?>" /></label></p>
+	  	<p><label for="<?php echo $this->get_field_id('accessToken'); ?>"><?php _e('Instagram access token:', 'houzez'); ?> <input class="widefat" id="<?php echo $this->get_field_id('accessToken'); ?>" name="<?php echo $this->get_field_name('accessToken'); ?>" type="text" value="<?php echo $instance['accessToken']; ?>" /></label></p>
         <p>
           <label for="<?php echo $this->get_field_id( 'template' ); ?>"><?php _e( 'Images Layout', 'houzez' ); ?>
           <select class="widefat" name="<?php echo $this->get_field_name( 'template' ); ?>">
@@ -160,7 +160,6 @@ echo $before_title . $title . $after_title; ?>
 			<small><?php _e('( max 20 )', 'houzez'); ?></small>
             </label>
 		</p>
-
 			
 <?php }
 

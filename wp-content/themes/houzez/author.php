@@ -136,7 +136,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-8 col-md-8 col-sm-12 list-grid-area container-contentbar">
+	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 list-grid-area container-contentbar">
 		<div id="content-area">
 
 			<!--start property items-->
@@ -170,7 +170,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
 		</div>
 	</div>
-	<div class="col-lg-4 col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( isset( $sticky_sidebar['agent_sidebar'] ) && $sticky_sidebar['agent_sidebar'] != 0 ) { echo 'houzez_sticky'; }?>">
+	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( isset( $sticky_sidebar['agent_sidebar'] ) && $sticky_sidebar['agent_sidebar'] != 0 ) { echo 'houzez_sticky'; }?>">
 		<?php get_sidebar('houzez_agents'); ?>
 	</div>
 </div>

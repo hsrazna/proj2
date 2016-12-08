@@ -12,7 +12,7 @@ $houzez_walkscore_api = houzez_option('houzez_walkscore_api');
 
 if( $houzez_walkscore != 0 && $houzez_walkscore_api != '' ) {
 ?>
-<div id="walkscore" class="detail-features detail-block">
+<div id="walkscore" class="detail-features detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'WalkScore', 'houzez' ); ?></h2>
     </div>

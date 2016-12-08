@@ -18,10 +18,11 @@ $prop_images        = get_post_meta( $post->ID, 'fave_property_images', false );
     <?php get_template_part( 'template-parts/featured-property' ); ?>
 
     <a href="<?php the_permalink(); ?>" class="hover-effect"></a>
+    <?php get_template_part( 'template-parts/share', 'favourite' ); ?>
     <div class="detail">
         <div class="fig-title clearfix">
             <h3 class="pull-left"><?php the_title(); ?></h3>
-            <?php get_template_part( 'template-parts/share', 'favourite' ); ?>
+
         </div>
 
         <ul class="list-inline">

@@ -31,6 +31,9 @@ function houzez_custom_styling() {
     $featured_label_bg_color =  houzez_option('featured_label_bg_color');
     $featured_label_color =  houzez_option('featured_label_color');
 
+    $header_3_callus_color = houzez_option('header_3_callus_color');
+    $header_3_callus_bg_color = houzez_option('header_3_callus_bg_color');
+
     $body_typo = houzez_option('typo-body');
     $typo_headings = houzez_option('typo-headings');
 
@@ -129,10 +132,12 @@ function houzez_custom_styling() {
           background-color: {$adv_btn_bg_active};
           border: 1px solid {$adv_btn_border_active};
         }
+        .advanced-search .form-control,
         .advance-search-header .bootstrap-select .btn,
         .advance-search-header .bootstrap-select .fave-load-more a,
         .fave-load-more .advance-search-header .bootstrap-select a,
-        .advance-fields .form-control {
+        .advance-fields .form-control,
+        .advance-search-header .advance-btn-holder {
             border: 1px solid {$adv_form_fields_border};
         }
         .advanced-search .input-group .form-control,
@@ -181,9 +186,13 @@ function houzez_custom_styling() {
         .advanced-search .advance-fields,
         .advanced-search .features-list label.title,
         .advanced-search .features-list .checkbox-inline,
+        .advanced-search-mobile .advance-fields,
+        .advanced-search-mobile .features-list label.title,
+        .advanced-search-mobile .features-list .checkbox-inline,
         .range-title,
         .range-text,
-        .min-price-range, 
+        .range-text p,
+        .min-price-range,
         .max-price-range {
             color: {$adv_text_color};
         }";
@@ -220,6 +229,7 @@ function houzez_custom_styling() {
     $typo_headers = houzez_option('typo-headers');
     $header_style = houzez_option('header_style');
     $header_login = houzez_option('header_login');
+    $create_lisiting_enable = houzez_option('create_lisiting_enable');
 
     $header_1_bg = houzez_option('header_1_bg');
     $header_1_links_color =  houzez_option('header_1_links_color');
@@ -274,7 +284,7 @@ function houzez_custom_styling() {
     $splash_menu_align = houzez_option('splash_menu_align');
 
     $headers_1_and_4_width = '';
-    if( ( $header_style == '1' || $header_style == '4' ) && $header_login != 'yes' ) {
+    if( ( $header_style == '1' || $header_style == '4' ) && ( $header_login != 'yes' && $create_lisiting_enable != 1 ) ) {
         $headers_1_and_4_width = "
         #header-section .header-left {
             width: 100%;
@@ -285,7 +295,7 @@ function houzez_custom_styling() {
     }
 
     $headers_splash_width = '';
-    if( $splash_menu_align == 'nav-right' && $header_login != 'yes' ) {
+    if( $splash_menu_align == 'nav-right' && ( $header_login != 'yes' && $create_lisiting_enable != 1 ) ) {
         $headers_splash_width = "
         #header-section .header-left {
             width: 100%;
@@ -623,7 +633,8 @@ function houzez_custom_styling() {
             background-color: {$mob_submenu_bg_color};
         }
         .mobile-nav .nav-trigger,
-        .header-mobile .user a {
+        .header-mobile .user a,
+        .header-mobile .user-icon i {
             color: {$mob_menu_btn_color};
         }
         .nav-dropdown a,
@@ -691,7 +702,8 @@ function houzez_custom_styling() {
         .team-caption-after .team-designation a:hover,
         .agent-media .view,
         .my-property-menu a.active,
-        .my-property-menu a:hover{        
+        .my-property-menu a:hover,
+        .search-panel .advance-trigger{        
             color: {$houzez_primary_color};
         }
         .property-item h2 a,
@@ -715,11 +727,25 @@ function houzez_custom_styling() {
             background-color: {$houzez_primary_color};
             border: 1px solid {$houzez_primary_color};
         }
+        .plan-tabs li.active {
+            box-shadow: inset 0 4px 0 {$houzez_primary_color};
+            border-top-color: {$houzez_primary_color};
+            background-color: #fff;
+            color: {$houzez_primary_color};
+        }
         .btn-primary,
+        a.btn-primary,
         .label-primary,
-        .header-section-2 .header-top-call{
+        .scrolltop-btn {
             color: #fff;
             background-color: {$houzez_primary_color};
+        }
+        .header-section-2 .header-top-call {
+            color: {$header_3_callus_color};
+            background-color: {$header_3_callus_bg_color};
+        }
+        .header-section-2 .avatar {
+            color: {$header_3_callus_color};
         }
         @media (max-width: 991px) {
             .header-section-2 .header-top {
@@ -763,6 +789,11 @@ function houzez_custom_styling() {
             color: rgba(0,0,0,.85);
             background-color: {$houzez_prop_details_bg};
             border: 1px solid {$houzez_primary_color};
+        }
+        .houzez-taber-wrap .houzez-tabs li.active::before,
+        .houzez-taber-wrap .houzez-tabs li:hover::before,
+        .houzez-taber-wrap .houzez-tabs li:active::before{
+            background-color: {$houzez_primary_color};
         }
         .btn-orange,
         .agent_contact_form.btn-orange,
@@ -830,10 +861,13 @@ function houzez_custom_styling() {
             }
 
             .btn-primary:hover,
+            a.btn-primary:hover,
             .media-tabs-list li > a:hover,
             .media-tabs-list li.active a,
-            .detail-tabs li:hover,
-            .actions li > span:hover{
+            .detail-bar .detail-tabs li:hover,
+            .actions li > span:hover,
+            .lightbox-arrow:hover,
+            .scrolltop-btn:hover {
                 background-color: {$houzez_primary_color_hover};
             }";
     }
@@ -1200,12 +1234,7 @@ function houzez_custom_styling() {
             padding: 6px 20px;
         }
         .advanced-search .search-long .advance-btn {
-            -webkit-border-radius: 0;
-            -moz-border-radius: 0;
-            -ms-border-radius: 0;
-            border-radius: 0;
-            border-bottom: 1px solid;
-            border-top: 1px solid;
+
 
         }
         /*input[type='radio'],
@@ -1285,7 +1314,7 @@ function houzez_custom_styling() {
         }
     ";
 
-
+    $splash_page = '';
     if( !empty( $splash_overlay_img  ) ) {
         $splash_page = "
             .vegas-overlay {
@@ -1302,14 +1331,14 @@ function houzez_custom_styling() {
     if( $featured_image_overlay != 0 ) {
         $general_options .= "
             .detail-top-full #gallery:before {
-              background-image: none;
+              background-image: none !important;
             }
         ";
     }
     if( $images_overlay != 0 ) {
         $general_options .= "
             .item-thumb .hover-effect:after, figure .hover-effect:after, .carousel-module .carousel .item figure .hover-effect:after, .item-thumb .slideshow .slideshow-nav-main .slick-slide:after, .slideshow .slideshow-nav-main .item-thumb .slick-slide:after, figure .slideshow .slideshow-nav-main .slick-slide:after, .slideshow .slideshow-nav-main figure .slick-slide:after{
-                background-image: none;
+                background-image: none !important;
             }
         ";
     }

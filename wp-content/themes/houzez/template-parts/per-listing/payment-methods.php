@@ -14,8 +14,13 @@ $allowed_html_array = array(
         'title' => array()
     )
 );
+$enable_paypal = houzez_option('enable_paypal');
+$enable_stripe = houzez_option('enable_stripe');
+$enable_wireTransfer = houzez_option('enable_wireTransfer');
 ?>
 <div class="method-select-block">
+
+    <?php if( $enable_paypal != 0 ) { ?>
     <div class="method-row">
         <div class="method-select">
             <div class="radio">
@@ -27,6 +32,9 @@ $allowed_html_array = array(
         </div>
         <div class="method-type"><img src="<?php echo get_template_directory_uri(); ?>/images/paypal-icon.jpg" alt="paypal"></div>
     </div>
+    <?php } ?>
+
+    <?php if( $enable_stripe != 0 ) { ?>
     <div class="method-row">
         <div class="method-select">
             <div class="radio">
@@ -39,6 +47,9 @@ $allowed_html_array = array(
         </div>
         <div class="method-type"><img src="<?php echo get_template_directory_uri(); ?>/images/stripe-icon.jpg" alt="stripe"></div>
     </div>
+    <?php } ?>
+
+    <?php if( $enable_wireTransfer != 0 ) { ?>
     <div class="method-row">
         <div class="method-select">
             <div class="radio">
@@ -52,6 +63,8 @@ $allowed_html_array = array(
             <p> <?php esc_html_e( 'Make your payment direct into your bank account. Please use order ID as the payment reference', 'houzez' ); ?> </p>
         </div>
     </div>
+    <?php } ?>
+
 </div>
 <input type="hidden" id="houzez_property_id" name="houzez_property_id" value="<?php echo intval( $property_id ); ?>">
 <input type="hidden" id="houzez_listing_price" name="houzez_listing_price" value="<?php echo esc_attr($price_listing_submission); ?>">

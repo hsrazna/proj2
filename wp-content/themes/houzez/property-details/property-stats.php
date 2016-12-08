@@ -11,7 +11,7 @@
 $houzez_stats_graph = houzez_option('houzez_stats_graph');
 
 if( $houzez_stats_graph != 0 ) { ?>
-<div id="stats" class="detail-features detail-block">
+<div id="stats" class="detail-features detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'Page Views', 'houzez' ); ?></h2>
     </div>

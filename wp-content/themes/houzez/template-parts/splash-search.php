@@ -1,7 +1,7 @@
 <?php
 global $post, $splash_welcome_text, $page_head_subtitle, $keyword_field_placeholder, $houzez_local;
 $css_class = '';
-$search_template = houzez_get_template_link('template/template-search.php');
+$search_template = houzez_get_search_template_link();
 $splash_v1_dropdown = houzez_option('splash_v1_dropdown');
 $splash_banner_search_type = 'type1';//houzez_option('splash_banner_search_type');
 $keyword_field = houzez_option('keyword_field');
@@ -28,6 +28,12 @@ if( $splash_v1_dropdown == 'property_status' ) {
 } else if ( $splash_v1_dropdown == 'property_area' ) {
     $dropdown_title = $houzez_local['all_areas'];
     $select_name = 'area';
+} else if ( $splash_v1_dropdown == 'property_state' ) {
+    $dropdown_title = $houzez_local['all_states'];
+    $select_name = 'state';
+} else if ( $splash_v1_dropdown == 'property_country' ) {
+    $dropdown_title = $houzez_local['all_countries'];
+    $select_name = 'country';
 } else {
     $dropdown_title = $houzez_local['all_cities'];
     $select_name = 'location';
@@ -45,27 +51,31 @@ if( $splash_v1_dropdown == 'property_status' ) {
 <div class="banner-search-main">
     <form method="get" action="<?php echo esc_url( $search_template ); ?>" class="form-inline">
         <div class="form-group">
-            <select name="<?php echo esc_attr_e($select_name);?>" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+            <select name="<?php echo esc_attr($select_name);?>" class="selectpicker" data-live-search="false" data-live-search-style="begins">
                 <?php
                 // All Option
-                echo '<option value="all">'.$dropdown_title.'</option>';
+                echo '<option value="">'.$dropdown_title.'</option>';
 
-                $prop_city = get_terms (
-                    array(
-                        $splash_v1_dropdown
-                    ),
-                    array(
-                        'orderby' => 'name',
-                        'order' => 'ASC',
-                        'hide_empty' => false,
-                        'parent' => 0
-                    )
-                );
-                houzez_hirarchical_options( $splash_v1_dropdown, $prop_city, '' );
+                if ( $splash_v1_dropdown == 'property_country' ) {
+                        echo houzez_get_all_countries();
+                } else {
+                    $prop_city = get_terms(
+                        array(
+                            $splash_v1_dropdown
+                        ),
+                        array(
+                            'orderby' => 'name',
+                            'order' => 'ASC',
+                            'hide_empty' => false,
+                            'parent' => 0
+                        )
+                    );
+                    houzez_hirarchical_options($splash_v1_dropdown, $prop_city, '');
+                }
                 ?>
             </select>
             <div class="search input-search input-icon">
-                <input type="text" class="form-control" name="keyword" placeholder="<?php esc_html_e( $keyword_field_placeholder ); ?>">
+                <input type="text" class="form-control" name="keyword" placeholder="<?php echo esc_attr( $keyword_field_placeholder ); ?>">
             </div>
             <div class="search-btn">
                 <button class="btn btn-orange"><?php echo $houzez_local['search']; ?></button>
@@ -102,4 +112,3 @@ if( $splash_v1_dropdown == 'property_status' ) {
     </div>
 
 <?php } ?>
-        

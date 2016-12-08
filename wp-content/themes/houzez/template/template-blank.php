@@ -34,6 +34,7 @@
 </div> <!--end #section-body-->
 
 <?php $copy_rights = houzez_option('copy_rights'); ?>
+<?php $houzez_local = houzez_get_localization(); ?>
 <!--start footer section-->
 <footer id="footer-section">
 
@@ -72,7 +73,7 @@
                     <div class="col-md-3 col-sm-3">
                         <div class="footer-col foot-social">
                             <p>
-                                <?php esc_html_e( 'Follow us', 'houzez' ); ?>
+                                <?php echo $houzez_local['follow_us']; ?>
 
                                 <?php if( houzez_option('fs-facebook') != '' ){ ?>
                                     <a target="_blank" href="<?php echo esc_url(houzez_option('fs-facebook')); ?>"><i class="fa fa-facebook-square"></i></a>

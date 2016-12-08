@@ -8,30 +8,15 @@ $houzez_local = houzez_get_localization();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/animate.css">
+
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/style.css">
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css">
-	<?php wp_head(); ?>
-	<!-- <script type="text/javascript" src="<?php //echo get_template_directory_uri(); ?>/js/jssor.slider-21.1.6.min.js"></script> -->
-	
-	<!-- <script type="text/javascript" src="<?php //echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script> -->
-	<!-- <script type="text/javascript" src="<?php //echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script> -->
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.css" />
-	
-	<script>
-	
-	$(document).ready(function(){
-
-	});
-	
-		
-	</script>
-
+	<?php wp_head(); ?>
 </head>
 
 <?php
@@ -156,3 +141,10 @@ if ( is_page_template( 'template/property-listings-map.php' ) ) { $section_body 
 	<?php } ?>
 
 <?php } // End splash template if  ?>
+
+<?php
+	$disable_compare = houzez_option('disable_compare');
+	if( $disable_compare != 0 ) {
+		get_template_part('template-parts/compare-panel');
+	}
+	?>

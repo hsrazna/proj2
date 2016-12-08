@@ -6,25 +6,7 @@
  * Date: 08/01/16
  * Time: 2:46 PM
  */
-global $ls_en_ru, $ls_cats, $type_to_icon;
-$ls_add = get_post_meta( get_the_ID(), 'additional_features', true );
-$ls_property = &$ls_add;
-$ls_beds = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
-$ls_terms = get_the_terms(get_the_id(), $ls_cats['type']);
-$ls_title_temp = 'нет названия';
-$ls_stars = 0;
-$ls_date_check = '';
-foreach ($ls_add as $ls_add_value) {
-    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["name2"])
-        $ls_title_second = esc_attr( $ls_add_value['fave_additional_feature_value'] );
-    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["stars"])
-        $ls_stars = (int)esc_attr( $ls_add_value['fave_additional_feature_value'] );
-    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["date_check"])
-        $ls_date_check = esc_attr( $ls_add_value['fave_additional_feature_value'] );
-}
-
-
-global $post, $property_map, $property_streetView, $prop_address, $prop_agent_email;
+global $post, $property_map, $property_streetView, $prop_address, $prop_agent_email, $property_layout, $property_top_area;
 
 $featured_img = houzez_get_image_url('houzez-imageSize1170_738');
 if( !empty($featured_img) ) {
@@ -58,8 +40,14 @@ if( $prop_default_active_tab == "image_gallery" ) {
     $gallery_view = 'in active';
 }
 
+$disable_favorite = houzez_option('disable_favorite');
+$layout_class = '';
+if( $property_layout == 'v2' ) {
+    $layout_class = "no-margin";
+}
+
 ?>
-<section class="detail-top detail-top-full">
+<section class="detail-top detail-top-full <?php echo esc_attr($property_top_area.' '.$layout_class);?>">
     <div class="detail-media">
     <div class="tab-content">
 
@@ -84,42 +72,24 @@ if( $prop_default_active_tab == "image_gallery" ) {
                         <div class="header-left table-cell">
 
                             <?php get_template_part('inc/breadcrumb'); ?>
-                            <?php
-                            $ls_title = esc_attr( get_the_title() );
-                            $ls_title = $ls_title?$ls_title:$ls_title_second;
-                            ?>
-                            <div class="table-cell"><h1 class="az-title1"><?=$ls_title?></h1></div>
+                            <div class="table-cell"><h1><?php the_title(); ?></h1></div>
 
                             <div class="table-cell">
                                 <ul class="actions">
                                     <li class="share-btn"><?php get_template_part( 'template-parts/share' ); ?></li>
+                                    <?php if( $disable_favorite != 0 ) { ?>
                                     <li class="fvrt-btn"><?php get_template_part( 'template-parts/favorite' ); ?></li>
+                                    <?php } ?>
                                     <?php if( $print_property_button != 0 ) { ?>
                                         <li class="print-btn">
-                                            <span id="houzez-print" data-propid="<?php esc_attr_e( $post->ID );?>"><i class="fa fa-print"></i></span>
+                                            <span id="houzez-print" data-toggle="tooltip" data-original-title="<?php esc_html_e('Print', 'houzez'); ?>" data-propid="<?php echo esc_attr( $post->ID );?>"><i class="fa fa-print"></i></span>
                                         </li>
                                     <?php } ?>
-                                    <?php foreach ($ls_terms as $ls_terms_value): ?>
-                                        <li>
-                                          <span data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $ls_terms_value->name; ?>"><?= $type_to_icon[$ls_terms_value->name] ?></span>
-                                        </li>
-                                    <?php endforeach; ?>
                                 </ul>
                             </div>
-                            <address class="property-address"><?php foreach ($ls_property as $ls_property_value): ?>
-                                <?php if($ls_property_value['fave_additional_feature_title'] == $ls_en_ru['code_id']): ?>
-                                  <span class="az-text1">
-                                    <?=$ls_property_value['fave_additional_feature_value']?>
-                                  </span>
-                                <?php elseif($ls_property_value['fave_additional_feature_title'] == $ls_en_ru['area']): ?>
-                                  <span class="az-text1">
-                                    <?=$ls_property_value['fave_additional_feature_value']?>
-                                  </span class="az-text1">
-                                <?php endif; ?>
-                              <?php endforeach; ?>
-                            </address>
+
                             <?php
-                            if( 0/*!empty( $prop_address )*/) {
+                            if( !empty( $prop_address )) {
                                 echo '<address class="property-address">'.esc_attr( $prop_address ).'</address>';
                             } ?>
                         </div>

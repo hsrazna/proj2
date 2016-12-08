@@ -7,6 +7,6 @@
  */
 $prop_featured = get_post_meta( get_the_ID(), 'fave_featured', true );
 ?>
-<?php if( $prop_featured != 0 ) { ?>
+<?php if( $prop_featured == 1 ) { ?>
     <span class="label-featured label label-success"><?php esc_html_e( 'Featured', 'houzez' ); ?></span>
 <?php } ?>

@@ -18,10 +18,12 @@
                         <li class="active"><?php esc_html_e( 'Вход', 'houzez' ); ?></li>
                         <li><?php esc_html_e( 'Регистрация', 'houzez' ); ?></li>
                     <?php } ?>
+
                 </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+
             </div>
-            <div class="modal-body login-block">
+            <div class="modal-body login-block class-for-register-msg">
                 <?php get_template_part('template-parts/login-register'); ?>
             </div>
         </div>
@@ -39,6 +41,7 @@
                     <?php } ?>
                 </ul>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+
             </div>
             <div class="modal-body login-block">
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
@@ -96,12 +99,6 @@
                         $userLogin = $current_user->user_login;
                         $az_phone = get_user_meta( $userID, 'fave_author_phone', true );
                         $az_mobile = get_user_meta( $userID, 'fave_author_mobile', true );
-                        // if(!$az_phone){
-                        //     echo '<input type="hidden" name="az_phone" value="'.$az_phone.'">';
-                        // }
-                        // if(!$az_mobile){
-                        //     echo '<input type="hidden" name="az_mobile" value="'.$az_mobile.'">';
-                        // }
                         if(!$az_phone&&!$az_mobile){
                     ?>
                             <div class="form-group field-group">
@@ -137,39 +134,23 @@
                         </div>
                     <?php } ?>
                 <?php endif; ?>
-                    <!-- <div class="forget-block clearfix">
-                        <div class="form-group pull-left">
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" id="remember" type="checkbox">
-                                    <?php //esc_html_e( 'Remember me', 'houzez' ); ?>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group pull-right">
-                            <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#pop-reset-pass"><?php esc_html_e( 'Lost your password?', 'houzez' ); ?></a>
-                        </div>
-                    </div> -->
-
-                    <?php //wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
-                    <!-- <input type="hidden" name="action" id="login_action" value="houzez_login"> -->
-                    <?php if(is_user_logged_in()): ?>
-                        <input type="hidden" name="user_id" value="<?=$userID?>">
-                        <input type="hidden" name="user_name" value="<?=$userLogin?>">
-                        <?php if(!$az_phone&&!$az_mobile): ?>
-                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                                <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Request','houzez');?></button>
-                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                                <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Запросить','houzez');?></button>
-                            <?php } ?>
-                        <?php endif; ?>
-                    <?php else: ?>
+                <?php if(is_user_logged_in()): ?>
+                    <input type="hidden" name="user_id" value="<?=$userID?>">
+                    <input type="hidden" name="user_name" value="<?=$userLogin?>">
+                    <?php if(!$az_phone&&!$az_mobile): ?>
                         <?php if ( qtrans_getLanguage() == 'en' ) {?>
                             <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Request','houzez');?></button>
                         <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                             <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Запросить','houzez');?></button>
                         <?php } ?>
                     <?php endif; ?>
+                <?php else: ?>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Request','houzez');?></button>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <button type="submit" class="fave-login-button btn btn-primary btn-block az-send"><?php esc_html_e('Запросить','houzez');?></button>
+                    <?php } ?>
+                <?php endif; ?>
                 </form>
             </div>
         </div>

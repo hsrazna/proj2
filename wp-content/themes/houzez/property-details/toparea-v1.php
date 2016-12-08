@@ -6,7 +6,7 @@
  * Date: 08/01/16
  * Time: 2:44 PM
  */
-global $post, $property_map, $property_streetView, $prop_agent_email;
+global $post, $property_map, $property_streetView;
 
 $agent_display_option = get_post_meta( get_the_ID(), 'fave_agent_display_option', true );
 $prop_agent_display = get_post_meta( get_the_ID(), 'fave_agents', true );
@@ -32,8 +32,6 @@ if( $prop_default_active_tab == "image_gallery" ) {
 } else {
     $gallery_view = 'in active';
 }
-
-
 ?>
 <section class="detail-top detail-top-grid">
     <div class="container">
@@ -48,10 +46,15 @@ if( $prop_default_active_tab == "image_gallery" ) {
                             $gallery_image_url = wp_get_attachment_image_url( get_post_thumbnail_id(),'houzez-single-big-size' );
                         ?>
                         <div id="gallery" class="tab-pane fade <?php echo esc_attr( $gallery_view );?>" style="background-image: url(<?php echo $gallery_image_url?>)">
+                            <span class="label-wrap visible-sm visible-xs">
+                                <?php if( houzez_taxonomy_simple('property_status') ) { ?>
+                                    <span class="label label-primary label-status-<?php echo intval(houzez_get_taxonomy_id('property_status')); ?>"><?php echo houzez_taxonomy_simple('property_status'); ?></span>
+                                <?php } ?>
+                                <?php if( houzez_taxonomy_simple('property_label') ) { ?>
+                                    <span class="label label-primary label-color-<?php echo intval(houzez_get_taxonomy_id('property_label')); ?>"><?php echo houzez_taxonomy_simple('property_label'); ?></span>
+                                <?php } ?>
+                            </span>
                             <a href="#" class="popup-trigger">
-                                <?php
-                                    //the_post_thumbnail('houzez-single-big-size');
-                                ?>
                             </a>
                             <?php if( !empty( $prop_agent_email ) && $enableDisable_agent_forms != 0 ) { ?>
                             <div class="form-small form-media">

@@ -11,6 +11,7 @@ if ( !function_exists( 'houzez_importer_description_text' ) ) {
     function houzez_importer_description_text( $description ) {
         $message = '<p>'. esc_html__( 'Best if used on new WordPress install.', 'houzez' ) .'</p>';
         $message .= '<p>'. esc_html__( 'Images are for demo purpose only.', 'houzez' ) .'</p>';
+        $message .= '<p>'. __( '<strong>HOUZEZ09:</strong> Only homepage revolution slider will be import, other sliders can be find in download zip file in "houzez09 slider" folder.', 'houzez' ) .'</p>';
         $message .= '
         <h3>What if the Import fails or stalls?</h3>
 
@@ -54,7 +55,9 @@ if ( !function_exists( 'houzez_menu_revolutionslider_homepage_setup' ) ) {
                 'houzez05' => 'for-sale.zip',
                 'houzez06' => 'personal.zip',
                 'houzez07' => 'home.zip',
-                'houzez08' => 'highlight-showcase4.zip'
+                'houzez08' => 'highlight-showcase4.zip',
+                'houzez09' => 'home-hero.zip', //about-us.zip agents.zip, properties.zip, contact.zip, blog.zip
+                'houzez10' => 'creative-frontpage.zip'
             );
             if ( isset( $demo_active_import[$current_key]['directory'] ) && !empty( $demo_active_import[$current_key]['directory'] ) && array_key_exists( $demo_active_import[$current_key]['directory'], $wbc_sliders_array ) ) {
                 $wbc_slider_import = $wbc_sliders_array[$demo_active_import[$current_key]['directory']];
@@ -67,7 +70,7 @@ if ( !function_exists( 'houzez_menu_revolutionslider_homepage_setup' ) ) {
         /************************************************************************
          * Setting Menus
          *************************************************************************/
-        $wbc_menu_array = array( 'houzez01', 'houzez02', 'houzez03', 'houzez04', 'houzez05', 'houzez06', 'houzez07', 'houzez08' );
+        $wbc_menu_array = array( 'houzez01', 'houzez02', 'houzez03', 'houzez04', 'houzez05', 'houzez06', 'houzez07', 'houzez08', 'houzez09', 'houzez10' );
         if ( isset( $demo_active_import[$current_key]['directory'] ) && !empty( $demo_active_import[$current_key]['directory'] ) && in_array( $demo_active_import[$current_key]['directory'], $wbc_menu_array ) ) {
             $main_menu = get_term_by( 'name', 'Main Menu', 'nav_menu' );
             $footer_menu = get_term_by( 'name', 'Footer Menu', 'nav_menu' );
@@ -90,7 +93,9 @@ if ( !function_exists( 'houzez_menu_revolutionslider_homepage_setup' ) ) {
             'houzez05' => 'Homepage',
             'houzez06' => 'Homepage',
             'houzez07' => 'Homepage',
-            'houzez08' => 'Home'
+            'houzez08' => 'Home',
+            'houzez09' => 'Homepage',
+            'houzez09' => 'Homepage'
         );
         if ( isset( $demo_active_import[$current_key]['directory'] ) && !empty( $demo_active_import[$current_key]['directory'] ) && array_key_exists( $demo_active_import[$current_key]['directory'], $wbc_home_pages ) ) {
             $page = get_page_by_title( $wbc_home_pages[$demo_active_import[$current_key]['directory']] );

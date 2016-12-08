@@ -18,6 +18,8 @@ global $houzez_local;
     <?php } ?>
 </div> <!--Start in header end #section-body-->
 
+<?php get_template_part('template-parts/scroll-to-top'); ?>
+
 <!--start footer section-->
 <footer id="footer-section">
     
@@ -54,7 +56,7 @@ global $houzez_local;
 
                     </div>
                 </div>
-                <?php if( houzez_option('social-footer') != '0' ): ?>
+                <?php if( houzez_option('social-footer') != '0' && houzez_option('fs-facebook') != '' || houzez_option('fs-twitter') != '' || houzez_option('fs-linkedin') != '' || houzez_option('fs-googleplus') != '' || houzez_option('fs-instagram') != '' ): ?>
                 <div class="col-md-3 col-sm-3">
                     <div class="footer-col foot-social">
                         <p>

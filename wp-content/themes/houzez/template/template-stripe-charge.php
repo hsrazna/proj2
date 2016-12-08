@@ -13,6 +13,7 @@ $allowed_html =array();
 $current_user = wp_get_current_user();
 $userID       =   $current_user->ID;
 $user_email   =   $current_user->user_email;
+$admin_email      =  get_bloginfo('admin_email');
 $username     =   $current_user->user_login;
 $submission_currency = houzez_option('currency_paid_submission');
 $thankyou_page_link = houzez_get_template_link('template/template-thankyou.php');
@@ -103,10 +104,22 @@ if ( isset ($_POST['submission_pay'])  && $_POST['submission_pay'] == 1  ) {
         ));
 
         if( $is_upgrade == 1 ) {
-            houzez_email_to_admin('email_upgrade');
             update_post_meta( $listing_id, 'fave_featured', 1 );
             $invoice_id = houzez_generate_invoice( 'Upgrade to Featured', 'one_time', $listing_id, $date, $userID, 0, 1, '', $paymentMethod );
             update_post_meta( $invoice_id, 'invoice_payment_status', 1 );
+
+            $args = array(
+                'listing_title'  =>  get_the_title($listing_id),
+                'listing_id'     =>  $listing_id,
+                'invoice_no' =>  $invoice_id,
+            );
+
+            /*
+             * Send email
+             * */
+            houzez_email_type( $user_email, 'featured_submission_listing', $args);
+            houzez_email_type( $admin_email, 'admin_featured_submission_listing', $args);
+
         } else {
             update_post_meta( $listing_id, 'fave_payment_status', 'paid' );
 
@@ -135,7 +148,18 @@ if ( isset ($_POST['submission_pay'])  && $_POST['submission_pay'] == 1  ) {
                 $invoice_id = houzez_generate_invoice( 'Listing', 'one_time', $listing_id, $date, $userID, 0, 0, '', $paymentMethod );
             }
             update_post_meta( $invoice_id, 'invoice_payment_status', 1 );
-            houzez_email_to_admin('simple');
+
+            $args = array(
+                'listing_title'  =>  get_the_title($listing_id),
+                'listing_id'     =>  $listing_id,
+                'invoice_no' =>  $invoice_id,
+            );
+
+            /*
+             * Send email
+             * */
+            houzez_email_type( $user_email, 'paid_submission_listing', $args);
+            houzez_email_type( $admin_email, 'admin_paid_submission_listing', $args);
         }
 
         wp_redirect( $thankyou_page_link ); exit;
@@ -168,7 +192,12 @@ if ( isset ($_POST['submission_pay'])  && $_POST['submission_pay'] == 1  ) {
         $subscription_id = $customer->subscriptions['data'][0]['id'];
 
         houzez_save_user_packages_record($userID);
-        houzez_update_membership_package($userID, $pack_id);
+        if( houzez_check_user_existing_package_status($current_user->ID, $pack_id) ){
+            houzez_downgrade_package( $current_user->ID, $pack_id );
+            houzez_update_membership_package($userID, $pack_id);
+        }else{
+            houzez_update_membership_package($userID, $pack_id);
+        }
 
         $invoiceID = houzez_generate_invoice( 'package', 'recurring', $pack_id, $date, $userID, 0, 0, '', $paymentMethod );
         update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
@@ -185,6 +214,9 @@ if ( isset ($_POST['submission_pay'])  && $_POST['submission_pay'] == 1  ) {
         update_user_meta( $current_user->ID, 'fave_stripe_user_profile', $stripe_customer_id );
         update_user_meta( $current_user->ID, 'houzez_stripe_subscription_id', $subscription_id );
         update_user_meta( $current_user->ID, 'houzez_has_stripe_recurring', 1 );
+
+        $args = array();
+        houzez_email_type( $user_email,'purchase_activated_pack', $args );
 
         wp_redirect( $thankyou_page_link ); exit;
 
@@ -222,13 +254,21 @@ if ( isset ($_POST['submission_pay'])  && $_POST['submission_pay'] == 1  ) {
         ));
 
         houzez_save_user_packages_record($userID);
-        houzez_update_membership_package($userID, $pack_id);
+        if( houzez_check_user_existing_package_status($current_user->ID,$pack_id) ){
+            houzez_downgrade_package( $current_user->ID, $pack_id );
+            houzez_update_membership_package($userID, $pack_id);
+        }else{
+            houzez_update_membership_package($userID, $pack_id);
+        }
 
         $invoiceID = houzez_generate_invoice( 'package', 'one_time', $pack_id, $date, $userID, 0, 0, '', $paymentMethod );
         update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
 
 
         update_user_meta( $current_user->ID, 'houzez_has_stripe_recurring', 0 );
+
+        $args = array();
+        houzez_email_type( $user_email,'purchase_activated_pack', $args );
 
         wp_redirect( $thankyou_page_link ); exit;
 

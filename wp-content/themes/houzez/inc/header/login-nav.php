@@ -16,8 +16,9 @@ $dashboard_favorites = houzez_dashboard_favorites_link();
 $dashboard_search = houzez_dashboard_saved_search_link();
 $dashboard_invoices = houzez_dashboard_invoices_link();
 
-$header_create_listing = houzez_get_template_link('template/submit_property.php');
+$header_create_listing_template = houzez_get_template_link('template/submit_property.php');
 $create_listing_button_required_login = houzez_option('create_listing_button');
+$create_lisiting_enable = houzez_option('create_lisiting_enable');
 
 $home_link = home_url('/');
 
@@ -46,16 +47,15 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 
             <div class="account-dropdown">
                 <ul>
-                <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <?php
                         if( $home_link != $dash_profile_link ) {
                             echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_html__('My profile', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_listings ) {
+                        if( $home_link != $dashboard_listings && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '"> <i class="fa fa-building"></i>' . esc_html__('My Properties', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_add_listing ) {
+                        if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '"> <i class="fa fa-plus-circle"></i>' . esc_html__('Add new property', 'houzez') . '</a></li>';
                         }
                         if( $home_link != $dashboard_favorites ) {
@@ -64,21 +64,21 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                         if( $home_link != $dashboard_search ) {
                             echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '"> <i class="fa fa-search-plus"></i>' . esc_html__('Saved searches', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_invoices ) {
+                        if( $home_link != $dashboard_invoices && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '"> <i class="fa fa-file"></i>' . esc_html__('Invoices', 'houzez') . '</a></li>';
                         }
 
                         echo '<li><a href="'.wp_logout_url( home_url('/') ).'"> <i class="fa fa-unlock"></i>'.esc_html__( 'Log out', 'houzez' ).'</a></li>';
                     ?>
-                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                     <?php
                         if( $home_link != $dash_profile_link ) {
                             echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '" class="az-text3"> <i class="fa fa-user"></i>' . esc_html__('Профиль', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_listings ) {
+                        if( $home_link != $dashboard_listings && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '" class="az-text3"> <i class="fa fa-building"></i>' . esc_html__('Недвижимость', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_add_listing ) {
+                        if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '" class="az-text3"> <i class="fa fa-plus-circle"></i>' . esc_html__('Добавить нов. недв.', 'houzez') . '</a></li>';
                         }
                         if( $home_link != $dashboard_favorites ) {
@@ -87,40 +87,42 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                         if( $home_link != $dashboard_search ) {
                             echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '" class="az-text3"> <i class="fa fa-search-plus"></i>' . esc_html__('Сохр. поиск', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_invoices ) {
+                        if( $home_link != $dashboard_invoices && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '" class="az-text3"> <i class="fa fa-file"></i>' . esc_html__('Счета', 'houzez') . '</a></li>';
                         }
 
                         echo '<li><a href="'.wp_logout_url( home_url('/') ).'" class="az-text3"> <i class="fa fa-unlock"></i>'.esc_html__( 'Выход', 'houzez' ).'</a></li>';
                     ?>
-                <?php } ?>
+                    <?php } ?>
                 </ul>
             </div>
 
         </li>
     </ul>
 <?php } else { ?>
-    <div class="user az-margin-right0">
-        <?php //if( $header_type != 2 ) { ?>
-            <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-margin-right15"><?php esc_html_e( 'Sign In / Register', 'houzez' ); ?></span></a>
-            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1 az-margin-right15"><?php esc_html_e( 'Вход / Регистрация', 'houzez' ); ?></span></a>
-            <?php } ?>
+    <div class="user">
 
-<?php if(0): ?>
-            <?php if( $create_listing_button_required_login == 'yes' ) { ?>
-                <a href="#" data-toggle="modal" data-target="#pop-login" class="btn btn-default hidden-xs hidden-sm"><?php esc_html_e( 'Create Listing', 'houzez' ); ?></a>
-            <?php } else { ?>
+            <?php
+            if( houzez_option('header_login') != 'no' ) {
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-margin-right15">'.esc_html__( 'Sign In / Register', 'houzez' ).'</span></a>';
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1 az-margin-right15">'.esc_html__( 'Вход / Регистрация', 'houzez' ).'</span></a>';
+                }
+            }
+            if(0):
+                if( $create_lisiting_enable != 0 ) {
+                    if( $create_listing_button_required_login == 'yes' ) {
+                        echo '<a href="#" data-toggle="modal" data-target="#pop-login" class="btn btn-default hidden-xs hidden-sm">'.esc_html__( 'Create Listing', 'houzez' ).'</a>';
 
-                <?php if( !empty($header_create_listing) && $header_create_listing != $home_link ) { ?>
-                    <a href="<?php echo esc_url( $header_create_listing );?>" class="btn btn-default hidden-xs hidden-sm"><?php esc_html_e( 'Create Listing', 'houzez' ); ?></a>
-                <?php } ?>
-
-           <?php } ?>
-<?php endif; ?>
-        <?php //} else { ?>
-            <!--<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user"></i> <span class="hidden-sm hidden-xs"><?php /*esc_html_e( 'Sign In / Register', 'houzez' ); */?></span></a>-->
-        <?php //} ?>
+                    } else {
+                        if( !empty($header_create_listing_template) && $header_create_listing_template != $home_link ) {
+                            echo '<a href="'.esc_url( $header_create_listing_template ).'" class="btn btn-default hidden-xs hidden-sm">'.esc_html__( 'Create Listing', 'houzez' ).'</a>';
+                        }
+                    }
+                
+                }
+            endif;
+            ?>
     </div>
 <?php } ?>

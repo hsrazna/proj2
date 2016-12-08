@@ -9,8 +9,6 @@
 /*-----------------------------------------------------------------------------------*/
 // Submit Property filter
 /*-----------------------------------------------------------------------------------*/
-$price_type = '';
-
 add_filter('houzez_submit_listing', 'houzez_submit_listing');
 
 if( !function_exists('houzez_submit_listing') ) {
@@ -27,7 +25,7 @@ if( !function_exists('houzez_submit_listing') ) {
             $new_property['post_title'] = sanitize_text_field( $_POST['prop_title'] );
         }
 
-        if( $enable_paid_submission != 'no' ) {
+        if( $enable_paid_submission == 'membership' ) {
             $user_submit_has_no_membership = isset($_POST['user_submit_has_no_membership']) ? $_POST['user_submit_has_no_membership'] : '';
         } else {
             $user_submit_has_no_membership = 'no';
@@ -45,14 +43,14 @@ if( !function_exists('houzez_submit_listing') ) {
 
         if( $submission_action == 'add_property' ) {
 
-            if( $listings_admin_approved != 'yes' && ( $enable_paid_submission == 'no' || $enable_paid_submission = 'membership' ) ) {
+            if( $listings_admin_approved != 'yes' && ( $enable_paid_submission == 'no' || $enable_paid_submission == 'membership' ) ) {
                 if( $user_submit_has_no_membership == 'yes' ) {
                     $new_property['post_status'] = 'draft';
                 } else {
                     $new_property['post_status'] = 'publish';
                 }
             } else {
-                if( $user_submit_has_no_membership == 'yes' ) {
+                if( $user_submit_has_no_membership == 'yes' && $enable_paid_submission = 'membership' ) {
                     $new_property['post_status'] = 'draft';
                 } else {
                     $new_property['post_status'] = 'pending';
@@ -93,6 +91,11 @@ if( !function_exists('houzez_submit_listing') ) {
                 }
             }
 
+            //price prefix
+            if( isset( $_POST['prop_price_prefix'] ) ) {
+                update_post_meta( $prop_id, 'fave_property_price_prefix', sanitize_text_field( $_POST['prop_price_prefix']) );
+            }
+
             // Second Price
             if( isset( $_POST['prop_sec_price'] ) ) {
                 update_post_meta( $prop_id, 'fave_property_sec_price', sanitize_text_field( $_POST['prop_sec_price'] ) );
@@ -106,6 +109,16 @@ if( !function_exists('houzez_submit_listing') ) {
             // Area Size Prefix
             if( isset( $_POST['prop_size_prefix'] ) ) {
                 update_post_meta( $prop_id, 'fave_property_size_prefix', sanitize_text_field( $_POST['prop_size_prefix'] ) );
+            }
+
+            // Land Area Size
+            if( isset( $_POST['prop_land_area'] ) ) {
+                update_post_meta( $prop_id, 'fave_property_land', sanitize_text_field( $_POST['prop_land_area'] ) );
+            }
+
+            // Land Area Size Prefix
+            if( isset( $_POST['prop_land_area_prefix'] ) ) {
+                update_post_meta( $prop_id, 'fave_property_land_postfix', sanitize_text_field( $_POST['prop_land_area_prefix'] ) );
             }
 
             // Bedrooms
@@ -126,6 +139,11 @@ if( !function_exists('houzez_submit_listing') ) {
             // Garages Size
             if( isset( $_POST['prop_garage_size'] ) ) {
                 update_post_meta( $prop_id, 'fave_property_garage_size', sanitize_text_field( $_POST['prop_garage_size'] ) );
+            }
+
+            // Virtual Tour
+            if( isset( $_POST['virtual_tour'] ) ) {
+                update_post_meta( $prop_id, 'fave_virtual_tour', $_POST['virtual_tour'] );
             }
 
             // Year Built
@@ -209,7 +227,13 @@ if( !function_exists('houzez_submit_listing') ) {
             // Add property city
             if( isset( $_POST['locality'] ) ) {
                 $property_city = sanitize_text_field( $_POST['locality'] );
-                $term_taxonomy_ids = wp_set_object_terms( $prop_id, $property_city, 'property_city' );
+                $city_id = wp_set_object_terms( $prop_id, $property_city, 'property_city' );
+
+                $houzez_meta = array();
+                $houzez_meta['parent_state'] = isset( $_POST['administrative_area_level_1'] ) ? $_POST['administrative_area_level_1'] : '';
+                if( !empty( $city_id) ) {
+                    update_option('_houzez_property_city_' . $city_id[0], $houzez_meta);
+                }
             }
 
             // Add property area
@@ -227,9 +251,17 @@ if( !function_exists('houzez_submit_listing') ) {
             // Add property state
             if( isset( $_POST['administrative_area_level_1'] ) ) {
                 $property_state = sanitize_text_field( $_POST['administrative_area_level_1'] );
-                wp_set_object_terms( $prop_id, $property_state, 'property_state' );
+                $state_id = wp_set_object_terms( $prop_id, $property_state, 'property_state' );
+
+                $houzez_meta = array();
+                $houzez_meta['parent_country'] = isset( $_POST['country_short'] ) ? $_POST['country_short'] : '';
+                if( !empty( $state_id) ) {
+                    update_option('_houzez_property_state_' . $state_id[0], $houzez_meta);
+                }
             }
 
+            //echo $_POST['country_short'].' '.$_POST['administrative_area_level_1'].' '.$_POST['locality'].' '.$_POST['neighborhood']; die;
+           
             // Add property features
             if( isset( $_POST['prop_features'] ) ) {
                 $features_array = array();
@@ -240,13 +272,13 @@ if( !function_exists('houzez_submit_listing') ) {
             }
 
             // additional details
-            //if( isset( $_POST['additional_features'] ) ) {
+            if( isset( $_POST['additional_features'] ) ) {
                 $additional_features = $_POST['additional_features'];
                 if( ! empty( $additional_features ) ) {
                     update_post_meta( $prop_id, 'additional_features', $additional_features );
                     update_post_meta( $prop_id, 'fave_additional_features_enable', 'enable' );
                 }
-            //}
+            }
 
             //Floor Plans
             if( isset( $_POST['floorPlans_enable'] ) ) {
@@ -320,6 +352,8 @@ if( !function_exists('houzez_submit_listing') ) {
                 $streetView = sanitize_text_field( $_POST['prop_google_street_view'] );
                 $lat_lng = $lat.','.$lng;
 
+                update_post_meta( $prop_id, 'houzez_geolocation_lat', $lat );
+                update_post_meta( $prop_id, 'houzez_geolocation_long', $lng );
                 update_post_meta( $prop_id, 'fave_property_location', $lat_lng );
                 update_post_meta( $prop_id, 'fave_property_map', '1' );
                 update_post_meta( $prop_id, 'fave_property_map_street_view', $streetView );
@@ -485,7 +519,6 @@ if( !function_exists('houzez_save_search') ) {
     }
 }
 
-
 /*-----------------------------------------------------------------------------------*/
 /*     Remove Search
 /*-----------------------------------------------------------------------------------*/
@@ -538,11 +571,7 @@ if(!function_exists('houzez_delete_search_reg') ) {
 }
 if(!function_exists('houzez_delete_search') ) {
     function houzez_delete_search () {
-
-        // global $current_user;
-        // wp_get_current_user();
-        // $userID = $current_user->ID;
-
+       
         $property_id = intval( $_POST['property_id']);
 
         if( !is_numeric( $property_id ) ){
@@ -553,36 +582,21 @@ if(!function_exists('houzez_delete_search') ) {
             wp_die();
         }else{
 
-        //     global $wpdb;
+            $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
+            unset($results[$property_id]);
+            setcookie('az_saved_search', base64_encode(serialize($results)), time()+2592000, '/');
+        
+            echo json_encode( array(
+                'success' => true,
+                'msg' => esc_html__('Deleted Successfully', 'houzez')
+            ));
 
-        //     $table_name     = $wpdb->prefix . 'houzez_search';
-        //     $results        = $wpdb->get_row( 'SELECT * FROM ' . $table_name . ' WHERE id = ' . $property_id );
-        $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
-        //     if ( $userID != $results->auther_id ) :
+            wp_die();
 
-        //         echo json_encode( array(
-        //             'success' => false,
-        //             'msg' => esc_html__('you don\'t have the right to delete this', 'houzez')
-        //         ));
-
-        //         wp_die();
-
-        //     else :
-
-        //         $wpdb->delete( $table_name, array( 'id' => $property_id ), array( '%d' ) );
-        unset($results[$property_id]);
-        setcookie('az_saved_search', base64_encode(serialize($results)), time()+2592000, '/');
-        echo json_encode( array(
-            'success' => true,
-            'msg' => esc_html__('Deleted Successfully', 'houzez')
-        ));
-
-        wp_die();
-
-        //     endif;
         }
     }
 }
+
 
 /*-----------------------------------------------------------------------------------*/
 // Property paypal payment
@@ -762,6 +776,7 @@ if( !function_exists('houzez_resend_for_approval_perlisting') ):
         );
         wp_update_post( $prop );
         update_post_meta( $prop_id, 'fave_featured', 0 );
+        update_post_meta( $prop_id, 'fave_payment_status', 'not_paid' );
 
         echo json_encode( array( 'success' => true, 'msg' => esc_html__('Sent for approval','houzez') ) );
 
@@ -856,7 +871,7 @@ if( !function_exists('houzez_property_filter') ) {
             );
         }
 
-        if( $fave_listings_tabs != 'enable' ) {
+        if( !isset( $_GET['tab'] ) ) {
             $status = get_post_meta($page_id, 'fave_status', false);
             if (!empty($status) && is_array($status)) {
                 $tax_query[] = array(
@@ -952,7 +967,7 @@ if( !function_exists('houzez_featured_property_filter') ) {
             );
         }
 
-        if( $fave_listings_tabs != 'enable' ) {
+        if( !isset( $_GET['tab'] ) ) {
             $status = get_post_meta($page_id, 'fave_status', false);
             if (!empty($status) && is_array($status)) {
                 $tax_query[] = array(
@@ -977,196 +992,92 @@ if( !function_exists('houzez_featured_property_filter') ) {
 }
 add_filter('houzez_featured_property_filter', 'houzez_featured_property_filter');
 
+
 /*-----------------------------------------------------------------------------------*/
-// Properties search
+// Search Radius filter
 /*-----------------------------------------------------------------------------------*/
-if( !function_exists('houzez_property_search') ) {
-    function houzez_property_search( $search_query ) {
+add_filter('houzez_radius_filter', 'houzez_radius_filter_callback', 10, 6);
+if( !function_exists('houzez_radius_filter_callback') ) {
+    function houzez_radius_filter_callback( $query_args, $search_lat, $search_long, $search_radius, $use_radius, $location ) {
 
-        $tax_query = array();
-        $meta_query = array();
+        global $wpdb;
 
-        // Keyword logic
-        if( isset ( $_GET['keyword'] ) ) {
-            $keyword = trim( $_GET['keyword'] );
-            if ( ! empty( $keyword ) ) {
-                $search_query['s'] = $keyword;
-            }
+        if ( ! ( $use_radius && $search_lat && $search_long && $search_radius ) || ! $location ) {
+            return $query_args;
         }
 
-        // bedrooms logic
-        if( isset( $_GET['bedrooms'] ) && !empty( $_GET['bedrooms'] ) && $_GET['bedrooms'] != 'any'  ) {
-            $bedrooms = intval($_GET['bedrooms']);
-            $meta_query[] = array(
-                'key' => 'fave_property_bedrooms',
-                'value'   => $bedrooms,
-                'type'    => 'DECIMAL',
-                'compare' => '>=',
-            );
+        $radius_unit = houzez_option('radius_unit');
+        if( $radius_unit == 'km' ) {
+            $earth_radius = 6371;
+        } elseif ( $radius_unit == 'mi' ) {
+            $earth_radius = 3959;
+        } else {
+            $earth_radius = 6371;
         }
 
-        // bathrooms logic
-        if( isset( $_GET['bathrooms'] ) && !empty( $_GET['bathrooms'] ) && $_GET['bathrooms'] != 'any'  ) {
-            $bathrooms = intval($_GET['bathrooms']);
-            $meta_query[] = array(
-                'key' => 'fave_property_bathrooms',
-                'value'   => $bathrooms,
-                'type'    => 'DECIMAL',
-                'compare' => '>=',
-            );
+        $sql = $wpdb->prepare( "SELECT $wpdb->posts.ID,
+				( %s * acos(
+					cos( radians(%s) ) *
+					cos( radians( latitude.meta_value ) ) *
+					cos( radians( longitude.meta_value ) - radians(%s) ) +
+					sin( radians(%s) ) *
+					sin( radians( latitude.meta_value ) )
+				) )
+				AS distance, latitude.meta_value AS latitude, longitude.meta_value AS longitude
+				FROM $wpdb->posts
+				INNER JOIN $wpdb->postmeta
+					AS latitude
+					ON $wpdb->posts.ID = latitude.post_id
+				INNER JOIN $wpdb->postmeta
+					AS longitude
+					ON $wpdb->posts.ID = longitude.post_id
+				WHERE 1=1
+					AND ($wpdb->posts.post_status = 'publish' )
+					AND latitude.meta_key='houzez_geolocation_lat'
+					AND longitude.meta_key='houzez_geolocation_long'
+				HAVING distance < %s
+				ORDER BY $wpdb->posts.menu_order ASC, distance ASC",
+            $earth_radius,
+            $search_lat,
+            $search_long,
+            $search_lat,
+            $search_radius
+        );
+        $post_ids = $wpdb->get_results( $sql, OBJECT_K );
+
+        if ( empty( $post_ids ) || ! $post_ids ) {
+            $post_ids = array(0);
         }
 
-        // min and max price logic
-        if( isset( $_GET['min-price'] ) && !empty( $_GET['min-price'] ) && $_GET['min-price'] != 'any' && isset( $_GET['max-price'] ) && !empty( $_GET['max-price'] ) && $_GET['max-price'] != 'any' ) {
-            $min_price = doubleval( houzez_clean( $_GET['min-price'] ) );
-            $max_price = doubleval( houzez_clean( $_GET['max-price'] ) );
-
-            if( $min_price >= 0 && $max_price > $min_price ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => array($min_price, $max_price),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-        } else if( isset( $_GET['min-price'] ) && !empty( $_GET['min-price'] ) && $_GET['min-price'] != 'any'  ) {
-            $min_price = doubleval( houzez_clean( $_GET['min-price'] ) );
-            if( $min_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => $_GET['min-price'],
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        } else if( isset( $_GET['max-price'] ) && !empty( $_GET['max-price'] ) && $_GET['max-price'] != 'any'  ) {
-            $max_price = doubleval( houzez_clean( $_GET['max-price'] ) );
-            if( $max_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => $_GET['max-price'],
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        }
-
-
-        // min and max area logic
-        if( isset( $_GET['min-area'] ) && !empty( $_GET['min-area'] ) && isset( $_GET['max-area'] ) && !empty( $_GET['max-area'] ) ) {
-            $min_area = intval( $_GET['min-area'] );
-            $max_area = intval( $_GET['max-area'] );
-
-            if( $min_area >= 0 && $max_area > $min_area ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => array($min_area, $max_area),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-
-        } else if( isset( $_GET['max-area'] ) && !empty( $_GET['max-area'] ) ) {
-            $max_area = intval( $_GET['max-area'] );
-            if( $max_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $max_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        } else if( isset( $_GET['min-area'] ) && !empty( $_GET['min-area'] ) ) {
-            $min_area = intval( $_GET['min-area'] );
-            if( $min_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $min_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        }
-
-
-        // Taxonomies
-        if( isset( $_GET['status'] ) && !empty( $_GET['status'] ) && $_GET['status'] != 'all' ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_status',
-                'field'    => 'slug',
-                'terms'     => $_GET['status']
-            );
-        }
-
-        if( isset( $_GET['type'] ) && !empty( $_GET['type'] ) && $_GET['type'] != 'all'  ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_type',
-                'field'    => 'slug',
-                'terms'     => $_GET['type']
-            );
-        }
-
-        if( isset( $_GET['location'] ) && !empty( $_GET['location'] ) && $_GET['location'] != 'all'  ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_city',
-                'field'    => 'slug',
-                'terms'     => $_GET['location']
-            );
-        }
-
-        if( isset( $_GET['feature'] ) && !empty( $_GET['feature'] ) ) {
-            if( is_array( $_GET['feature'] ) ) {
-                $features = $_GET['feature'];
-
-                foreach( $features as $feature ):
-                    $tax_query[] = array(
-                        'taxonomy' => 'property_feature',
-                        'field'    => 'slug',
-                        'terms'     => $feature
-                    );
-                endforeach;
-            }
-        }
-
-        $meta_count = count($meta_query);
-
-        if( $meta_count > 1 ) {
-            $meta_query['relation'] = 'AND';
-        }
-
-        if( $meta_count > 0 ) {
-            $search_query['meta_query'] = $meta_query;
-        }
-
-        $tax_count = count($tax_query);
-
-        if( $tax_count > 1 ) {
-            $tax_query['relation'] = 'AND';
-        }
-        if( $tax_count > 0 ) {
-            $search_query['tax_query']  = $tax_query;
-        }
-        return $search_query;
+        $query_args[ 'post__in' ] = array_keys( (array) $post_ids );
+        return $query_args;
     }
 }
-add_filter('houzez_search_parameters', 'houzez_property_search');
-
 
 /*-----------------------------------------------------------------------------------*/
 // Properties search 2
 /*-----------------------------------------------------------------------------------*/
 if( !function_exists('houzez_property_search_2') ) {
-    function houzez_property_search_2( $search_query ) {
+    function houzez_property_search_2($search_query)
+    {
 
         $tax_query = array();
         $meta_query = array();
         $allowed_html = array();
-        $keyword_array =  '';
+        $keyword_array = '';
 
         $keyword_field = houzez_option('keyword_field');
 
-        if ( isset($_GET['keyword']) && $_GET['keyword']!='') {
-            if( $keyword_field == 'prop_address' ) {
+        $search_location = isset($_GET['search_location']) ? esc_attr($_GET['search_location']) : false;
+        $use_radius = 'on';
+        $search_lat = isset($_GET['lat']) ? (float)$_GET['lat'] : false;
+        $search_long = isset($_GET['lng']) ? (float)$_GET['lng'] : false;
+        $search_radius = isset($_GET['radius']) ? (int)$_GET['radius'] : false;
+
+        $search_query = apply_filters('houzez_radius_filter', $search_query, $search_lat, $search_long, $search_radius, $use_radius, $search_location);
+
+        if (isset($_GET['keyword']) && $_GET['keyword'] != '') {
+            if ($keyword_field == 'prop_address') {
                 $meta_keywork = esc_html(wp_kses($_GET['keyword'], $allowed_html));
                 $address_array = array(
                     'key' => 'fave_property_map_address',
@@ -1204,73 +1115,78 @@ if( !function_exists('houzez_property_search_2') ) {
                     $zip_array
                 );
 
-            } else if( $keyword_field == 'prop_city_state_county' ) {
-                $taxlocation[] = sanitize_title (  esc_html( wp_kses($_GET['keyword'], $allowed_html) ) );
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_area',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
+            } else if ($keyword_field == 'prop_city_state_county') {
+                $taxlocation[] = sanitize_title(esc_html(wp_kses($_GET['keyword'], $allowed_html)));
+
+                $_tax_query = Array();
+                $_tax_query['relation'] = 'OR';
+
+                $_tax_query[] = array(
+                    'taxonomy' => 'property_area',
+                    'field' => 'slug',
+                    'terms' => $taxlocation
                 );
 
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_city',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
+                $_tax_query[] = array(
+                    'taxonomy' => 'property_city',
+                    'field' => 'slug',
+                    'terms' => $taxlocation
                 );
 
-                $tax_query[] = array(
-                    'taxonomy'      => 'property_state',
-                    'field'         => 'slug',
-                    'terms'         => $taxlocation
+                $_tax_query[] = array(
+                    'taxonomy' => 'property_state',
+                    'field' => 'slug',
+                    'terms' => $taxlocation
                 );
+                $tax_query[] = $_tax_query;
 
             } else {
-                $keyword = trim( $_GET['keyword'] );
-                if ( ! empty( $keyword ) ) {
+                $keyword = trim($_GET['keyword']);
+                if (!empty($keyword)) {
                     $search_query['s'] = $keyword;
                 }
             }
         }
 
         // bedrooms logic
-        if( isset( $_GET['bedrooms'] ) && !empty( $_GET['bedrooms'] ) && $_GET['bedrooms'] != 'any'  ) {
+        if (isset($_GET['bedrooms']) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
             $bedrooms = sanitize_text_field($_GET['bedrooms']);
             $meta_query[] = array(
                 'key' => 'fave_property_bedrooms',
-                'value'   => $bedrooms,
-                'type'    => 'CHAR',
+                'value' => $bedrooms,
+                'type' => 'CHAR',
                 'compare' => '=',
             );
         }
 
         // Property ID
-        if( isset( $_GET['propid'] ) && !empty( $_GET['propid'] )  ) {
+        if (isset($_GET['propid']) && !empty($_GET['propid'])) {
             $propid = sanitize_text_field($_GET['propid']);
             $meta_query[] = array(
                 'key' => 'fave_property_id',
-                'value'   => $propid,
-                'type'    => 'char',
+                'value' => $propid,
+                'type' => 'char',
                 'compare' => '=',
             );
         }
 
         // bathrooms logic
-        if( isset( $_GET['bathrooms'] ) && !empty( $_GET['bathrooms'] ) && $_GET['bathrooms'] != 'any'  ) {
+        if (isset($_GET['bathrooms']) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
             $bathrooms = sanitize_text_field($_GET['bathrooms']);
             $meta_query[] = array(
                 'key' => 'fave_property_bathrooms',
-                'value'   => $bathrooms,
-                'type'    => 'CHAR',
+                'value' => $bathrooms,
+                'type' => 'CHAR',
                 'compare' => '=',
             );
         }
 
         // min and max price logic
-        if( isset( $_GET['min-price'] ) && !empty( $_GET['min-price'] ) && $_GET['min-price'] != 'any' && isset( $_GET['max-price'] ) && !empty( $_GET['max-price'] ) && $_GET['max-price'] != 'any' ) {
-            $min_price = doubleval( houzez_clean( $_GET['min-price'] ) );
-            $max_price = doubleval( houzez_clean( $_GET['max-price'] ) );
+        if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any' && isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
+            $min_price = doubleval(houzez_clean($_GET['min-price']));
+            $max_price = doubleval(houzez_clean($_GET['max-price']));
 
-            if( $min_price >= 0 && $max_price > $min_price ) {
+            if ($min_price >= 0 && $max_price > $min_price) {
                 $meta_query[] = array(
                     'key' => 'fave_property_price',
                     'value' => array($min_price, $max_price),
@@ -1278,9 +1194,9 @@ if( !function_exists('houzez_property_search_2') ) {
                     'compare' => 'BETWEEN',
                 );
             }
-        } else if( isset( $_GET['min-price'] ) && !empty( $_GET['min-price'] ) && $_GET['min-price'] != 'any'  ) {
-            $min_price = doubleval( houzez_clean( $_GET['min-price'] ) );
-            if( $min_price >= 0 ) {
+        } else if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any') {
+            $min_price = doubleval(houzez_clean($_GET['min-price']));
+            if ($min_price >= 0) {
                 $meta_query[] = array(
                     'key' => 'fave_property_price',
                     'value' => $min_price,
@@ -1288,9 +1204,9 @@ if( !function_exists('houzez_property_search_2') ) {
                     'compare' => '>=',
                 );
             }
-        } else if( isset( $_GET['max-price'] ) && !empty( $_GET['max-price'] ) && $_GET['max-price'] != 'any'  ) {
-            $max_price = doubleval( houzez_clean( $_GET['max-price'] ) );
-            if( $max_price >= 0 ) {
+        } else if (isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
+            $max_price = doubleval(houzez_clean($_GET['max-price']));
+            if ($max_price >= 0) {
                 $meta_query[] = array(
                     'key' => 'fave_property_price',
                     'value' => $max_price,
@@ -1302,11 +1218,11 @@ if( !function_exists('houzez_property_search_2') ) {
 
 
         // min and max area logic
-        if( isset( $_GET['min-area'] ) && !empty( $_GET['min-area'] ) && isset( $_GET['max-area'] ) && !empty( $_GET['max-area'] ) ) {
-            $min_area = intval( $_GET['min-area'] );
-            $max_area = intval( $_GET['max-area'] );
+        if (isset($_GET['min-area']) && !empty($_GET['min-area']) && isset($_GET['max-area']) && !empty($_GET['max-area'])) {
+            $min_area = intval($_GET['min-area']);
+            $max_area = intval($_GET['max-area']);
 
-            if( $min_area >= 0 && $max_area > $min_area ) {
+            if ($min_area >= 0 && $max_area > $min_area) {
                 $meta_query[] = array(
                     'key' => 'fave_property_size',
                     'value' => array($min_area, $max_area),
@@ -1315,9 +1231,9 @@ if( !function_exists('houzez_property_search_2') ) {
                 );
             }
 
-        } else if( isset( $_GET['max-area'] ) && !empty( $_GET['max-area'] ) ) {
-            $max_area = intval( $_GET['max-area'] );
-            if( $max_area >= 0 ) {
+        } else if (isset($_GET['max-area']) && !empty($_GET['max-area'])) {
+            $max_area = intval($_GET['max-area']);
+            if ($max_area >= 0) {
                 $meta_query[] = array(
                     'key' => 'fave_property_size',
                     'value' => $max_area,
@@ -1325,9 +1241,9 @@ if( !function_exists('houzez_property_search_2') ) {
                     'compare' => '<=',
                 );
             }
-        } else if( isset( $_GET['min-area'] ) && !empty( $_GET['min-area'] ) ) {
-            $min_area = intval( $_GET['min-area'] );
-            if( $min_area >= 0 ) {
+        } else if (isset($_GET['min-area']) && !empty($_GET['min-area'])) {
+            $min_area = intval($_GET['min-area']);
+            if ($min_area >= 0) {
                 $meta_query[] = array(
                     'key' => 'fave_property_size',
                     'value' => $min_area,
@@ -1338,10 +1254,244 @@ if( !function_exists('houzez_property_search_2') ) {
         }
 
         //Date Query
-        $publish_date = isset( $_GET['publish_date'] ) ? $_GET['publish_date'] : '';
-        if( !empty($publish_date) ) {
+        $publish_date = isset($_GET['publish_date']) ? $_GET['publish_date'] : '';
+        if (!empty($publish_date)) {
             $publish_date = explode('-', $publish_date);
             $search_query['date_query'] = array(
+                array(
+                    'year' => $publish_date[0],
+                    'compare' => '=',
+                ),
+                array(
+                    'month' => $publish_date[1],
+                    'compare' => '=',
+                ),
+                array(
+                    'day' => $publish_date[2],
+                    'compare' => '>=',
+                )
+            );
+        }
+
+
+        // Taxonomies
+        if (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] != 'all') {
+            $tax_query[] = array(
+                'taxonomy' => 'property_status',
+                'field' => 'slug',
+                'terms' => $_GET['status']
+            );
+        }
+
+        if (isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] != 'all') {
+            $tax_query[] = array(
+                'taxonomy' => 'property_type',
+                'field' => 'slug',
+                'terms' => $_GET['type']
+            );
+        }
+
+        if (isset($_GET['country']) && !empty($_GET['country']) && $_GET['country'] != 'all') {
+            $meta_query[] = array(
+                'key' => 'fave_property_country',
+                'value' => $_GET['country'],
+                'type' => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        if (isset($_GET['state']) && !empty($_GET['state']) && $_GET['state'] != 'all') {
+            $tax_query[] = array(
+                'taxonomy' => 'property_state',
+                'field' => 'slug',
+                'terms' => $_GET['state']
+            );
+        }
+
+        if (isset($_GET['location']) && !empty($_GET['location']) && $_GET['location'] != 'all') {
+            $tax_query[] = array(
+                'taxonomy' => 'property_city',
+                'field' => 'slug',
+                'terms' => $_GET['location']
+            );
+        }
+
+        if (isset($_GET['area']) && !empty($_GET['area']) && $_GET['area'] != 'all') {
+            $tax_query[] = array(
+                'taxonomy' => 'property_area',
+                'field' => 'slug',
+                'terms' => $_GET['area']
+            );
+        }
+
+        if (isset($_GET['feature']) && !empty($_GET['feature'])) {
+            if (is_array($_GET['feature'])) {
+                $features = $_GET['feature'];
+
+                foreach ($features as $feature):
+                    $tax_query[] = array(
+                        'taxonomy' => 'property_feature',
+                        'field' => 'slug',
+                        'terms' => $feature
+                    );
+                endforeach;
+            }
+        }
+
+        $meta_count = count($meta_query);
+
+        if ($meta_count > 0 || !empty($keyword_array)) {
+            $search_query['meta_query'] = array(
+                'relation' => 'AND',
+                $keyword_array,
+                array(
+                    'relation' => 'AND',
+                    $meta_query
+                ),
+            );
+        }
+
+        $tax_count = count($tax_query);
+
+        $tax_query['relation'] = 'AND';
+
+        if ($tax_count > 0) {
+            $search_query['tax_query'] = $tax_query;
+        }
+        //print_r($search_query);
+        return $search_query;
+    }
+}
+add_filter('houzez_search_parameters_2', 'houzez_property_search_2');
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Get Properties for Header Map
+/*-----------------------------------------------------------------------------------*/
+add_action( 'wp_ajax_nopriv_houzez_header_map_listings', 'houzez_header_map_listings' );
+add_action( 'wp_ajax_houzez_header_map_listings', 'houzez_header_map_listings' );
+if( !function_exists('houzez_header_map_listings') ) {
+    function houzez_header_map_listings() {
+        check_ajax_referer('houzez_header_map_ajax_nonce', 'security');
+
+        $meta_query = array();
+        $tax_query = array();
+        $date_query = array();
+        $allowed_html = array();
+        $keyword_array =  '';
+
+        $initial_city = isset($_POST['initial_city']) ? $_POST['initial_city'] : '';
+        $features = isset($_POST['features']) ? $_POST['features'] : '';
+        $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
+        $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
+        $state = isset($_POST['state']) ? sanitize_text_field($_POST['state']) : '';
+        $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
+        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
+        $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+        $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+        $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
+        $bathrooms = isset($_POST['bathrooms']) ? sanitize_text_field($_POST['bathrooms']) : '';
+        $min_price = isset($_POST['min_price']) ? sanitize_text_field($_POST['min_price']) : '';
+        $max_price = isset($_POST['max_price']) ? sanitize_text_field($_POST['max_price']) : '';
+        $min_area = isset($_POST['min_area']) ? sanitize_text_field($_POST['min_area']) : '';
+        $max_area = isset($_POST['max_area']) ? sanitize_text_field($_POST['max_area']) : '';
+        $publish_date = isset($_POST['publish_date']) ? sanitize_text_field($_POST['publish_date']) : '';
+
+        $search_location = isset( $_POST[ 'search_location' ] ) ? esc_attr( $_POST[ 'search_location' ] ) : false;
+        $use_radius = isset( $_POST[ 'use_radius' ] ) && 'on' == $_POST[ 'use_radius' ];
+        $search_lat = isset($_POST['search_lat']) ? (float) $_POST['search_lat'] : false;
+        $search_long = isset($_POST['search_long']) ? (float) $_POST['search_long'] : false;
+        $search_radius = isset($_POST['search_radius']) ? (int) $_POST['search_radius'] : false;
+
+
+        $prop_locations = array();
+        houzez_get_terms_array( 'property_city', $prop_locations );
+
+        $keyword_field = houzez_option('keyword_field');
+
+        $query_args = array(
+            'post_type' => 'property',
+            'posts_per_page' => -1,
+            'post_status' => 'publish'
+        );
+
+        $query_args = apply_filters('houzez_radius_filter', $query_args, $search_lat, $search_long, $search_radius, $use_radius, $search_location );
+
+        if ( $keyword != '') {
+
+            if( $keyword_field == 'prop_address' ) {
+                $meta_keywork = esc_html(wp_kses($keyword, $allowed_html));
+                $address_array = array(
+                    'key' => 'fave_property_map_address',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => 'LIKE',
+                );
+
+                $street_array = array(
+                    'key' => 'fave_property_address',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => 'LIKE',
+                );
+
+                $zip_array = array(
+                    'key' => 'fave_property_zip',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+                $propid_array = array(
+                    'key' => 'fave_property_id',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+
+                $keyword_array = array(
+                    'relation' => 'OR',
+                    $address_array,
+                    $street_array,
+                    $propid_array,
+                    $zip_array
+                );
+            } else if( $keyword_field == 'prop_city_state_county' ) {
+                $taxlocation[] = sanitize_title (  esc_html( wp_kses($keyword, $allowed_html) ) );
+
+                $_tax_query = Array();
+                $_tax_query['relation'] = 'OR';
+
+                $_tax_query[] = array(
+                    'taxonomy'     => 'property_area',
+                    'field'        => 'slug',
+                    'terms'        => $taxlocation
+                );
+
+                $_tax_query[] = array(
+                    'taxonomy'     => 'property_city',
+                    'field'        => 'slug',
+                    'terms'        => $taxlocation
+                );
+
+                $_tax_query[] = array(
+                    'taxonomy'      => 'property_state',
+                    'field'         => 'slug',
+                    'terms'         => $taxlocation
+                );
+                $tax_query[] = $_tax_query;
+
+            } else {
+                $keyword = trim( $keyword );
+                if ( ! empty( $keyword ) ) {
+                    $query_args['s'] = $keyword;
+                }
+            }
+        }
+
+        //Date Query
+        if( !empty($publish_date) ) {
+            $publish_date = explode('-', $publish_date);
+            $query_args['date_query'] = array(
                 array(
                     'year' => $publish_date[0],
                     'compare'   => '=',
@@ -1357,69 +1507,192 @@ if( !function_exists('houzez_property_search_2') ) {
             );
         }
 
+        // Meta Queries
+        $meta_query[] = array(
+            'key' => 'fave_property_map_address',
+            'compare' => 'EXISTS',
+        );
 
-        // Taxonomies
-        if( isset( $_GET['status'] ) && !empty( $_GET['status'] ) && $_GET['status'] != 'all' ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_status',
-                'field'    => 'slug',
-                'terms'     => $_GET['status']
+        // Property ID
+        /*if( isset( $_GET['propid'] ) && !empty( $_GET['propid'] )  ) {
+            $propid = sanitize_text_field($_GET['propid']);
+            $meta_query[] = array(
+                'key' => 'fave_property_id',
+                'value'   => $propid,
+                'type'    => 'char',
+                'compare' => '=',
             );
-        }
+        }*/
 
-        if( isset( $_GET['type'] ) && !empty( $_GET['type'] ) && $_GET['type'] != 'all'  ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_type',
-                'field'    => 'slug',
-                'terms'     => $_GET['type']
-            );
-        }
-
-        if( isset( $_GET['location'] ) && !empty( $_GET['location'] ) && $_GET['location'] != 'all'  ) {
+        if( !empty($location) && $location != 'all' ) {
             $tax_query[] = array(
                 'taxonomy' => 'property_city',
-                'field'    => 'slug',
-                'terms'     => $_GET['location']
+                'field' => 'slug',
+                'terms' => $location
             );
+
+        } else {
+            if( $location == 'all' ) {
+                /*$tax_query[] = array(
+                    'taxonomy' => 'property_city',
+                    'field' => 'slug',
+                    'terms' => $prop_locations
+                );*/
+            } else {
+                if (!empty($initial_city)) {
+                    $tax_query[] = array(
+                        'taxonomy' => 'property_city',
+                        'field' => 'slug',
+                        'terms' => $initial_city
+                    );
+                }
+            }
         }
 
-        if( isset( $_GET['area'] ) && !empty( $_GET['area'] ) && $_GET['area'] != 'all' ) {
+        if( !empty($area) ) {
             $tax_query[] = array(
                 'taxonomy' => 'property_area',
                 'field' => 'slug',
-                'terms' => $_GET['area']
+                'terms' => $area
+            );
+        }
+        if( !empty($state) ) {
+            $tax_query[] = array(
+                'taxonomy'      => 'property_state',
+                'field'         => 'slug',
+                'terms'         => $state
             );
         }
 
-        if( isset( $_GET['feature'] ) && !empty( $_GET['feature'] ) ) {
-            if( is_array( $_GET['feature'] ) ) {
-                $features = $_GET['feature'];
+        if( !empty( $country ) ) {
+            $meta_query[] = array(
+                'key' => 'fave_property_country',
+                'value'   => $country,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
 
-                foreach( $features as $feature ):
-                    $tax_query[] = array(
-                        'taxonomy' => 'property_feature',
-                        'field'    => 'slug',
-                        'terms'     => $feature
-                    );
-                endforeach;
+        if( !empty($status) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_status',
+                'field' => 'slug',
+                'terms' => $status
+            );
+        }
+        if( !empty($type) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_type',
+                'field' => 'slug',
+                'terms' => $type
+            );
+        }
+
+        if( !empty( $features ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_feature',
+                'field' => 'slug',
+                'terms' => $features
+            );
+        }
+
+        // bedrooms logic
+        if( !empty( $bedrooms ) && $bedrooms != 'any'  ) {
+            $bedrooms = sanitize_text_field($bedrooms);
+            $meta_query[] = array(
+                'key' => 'fave_property_bedrooms',
+                'value'   => $bedrooms,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        // bathrooms logic
+        if( !empty( $bathrooms ) && $bathrooms != 'any'  ) {
+            $bathrooms = sanitize_text_field($bathrooms);
+            $meta_query[] = array(
+                'key' => 'fave_property_bathrooms',
+                'value'   => $bathrooms,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        // min and max price logic
+        if( !empty( $min_price ) && $min_price != 'any' && !empty( $max_price ) && $max_price != 'any' ) {
+            $min_price = doubleval( houzez_clean( $min_price ) );
+            $max_price = doubleval( houzez_clean( $max_price ) );
+
+            if( $min_price >= 0 && $max_price > $min_price ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => array($min_price, $max_price),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+        } else if( !empty( $min_price ) && $min_price != 'any'  ) {
+            $min_price = doubleval( houzez_clean( $min_price ) );
+            if( $min_price >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => $min_price,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
+            }
+        } else if( !empty( $max_price ) && $max_price != 'any'  ) {
+            $max_price = doubleval( houzez_clean( $max_price ) );
+            if( $max_price >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => $max_price,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        }
+
+        // min and max area logic
+        if( !empty( $min_area ) && !empty( $max_area ) ) {
+            $min_area = intval( $min_area );
+            $max_area = intval( $max_area );
+
+            if( $min_area >= 0 && $max_area > $min_area ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => array($min_area, $max_area),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+
+        } else if( !empty( $max_area ) ) {
+            $max_area = intval( $max_area );
+            if( $max_area >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => $max_area,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        } else if( !empty( $min_area ) ) {
+            $min_area = intval( $min_area );
+            if( $min_area >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => $min_area,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
             }
         }
 
         $meta_count = count($meta_query);
 
-        /*if( $meta_count > 1 ) {
-            $meta_query['relation'] = 'AND';
-        }*/
-
-        /*if( $meta_count > 0 ) {
-            $search_query['meta_query'] = $meta_query;
-        }*/
-        //if( $meta_count > 0 ) {
-            //$search_query['meta_query'] = $keyword_array;
-        //}
-
         if( $meta_count > 0 || !empty($keyword_array)) {
-            $search_query['meta_query'] = array(
+            $query_args['meta_query'] = array(
                 'relation' => 'AND',
                 $keyword_array,
                 array(
@@ -1431,21 +1704,429 @@ if( !function_exists('houzez_property_search_2') ) {
 
         $tax_count = count($tax_query);
 
-        if( $keyword_field != 'prop_city_state_county' ) {
-            if ($tax_count > 1) {
-                $tax_query['relation'] = 'AND';
-            }
-        } else {
-            $tax_query['relation'] = 'OR';
-        }
+
+        $tax_query['relation'] = 'AND';
+
+
         if( $tax_count > 0 ) {
-            $search_query['tax_query']  = $tax_query;
+            $query_args['tax_query']  = $tax_query;
         }
-        //print_r($search_query);
-        return $search_query;
+
+        $query_args = new WP_Query( $query_args );
+
+        $properties = array();
+
+        while( $query_args->have_posts() ): $query_args->the_post();
+
+            $post_id = get_the_ID();
+            $property_location = get_post_meta( get_the_ID(),'fave_property_location',true);
+            $lat_lng = explode(',', $property_location);
+            $prop_images        = get_post_meta( get_the_ID(), 'fave_property_images', false );
+            $prop_featured       = get_post_meta( get_the_ID(), 'fave_featured', true );
+            $prop_type = wp_get_post_terms( get_the_ID(), 'property_type', array("fields" => "ids") );
+
+            $prop = new stdClass();
+
+            $prop->id = $post_id;
+            $prop->title = get_the_title();
+            $prop->lat = $lat_lng[0];
+            $prop->lng = $lat_lng[1];
+            $prop->bedrooms = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
+            $prop->bathrooms = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
+            $prop->address = get_post_meta( get_the_ID(), 'fave_property_map_address', true );
+            $prop->thumbnail = get_the_post_thumbnail( $post_id, 'houzez-property-thumb-image' );
+            $prop->url = get_permalink();
+            $prop->prop_meta = houzez_listing_meta_v1();
+            $prop->type = houzez_taxonomy_simple('property_type');
+            $prop->images_count = count( $prop_images );
+            $prop->price = houzez_listing_price_v1();
+
+            foreach( $prop_type as $term_id ) {
+                $icon = get_tax_meta( $term_id, 'fave_prop_type_icon');
+                $retinaIcon = get_tax_meta( $term_id, 'fave_prop_type_icon_retina');
+
+                if( !empty($icon['src']) ) {
+                    $prop->icon = $icon['src'];
+                } else {
+                    $prop->icon = get_template_directory_uri() . '/images/map/pin-single-family.png';
+                }
+                if( !empty($retinaIcon['src']) ) {
+                    $prop->retinaIcon = $retinaIcon['src'];
+                } else {
+                    $prop->retinaIcon = get_template_directory_uri() . '/images/map/pin-single-family.png';
+                }
+            }
+
+            array_push($properties, $prop);
+
+        endwhile;
+
+        wp_reset_postdata();
+
+        if( count($properties) > 0 ) {
+            echo json_encode( array( 'getProperties' => true, 'properties' => $properties ) );
+            exit();
+        } else {
+            echo json_encode( array( 'getProperties' => false ) );
+            exit();
+        }
+        die();
     }
 }
-add_filter('houzez_search_parameters_2', 'houzez_property_search_2');
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Get Properties for Half Map listings
+/*-----------------------------------------------------------------------------------*/
+add_action( 'wp_ajax_nopriv_houzez_half_map_listings', 'houzez_half_map_listings' );
+add_action( 'wp_ajax_houzez_half_map_listings', 'houzez_half_map_listings' );
+if( !function_exists('houzez_half_map_listings') ) {
+    function houzez_half_map_listings() {
+        //check_ajax_referer('houzez_map_ajax_nonce', 'security');
+        $meta_query = array();
+        $tax_query = array();
+        $date_query = array();
+        $allowed_html = array();
+        $keyword_array =  '';
+
+        $initial_city = isset($_POST['initial_city']) ? $_POST['initial_city'] : '';
+        $features = isset($_POST['features']) ? $_POST['features'] : '';
+        $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
+        $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
+        $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
+        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
+        $state = isset($_POST['state']) ? sanitize_text_field($_POST['state']) : '';
+        $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+        $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+        $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
+        $bathrooms = isset($_POST['bathrooms']) ? sanitize_text_field($_POST['bathrooms']) : '';
+        $min_price = isset($_POST['min_price']) ? sanitize_text_field($_POST['min_price']) : '';
+        $max_price = isset($_POST['max_price']) ? sanitize_text_field($_POST['max_price']) : '';
+        $min_area = isset($_POST['min_area']) ? sanitize_text_field($_POST['min_area']) : '';
+        $max_area = isset($_POST['max_area']) ? sanitize_text_field($_POST['max_area']) : '';
+        $publish_date = isset($_POST['publish_date']) ? sanitize_text_field($_POST['publish_date']) : '';
+        $keyword_field = houzez_option('keyword_field');
+
+        $search_location = isset( $_POST[ 'search_location' ] ) ? esc_attr( $_POST[ 'search_location' ] ) : false;
+        $use_radius = isset( $_POST[ 'use_radius' ] ) && 'on' == $_POST[ 'use_radius' ];
+        $search_lat = isset($_POST['search_lat']) ? (float) $_POST['search_lat'] : false;
+        $search_long = isset($_POST['search_long']) ? (float) $_POST['search_long'] : false;
+        $search_radius = isset($_POST['search_radius']) ? (int) $_POST['search_radius'] : false;
+
+        $prop_locations = array();
+        houzez_get_terms_array( 'property_city', $prop_locations );
+
+        $query_args = array(
+            'post_type' => 'property',
+            'posts_per_page' => -1,
+            'post_status' => 'publish'
+        );
+
+        $query_args = apply_filters( 'houzez_radius_filter', $query_args, $search_lat, $search_long, $search_radius, $use_radius, $search_location );
+
+        if ( $keyword != '') {
+            if( $keyword_field == 'prop_address' ) {
+                $meta_keywork = esc_html(wp_kses($keyword, $allowed_html));
+                $address_array = array(
+                    'key' => 'fave_property_map_address',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => 'LIKE',
+                );
+
+                $street_array = array(
+                    'key' => 'fave_property_address',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => 'LIKE',
+                );
+
+                $zip_array = array(
+                    'key' => 'fave_property_zip',
+                    'value' => $meta_keywork,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+
+                $keyword_array = array(
+                    'relation' => 'OR',
+                    $address_array,
+                    $street_array,
+                    $zip_array
+                );
+            }  else if( $keyword_field == 'prop_city_state_county' ) {
+                $taxlocation[] = sanitize_title (  esc_html( wp_kses($keyword, $allowed_html) ) );
+
+                $_tax_query = Array();
+                $_tax_query['relation'] = 'OR';
+
+                $_tax_query[] = array(
+                    'taxonomy'     => 'property_area',
+                    'field'        => 'slug',
+                    'terms'        => $taxlocation
+                );
+
+                $_tax_query[] = array(
+                    'taxonomy'     => 'property_city',
+                    'field'        => 'slug',
+                    'terms'        => $taxlocation
+                );
+
+                $_tax_query[] = array(
+                    'taxonomy'      => 'property_state',
+                    'field'         => 'slug',
+                    'terms'         => $taxlocation
+                );
+
+                $tax_query[] = $_tax_query;
+
+            } else {
+                $keyword = trim( $keyword );
+                if ( ! empty( $keyword ) ) {
+                    $query_args['s'] = $keyword;
+                }
+            }
+        }
+
+        //Date Query
+        if( !empty($publish_date) ) {
+            $publish_date = explode('-', $publish_date);
+            $query_args['date_query'] = array(
+                array(
+                    'year' => $publish_date[0],
+                    'compare'   => '=',
+                ),
+                array(
+                    'month' => $publish_date[1],
+                    'compare'   => '=',
+                ),
+                array(
+                    'day' => $publish_date[2],
+                    'compare'   => '>=',
+                )
+            );
+        }
+
+        // Meta Queries
+        $meta_query[] = array(
+            'key' => 'fave_property_map_address',
+            'compare' => 'EXISTS',
+        );
+
+        if( !empty($location) && $location != 'all' ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_city',
+                'field' => 'slug',
+                'terms' => $location
+            );
+
+        } else {
+            if( $location == 'all' ) {
+                /*$tax_query[] = array(
+                    'taxonomy' => 'property_city',
+                    'field' => 'slug',
+                    'terms' => $prop_locations
+                );*/
+            } else {
+                if (!empty($initial_city)) {
+                    $tax_query[] = array(
+                        'taxonomy' => 'property_city',
+                        'field' => 'slug',
+                        'terms' => $initial_city
+                    );
+                }
+            }
+        }
+
+        // Property ID
+        /*if( isset( $_GET['propid'] ) && !empty( $_GET['propid'] )  ) {
+            $propid = sanitize_text_field($_GET['propid']);
+            $meta_query[] = array(
+                'key' => 'fave_property_id',
+                'value'   => $propid,
+                'type'    => 'char',
+                'compare' => '=',
+            );
+        }*/
+
+        if( !empty($area) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_area',
+                'field' => 'slug',
+                'terms' => $area
+            );
+        }
+
+        if( !empty($state) ) {
+            $tax_query[] = array(
+                'taxonomy'      => 'property_state',
+                'field'         => 'slug',
+                'terms'         => $state
+            );
+        }
+
+        if( !empty($status) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_status',
+                'field' => 'slug',
+                'terms' => $status
+            );
+        }
+        if( !empty( $features ) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_feature',
+                'field' => 'slug',
+                'terms' => $features
+            );
+        }
+        if( !empty($type) ) {
+            $tax_query[] = array(
+                'taxonomy' => 'property_type',
+                'field' => 'slug',
+                'terms' => $type
+            );
+        }
+
+        if( !empty( $country ) ) {
+            $meta_query[] = array(
+                'key' => 'fave_property_country',
+                'value'   => $country,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        // bedrooms logic
+        if( !empty( $bedrooms ) && $bedrooms != 'any'  ) {
+            $bedrooms = sanitize_text_field($bedrooms);
+            $meta_query[] = array(
+                'key' => 'fave_property_bedrooms',
+                'value'   => $bedrooms,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        // bathrooms logic
+        if( !empty( $bathrooms ) && $bathrooms != 'any'  ) {
+            $bathrooms = sanitize_text_field($bathrooms);
+            $meta_query[] = array(
+                'key' => 'fave_property_bathrooms',
+                'value'   => $bathrooms,
+                'type'    => 'CHAR',
+                'compare' => '=',
+            );
+        }
+
+        // min and max price logic
+        if( !empty( $min_price ) && $min_price != 'any' && !empty( $max_price ) && $max_price != 'any' ) {
+            $min_price = doubleval( houzez_clean( $min_price ) );
+            $max_price = doubleval( houzez_clean( $max_price ) );
+
+            if( $min_price >= 0 && $max_price > $min_price ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => array($min_price, $max_price),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+        } else if( !empty( $min_price ) && $min_price != 'any'  ) {
+            $min_price = doubleval( houzez_clean( $min_price ) );
+            if( $min_price >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => $min_price,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
+            }
+        } else if( !empty( $max_price ) && $max_price != 'any'  ) {
+            $max_price = doubleval( houzez_clean( $max_price ) );
+            if( $max_price >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_price',
+                    'value' => $max_price,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        }
+
+        // min and max area logic
+        if( !empty( $min_area ) && !empty( $max_area ) ) {
+            $min_area = intval( $min_area );
+            $max_area = intval( $max_area );
+
+            if( $min_area >= 0 && $max_area > $min_area ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => array($min_area, $max_area),
+                    'type' => 'NUMERIC',
+                    'compare' => 'BETWEEN',
+                );
+            }
+
+        } else if( !empty( $max_area ) ) {
+            $max_area = intval( $max_area );
+            if( $max_area >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => $max_area,
+                    'type' => 'NUMERIC',
+                    'compare' => '<=',
+                );
+            }
+        } else if( !empty( $min_area ) ) {
+            $min_area = intval( $min_area );
+            if( $min_area >= 0 ) {
+                $meta_query[] = array(
+                    'key' => 'fave_property_size',
+                    'value' => $min_area,
+                    'type' => 'NUMERIC',
+                    'compare' => '>=',
+                );
+            }
+        }
+
+        $meta_count = count($meta_query);
+
+        if( $meta_count > 0 || !empty($keyword_array)) {
+            $query_args['meta_query'] = array(
+                'relation' => 'AND',
+                $keyword_array,
+                array(
+                    'relation' => 'AND',
+                    $meta_query
+                ),
+            );
+        }
+
+        $tax_count = count($tax_query);
+
+
+        $tax_query['relation'] = 'AND';
+
+
+        if( $tax_count > 0 ) {
+            $query_args['tax_query']  = $tax_query;
+        }
+
+        $query_args = new WP_Query( $query_args );
+
+        $properties = array();
+
+        while( $query_args->have_posts() ): $query_args->the_post();
+
+            get_template_part('template-parts/property-for-listing');
+
+        endwhile;
+
+        wp_reset_postdata();
+
+        die();
+    }
+}
 
 
 /*-----------------------------------------------------------------------------------*/
@@ -1461,23 +2142,12 @@ if( !function_exists( 'houzez_favorites_reg' ) ) {
         $userID      =   $current_user->ID;
         $fav_option = 'houzez_favorites-'.$userID;
         $property_id = intval( $_POST['property_id'] );
-        // $property_id = $_POST['property_id'];
-        // print_r($property_id);
-        // if(!isset($_COOKIE['az_favorites'])){
-        //     $az_houzez_favorites = [];
-        //     $az_str = base64_encode(serialize($az_houzez_favorites));
-        //     setcookie('az_favorites', $az_str, time()+2592000, '/');
-        // }
-        // $current_prop_fav = unserialize(base64_decode($_COOKIE['az_favorites']));
         $current_prop_fav = get_option( 'houzez_favorites-'.$userID );
 
         // Check if empty or not
         if( empty( $current_prop_fav ) ) {
             $prop_fav = array();
             $prop_fav['1'] = $property_id;
-            $az_str = base64_encode(serialize($prop_fav));
-            // setcookie('az_favorites', $az_str, time()+2592000, '/');
-            // $_COOKIE['az_houzez_favorites'] = $prop_fav;
             update_option( $fav_option, $prop_fav );
             $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
             echo json_encode($arr);
@@ -1486,9 +2156,6 @@ if( !function_exists( 'houzez_favorites_reg' ) ) {
             if(  ! in_array ( $property_id, $current_prop_fav )  ) {
                 $current_prop_fav[] = $property_id;
                 update_option( $fav_option,  $current_prop_fav );
-                // $_COOKIE['az_houzez_favorites'] = $current_prop_fav;
-                // $az_str = base64_encode(serialize($current_prop_fav));
-                // setcookie('az_favorites', $az_str, time()+2592000, '/');
                 $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
                 echo json_encode($arr);
                 wp_die();
@@ -1500,9 +2167,6 @@ if( !function_exists( 'houzez_favorites_reg' ) ) {
                 }
 
                 update_option( $fav_option, $current_prop_fav );
-                // $_SESSION['az_houzez_favorites'] = $current_prop_fav;
-                // $az_str = base64_encode(serialize($current_prop_fav));
-                // setcookie('az_favorites', $az_str, time()+2592000);
                 $arr = array( 'added' => false, 'response' => esc_html__('Removed', 'houzez') );
                 echo json_encode($arr);
                 wp_die();
@@ -1514,37 +2178,26 @@ if( !function_exists( 'houzez_favorites_reg' ) ) {
 if( !function_exists( 'houzez_favorites' ) ) {
     // a:1:{i:0;i:543;}
     function houzez_favorites () {
-        // global $current_user;
-        // wp_get_current_user();
-        // $userID      =   $current_user->ID;
-        // $fav_option = 'houzez_favorites-'.$userID;
-        // $property_id = intval( $_POST['property_id'] );
-        $property_id = $_POST['property_id'];
-        // print_r($property_id);
+        $property_id = intval( $_POST['property_id'] );
         if(!isset($_COOKIE['az_favorites'])){
             $az_houzez_favorites = [];
             $az_str = base64_encode(serialize($az_houzez_favorites));
             setcookie('az_favorites', $az_str, time()+2592000, '/');
         }
         $current_prop_fav = unserialize(base64_decode($_COOKIE['az_favorites']));
-        // $current_prop_fav = get_option( 'houzez_favorites-'.$userID );
-
+        
         // Check if empty or not
         if( empty( $current_prop_fav ) ) {
             $prop_fav = array();
             $prop_fav['1'] = $property_id;
             $az_str = base64_encode(serialize($prop_fav));
             setcookie('az_favorites', $az_str, time()+2592000, '/');
-            // $_COOKIE['az_houzez_favorites'] = $prop_fav;
-            // update_option( $fav_option, $prop_fav );
             $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
             echo json_encode($arr);
             wp_die();
         } else {
             if(  ! in_array ( $property_id, $current_prop_fav )  ) {
                 $current_prop_fav[] = $property_id;
-                // update_option( $fav_option,  $current_prop_fav );
-                // $_COOKIE['az_houzez_favorites'] = $current_prop_fav;
                 $az_str = base64_encode(serialize($current_prop_fav));
                 setcookie('az_favorites', $az_str, time()+2592000, '/');
                 $arr = array( 'added' => true, 'response' => esc_html__('Added', 'houzez') );
@@ -1557,8 +2210,6 @@ if( !function_exists( 'houzez_favorites' ) ) {
                     unset( $current_prop_fav[$key] );
                 }
 
-                // update_option( $fav_option, $current_prop_fav );
-                // $_SESSION['az_houzez_favorites'] = $current_prop_fav;
                 $az_str = base64_encode(serialize($current_prop_fav));
                 setcookie('az_favorites', $az_str, time()+2592000, "/");
                 $arr = array( 'added' => false, 'response' => esc_html__('Removed', 'houzez') );
@@ -1581,11 +2232,13 @@ if( !function_exists( 'houzez_prop_sort' ) ){
         if ( isset( $_GET['sortby'] ) ) {
             $sort_by = $_GET['sortby'];
         } else {
-            if ( is_page_template( array( 'template/property-listing-template.php', 'template/property-listing-fullwidth.php' ))) {
+            if ( is_page_template( array( 'template/property-listing-template.php','template/property-listing-template-style2.php', 'template/property-listing-fullwidth.php', 'template/property-listing-style2-fullwidth.php' ))) {
                 $sort_by = get_post_meta( get_the_ID(), 'fave_properties_sort', true );
 
             } else if( is_page_template( array( 'template/template-search.php' )) ) {
                 $sort_by = houzez_option('search_default_order');
+            } else if ( is_tax() ) {
+                $sort_by = houzez_option('taxonomy_default_order');
             }
         }
 
@@ -1698,11 +2351,13 @@ if( !function_exists( 'houzez_property_img_upload' ) ) {
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
             $thumbnail_url = houzez_get_profile_image_url( $attach_data );
+            $fullimage_url  = wp_get_attachment_image_src( $attach_id, 'full' );
 
             $ajax_response = array(
                 'success'   => true,
                 'url' => $thumbnail_url,
-                'attachment_id'    => $attach_id
+                'attachment_id'    => $attach_id,
+                'full_image'    => $fullimage_url[0]
             );
 
             echo json_encode( $ajax_response );
@@ -1718,758 +2373,6 @@ if( !function_exists( 'houzez_property_img_upload' ) ) {
 }
 
 
-/*-----------------------------------------------------------------------------------*/
-/*	Get Properties for Header Map
-/*-----------------------------------------------------------------------------------*/
-add_action( 'wp_ajax_nopriv_houzez_header_map_listings', 'houzez_header_map_listings' );
-add_action( 'wp_ajax_houzez_header_map_listings', 'houzez_header_map_listings' );
-if( !function_exists('houzez_header_map_listings') ) {
-    function houzez_header_map_listings() {
-        check_ajax_referer('houzez_header_map_ajax_nonce', 'security');
-
-        $meta_query = array();
-        $tax_query = array();
-        $date_query = array();
-        $allowed_html = array();
-        $keyword_array =  '';
-
-        $initial_city = isset($_POST['initial_city']) ? $_POST['initial_city'] : '';
-        $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
-        $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
-        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
-        $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
-        $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
-        $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
-        $bathrooms = isset($_POST['bathrooms']) ? sanitize_text_field($_POST['bathrooms']) : '';
-        $min_price = isset($_POST['min_price']) ? sanitize_text_field($_POST['min_price']) : '';
-        $max_price = isset($_POST['max_price']) ? sanitize_text_field($_POST['max_price']) : '';
-        $min_area = isset($_POST['min_area']) ? sanitize_text_field($_POST['min_area']) : '';
-        $max_area = isset($_POST['max_area']) ? sanitize_text_field($_POST['max_area']) : '';
-        $publish_date = isset($_POST['publish_date']) ? sanitize_text_field($_POST['publish_date']) : '';
-        
-        /*ajax puller*/
-        global $price_type;
-        $price_type = isset($_POST['price_type']) ? sanitize_text_field($_POST['price_type']) : '';
-        
-        if($price_type == 'price_sale'){
-            $price_type_field = 'fave_property_price';
-        } else {
-            $price_type_field = $price_type;
-        }
-        /*ajax puller*//*$radius = isset($_POST['radius']) ? sanitize_text_field($_POST['radius']) : '';
-        $propLatlng = isset($_POST['propLatlng']) ? sanitize_text_field($_POST['propLatlng']) : '';
-
-        if( $radius != 'none' && !empty($radius) ) {
-            if( !empty($propLatlng) ) {
-                $propLatlng = explode(', ', $propLatlng);
-                $radius = $radius * 100;
-                $latMin     = $propLatlng[0] - $radius;
-                $latMax     = $propLatlng[0] + $radius;
-                $lngMin     = $propLatlng[1] - $radius;
-                $lngMax     = $propLatlng[1] + $radius;
-                $minLatLng  = implode( ',', array( $latMin, $lngMin ) );
-                $maxLatLng  = implode( ',', array( $latMax, $lngMax ) );
-
-                $meta_query[] = array(
-                    'key' => 'fave_property_location',
-                    'value' => array($minLatLng, $maxLatLng),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-
-            }
-        }*/
-
-        $prop_locations = array();
-        houzez_get_terms_array( 'property_city', $prop_locations );
-
-        $keyword_field = houzez_option('keyword_field');
-
-        $query_args = array(
-            'post_type' => 'property',
-            'posts_per_page' => -1,
-            'post_status' => 'publish'
-        );
-
-        if ( $keyword != '') {
-
-            if( $keyword_field == 'prop_address' ) {
-                $meta_keywork = esc_html(wp_kses($keyword, $allowed_html));
-                $address_array = array(
-                    'key' => 'fave_property_map_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
-
-                $street_array = array(
-                    'key' => 'fave_property_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
-
-                $zip_array = array(
-                    'key' => 'fave_property_zip',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => '=',
-                );
-                $propid_array = array(
-                    'key' => 'fave_property_id',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => '=',
-                );
-
-                $keyword_array = array(
-                    'relation' => 'OR',
-                    $address_array,
-                    $street_array,
-                    $propid_array,
-                    $zip_array
-                );
-            } else if( $keyword_field == 'prop_city_state_county' ) {
-                $taxlocation[] = sanitize_title (  esc_html( wp_kses($keyword, $allowed_html) ) );
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_area',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
-                );
-
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_city',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
-                );
-
-                $tax_query[] = array(
-                    'taxonomy'      => 'property_state',
-                    'field'         => 'slug',
-                    'terms'         => $taxlocation
-                );
-
-            } else {
-                $keyword = trim( $keyword );
-                if ( ! empty( $keyword ) ) {
-                    $query_args['s'] = $keyword;
-                }
-            }
-        }
-
-        //Date Query
-        if( !empty($publish_date) ) {
-            $publish_date = explode('-', $publish_date);
-            $query_args['date_query'] = array(
-                array(
-                    'year' => $publish_date[0],
-                    'compare'   => '=',
-                ),
-                array(
-                    'month' => $publish_date[1],
-                    'compare'   => '=',
-                ),
-                array(
-                    'day' => $publish_date[2],
-                    'compare'   => '>=',
-                )
-            );
-        }
-
-        // Meta Queries
-        $meta_query[] = array(
-            'key' => 'fave_property_map_address',
-            'compare' => 'EXISTS',
-        );
-
-        // Property ID
-        /*if( isset( $_GET['propid'] ) && !empty( $_GET['propid'] )  ) {
-            $propid = sanitize_text_field($_GET['propid']);
-            $meta_query[] = array(
-                'key' => 'fave_property_id',
-                'value'   => $propid,
-                'type'    => 'char',
-                'compare' => '=',
-            );
-        }*/
-
-        if( !empty($location) && $location != 'all' ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_city',
-                'field' => 'slug',
-                'terms' => $location
-            );
-
-        } else {
-            if( $location == 'all' ) {
-                /*$tax_query[] = array(
-                    'taxonomy' => 'property_city',
-                    'field' => 'slug',
-                    'terms' => $prop_locations
-                );*/
-            } else {
-                if (!empty($initial_city)) {
-                    $tax_query[] = array(
-                        'taxonomy' => 'property_city',
-                        'field' => 'slug',
-                        'terms' => $initial_city
-                    );
-                }
-            }
-        }
-
-        if( !empty($area) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_area',
-                'field' => 'slug',
-                'terms' => $area
-            );
-        }
-
-        if( !empty($status) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_status',
-                'field' => 'slug',
-                'terms' => $status
-            );
-        }
-        if( !empty($type) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_type',
-                'field' => 'slug',
-                'terms' => $type
-            );
-        }
-
-        // bedrooms logic
-        if( !empty( $bedrooms ) && $bedrooms != 'any'  ) {
-            $bedrooms = sanitize_text_field($bedrooms);
-            $meta_query[] = array(
-                'key' => 'fave_property_bedrooms',
-                'value'   => $bedrooms,
-                'type'    => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // bathrooms logic
-        if( !empty( $bathrooms ) && $bathrooms != 'any'  ) {
-            $bathrooms = sanitize_text_field($bathrooms);
-            $meta_query[] = array(
-                'key' => 'fave_property_bathrooms',
-                'value'   => $bathrooms,
-                'type'    => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // min and max price logic
-        if( !empty( $min_price ) && $min_price != 'any' && !empty( $max_price ) && $max_price != 'any' ) {
-            $min_price = doubleval( houzez_clean( $min_price ) );
-            $max_price = doubleval( houzez_clean( $max_price ) );
-
-            if( $min_price >= 0 && $max_price > $min_price ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
-                    'value' => array($min_price, $max_price),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-        } else if( !empty( $min_price ) && $min_price != 'any'  ) {
-            $min_price = doubleval( houzez_clean( $min_price ) );
-            if( $min_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
-                    'value' => $min_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        } else if( !empty( $max_price ) && $max_price != 'any'  ) {
-            $max_price = doubleval( houzez_clean( $max_price ) );
-            if( $max_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
-                    'value' => $max_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        }
-
-        // min and max area logic
-        if( !empty( $min_area ) && !empty( $max_area ) ) {
-            $min_area = intval( $min_area );
-            $max_area = intval( $max_area );
-
-            if( $min_area >= 0 && $max_area > $min_area ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => array($min_area, $max_area),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-
-        } else if( !empty( $max_area ) ) {
-            $max_area = intval( $max_area );
-            if( $max_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $max_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        } else if( !empty( $min_area ) ) {
-            $min_area = intval( $min_area );
-            if( $min_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $min_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        }
-
-        $meta_count = count($meta_query);
-
-        /*if( $meta_count > 1 ) {
-            $meta_query['relation'] = 'AND';
-        }
-        if( $meta_count > 0 ) {
-            $query_args['meta_query'] = $meta_query;
-        }*/
-
-        if( $meta_count > 0 || !empty($keyword_array)) {
-            $query_args['meta_query'] = array(
-                'relation' => 'AND',
-                $keyword_array,
-                array(
-                    'relation' => 'AND',
-                    $meta_query
-                ),
-            );
-        }
-
-        $tax_count = count($tax_query);
-
-        if( $keyword_field != 'prop_city_state_county' ) {
-            if ($tax_count > 1) {
-                $tax_query['relation'] = 'AND';
-            }
-        } else {
-            $tax_query['relation'] = 'OR';
-        }
-
-        if( $tax_count > 0 ) {
-            $query_args['tax_query']  = $tax_query;
-        }
-
-        $query_args = new WP_Query( $query_args );
-
-        $properties = array();
-
-        while( $query_args->have_posts() ): $query_args->the_post();
-
-            $post_id = get_the_ID();
-            $property_location = get_post_meta( get_the_ID(),'fave_property_location',true);
-            $lat_lng = explode(',', $property_location);
-            $prop_images        = get_post_meta( get_the_ID(), 'fave_property_images', false );
-            $prop_featured       = get_post_meta( get_the_ID(), 'fave_featured', true );
-            $prop_type = wp_get_post_terms( get_the_ID(), 'property_type', array("fields" => "ids") );
-
-            $prop = new stdClass();
-
-            $prop->id = $post_id;
-            $prop->title = get_the_title();
-            $prop->lat = $lat_lng[0];
-            $prop->lng = $lat_lng[1];
-            $prop->bedrooms = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
-            $prop->bathrooms = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
-            $prop->address = get_post_meta( get_the_ID(), 'fave_property_map_address', true );
-            $prop->thumbnail = get_the_post_thumbnail( $post_id, 'houzez-property-thumb-image' );
-            $prop->url = get_permalink();
-            $prop->prop_meta = houzez_listing_meta_v1();
-            $prop->type = houzez_taxonomy_simple('property_type');
-            $prop->images_count = count( $prop_images );
-            $prop->price = houzez_listing_price_v1($price_type_field);
-
-            foreach( $prop_type as $term_id ) {
-                $icon = get_tax_meta( $term_id, 'fave_prop_type_icon');
-                $retinaIcon = get_tax_meta( $term_id, 'fave_prop_type_icon_retina');
-
-                if( !empty($icon['src']) ) {
-                    $prop->icon = $icon['src'];
-                } else {
-                    $prop->icon = get_template_directory_uri() . '/images/map/pin-single-family.png';
-                }
-                if( !empty($retinaIcon['src']) ) {
-                    $prop->retinaIcon = $retinaIcon['src'];
-                } else {
-                    $prop->retinaIcon = get_template_directory_uri() . '/images/map/pin-single-family.png';
-                }
-            }
-
-            array_push($properties, $prop);
-
-        endwhile;
-
-        wp_reset_postdata();
-
-        if( count($properties) > 0 ) {
-            echo json_encode( array( 'getProperties' => true, 'properties' => $properties ) );
-            exit();
-        } else {
-            echo json_encode( array( 'getProperties' => false ) );
-            exit();
-        }
-        die();
-    }
-}
-
-
-/*-----------------------------------------------------------------------------------*/
-/*	Get Properties for Half Map listings
-/*-----------------------------------------------------------------------------------*/
-add_action( 'wp_ajax_nopriv_houzez_half_map_listings', 'houzez_half_map_listings' );
-add_action( 'wp_ajax_houzez_half_map_listings', 'houzez_half_map_listings' );
-if( !function_exists('houzez_half_map_listings') ) {
-    function houzez_half_map_listings() {
-        //check_ajax_referer('houzez_map_ajax_nonce', 'security');
-        $meta_query = array();
-        $tax_query = array();
-        $date_query = array();
-        $allowed_html = array();
-        $keyword_array =  '';
-
-        $initial_city = isset($_POST['initial_city']) ? $_POST['initial_city'] : '';
-        $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
-        $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
-        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
-        $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
-        $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
-        $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
-        $bathrooms = isset($_POST['bathrooms']) ? sanitize_text_field($_POST['bathrooms']) : '';
-        $min_price = isset($_POST['min_price']) ? sanitize_text_field($_POST['min_price']) : '';
-        $max_price = isset($_POST['max_price']) ? sanitize_text_field($_POST['max_price']) : '';
-        $min_area = isset($_POST['min_area']) ? sanitize_text_field($_POST['min_area']) : '';
-        $max_area = isset($_POST['max_area']) ? sanitize_text_field($_POST['max_area']) : '';
-        $publish_date = isset($_POST['publish_date']) ? sanitize_text_field($_POST['publish_date']) : '';
-        $keyword_field = houzez_option('keyword_field');
-
-        /*ajax puller*/
-        global $price_type;
-        $price_type = isset($_POST['price_type']) ? sanitize_text_field($_POST['price_type']) : '';
-        
-        if($price_type == 'price_sale'){
-            $price_type_field = 'fave_property_price';
-        } else {
-            $price_type_field = $price_type;
-            // global $ls_en_ru;
-            // $ls_add = get_post_meta( get_the_ID(), 'additional_features', true );
-            // foreach ($ls_add as $ls_add_value) {
-            //     if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru[$price_type])
-            //         $ls_title_second = esc_attr( $ls_add_value['fave_additional_feature_value'] );
-            // }
-        }
-        /*ajax puller*/
-
-        $prop_locations = array();
-        houzez_get_terms_array( 'property_city', $prop_locations );
-
-        $query_args = array(
-            'post_type' => 'property',
-            'posts_per_page' => -1,
-            'post_status' => 'publish'
-        );
-
-        if ( $keyword != '') {
-            if( $keyword_field == 'prop_address' ) {
-                $meta_keywork = esc_html(wp_kses($keyword, $allowed_html));
-                $address_array = array(
-                    'key' => 'fave_property_map_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
-
-                $street_array = array(
-                    'key' => 'fave_property_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
-
-                $zip_array = array(
-                    'key' => 'fave_property_zip',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => '=',
-                );
-
-                $keyword_array = array(
-                    'relation' => 'OR',
-                    $address_array,
-                    $street_array,
-                    $zip_array
-                );
-            }  else if( $keyword_field == 'prop_city_state_county' ) {
-                $taxlocation[] = sanitize_title (  esc_html( wp_kses($keyword, $allowed_html) ) );
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_area',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
-                );
-
-                $tax_query[] = array(
-                    'taxonomy'     => 'property_city',
-                    'field'        => 'slug',
-                    'terms'        => $taxlocation
-                );
-
-                $tax_query[] = array(
-                    'taxonomy'      => 'property_state',
-                    'field'         => 'slug',
-                    'terms'         => $taxlocation
-                );
-
-            } else {
-                $keyword = trim( $keyword );
-                if ( ! empty( $keyword ) ) {
-                    $query_args['s'] = $keyword;
-                }
-            }
-        }
-
-        //Date Query
-        if( !empty($publish_date) ) {
-            $publish_date = explode('-', $publish_date);
-            $query_args['date_query'] = array(
-                array(
-                    'year' => $publish_date[0],
-                    'compare'   => '=',
-                ),
-                array(
-                    'month' => $publish_date[1],
-                    'compare'   => '=',
-                ),
-                array(
-                    'day' => $publish_date[2],
-                    'compare'   => '>=',
-                )
-            );
-        }
-
-        // Meta Queries
-        $meta_query[] = array(
-            'key' => 'fave_property_map_address',
-            'compare' => 'EXISTS',
-        );
-
-        if( !empty($location) && $location != 'all' ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_city',
-                'field' => 'slug',
-                'terms' => $location
-            );
-
-        } else {
-            if( $location == 'all' ) {
-                /*$tax_query[] = array(
-                    'taxonomy' => 'property_city',
-                    'field' => 'slug',
-                    'terms' => $prop_locations
-                );*/
-            } else {
-                if (!empty($initial_city)) {
-                    $tax_query[] = array(
-                        'taxonomy' => 'property_city',
-                        'field' => 'slug',
-                        'terms' => $initial_city
-                    );
-                }
-            }
-        }
-
-        // Property ID
-        /*if( isset( $_GET['propid'] ) && !empty( $_GET['propid'] )  ) {
-            $propid = sanitize_text_field($_GET['propid']);
-            $meta_query[] = array(
-                'key' => 'fave_property_id',
-                'value'   => $propid,
-                'type'    => 'char',
-                'compare' => '=',
-            );
-        }*/
-
-        if( !empty($area) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_area',
-                'field' => 'slug',
-                'terms' => $area
-            );
-        }
-
-        if( !empty($status) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_status',
-                'field' => 'slug',
-                'terms' => $status
-            );
-        }
-        if( !empty($type) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_type',
-                'field' => 'slug',
-                'terms' => $type
-            );
-        }
-
-        // bedrooms logic
-        if( !empty( $bedrooms ) && $bedrooms != 'any'  ) {
-            $bedrooms = sanitize_text_field($bedrooms);
-            $meta_query[] = array(
-                'key' => 'fave_property_bedrooms',
-                'value'   => $bedrooms,
-                'type'    => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // bathrooms logic
-        if( !empty( $bathrooms ) && $bathrooms != 'any'  ) {
-            $bathrooms = sanitize_text_field($bathrooms);
-            $meta_query[] = array(
-                'key' => 'fave_property_bathrooms',
-                'value'   => $bathrooms,
-                'type'    => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // min and max price logic
-        if( !empty( $min_price ) && $min_price != 'any' && !empty( $max_price ) && $max_price != 'any' ) {
-            $min_price = doubleval( houzez_clean( $min_price ) );
-            $max_price = doubleval( houzez_clean( $max_price ) );
-
-            if( $min_price >= 0 && $max_price > $min_price ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
-                    'value' => array($min_price, $max_price),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-        } else if( !empty( $min_price ) && $min_price != 'any'  ) {
-            $min_price = doubleval( houzez_clean( $min_price ) );
-            if( $min_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field, //'fave_property_price',
-                    'value' => $min_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        } else if( !empty( $max_price ) && $max_price != 'any'  ) {
-            $max_price = doubleval( houzez_clean( $max_price ) );
-            if( $max_price >= 0 ) {
-                $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
-                    'value' => $max_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        }
-
-        // min and max area logic
-        if( !empty( $min_area ) && !empty( $max_area ) ) {
-            $min_area = intval( $min_area );
-            $max_area = intval( $max_area );
-
-            if( $min_area >= 0 && $max_area > $min_area ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => array($min_area, $max_area),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-
-        } else if( !empty( $max_area ) ) {
-            $max_area = intval( $max_area );
-            if( $max_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $max_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        } else if( !empty( $min_area ) ) {
-            $min_area = intval( $min_area );
-            if( $min_area >= 0 ) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $min_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        }
-
-        $meta_count = count($meta_query);
-
-        /*if( $meta_count > 1 ) {
-            $meta_query['relation'] = 'AND';
-        }
-        if( $meta_count > 0 ) {
-            $query_args['meta_query'] = $meta_query;
-        }*/
-
-        if( $meta_count > 0 || !empty($keyword_array)) {
-            $query_args['meta_query'] = array(
-                'relation' => 'AND',
-                $keyword_array,
-                array(
-                    'relation' => 'AND',
-                    $meta_query
-                ),
-            );
-        }
-
-        $tax_count = count($tax_query);
-
-        if( $keyword_field != 'prop_city_state_county' ) {
-            if ($tax_count > 1) {
-                $tax_query['relation'] = 'AND';
-            }
-        } else {
-            $tax_query['relation'] = 'OR';
-        }
-
-        if( $tax_count > 0 ) {
-            $query_args['tax_query']  = $tax_query;
-        }
-
-        $query_args = new WP_Query( $query_args );
-
-        $properties = array();
-
-        while( $query_args->have_posts() ): $query_args->the_post();
-
-            get_template_part('template-parts/property-for-listing');
-
-        endwhile;
-
-        wp_reset_postdata();
-
-        die();
-    }
-}
 
 
 /*-----------------------------------------------------------------------------------*/
@@ -2483,16 +2386,7 @@ if( !function_exists('houzez_get_single_property') ) {
         check_ajax_referer('houzez_map_ajax_nonce', 'security');
 
         $prop_id = isset($_POST['prop_id']) ? sanitize_text_field($_POST['prop_id']) : '';
-        /*ajax puller*/
-        global $price_type;
-        $price_type = isset($_POST['price_type']) ? sanitize_text_field($_POST['price_type']) : '';
-        
-        if($price_type == 'price_sale'){
-            $price_type_field = 'fave_property_price';
-        } else {
-            $price_type_field = $price_type;
-        }
-        /*ajax puller*/
+
         $args = array(
             'p' => $prop_id,
             'posts_per_page' => 1,
@@ -2528,7 +2422,7 @@ if( !function_exists('houzez_get_single_property') ) {
             $prop->prop_meta = houzez_listing_meta_v1();
             $prop->type = houzez_taxonomy_simple('property_type');
             $prop->images_count = count( $prop_images );
-            $prop->price = houzez_listing_price_v1($price_type_field);
+            $prop->price = houzez_listing_price_v1();
 
             foreach( $prop_type as $term_id ) {
                 $icon = get_tax_meta( $term_id, 'fave_prop_type_icon');
@@ -2706,10 +2600,10 @@ if( !function_exists('houzez_create_print')) {
                                     <h4 class="media-heading"><?php esc_html_e( 'Contact Agent', 'houzez' ); ?></h4>
                                     <ul>
                                         <li><strong><?php echo esc_attr($prop_agent); ?></strong></li>
-                                        <li><strong><?php esc_html_e( 'Mobile:', 'houzez' ); ?></strong> <?php esc_attr_e($prop_agent_mobile); ?></li>
-                                        <li><strong><?php esc_html_e( 'Email:', 'houzez' ); ?></strong> <?php esc_attr_e($prop_agent_email); ?></li>
-                                        <li><strong><?php esc_html_e( 'Phone:', 'houzez' ); ?></strong> <?php esc_attr_e($prop_agent_phone); ?></li>
-                                        <li><strong><?php esc_html_e( 'Skype:', 'houzez' ); ?></strong> <?php esc_attr_e($prop_agent_skype); ?></li>
+                                        <li><strong><?php esc_html_e( 'Mobile:', 'houzez' ); ?></strong> <?php echo esc_attr($prop_agent_mobile); ?></li>
+                                        <li><strong><?php esc_html_e( 'Email:', 'houzez' ); ?></strong> <?php echo esc_attr($prop_agent_email); ?></li>
+                                        <li><strong><?php esc_html_e( 'Phone:', 'houzez' ); ?></strong> <?php echo esc_attr($prop_agent_phone); ?></li>
+                                        <li><strong><?php esc_html_e( 'Skype:', 'houzez' ); ?></strong> <?php echo esc_attr($prop_agent_skype); ?></li>
                                         <li><strong><?php esc_html_e( 'Website:', 'houzez' ); ?></strong> <?php echo esc_url($prop_agent_website); ?></li>
                                     </ul>
                                 </div>
@@ -2943,7 +2837,7 @@ if ( ! function_exists( 'houzez_switch_area' ) ) {
 }
 
 
-if( !function_exists('houzez_get_area_size ') ) {
+if( !function_exists('houzez_get_area_size') ) {
     function houzez_get_area_size( $areaSize ) {
         $prop_size = $areaSize;
         $houzez_base_area = houzez_option('houzez_base_area');
@@ -2967,7 +2861,7 @@ if( !function_exists('houzez_get_area_size ') ) {
     }
 }
 
-if( !function_exists('houzez_get_size_unit ') ) {
+if( !function_exists('houzez_get_size_unit') ) {
     function houzez_get_size_unit( $areaUnit ) {
         $measurement_unit_global = houzez_option('measurement_unit_global');
         $area_switcher_enable = houzez_option('area_switcher_enable');
@@ -3212,175 +3106,36 @@ if( !function_exists('houzez_invoices_ajax_search') ){
     }
 }
 
-add_action( 'wp_ajax_nopriv_az_call_back', 'az_call_back' );
-add_action( 'wp_ajax_az_call_back', 'az_call_back' );
-if( !function_exists('az_call_back') ) {
-    function az_call_back() {
-        global $wpdb, $current_user;
+if( !function_exists('houzez_get_agent_info') ) {
+    function houzez_get_agent_info( $args, $type ) {
+        if( $type == 'for_grid_list' ) {
+            return '<a href="'.$args[ 'link' ].'">'.$args[ 'agent_name' ].'</a> ';
 
-        wp_get_current_user();
-        $userID       =  $current_user->ID;
-        $userEmail    =  $current_user->user_email;
-        $userLogin    =  $current_user->user_login;
-        $userPhone    =  get_user_meta( $userID, 'fave_author_phone', true );
-        $userMobile   =  get_user_meta( $userID, 'fave_author_mobile', true );
+        } elseif( $type == 'agent_form' ) {
+            $output = '';
 
-        $postId = $_POST['user_id'];
-        $postName = $_POST['user_name'];
-        $postPhone = $_POST['user_phone'];
-        $postMobile = $_POST['user_mobile'];
-        $az_name = $_POST['az_name'];
-        $az_phone = $_POST['az_phone'];
+            $output .= '<div class="media agent-media">';
+                $output .= '<div class="media-left">';
+                    $output .= '<input type="checkbox">';
+                    $output .= '<a href="'.$args[ 'link' ].'">';
+                        $output .= '<img src="'.$args[ 'picture' ].'" alt="'.$args[ 'agent_name' ].'" width="75" height="75">';
+                    $output .= '</a>';
+                $output .= '</div>';
 
-        if(is_user_logged_in()){
-            if($userID == $postId && $userLogin == $postName && ($postPhone == 1 || $postMobile == 1)){
-                $subject  = "Новое сообщение";
-                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
-                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
-                $headers .= "MIME-Version: 1.0\r\n";
-                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
-                $msg  = "<html><body>";
-                $msg .= "<h2>Новое сообщение</h2>\r\n";
-                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
-                if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$userPhone."</p>\r\n";}
-                if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
-                if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
-                $msg .= "</body></html>";
+                $output .= '<div class="media-body">';
+                    $output .= '<dl>';
+                        if( !empty($args[ 'agent_name' ]) ) {
+                            $output .= '<dd><i class="fa fa-user"></i> '.$args[ 'agent_name' ].'</dd>';
+                        }
+                        if( !empty( $args[ 'agent_mobile' ] ) ) {
+                            $output .= '<dd><i class="fa fa-phone"></i>'.esc_attr( $args[ 'agent_mobile' ] ).'</dd>';
+                        }
+                        $output .= '<dd><a href="'.$args[ 'link' ].'" class="view">'.esc_html__('View my listing', 'houzez' ).'</a></dd>';
+                    $output .= '</dl>';
+                $output .= '</div>';
+            $output .= '</div>';
 
-                // отправка сообщения
-                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
-                    // echo "true";
-                } else {
-                    // echo "false";
-                }
-                echo json_encode(array(
-                    'success' => true,
-                    'msg' => esc_html__( 'Request is sent!', 'houzez')
-                ));
-                wp_die();
-            } elseif($userID == $postId && $userLogin == $postName && !empty($az_phone)){
-                $subject  = "Новое сообщение";
-                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
-                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
-                $headers .= "MIME-Version: 1.0\r\n";
-                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
-                $msg  = "<html><body>";
-                $msg .= "<h2>Новое сообщение</h2>\r\n";
-                $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
-                if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
-                //if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
-                //if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
-                $msg .= "</body></html>";
-
-                // отправка сообщения
-                if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
-                    // echo "true";
-                } else {
-                    // echo "false";
-                }
-                update_user_meta($userID, 'fave_author_phone', $az_phone);
-                echo json_encode(array(
-                    'success' => true,
-                    'msg' => esc_html__( 'Request is sent!', 'houzez')
-                ));
-                wp_die();
-            }
-        } else {
-            $subject  = "Новое сообщение";
-            $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
-            $headers .= "Reply-To: ". "\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
-            $msg  = "<html><body>";
-            $msg .= "<h2>Новое сообщение</h2>\r\n";
-            if($az_phone!=''){$msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$az_name."</p>\r\n";}
-            if($az_phone!=''){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
-            //if($postMobile!=0){$msg .= "<p><strong>Мобильный:</strong> ".$userMobile."</p>\r\n";}
-            //if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$userEmail."</p>\r\n";}
-            $msg .= "</body></html>";
-
-            // отправка сообщения
-            if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
-                // echo "true";
-            } else {
-                // echo "false";
-            }
-            echo json_encode(array(
-                'success' => true,
-                'msg' => esc_html__( 'Request is sent!', 'houzez')
-            ));
-            wp_die();
+            return $output;
         }
-        //     $nonce = $_REQUEST['houzez_save_search_ajax'];
-        //     if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
-        //         echo json_encode(array(
-        //             'success' => false,
-        //             'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
-        //         ));
-        //         wp_die();
-        //     }
-
-        //     global $wpdb, $current_user;
-
-        //     wp_get_current_user();
-        //     $userID       =  $current_user->ID;
-        //     $userEmail    =  $current_user->user_email;
-        //     $search_args  =  $_REQUEST['search_args'];
-        //     $table_name   = $wpdb->prefix . 'houzez_search';
-        //     $request_url  = $_REQUEST['search_URI'];
-
-        //     $wpdb->insert(
-        //         $table_name,
-        //         array(
-        //             'auther_id' => $userID,
-        //             'query'     => $search_args,
-        //             'email'     => $userEmail,
-        //             'url'       => $request_url,
-        //             'time'      => current_time( 'mysql' )
-        //         ),
-        //         array(
-        //             '%d',
-        //             '%s',
-        //             '%s',
-        //             '%s',
-        //             '%s'
-        //         )
-        //     );
-
-        //     echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved. You will receive an email notification when new properties matching your search will be published', 'houzez') ) );
-        //     wp_die();
-        // } else {
-        //     $nonce = $_REQUEST['houzez_save_search_ajax'];
-        //     if( !wp_verify_nonce( $nonce, 'houzez-save-search-nounce' ) ) {
-        //         echo json_encode(array(
-        //             'success' => false,
-        //             'msg' => esc_html__( 'Unverified Nonce!', 'houzez')
-        //         ));
-        //         wp_die();
-        //     }
-
-        //     global $wpdb, $current_user;
-
-        //     wp_get_current_user();
-        //     $search_args  =  $_REQUEST['search_args'];
-        //     $request_url  = $_REQUEST['search_URI'];
-
-        //     $az_arr = [
-        //         'query'     => $search_args,
-        //         'url'       => $request_url,
-        //         'time'      => current_time( 'mysql' )
-        //     ];
-
-        //     if(isset($_COOKIE['az_saved_search'])){
-        //         $temp_arr = unserialize(base64_decode($_COOKIE['az_saved_search']));
-        //         $temp_arr[] = $az_arr;
-        //         setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
-        //     } else {
-        //         $temp_arr[] = $az_arr;
-        //         setcookie('az_saved_search', base64_encode(serialize($temp_arr)), time()+2592000, '/');
-        //     }
-        //     echo json_encode( array( 'success' => true, 'msg' => esc_html__('Search is saved.', 'houzez') ) );
-        //     wp_die();
-        // }
     }
 }

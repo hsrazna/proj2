@@ -184,6 +184,28 @@ if (class_exists('WPBakeryVisualComposer')) {
 	) );
 
 	/*---------------------------------------------------------------------------------
+		Space
+	-----------------------------------------------------------------------------------*/
+	vc_map( array(
+		"name" => __("Empty Space", "houzez"),
+		"icon" => "icon-wpb-ui-empty_space",
+		"base" => "houzez-space",
+		"description" => "Add space between elements, Also can be use for clear floating",
+		"class" => "space_extended",
+		"category" => __("By Favethemes", "houzez"),
+		"params" => array(
+			array(
+				"type" => "textfield",
+				"admin_label" => true,
+				"heading" => __("Height of the space(px)", "houzez"),
+				"param_name" => "height",
+				"value" => 50,
+				"description" => __("Set height of the space. You can add white space between elements to separate them beautifully.", "houzez")
+			)
+		)
+	) );
+
+	/*---------------------------------------------------------------------------------
 		Section Search
 	-----------------------------------------------------------------------------------*/
 	vc_map( array(
@@ -551,6 +573,14 @@ if (class_exists('WPBakeryVisualComposer')) {
 		"icon" => "icon-prop-carousel-v2",
 		"params" => array(
 
+			array(
+				"param_name" => "prop_grid_style",
+				"type" => "dropdown",
+				"value" => array('Version 1' => 'v_1', 'Version 2' => 'v_2'),
+				"heading" => esc_html__("Grid Style:", "houzez"),
+				"description" => esc_html__("Choose grid style, default will be version 1", "houzez"),
+				"save_always" => true
+			),
 
 			array(
 				"param_name" => "property_type",
@@ -626,6 +656,7 @@ if (class_exists('WPBakeryVisualComposer')) {
 				"save_always" => true
 
 			),
+
 			array(
 				"param_name" => "custom_title",
 				"type" => "textfield",
@@ -742,7 +773,14 @@ if (class_exists('WPBakeryVisualComposer')) {
 		'admin_enqueue_css' => "",
 		"icon" => "icon-properties",
 		"params" => array(
-
+			array(
+				"param_name" => "prop_grid_style",
+				"type" => "dropdown",
+				"value" => array('Version 1' => 'v_1', 'Version 2' => 'v_2'),
+				"heading" => esc_html__("Grid/List Style:", "houzez"),
+				"description" => esc_html__("Choose grid/list style, default will be version 1", "houzez"),
+				"save_always" => true
+			),
 			array(
 				"param_name" => "module_type",
 				"type" => "dropdown",
@@ -834,7 +872,14 @@ if (class_exists('WPBakeryVisualComposer')) {
 		'admin_enqueue_css' => "",
 		"icon" => "icon-prop-by-id",
 		"params" => array(
-
+			array(
+				"param_name" => "prop_grid_style",
+				"type" => "dropdown",
+				"value" => array('Version 1' => 'v_1', 'Version 2' => 'v_2'),
+				"heading" => esc_html__("Grid/List Style:", "houzez"),
+				"description" => esc_html__("Choose grid/list style, default will be version 1", "houzez"),
+				"save_always" => true
+			),
 			array(
 				"param_name" => "property_id",
 				"type" => "textfield",
@@ -860,7 +905,14 @@ if (class_exists('WPBakeryVisualComposer')) {
 		'admin_enqueue_css' => "",
 		"icon" => "icon-prop-by-ids",
 		"params" => array(
-
+			array(
+				"param_name" => "prop_grid_style",
+				"type" => "dropdown",
+				"value" => array('Version 1' => 'v_1', 'Version 2' => 'v_2'),
+				"heading" => esc_html__("Grid/List Style:", "houzez"),
+				"description" => esc_html__("Choose grid/list style, default will be version 1", "houzez"),
+				"save_always" => true
+			),
 			array(
 				"param_name" => "property_ids",
 				"type" => "textfield",
@@ -1034,6 +1086,115 @@ if (class_exists('WPBakeryVisualComposer')) {
 				"description" => esc_html__("Enter -1 to show all", "houzez"),
 				"save_always" => true
 			)
+
+		) // End params
+	));
+
+	/*---------------------------------------------------------------------------------
+	 Price Tables
+	-----------------------------------------------------------------------------------*/
+	$packages_array = array( esc_html__('None', 'houzez') => '');
+	$packages_posts = get_posts(array('post_type' => 'houzez_packages', 'posts_per_page' => -1, 'suppress_filters' => 0));
+	if (!empty($packages_posts)) {
+		foreach ($packages_posts as $package_post) {
+			$packages_array[$package_post->post_title] = $package_post->ID;
+		}
+	}
+
+	vc_map(array(
+		"name" => esc_html__("Price Table", "houzez"),
+		"description" => '',
+		"base" => "houzez-price-table",
+		'category' => "By Favethemes",
+		"class" => "",
+		'admin_enqueue_js' => "",
+		'admin_enqueue_css' => "",
+		"icon" => "icon-prop-price",
+		"params" => array(
+
+			array(
+				"param_name" => "package_id",
+				"type" => "dropdown",
+				"value" => $packages_array,
+				"heading" => esc_html__("Select Package:", "houzez"),
+				"description" => "",
+				"save_always" => true
+			),
+
+			array(
+				"param_name" => "package_data",
+				"type" => "dropdown",
+				"value" => array('Get Data From Package' => 'dynamic', 'Add Custom Data' => 'custom'),
+				"heading" => esc_html__("Data Type:", "houzez"),
+				"description" => "",
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_popular",
+				"type" => "dropdown",
+				"value" => array('No' => 'no', 'Yes' => 'yes'),
+				"heading" => esc_html__("Popular?", "houzez"),
+				"description" => "",
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_name",
+				"type" => "textfield",
+				"value" => "",
+				"heading" => esc_html__("Package Name:", "houzez"),
+				"description" => '',
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_price",
+				"type" => "textfield",
+				"value" => "",
+				"heading" => esc_html__("Package Price:", "houzez"),
+				"description" => '',
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_decimal",
+				"type" => "textfield",
+				"value" => "",
+				"heading" => esc_html__("Package Decimal:", "houzez"),
+				"description" => esc_html__("Enter price decimal, IE .99", "houzez"),
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_currency",
+				"type" => "textfield",
+				"value" => "$",
+				"heading" => esc_html__("Package Currency:", "houzez"),
+				"description" => '',
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
+			array(
+				"param_name" => "content",
+				"type" => "textarea_html",
+				"value" => '<ul>
+ 	<li><i class="fa fa-check"></i> Time Period: <strong>10 days</strong></li>
+ 	<li><i class="fa fa-check"></i> Properties: <strong>2</strong></li>
+ 	<li><i class="fa fa-check"></i> Featured Listings: <strong>2</strong></li>
+</ul>',
+				"heading" => esc_html__("Content:", "houzez"),
+				"description" => '',
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
+			array(
+				"param_name" => "package_btn_text",
+				"type" => "textfield",
+				"value" => "Get Started",
+				"heading" => esc_html__("Button Text:", "houzez"),
+				"description" => '',
+				"dependency" => Array("element" => "package_data", "value" => array("custom")),
+				"save_always" => true
+			),
 
 		) // End params
 	));
@@ -1292,6 +1453,14 @@ if (class_exists('WPBakeryVisualComposer')) {
 				"heading" => esc_html__("Agents Type:", "houzez"),
 				"description" => '',
 				"save_always" => true,
+			),
+			array(
+				"param_name" => "agent_category",
+				"type" => "dropdown",
+				"value" => houzez_get_agent_category_slug_array(),
+				"heading" => esc_html__("Category filter:", "houzez"),
+				"description" => "",
+				"save_always" => true
 			),
 			array(
 				"param_name" => "custom_title",
@@ -1707,67 +1876,6 @@ if (class_exists('WPBakeryVisualComposer')) {
 	) );
 
 
-	/*---------------------------------------------------------------------------------
-	 Inspire me
-	-----------------------------------------------------------------------------------*/
-	vc_map(array(
-		"name" => esc_html__("Inspire me", "houzez"),
-		"description" => esc_html__('Show set of properties', "houzez"),
-		"base" => "inspire-me",
-		'category' => "By Ajax Puller",
-		"class" => "",
-		'admin_enqueue_js' => "",
-		'admin_enqueue_css' => "",
-		"icon" => "icon-prop-by-id",
-		"params" => array(
-			array(
-				"param_name" => "custom_title",
-				"type" => "textfield",
-				"value" => "",
-				"heading" => esc_html__("Optional - Custom Title:", "houzez"),
-				"description" => "",
-				"save_always" => true
-			),
-
-
-		) // End params
-	));
-
-	/*---------------------------------------------------------------------------------
-	 Inspire me
-	-----------------------------------------------------------------------------------*/
-
-
-	/*---------------------------------------------------------------------------------
-	 Inspire me (slide)
-	-----------------------------------------------------------------------------------*/
-	vc_map(array(
-		"name" => esc_html__("Inspire me (slide)", "houzez"),
-		"description" => esc_html__('Show set of properties', "houzez"),
-		"base" => "inspire-me-slide",
-		'category' => "By Ajax Puller",
-		"class" => "",
-		'admin_enqueue_js' => "",
-		'admin_enqueue_css' => "",
-		"icon" => "icon-prop-by-id",
-		"as_child" => array('only' => 'inspire-me'),
-		"params" => array(
-			array(
-				"param_name" => "custom_title",
-				"type" => "textfield",
-				"value" => "",
-				"heading" => esc_html__("Optional - Custom Title:", "houzez"),
-				"description" => "",
-				"save_always" => true
-			),
-
-
-		) // End params
-	));
-
-	/*---------------------------------------------------------------------------------
-	 Inspire me (slide)
-	-----------------------------------------------------------------------------------*/
 
 } // End Class_exists
 ?>

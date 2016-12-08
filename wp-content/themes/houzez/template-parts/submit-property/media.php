@@ -28,27 +28,6 @@
                 <div id="plupload-container"></div>
                 <div id="errors-log"></div>
             </div>
-
-
-            <!--<div id="property-thumbs-container"></div>
-            <div id="drag-and-drop">
-                <div class="drag-drop-msg"><i
-                        class="fa fa-cloud-upload"></i>&nbsp;&nbsp;<?php /*esc_html_e('Drag and drop images here', 'houzez'); */?>
-                </div>
-                <div class="drag-or"><?php /*esc_html_e('or', 'houzez'); */?></div>
-                <div class="drag-btn">
-                    <a id="select-images" class="real-btn" href="javascript:;"><?php /*esc_html_e('Select Images', 'houzez'); */?></a>
-                </div>
-            </div>
-            <div class="field-description">
-                <?php /*esc_html_e('* An image should have minimum width of 770px and minimum height of 386px.', 'houzez'); */?>
-                <br/>
-                <?php /*esc_html_e('* You can mark an image as featured by clicking the star icon, Otherwise first image will be considered featured image.', 'houzez'); */?>
-                <br/>
-            </div>
-            <div id="plupload-container"></div>
-            <div id="errors-log"></div>-->
-
         </div>
 
     </div>

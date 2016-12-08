@@ -1,8 +1,8 @@
 /**
- * jQuery Geocoding and Places Autocomplete Plugin - V 1.6.5
+ * jQuery Geocoding and Places Autocomplete Plugin - V 1.7.0
  *
- * @author Martin Kleppe <kleppe@ubilabs.net>, 2014
- * @author Ubilabs http://ubilabs.net, 2014
+ * @author Martin Kleppe <kleppe@ubilabs.net>, 2016
+ * @author Ubilabs http://ubilabs.net, 2016
  * @license MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
@@ -66,7 +66,7 @@
 
   // See: [Geocoding Types](https://developers.google.com/maps/documentation/geocoding/#Types)
   // on Google Developers.
-  var componentTypes = ("street_address neighborhood route intersection political " +
+  var componentTypes = ("street_address route intersection political " +
     "country administrative_area_level_1 administrative_area_level_2 " +
     "administrative_area_level_3 colloquial_area locality sublocality " +
     "neighborhood premise subpremise postal_code natural_feature airport " +
@@ -83,6 +83,12 @@
   function GeoComplete(input, options) {
 
     this.options = $.extend(true, {}, defaults, options);
+
+    // This is a fix to allow types:[] not to be overridden by defaults
+    // so search results includes everything
+    if (options && options.types) {
+      this.options.types = options.types;
+    }
 
     this.input = input;
     this.$input = $(input);

@@ -8,9 +8,12 @@
  */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-global $current_user;
+global $houzez_local, $current_user;
 wp_get_current_user();
 $userID = $current_user->ID;
+$user_email = $current_user->user_email;
+$admin_email      =  get_bloginfo('admin_email');
+
 $allowed_html   =   array();
 $listings_admin_approved = houzez_option('listings_admin_approved');
 $enable_paid_submission = houzez_option('enable_paid_submission');
@@ -74,7 +77,19 @@ if( $enable_paid_submission == 'per_listing' ) {
                 $invoiceID = houzez_generate_invoice( 'Upgrade to Featured','one_time', $prop_id, $date, $userID, 0, 1, '', $paymentMethod );
                 update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
                 update_post_meta( $prop_id, 'fave_featured', 1 );
-                houzez_email_to_admin('email_upgrade');
+                //houzez_email_to_admin('email_upgrade');
+
+                $args = array(
+                    'listing_title'  =>  get_the_title($prop_id),
+                    'listing_id'     =>  $prop_id,
+                    'invoice_no' =>  $invoiceID,
+                );
+
+                /*
+                 * Send email
+                 * */
+                houzez_email_type( $user_email, 'featured_submission_listing', $args);
+                houzez_email_type( $admin_email, 'admin_featured_submission_listing', $args);
 
             } else {
 
@@ -102,8 +117,18 @@ if( $enable_paid_submission == 'per_listing' ) {
                 }
 
                 update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
-                // send email to admin
-                houzez_email_to_admin('simple');
+
+                $args = array(
+                    'listing_title'  =>  get_the_title($prop_id),
+                    'listing_id'     =>  $prop_id,
+                    'invoice_no' =>  $invoiceID,
+                );
+
+                /*
+                 * Send email
+                 * */
+                houzez_email_type( $user_email, 'paid_submission_listing', $args);
+                houzez_email_type( $admin_email, 'admin_paid_submission_listing', $args);
             }
 
         }
@@ -150,10 +175,20 @@ else if( $enable_paid_submission == 'membership' ) {
                 if ($json_resp['state'] == 'approved') {
 
                     houzez_save_user_packages_record($userID);
-                    houzez_update_membership_package($userID, $pack_id);
+                    //houzez_update_membership_package($userID, $pack_id);
+                    if( houzez_check_user_existing_package_status( $current_user->ID, $pack_id ) ){
+                        houzez_downgrade_package( $current_user->ID, $pack_id );
+                        houzez_update_membership_package( $userID, $pack_id);
+                    }else{
+                        houzez_update_membership_package($userID, $pack_id);
+                    }
 
                     $invoiceID = houzez_generate_invoice( 'package', 'one_time', $pack_id, $date, $userID, 0, 0, '', $paymentMethod );
                     update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
+
+                    $args = array();
+
+                    houzez_email_type( $user_email,'purchase_activated_pack', $args );
 
                 }
             } //end if Get
@@ -199,10 +234,20 @@ else if( $enable_paid_submission == 'membership' ) {
             if ( $obj->getExpressCheckout($token_recursive) ) {
 
                 houzez_save_user_packages_record($userID);
-                houzez_update_membership_package($userID, $pack_id);
+                //houzez_update_membership_package($userID, $pack_id);
+                if( houzez_check_user_existing_package_status( $current_user->ID, $pack_id ) ) {
+                    houzez_downgrade_package( $current_user->ID, $pack_id );
+                    houzez_update_membership_package( $userID, $pack_id );
+                }else{
+                    houzez_update_membership_package( $userID, $pack_id );
+                }
 
                 $invoiceID = houzez_generate_invoice( 'package', 'recurring', $pack_id, $date, $userID, 0, 0, '', $paymentMethod );
                 update_post_meta( $invoiceID, 'invoice_payment_status', 1 );
+
+                $args = array();
+
+                houzez_email_type( $user_email,'purchase_activated_pack', $args );
 
                 wp_redirect( $thankyou_page_link );
                 exit;
@@ -230,10 +275,18 @@ get_header();
                 ?>
                 <h2><?php echo houzez_option('thankyou_wire_title'); ?></h2>
                 <ul style="text-align: left;">
-                    <li><?php esc_html_e( 'Order Number:', 'houzez' ); ?> <strong><?php echo esc_attr($orderID); ?></strong> </li>
-                    <li><?php esc_html_e( 'Date:', 'houzez' ); ?> <strong><?php echo get_the_date('', $orderID); ?></strong> </li>
-                    <li><?php esc_html_e( 'Total:', 'houzez' ); ?> <strong><?php echo houzez_get_invoice_price( $invoice_meta['invoice_item_price'] );?></strong> </li>
-                    <li><?php esc_html_e( 'Payment Method:', 'houzez' ); ?> <strong><?php echo esc_html( $invoice_meta['invoice_payment_method'] ); ?></strong> </li>
+                    <li><?php echo $houzez_local['order_number'].':'; ?> <strong><?php echo esc_attr($orderID); ?></strong> </li>
+                    <li><?php echo $houzez_local['date'].':'; ?> <strong><?php echo get_the_date('', $orderID); ?></strong> </li>
+                    <li><?php echo $houzez_local['total'].':'; ?> <strong><?php echo houzez_get_invoice_price( $invoice_meta['invoice_item_price'] );?></strong> </li>
+                    <li><?php echo $houzez_local['payment_method'].':'; ?>
+                        <strong>
+                            <?php if( $invoice_meta['invoice_payment_method'] == 'Direct Bank Transfer' ) {
+                                echo $houzez_local['bank_transfer'];
+                            } else {
+                                echo $invoice_meta['invoice_payment_method'];
+                            } ?>
+                        </strong>
+                    </li>
                 </ul>
                 <p> <?php echo houzez_option('thankyou_wire_des'); ?></p>
             <?php
@@ -246,7 +299,7 @@ get_header();
                 echo '</p>';
             }
             ?>
-            <a href="<?php echo esc_url( $dash_profile_link ); ?>" class="btn btn-primary btn-long"> <?php esc_html_e( 'Go to Dashboard', 'houzez' ); ?> </a>
+            <a href="<?php echo esc_url( $dash_profile_link ); ?>" class="btn btn-primary btn-long"> <?php echo $houzez_local['goto_dash']; ?> </a>
         </div>
     </div>
 </div>

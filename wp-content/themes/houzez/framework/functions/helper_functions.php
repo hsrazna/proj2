@@ -6,6 +6,34 @@
  * Time: 11:45 AM
  */
 
+if( !function_exists('houzez_check_role') ) {
+    function houzez_check_role() {
+        global $current_user;
+        $current_user = wp_get_current_user();
+        //houzez_agent, subscriber, author, houzez_buyer
+        $use_houzez_roles = houzez_option('use_houzez_roles');
+
+        if( $use_houzez_roles != 0 ) {
+            if (in_array('houzez_buyer', (array)$current_user->roles) || in_array('subscriber', (array)$current_user->roles)) {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+}
+
+if ( ! function_exists( 'houzez_http_or_https' ) ) {
+    function houzez_http_or_https() {
+        if (is_ssl()) {
+            $http_or_https = 'https';
+        } else {
+            $http_or_https = 'http';
+        }
+
+        return $http_or_https;
+    }
+}
 /* --------------------------------------------------------------------------
  * Removes version scripts number if enabled for better Google Page Speed Scores. @since Houzez 1.4.0
  ---------------------------------------------------------------------------*/
@@ -128,6 +156,74 @@ if( !function_exists('houzez_get_all_cities') ):
             $select_city.= ' >' . $tax_term->name . '</option>';
         }
         return $select_city;
+    }
+endif;
+
+if ( !function_exists( 'houzez_get_property_city_meta' ) ):
+    function houzez_get_property_city_meta( $term_id = false, $field = false ) {
+        $defaults = array(
+            'parent_state' => ''
+        );
+
+        if ( $term_id ) {
+            $meta = get_option( '_houzez_property_city_'.$term_id );
+            $meta = wp_parse_args( (array) $meta, $defaults );
+        } else {
+            $meta = $defaults;
+        }
+
+        if ( $field ) {
+            if ( isset( $meta[$field] ) ) {
+                return $meta[$field];
+            } else {
+                return false;
+            }
+        }
+        return $meta;
+    }
+endif;
+
+if ( !function_exists( 'houzez_get_property_state_meta' ) ):
+    function houzez_get_property_state_meta( $term_id = false, $field = false ) {
+        $defaults = array(
+            'parent_country' => ''
+        );
+
+        if ( $term_id ) {
+            $meta = get_option( '_houzez_property_state_'.$term_id );
+            $meta = wp_parse_args( (array) $meta, $defaults );
+        } else {
+            $meta = $defaults;
+        }
+
+        if ( $field ) {
+            if ( isset( $meta[$field] ) ) {
+                return $meta[$field];
+            } else {
+                return false;
+            }
+        }
+        return $meta;
+    }
+endif;
+
+if( !function_exists('houzez_get_all_states') ):
+    function houzez_get_all_states( $selected = '' ) {
+        $taxonomy       =   'property_state';
+        $args = array(
+            'hide_empty'    => false
+        );
+        $tax_terms      =   get_terms($taxonomy,$args);
+        $select_state    =   '';
+
+        foreach ($tax_terms as $tax_term) {
+            $select_state.= '<option value="' . $tax_term->name.'" ';
+            if($tax_term->name == $selected){
+                $select_state.= ' selected="selected" ';
+            }
+            $select_state.= ' >' . $tax_term->name . '</option>';
+        }
+        return $select_state;
     }
 endif;
 
@@ -455,6 +551,17 @@ if ( !function_exists( 'houzez_get_image_url' ) ):
 endif;
 
 /* --------------------------------------------------------------------------
+ * Get image url by image ID
+ ---------------------------------------------------------------------------*/
+if ( !function_exists( 'houzez_get_image_by_id' ) ):
+    function houzez_get_image_by_id( $thumb_id, $image_size ) {
+        $thumb_url_array = wp_get_attachment_image_src( $thumb_id, $image_size, true );
+
+        return $thumb_url_array;
+    }
+endif;
+
+/* --------------------------------------------------------------------------
  * Get invoice post type meta with default values
  ---------------------------------------------------------------------------*/
 if ( !function_exists( 'houzez_get_invoice_meta' ) ):
@@ -552,6 +659,22 @@ if ( ! function_exists( 'houzez_taxonomy_simple' ) ) {
     function houzez_taxonomy_simple( $tax_name )
     {
         $terms = wp_get_post_terms( get_the_ID(), $tax_name, array("fields" => "names"));
+        $t = '';
+        if (!empty($terms)):
+            foreach( $terms as $term ):
+                $t .= $term.', ';
+            endforeach;
+            $trimed = rtrim ( $t, ', ' );
+            return $trimed;
+        endif;
+        return '';
+    }
+}
+
+if ( ! function_exists( 'houzez_taxonomy_simple_2' ) ) {
+    function houzez_taxonomy_simple_2( $tax_name, $propID )
+    {
+        $terms = wp_get_post_terms( $propID, $tax_name, array("fields" => "names"));
         $t = '';
         if (!empty($terms)):
             foreach( $terms as $term ):
@@ -747,20 +870,15 @@ if ( !function_exists( 'houzez_pagination' ) ):
 endif;
 
 
-if( !function_exists('houzez_listing_meta_v1 ') ) {
+if( !function_exists('houzez_listing_meta_v1') ) {
     function houzez_listing_meta_v1()
     {
         $propID = get_the_ID();
         $prop_bed     = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
         $prop_bath     = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
-        /*$prop_size     = get_post_meta( get_the_ID(), 'fave_property_size', true );
-        $measurement_unit_global = houzez_option('measurement_unit_global');*/
+        $prop_size     = get_post_meta( $propID, 'fave_property_size', true );
 
-        /*if( $measurement_unit_global == 1 ) {
-            $prop_size_prefix = houzez_option('measurement_unit');
-        } else {
-            $prop_size_prefix = get_post_meta(get_the_ID(), 'fave_property_size_prefix', true);
-        }*/
+        if( empty($prop_bed) && empty($prop_bath) && empty($prop_size) ) { return; }
 
         $output = '';
         $output .= '<p>';
@@ -780,16 +898,14 @@ if( !function_exists('houzez_listing_meta_v1 ') ) {
             $output .= $prop_bath_lebel .': '. $prop_bath;
             $output .= '</span>';
         }
-        /*if( !empty( $prop_size ) ) {
-            $prop_size = esc_attr( $prop_size );
 
+        $listing_area_size = houzez_get_listing_area_size( $propID );
+
+        if( !empty( $listing_area_size ) ) {
             $output .= '<span>';
-            $output .= $prop_size_prefix .': '. $prop_size;
+            $output .= houzez_get_listing_size_unit($propID) . ': ' . houzez_get_listing_area_size($propID);
             $output .= '</span>';
-        }*/
-        $output .= '<span>';
-        $output .= houzez_get_listing_size_unit( $propID ) .': '. houzez_get_listing_area_size( $propID );
-        $output .= '</span>';
+        }
 
         $output .= '</p>';
 
@@ -798,7 +914,55 @@ if( !function_exists('houzez_listing_meta_v1 ') ) {
     }
 }
 
-if( !function_exists('houzez_get_listing_area_size ') ) {
+if( !function_exists('houzez_listing_meta_v3') ) {
+    function houzez_listing_meta_v3()
+    {
+        $propID = get_the_ID();
+        $prop_bed     = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
+        $prop_bath     = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
+        $prop_size     = get_post_meta( $propID, 'fave_property_size', true );
+
+        if( empty($prop_bed) && empty($prop_bath) && empty($prop_size) ) { return; }
+
+        $output = '';
+        $output .= '<ul class="item-amenities">';
+        if( !empty( $prop_bed ) ) {
+            $prop_bed = esc_attr( $prop_bed );
+            $prop_bed_lebel = ($prop_bed > 1 ) ? esc_html__( 'Bedrooms', 'houzez' ) : esc_html__( 'Bedroom', 'houzez' );
+
+            $output .= '<li>';
+            $output .= '<span>'.$prop_bed.'</span>';
+            $output .= $prop_bed_lebel;
+            $output .= '</li>';
+        }
+        if( !empty( $prop_bath ) ) {
+            $prop_bath = esc_attr( $prop_bath );
+            $prop_bath_lebel = ($prop_bath > 1 ) ? esc_html__( 'Bathrooms', 'houzez' ) : esc_html__( 'Bathroom', 'houzez' );
+
+            $output .= '<li>';
+            $output .= '<span>'.$prop_bath.'</span>';
+            $output .= $prop_bath_lebel;
+            $output .= '</li>';
+        }
+
+        $listing_area_size = houzez_get_listing_area_size( $propID );
+
+        if( !empty( $listing_area_size ) ) {
+            $output .= '<li>';
+            $output .= '<span>'.houzez_get_listing_area_size($propID).'</span>';
+            $output .= houzez_get_listing_size_unit($propID);
+            $output .= '</li>';
+
+        }
+
+        $output .= '</ul>';
+
+        return $output;
+
+    }
+}
+
+if( !function_exists('houzez_get_listing_area_size') ) {
     function houzez_get_listing_area_size( $propID ) {
         $prop_area_size = '';
         $prop_size     = get_post_meta( $propID, 'fave_property_size', true );
@@ -823,7 +987,7 @@ if( !function_exists('houzez_get_listing_area_size ') ) {
     }
 }
 
-if( !function_exists('houzez_get_listing_size_unit ') ) {
+if( !function_exists('houzez_get_listing_size_unit') ) {
     function houzez_get_listing_size_unit( $propID ) {
         $measurement_unit_global = houzez_option('measurement_unit_global');
         $area_switcher_enable = houzez_option('area_switcher_enable');
@@ -860,7 +1024,7 @@ if( !function_exists('houzez_get_listing_size_unit ') ) {
 }
 
 
-if( !function_exists('houzez_listing_meta_widget ') ) {
+if( !function_exists('houzez_listing_meta_widget') ) {
     function houzez_listing_meta_widget()
     {
         $prop_bed     = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
@@ -887,7 +1051,7 @@ if( !function_exists('houzez_listing_meta_widget ') ) {
     }
 }
 
-if( !function_exists('houzez_listing_meta_v2 ') ) {
+if( !function_exists('houzez_listing_meta_v2') ) {
     function houzez_listing_meta_v2()
     {
         $prop_bed     = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
@@ -921,27 +1085,9 @@ if( !function_exists('houzez_listing_meta_v2 ') ) {
     }
 }
 
-if( !function_exists('houzez_property_size ') ) {
+if( !function_exists('houzez_property_size') ) {
     function houzez_property_size( $position ) {
-        /*$prop_size     = get_post_meta( get_the_ID(), 'fave_property_size', true );
 
-        $measurement_unit_global = houzez_option('measurement_unit_global');
-        if( $measurement_unit_global == 1 ) {
-            $prop_size_unit = houzez_option('measurement_unit');
-        } else {
-            $prop_size_unit = get_post_meta(get_the_ID(), 'fave_property_size_prefix', true);
-        }
-
-        if( !empty( $prop_size ) ) {
-            $prop_size = esc_attr( $prop_size );
-
-            if( $position == 'before' ) {
-                $prop_size = $prop_size_unit.' '.$prop_size;
-            } else {
-                $prop_size = $prop_size.' '.$prop_size_unit;
-            }
-           return  $prop_size;
-        }*/
         $propID = get_the_ID();
         if( $position == 'before' ) {
             $prop_size = houzez_get_listing_size_unit( $propID ).' '.houzez_get_listing_area_size( $propID );
@@ -952,27 +1098,24 @@ if( !function_exists('houzez_property_size ') ) {
     }
 }
 
-if( !function_exists('houzez_property_size_by_id ') ) {
-    function houzez_property_size_by_id( $propID, $position ) {
-        /*$prop_size     = get_post_meta( $propID, 'fave_property_size', true );
+if( !function_exists('houzez_property_land_area') ) {
+    function houzez_property_land_area( $position ) {
 
-        $measurement_unit_global = houzez_option('measurement_unit_global');
-        if( $measurement_unit_global == 1 ) {
-            $prop_size_unit = houzez_option('measurement_unit');
+        $propID = get_the_ID();
+        $land_area_unit = get_post_meta( $propID, 'fave_property_land_postfix', true);
+        $land_area = get_post_meta( $propID, 'fave_property_land', true);
+
+        if( $position == 'before' ) {
+            $prop_size = esc_attr($land_area_unit).' '.esc_attr($land_area);
         } else {
-            $prop_size_unit = get_post_meta( $propID, 'fave_property_size_prefix', true);
+            $prop_size = esc_attr($land_area).' '.esc_attr($land_area_unit);
         }
+        return  $prop_size;
+    }
+}
 
-        if( !empty( $prop_size ) ) {
-            $prop_size = esc_attr( $prop_size );
-
-            if( $position == 'before' ) {
-                $prop_size = $prop_size_unit.' '.$prop_size;
-            } else {
-                $prop_size = $prop_size.' '.$prop_size_unit;
-            }
-            return  $prop_size;
-        }*/
+if( !function_exists('houzez_property_size_by_id') ) {
+    function houzez_property_size_by_id( $propID, $position ) {
 
         // Since v1.3.0
         if( $position == 'before' ) {
@@ -984,7 +1127,7 @@ if( !function_exists('houzez_property_size_by_id ') ) {
     }
 }
 
-if( !function_exists('houzez_property_slider_meta ') ) {
+if( !function_exists('houzez_property_slider_meta') ) {
     function houzez_property_slider_meta()
     {
         $propID = get_the_ID();
@@ -1113,6 +1256,18 @@ if( !function_exists('houzez_dashboard_add_listing') ) {
 }
 
 /*-----------------------------------------------------------------------------------*/
+// Get required *
+/*-----------------------------------------------------------------------------------*/
+if( !function_exists('houzez_required_field') ) {
+    function houzez_required_field( $field ) {
+        if( $field != 0 ) {
+            return '*';
+        }
+        return '';
+    }
+}
+
+/*-----------------------------------------------------------------------------------*/
 // Get user properties dashboard
 /*-----------------------------------------------------------------------------------*/
 if( !function_exists('houzez_dashboard_listings') ) {
@@ -1207,6 +1362,33 @@ if( !function_exists('houzez_dashboard_saved_search_link') ) {
     }
 }
 
+/*-----------------------------------------------------------------------------------*/
+// Get search page link
+/*-----------------------------------------------------------------------------------*/
+if( !function_exists('houzez_get_search_template_link') ) {
+    function houzez_get_search_template_link() {
+
+        $search_result_page = houzez_option('search_result_page');
+        if( $search_result_page == 'half_map' ) {
+            $template = 'template/property-listings-map.php';
+        } else {
+            $template = 'template/template-search.php';
+        }
+
+        $args = array(
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template
+        );
+        $pages = get_pages($args);
+        if( $pages ) {
+            $add_link = get_permalink( $pages[0]->ID );
+        } else {
+            $add_link = home_url('/');
+        }
+        return $add_link;
+    }
+}
+
 if( !function_exists('houzez_properties_listing_link') ) {
     function houzez_properties_listing_link() {
         global $post;
@@ -1279,6 +1461,24 @@ if(!function_exists('houzez_hirarchical_options')){
                         echo '<option data-parentcity="'.$parent_city.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
                     } else {
                         echo '<option data-parentcity="'.$parent_city.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
+                    }
+                } elseif( $taxonomy_name == 'property_city' ) {
+                    $term_meta= get_option( "_houzez_property_city_$term->term_id");
+                    $parent_state = sanitize_title($term_meta['parent_state']);
+
+                    if ($searched_term == $term->slug) {
+                        echo '<option data-parentstate="'.$parent_state.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
+                    } else {
+                        echo '<option data-parentstate="'.$parent_state.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
+                    }
+                }  elseif( $taxonomy_name == 'property_state' ) {
+                    $term_meta= get_option( "_houzez_property_state_$term->term_id");
+                    $parent_country = sanitize_title($term_meta['parent_country']);
+
+                    if ($searched_term == $term->slug) {
+                        echo '<option data-parentcountry="'.$parent_country.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
+                    } else {
+                        echo '<option data-parentcountry="'.$parent_country.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
                     }
                 } else {
                     if ($searched_term == $term->slug) {
@@ -1720,6 +1920,7 @@ if( !function_exists('houzez_count_property_views') ) {
         }
 
         update_post_meta($prop_id, 'houzez_views_by_date', $views_by_date);
+        update_post_meta($prop_id, 'houzez_recently_viewed', $today);
 
     }
 }
@@ -1891,6 +2092,70 @@ if( !function_exists('houzez_return_traffic_data') ) {
     }
 }
 
+/**
+ *   ----------------------------------------------------------------------------------------------------------------------------------------------------
+ *   Generates a taxonomy tree slug array
+ *   ----------------------------------------------------------------------------------------------------------------------------------------------------
+ */
+
+/**
+ *
+ * @param bool $add_all_category = if true ads - All categories - at the begining of the list (used for dropdowns)
+ * @return mixed
+ */
+
+if ( ! function_exists( 'houzez_get_agent_category_slug_array' ) ) {
+    function houzez_get_agent_category_slug_array($add_all_taxonomy = true ) {
+
+
+
+        if (is_admin() === false) {
+            return;
+        }
+
+        $categories = get_categories(array(
+            'hide_empty' => 0,
+            'taxonomy'   => 'agent_category',
+        ));
+
+        $houzez_get_agent_category_slug_array_walker = new houzez_get_agent_category_slug_array_walker;
+        $houzez_get_agent_category_slug_array_walker->walk($categories, 4);
+
+        if ($add_all_taxonomy === true) {
+            $categories_buffer['- All -'] = '';
+            return array_merge(
+                $categories_buffer,
+                $houzez_get_agent_category_slug_array_walker->houzez_array_buffer
+            );
+        } else {
+            return $houzez_get_agent_category_slug_array_walker->houzez_array_buffer;
+        }
+    }
+}
+
+class houzez_get_agent_category_slug_array_walker extends Walker {
+    var $tree_type = 'agent_category';
+    var $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
+
+    var $houzez_array_buffer = array();
+
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
+    }
+
+    function end_lvl( &$output, $depth = 0, $args = array() ) {
+    }
+
+
+    function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+        $this->houzez_array_buffer[str_repeat(' - ', $depth) .  $category->name] = $category->slug;
+    }
+
+
+    function end_el( &$output, $page, $depth = 0, $args = array() ) {
+    }
+
+}
+
 /*-----------------------------------------------------------------------------------*/
 // Generate ID Based Hirarchical Options
 /*-----------------------------------------------------------------------------------*/
@@ -1911,6 +2176,32 @@ if(!function_exists('houzez_id_based_hirarchical_options')){
                 if (!empty($child_terms)) {
                     /* Recursive Call */
                     houzez_id_based_hirarchical_options( $taxonomy_name, $child_terms, $target_term_id, "- ".$prefix );
+                }
+            }
+        }
+    }
+}
+
+/*-----------------------------------------------------------------------------------*/
+// Generate ID Based Hirarchical Options
+/*-----------------------------------------------------------------------------------*/
+if(!function_exists('houzez_taxonomy_hirarchical_options_for_search')){
+    function houzez_taxonomy_hirarchical_options_for_search($taxonomy_name, $taxonomy_terms, $target_term_name, $prefix = " " ){
+        if (!empty($taxonomy_terms)) {
+            foreach ($taxonomy_terms as $term) {
+                if ($target_term_name == $term->name) {
+                    echo '<option value="' . $term->name . '" selected="selected">' . $prefix . $term->name . '</option>';
+                } else {
+                    echo '<option value="' . $term->name . '">' . $prefix . $term->name . '</option>';
+                }
+                $child_terms = get_terms($taxonomy_name, array(
+                    'hide_empty' => false,
+                    'parent' => $term->term_id
+                ));
+
+                if (!empty($child_terms)) {
+                    /* Recursive Call */
+                    houzez_taxonomy_hirarchical_options_for_search( $taxonomy_name, $child_terms, $target_term_name, "- ".$prefix );
                 }
             }
         }
@@ -2012,6 +2303,44 @@ if(!function_exists('houzez_edit_form_hierarchichal_options')){
             )
         );
         houzez_id_based_hirarchical_options( $taxonomy_name, $top_level_terms, $existing_term_id );
+
+    }
+}
+
+/*-----------------------------------------------------------------------------------*/
+// Propert Edit Form Hierarchichal Taxonomy Options
+/*-----------------------------------------------------------------------------------*/
+if(!function_exists('houzez_taxonomy_edit_hirarchical_options_for_search')){
+    function houzez_taxonomy_edit_hirarchical_options_for_search( $property_id, $taxonomy_name ){
+
+        $existing_term_name = '';
+        $tax_terms = get_the_terms( $property_id, $taxonomy_name );
+
+        if( !empty($tax_terms) ){
+            foreach( $tax_terms as $tax_term ){
+                $existing_term_name = $tax_term->name;
+                break;
+            }
+        }
+
+        if( empty($existing_term_name) ){
+            echo '<option value="" selected="selected">'.esc_html__( 'None', 'houzez').'</option>';
+        } else {
+            echo '<option value="">'.esc_html__( 'None', 'houzez').'</option>';
+        }
+
+        $top_level_terms = get_terms(
+            array(
+                $taxonomy_name
+            ),
+            array(
+                'orderby'       => 'name',
+                'order'         => 'ASC',
+                'hide_empty'    => false,
+                'parent' => 0
+            )
+        );
+        houzez_taxonomy_hirarchical_options_for_search( $taxonomy_name, $top_level_terms, $existing_term_name );
 
     }
 }
@@ -2456,6 +2785,263 @@ function houzez_country_code_to_country( $code ){
 }
 endif;
 
+if( !function_exists('houzez_countries_list') ) {
+    function houzez_countries_list() {
+        $Countries = array(
+            'US' => esc_html__('United States', 'houzez'),
+            'CA' => esc_html__('Canada', 'houzez'),
+            'AU' => esc_html__('Australia', 'houzez'),
+            'FR' => esc_html__('France', 'houzez'),
+            'DE' => esc_html__('Germany', 'houzez'),
+            'IS' => esc_html__('Iceland', 'houzez'),
+            'IE' => esc_html__('Ireland', 'houzez'),
+            'IT' => esc_html__('Italy', 'houzez'),
+            'ES' => esc_html__('Spain', 'houzez'),
+            'SE' => esc_html__('Sweden', 'houzez'),
+            'AT' => esc_html__('Austria', 'houzez'),
+            'BE' => esc_html__('Belgium', 'houzez'),
+            'FI' => esc_html__('Finland', 'houzez'),
+            'CZ' => esc_html__('Czech Republic', 'houzez'),
+            'DK' => esc_html__('Denmark', 'houzez'),
+            'NO' => esc_html__('Norway', 'houzez'),
+            'GB' => esc_html__('United Kingdom', 'houzez'),
+            'CH' => esc_html__('Switzerland', 'houzez'),
+            'NZ' => esc_html__('New Zealand', 'houzez'),
+            'RU' => esc_html__('Russian Federation', 'houzez'),
+            'PT' => esc_html__('Portugal', 'houzez'),
+            'NL' => esc_html__('Netherlands', 'houzez'),
+            'IM' => esc_html__('Isle of Man', 'houzez'),
+            'AF' => esc_html__('Afghanistan', 'houzez'),
+            'AX' => esc_html__('Aland Islands ', 'houzez'),
+            'AL' => esc_html__('Albania', 'houzez'),
+            'DZ' => esc_html__('Algeria', 'houzez'),
+            'AS' => esc_html__('American Samoa', 'houzez'),
+            'AD' => esc_html__('Andorra', 'houzez'),
+            'AO' => esc_html__('Angola', 'houzez'),
+            'AI' => esc_html__('Anguilla', 'houzez'),
+            'AQ' => esc_html__('Antarctica', 'houzez'),
+            'AG' => esc_html__('Antigua and Barbuda', 'houzez'),
+            'AR' => esc_html__('Argentina', 'houzez'),
+            'AM' => esc_html__('Armenia', 'houzez'),
+            'AW' => esc_html__('Aruba', 'houzez'),
+            'AZ' => esc_html__('Azerbaijan', 'houzez'),
+            'BS' => esc_html__('Bahamas', 'houzez'),
+            'BH' => esc_html__('Bahrain', 'houzez'),
+            'BD' => esc_html__('Bangladesh', 'houzez'),
+            'BB' => esc_html__('Barbados', 'houzez'),
+            'BY' => esc_html__('Belarus', 'houzez'),
+            'BZ' => esc_html__('Belize', 'houzez'),
+            'BJ' => esc_html__('Benin', 'houzez'),
+            'BM' => esc_html__('Bermuda', 'houzez'),
+            'BT' => esc_html__('Bhutan', 'houzez'),
+            'BO' => esc_html__('Bolivia, Plurinational State of', 'houzez'),
+            'BQ' => esc_html__('Bonaire, Sint Eustatius and Saba', 'houzez'),
+            'BA' => esc_html__('Bosnia and Herzegovina', 'houzez'),
+            'BW' => esc_html__('Botswana', 'houzez'),
+            'BV' => esc_html__('Bouvet Island', 'houzez'),
+            'BR' => esc_html__('Brazil', 'houzez'),
+            'IO' => esc_html__('British Indian Ocean Territory', 'houzez'),
+            'BN' => esc_html__('Brunei Darussalam', 'houzez'),
+            'BG' => esc_html__('Bulgaria', 'houzez'),
+            'BF' => esc_html__('Burkina Faso', 'houzez'),
+            'BI' => esc_html__('Burundi', 'houzez'),
+            'KH' => esc_html__('Cambodia', 'houzez'),
+            'CM' => esc_html__('Cameroon', 'houzez'),
+            'CV' => esc_html__('Cape Verde', 'houzez'),
+            'KY' => esc_html__('Cayman Islands', 'houzez'),
+            'CF' => esc_html__('Central African Republic', 'houzez'),
+            'TD' => esc_html__('Chad', 'houzez'),
+            'CL' => esc_html__('Chile', 'houzez'),
+            'CN' => esc_html__('China', 'houzez'),
+            'CX' => esc_html__('Christmas Island', 'houzez'),
+            'CC' => esc_html__('Cocos (Keeling) Islands', 'houzez'),
+            'CO' => esc_html__('Colombia', 'houzez'),
+            'KM' => esc_html__('Comoros', 'houzez'),
+            'CG' => esc_html__('Congo', 'houzez'),
+            'CD' => esc_html__('Congo, the Democratic Republic of the', 'houzez'),
+            'CK' => esc_html__('Cook Islands', 'houzez'),
+            'CR' => esc_html__('Costa Rica', 'houzez'),
+            'CI' => esc_html__('Cote d\'Ivoire', 'houzez'),
+            'HR' => esc_html__('Croatia', 'houzez'),
+            'CU' => esc_html__('Cuba', 'houzez'),
+            'CW' => esc_html__('Curaçao', 'houzez'),
+            'CY' => esc_html__('Cyprus', 'houzez'),
+            'DJ' => esc_html__('Djibouti', 'houzez'),
+            'DM' => esc_html__('Dominica', 'houzez'),
+            'DO' => esc_html__('Dominican Republic', 'houzez'),
+            'EC' => esc_html__('Ecuador', 'houzez'),
+            'EG' => esc_html__('Egypt', 'houzez'),
+            'SV' => esc_html__('El Salvador', 'houzez'),
+            'GQ' => esc_html__('Equatorial Guinea', 'houzez'),
+            'ER' => esc_html__('Eritrea', 'houzez'),
+            'EE' => esc_html__('Estonia', 'houzez'),
+            'ET' => esc_html__('Ethiopia', 'houzez'),
+            'FK' => esc_html__('Falkland Islands (Malvinas)', 'houzez'),
+            'FO' => esc_html__('Faroe Islands', 'houzez'),
+            'FJ' => esc_html__('Fiji', 'houzez'),
+            'GF' => esc_html__('French Guiana', 'houzez'),
+            'PF' => esc_html__('French Polynesia', 'houzez'),
+            'TF' => esc_html__('French Southern Territories', 'houzez'),
+            'GA' => esc_html__('Gabon', 'houzez'),
+            'GM' => esc_html__('Gambia', 'houzez'),
+            'GE' => esc_html__('Georgia', 'houzez'),
+            'GH' => esc_html__('Ghana', 'houzez'),
+            'GI' => esc_html__('Gibraltar', 'houzez'),
+            'GR' => esc_html__('Greece', 'houzez'),
+            'GL' => esc_html__('Greenland', 'houzez'),
+            'GD' => esc_html__('Grenada', 'houzez'),
+            'GP' => esc_html__('Guadeloupe', 'houzez'),
+            'GU' => esc_html__('Guam', 'houzez'),
+            'GT' => esc_html__('Guatemala', 'houzez'),
+            'GG' => esc_html__('Guernsey', 'houzez'),
+            'GN' => esc_html__('Guinea', 'houzez'),
+            'GW' => esc_html__('Guinea-Bissau', 'houzez'),
+            'GY' => esc_html__('Guyana', 'houzez'),
+            'HT' => esc_html__('Haiti', 'houzez'),
+            'HM' => esc_html__('Heard Island and McDonald Islands', 'houzez'),
+            'VA' => esc_html__('Holy See (Vatican City State)', 'houzez'),
+            'HN' => esc_html__('Honduras', 'houzez'),
+            'HK' => esc_html__('Hong Kong', 'houzez'),
+            'HU' => esc_html__('Hungary', 'houzez'),
+            'IN' => esc_html__('India', 'houzez'),
+            'ID' => esc_html__('Indonesia', 'houzez'),
+            'IR' => esc_html__('Iran, Islamic Republic of', 'houzez'),
+            'IQ' => esc_html__('Iraq', 'houzez'),
+            'IL' => esc_html__('Israel', 'houzez'),
+            'JM' => esc_html__('Jamaica', 'houzez'),
+            'JP' => esc_html__('Japan', 'houzez'),
+            'JE' => esc_html__('Jersey', 'houzez'),
+            'JO' => esc_html__('Jordan', 'houzez'),
+            'KZ' => esc_html__('Kazakhstan', 'houzez'),
+            'KE' => esc_html__('Kenya', 'houzez'),
+            'KI' => esc_html__('Kiribati', 'houzez'),
+            'KP' => esc_html__('Korea, Democratic People\'s Republic of', 'houzez'),
+            'KR' => esc_html__('Korea, Republic of', 'houzez'),
+            'KV' => esc_html__('kosovo', 'houzez'),
+            'KW' => esc_html__('Kuwait', 'houzez'),
+            'KG' => esc_html__('Kyrgyzstan', 'houzez'),
+            'LA' => esc_html__('Lao People\'s Democratic Republic', 'houzez'),
+            'LV' => esc_html__('Latvia', 'houzez'),
+            'LB' => esc_html__('Lebanon', 'houzez'),
+            'LS' => esc_html__('Lesotho', 'houzez'),
+            'LR' => esc_html__('Liberia', 'houzez'),
+            'LY' => esc_html__('Libyan Arab Jamahiriya', 'houzez'),
+            'LI' => esc_html__('Liechtenstein', 'houzez'),
+            'LT' => esc_html__('Lithuania', 'houzez'),
+            'LU' => esc_html__('Luxembourg', 'houzez'),
+            'MO' => esc_html__('Macao', 'houzez'),
+            'MK' => esc_html__('Macedonia', 'houzez'),
+            'MG' => esc_html__('Madagascar', 'houzez'),
+            'MW' => esc_html__('Malawi', 'houzez'),
+            'MY' => esc_html__('Malaysia', 'houzez'),
+            'MV' => esc_html__('Maldives', 'houzez'),
+            'ML' => esc_html__('Mali', 'houzez'),
+            'MT' => esc_html__('Malta', 'houzez'),
+            'MH' => esc_html__('Marshall Islands', 'houzez'),
+            'MQ' => esc_html__('Martinique', 'houzez'),
+            'MR' => esc_html__('Mauritania', 'houzez'),
+            'MU' => esc_html__('Mauritius', 'houzez'),
+            'YT' => esc_html__('Mayotte', 'houzez'),
+            'MX' => esc_html__('Mexico', 'houzez'),
+            'FM' => esc_html__('Micronesia, Federated States of', 'houzez'),
+            'MD' => esc_html__('Moldova, Republic of', 'houzez'),
+            'MC' => esc_html__('Monaco', 'houzez'),
+            'MN' => esc_html__('Mongolia', 'houzez'),
+            'ME' => esc_html__('Montenegro', 'houzez'),
+            'MS' => esc_html__('Montserrat', 'houzez'),
+            'MA' => esc_html__('Morocco', 'houzez'),
+            'MZ' => esc_html__('Mozambique', 'houzez'),
+            'MM' => esc_html__('Myanmar', 'houzez'),
+            'NA' => esc_html__('Namibia', 'houzez'),
+            'NR' => esc_html__('Nauru', 'houzez'),
+            'NP' => esc_html__('Nepal', 'houzez'),
+            'NC' => esc_html__('New Caledonia', 'houzez'),
+            'NI' => esc_html__('Nicaragua', 'houzez'),
+            'NE' => esc_html__('Niger', 'houzez'),
+            'NG' => esc_html__('Nigeria', 'houzez'),
+            'NU' => esc_html__('Niue', 'houzez'),
+            'NF' => esc_html__('Norfolk Island', 'houzez'),
+            'MP' => esc_html__('Northern Mariana Islands', 'houzez'),
+            'OM' => esc_html__('Oman', 'houzez'),
+            'PK' => esc_html__('Pakistan', 'houzez'),
+            'PW' => esc_html__('Palau', 'houzez'),
+            'PS' => esc_html__('Palestinian Territory, Occupied', 'houzez'),
+            'PA' => esc_html__('Panama', 'houzez'),
+            'PG' => esc_html__('Papua New Guinea', 'houzez'),
+            'PY' => esc_html__('Paraguay', 'houzez'),
+            'PE' => esc_html__('Peru', 'houzez'),
+            'PH' => esc_html__('Philippines', 'houzez'),
+            'PN' => esc_html__('Pitcairn', 'houzez'),
+            'PL' => esc_html__('Poland', 'houzez'),
+            'PR' => esc_html__('Puerto Rico', 'houzez'),
+            'QA' => esc_html__('Qatar', 'houzez'),
+            'RE' => esc_html__('Reunion', 'houzez'),
+            'RO' => esc_html__('Romania', 'houzez'),
+            'RW' => esc_html__('Rwanda', 'houzez'),
+            'BL' => esc_html__('Saint Barthélemy', 'houzez'),
+            'SH' => esc_html__('Saint Helena', 'houzez'),
+            'KN' => esc_html__('Saint Kitts and Nevis', 'houzez'),
+            'LC' => esc_html__('Saint Lucia', 'houzez'),
+            'MF' => esc_html__('Saint Martin (French part)', 'houzez'),
+            'PM' => esc_html__('Saint Pierre and Miquelon', 'houzez'),
+            'VC' => esc_html__('Saint Vincent and the Grenadines', 'houzez'),
+            'WS' => esc_html__('Samoa', 'houzez'),
+            'SM' => esc_html__('San Marino', 'houzez'),
+            'ST' => esc_html__('Sao Tome and Principe', 'houzez'),
+            'SA' => esc_html__('Saudi Arabia', 'houzez'),
+            'SN' => esc_html__('Senegal', 'houzez'),
+            'RS' => esc_html__('Serbia', 'houzez'),
+            'SC' => esc_html__('Seychelles', 'houzez'),
+            'SL' => esc_html__('Sierra Leone', 'houzez'),
+            'SG' => esc_html__('Singapore', 'houzez'),
+            'SX' => esc_html__('Sint Maarten (Dutch part)', 'houzez'),
+            'SK' => esc_html__('Slovakia', 'houzez'),
+            'SI' => esc_html__('Slovenia', 'houzez'),
+            'SB' => esc_html__('Solomon Islands', 'houzez'),
+            'SO' => esc_html__('Somalia', 'houzez'),
+            'ZA' => esc_html__('South Africa', 'houzez'),
+            'GS' => esc_html__('South Georgia and the South Sandwich Islands', 'houzez'),
+            'LK' => esc_html__('Sri Lanka', 'houzez'),
+            'SD' => esc_html__('Sudan', 'houzez'),
+            'SR' => esc_html__('Suriname', 'houzez'),
+            'SJ' => esc_html__('Svalbard and Jan Mayen', 'houzez'),
+            'SZ' => esc_html__('Swaziland', 'houzez'),
+            'SY' => esc_html__('Syrian Arab Republic', 'houzez'),
+            'TW' => esc_html__('Taiwan, Province of China', 'houzez'),
+            'TJ' => esc_html__('Tajikistan', 'houzez'),
+            'TZ' => esc_html__('Tanzania, United Republic of', 'houzez'),
+            'TH' => esc_html__('Thailand', 'houzez'),
+            'TL' => esc_html__('Timor-Leste', 'houzez'),
+            'TG' => esc_html__('Togo', 'houzez'),
+            'TK' => esc_html__('Tokelau', 'houzez'),
+            'TO' => esc_html__('Tonga', 'houzez'),
+            'TT' => esc_html__('Trinidad and Tobago', 'houzez'),
+            'TN' => esc_html__('Tunisia', 'houzez'),
+            'TR' => esc_html__('Turkey', 'houzez'),
+            'TM' => esc_html__('Turkmenistan', 'houzez'),
+            'TC' => esc_html__('Turks and Caicos Islands', 'houzez'),
+            'TV' => esc_html__('Tuvalu', 'houzez'),
+            'UG' => esc_html__('Uganda', 'houzez'),
+            'UA' => esc_html__('Ukraine', 'houzez'),
+            'AE' => esc_html__('United Arab Emirates', 'houzez'),
+            'UM' => esc_html__('United States Minor Outlying Islands', 'houzez'),
+            'UY' => esc_html__('Uruguay', 'houzez'),
+            'UZ' => esc_html__('Uzbekistan', 'houzez'),
+            'VU' => esc_html__('Vanuatu', 'houzez'),
+            'VE' => esc_html__('Venezuela, Bolivarian Republic of', 'houzez'),
+            'VN' => esc_html__('Viet Nam', 'houzez'),
+            'VG' => esc_html__('Virgin Islands, British', 'houzez'),
+            'VI' => esc_html__('Virgin Islands, U.S.', 'houzez'),
+            'WF' => esc_html__('Wallis and Futuna', 'houzez'),
+            'EH' => esc_html__('Western Sahara', 'houzez'),
+            'YE' => esc_html__('Yemen', 'houzez'),
+            'ZM' => esc_html__('Zambia', 'houzez'),
+            'ZW' => esc_html__('Zimbabwe', 'houzez')
+        );
+        return $Countries;
+    }
+}
+
 /* --------------------------------------------------------------------------
  * Breadcrumb Adapted from http://dimox.net/wordpress-breadcrumbs-without-a-plugin/
  ---------------------------------------------------------------------------*/
@@ -2758,4 +3344,91 @@ if ( ! function_exists( 'houzez_breadcrumbs' ) ) {
         }
 
     } // breadcrumbs()
+}
+
+if( !function_exists('countries_dropdown') ) {
+    function countries_dropdown($country_searched = '' ) {
+        global $wpdb;
+        $sql_2 = $wpdb->prepare( "SELECT * from $wpdb->postmeta WHERE meta_key = '%s' GROUP BY meta_value", 'fave_property_country');
+
+        $countries = $wpdb->get_results( $sql_2, OBJECT_K );
+
+        foreach( $countries as $con ) {
+            if ( $country_searched == $con->meta_value ) {
+                echo '<option value="' . $con->meta_value . '" selected="selected">' . houzez_country_code_to_country( $con->meta_value ) . '</option>';
+            } else {
+                echo '<option value="' . $con->meta_value . '">' . houzez_country_code_to_country( $con->meta_value ) .'</option>';
+            }
+        }
+    }
+}
+
+if( !function_exists('houzez_get_all_countries') ):
+    function houzez_get_all_countries( $selected = '' ) {
+
+        global $wpdb;
+        $sql_2 = $wpdb->prepare( "SELECT * from $wpdb->postmeta WHERE meta_key = '%s' GROUP BY meta_value", 'fave_property_country');
+
+        $countries = $wpdb->get_results( $sql_2, OBJECT_K );
+
+        $select_country = '';
+
+        foreach( $countries as $con ) {
+            $select_country.= '<option value="' . $con->meta_value.'" ';
+            if($con->meta_value == $selected){
+                $select_country.= ' selected="selected" ';
+            }
+            $select_country.= ' >' . houzez_country_code_to_country( $con->meta_value ) . '</option>';
+        }
+        return $select_country;
+
+    }
+endif;
+
+if( !function_exists('yelp_widget_curl') ) {
+    function yelp_widget_curl($signed_url)
+    {
+
+        // Send Yelp API Call using WP's HTTP API
+        $data = wp_remote_get($signed_url);
+
+        //Use curl only if necessary
+        if (empty($data['body'])) {
+
+            $ch = curl_init($signed_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            $data = curl_exec($ch); // Yelp response
+            curl_close($ch);
+            $data = yelp_update_http_for_ssl($data);
+            $response = json_decode($data);
+
+        } else {
+            $data = yelp_update_http_for_ssl($data);
+            $response = json_decode($data['body']);
+        }
+
+        // Handle Yelp response data
+        return $response;
+
+    }
+}
+
+/**
+ * Function update http for SSL
+ *
+ */
+if( !function_exists('yelp_update_http_for_ssl') ) {
+    function yelp_update_http_for_ssl($data)
+    {
+
+        if (!empty($data['body']) && is_ssl()) {
+            $data['body'] = str_replace('http:', 'https:', $data['body']);
+        } elseif (is_ssl()) {
+            $data = str_replace('http:', 'https:', $data);
+        }
+        $data = str_replace('http:', 'https:', $data);
+
+        return $data;
+    }
 }

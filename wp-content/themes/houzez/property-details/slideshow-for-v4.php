@@ -30,6 +30,14 @@ if( $prop_default_active_tab == "image_gallery" ) {
                     <div class="tab-content">
 
                         <div id="gallery" class="tab-pane fade <?php echo esc_attr( $gallery_view );?>">
+                            <span class="label-wrap visible-sm visible-xs">
+                                <?php if( houzez_taxonomy_simple('property_status') ) { ?>
+                                    <span class="label label-primary label-status-<?php echo intval(houzez_get_taxonomy_id('property_status')); ?>"><?php echo houzez_taxonomy_simple('property_status'); ?></span>
+                                <?php } ?>
+                                <?php if( houzez_taxonomy_simple('property_label') ) { ?>
+                                    <span class="label label-primary label-color-<?php echo intval(houzez_get_taxonomy_id('property_label')); ?>"><?php echo houzez_taxonomy_simple('property_label'); ?></span>
+                                <?php } ?>
+                            </span>
                             <div class="slideshow">
                                 <div class="slideshow-main">
                                     <div class="detail-slider">
@@ -37,7 +45,6 @@ if( $prop_default_active_tab == "image_gallery" ) {
                                         foreach( $properties_images as $prop_image_id => $prop_image_meta ) {
                                             echo '<div class="item" style="background-image: url('.esc_url( $prop_image_meta['url'] ).')">';
                                             echo '<a class="popup-trigger banner-link" href="#">';
-                                            //echo '<img src="'.esc_url( $prop_image_meta['url'] ).'" alt="'.esc_attr( $prop_image_meta['title'] ).'" width="'.esc_attr( $prop_image_meta['width'] ).'" height="'.esc_attr( $prop_image_meta['height'] ).'">';
                                             echo '</a>';
                                             echo '</div>';
                                         }
@@ -85,7 +92,3 @@ if( $prop_default_active_tab == "image_gallery" ) {
         <?php } ?>
     </div>
 </section>
-
-
-
-

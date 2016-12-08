@@ -7,7 +7,7 @@
  * Time: 9:12 PM
  */
 get_header();
-global $wp_query, $paged;
+global $houzez_local, $wp_query, $paged;
 if ( is_front_page()  ) {
     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
 }
@@ -62,7 +62,7 @@ if ( is_front_page()  ) {
                                         </ul>
                                         <h3><?php the_title(); ?></h3>
                                         <p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
-                                        <a href="<?php the_permalink(); ?>" class="read"><?php esc_html_e( 'Continue reading', 'houzez' ); ?> <i class="fa fa-caret-right"></i></a>
+                                        <a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
                                     </div>
                                     <div class="post-card-author">
                                         <?php if( get_the_author_meta( 'fave_author_custom_picture' ) != '' ) { ?>
@@ -71,7 +71,7 @@ if ( is_front_page()  ) {
                                             </div>
                                         <?php } ?>
                                         <div class="author-name">
-                                            <span><?php esc_html_e( 'by', 'houzez' ); ?> <?php the_author(); ?></span>
+                                            <span><?php echo $houzez_local['by_text']; ?> <?php the_author(); ?></span>
                                         </div>
                                     </div>
 

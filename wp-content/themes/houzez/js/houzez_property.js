@@ -33,41 +33,99 @@ jQuery(document).ready( function($) {
         var mu_price_postfix_text = houzezProperty.mu_price_postfix_text;
         var mu_availability_text = houzezProperty.mu_availability_text;
 
+        // For validation
+        var prop_title = houzezProperty.prop_title;
+        var prop_price = houzezProperty.prop_price;
+        var prop_type = houzezProperty.prop_type;
+        var prop_status = houzezProperty.prop_status;
+        var prop_labels = houzezProperty.prop_labels;
+        //var prop_description = houzezProperty.description;
+        var price_label = houzezProperty.price_label;
+        var prop_id = houzezProperty.prop_id;
+        var bedrooms = houzezProperty.bedrooms;
+        var bathrooms = houzezProperty.bathrooms;
+        var area_size = houzezProperty.area_size;
+        var land_area = houzezProperty.land_area;
+        var garages = houzezProperty.garages;
+        var year_built = houzezProperty.year_built;
+        var property_map_address = houzezProperty.property_map_address;
+
+        var houzez_validation = function( field_required ) {
+            if( field_required != 0 ) {
+                return true;
+            }
+            return false;
+        }
+
 
         /* Validate Submit Property Form */
         if( jQuery().validate ){
+
             $('#submit_property_form').validate({
                 rules: {
                     prop_title: {
-                        required: true
+                        required: houzez_validation(prop_title)
                     },
-                    prop_des: {
-                        required: true
+                    /*prop_des: {
+                        required: houzez_validation(prop_description)
+                    },*/
+                    prop_price: {
+                        required: houzez_validation(prop_price),
+                    },
+                    prop_type: {
+                        required: houzez_validation(prop_type)
+                    },
+                    prop_status: {
+                        required: houzez_validation(prop_status)
+                    },
+                    prop_labels: {
+                        required: houzez_validation(prop_labels)
+                    },
+                    prop_label: {
+                        required: houzez_validation(price_label)
+                    },
+                    property_id: {
+                        required: houzez_validation(prop_id)
                     },
                     prop_size: {
+                        required: houzez_validation(area_size),
                         number: true
+                    },
+                    prop_land_area: {
+                        required: houzez_validation(land_area),
                     },
                     prop_beds: {
-                        number: true
+                        required: houzez_validation(bedrooms),
                     },
                     prop_baths: {
-                        number: true
+                        required: houzez_validation(bathrooms),
                     },
-                    prop_price: {
-                        number: true
+                    prop_garage: {
+                        required: houzez_validation(garages),
+                    },
+                    prop_year_built: {
+                        required: houzez_validation(year_built)
                     },
                     property_map_address: {
-                        required: true
-                    }
+                        required: houzez_validation(property_map_address)
+                    },
                 },
                 messages: {
                     prop_title: "",
                     prop_des: "",
+                    prop_price: "",
                     prop_beds: msg_digits,
                     prop_baths: msg_digits,
-                    prop_price: msg_digits,
                     prop_size: msg_digits,
-                    property_map_address: ""
+                    property_map_address: "",
+                    prop_type: "",
+                    prop_status: "",
+                    prop_labels: "",
+                    prop_label: "",
+                    prop_land_area: "",
+                    property_id: "",
+                    prop_garage: "",
+                    prop_year_built: "",
                     /*username: {
                         required: "Please enter a username",
                         minlength: "Your username must consist of at least 2 characters"
@@ -83,6 +141,13 @@ jQuery(document).ready( function($) {
                     },*/
                 }
             });
+
+            // The default value for $('#frm_editCategory').validate().settings.ignore
+            // is ':hidden'.  Log this to the console to verify:
+            console.log($('#submit_property_form').validate().settings.ignore);
+
+            // Set validator to NOT ignore hidden selects
+            $('#submit_property_form').validate().settings.ignore = ':not(select:hidden, input:visible, textarea:visible)';
         }
 
         /* ------------------------------------------------------------------------ */
@@ -539,7 +604,7 @@ jQuery(document).ready( function($) {
 
                 if ( response.success ) {
 
-                    $('#'+current_button_id).parents('tr').find('.fave_plan_image').val(response.url);
+                    $('#'+current_button_id).parents('tr').find('.fave_plan_image').val(response.full_image);
 
                    // document.getElementById( "holder-" + file.id ).innerHTML = proppertyThumbHtml;
 

@@ -11,7 +11,7 @@ if ( !is_user_logged_in() ) {
     wp_redirect(  home_url() );exit;
 }
 
-global $current_user;
+global $houzez_local, $current_user;
 $current_user = wp_get_current_user();
 $prop_id = '';
 
@@ -73,7 +73,7 @@ get_header(); ?>
 
         <div class="account-block">
             <div class="add-title-tab">
-                <h3><?php esc_html_e('Multi Units / Sub Properties for', 'houzez'); ?> <?php echo $property_title; ?></h3>
+                <h3><?php echo $houzez_local['mu_for']; ?> <?php echo $property_title; ?></h3>
                 <div class="add-expand"></div>
             </div>
             <div class="add-tab-content">
@@ -85,10 +85,10 @@ get_header(); ?>
                             <td class="sort-middle">
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
-                                        <label for="multuUnits"><?php esc_html_e('Multi Units / Sub Properties', 'houzez'); ?></label>
+                                        <label for="multuUnits"><?php echo $houzez_local['multi_unit']; ?></label>
                                         <select class="selectpicker" name="multiUnits" id="multiUnits" data-live-search="false" data-live-search-style="begins">
-                                            <option value="disable" <?php selected( $multiunit_plans_enable, 'disable' ); ?>><?php esc_html_e('Disable', 'houzez'); ?></option>
-                                            <option value="enable" <?php selected( $multiunit_plans_enable, 'enable' ); ?>><?php esc_html_e('Enable', 'houzez'); ?></option>
+                                            <option value="disable" <?php selected( $multiunit_plans_enable, 'disable' ); ?>><?php echo $houzez_local['disable']; ?></option>
+                                            <option value="enable" <?php selected( $multiunit_plans_enable, 'enable' ); ?>><?php echo $houzez_local['enable']; ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -113,54 +113,54 @@ get_header(); ?>
                                             <div class="row">
                                                 <div class="col-sm-12 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_title]"><?php esc_html_e('Title', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_title]"><?php echo $houzez_local['mu_title']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_title'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_title]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_beds]"><?php esc_html_e('Bedrooms', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_beds]"><?php echo $houzez_local['mu_beds']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_beds'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_beds]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_baths]"><?php esc_html_e('Bathrooms', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_baths]"><?php echo $houzez_local['mu_baths']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_baths'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_baths]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size]"><?php esc_html_e('Property Size', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size]"><?php echo $houzez_local['mu_prop_size']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_size'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size_postfix]"><?php esc_html_e('Size Postfix', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size_postfix]"><?php echo $houzez_local['mu_size_postfix']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_size_postfix'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_size_postfix]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price]"><?php esc_html_e('Price', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price]"><?php echo $houzez_local['mu_price']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_price'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price_postfix]"><?php esc_html_e('Price Postfix ', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price_postfix]"><?php echo $houzez_local['mu_price_postfix']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_price_postfix'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_price_postfix]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_type]"><?php esc_html_e('Property Type', 'houzez'); ?></label>
+                                                        <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_type]"><?php echo $houzez_local['mu_prop_type']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_type'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_type]" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
-                                                    <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_availability_date]"><?php esc_html_e('Availability Date', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[<?php echo intval($count); ?>][fave_mu_availability_date]"><?php echo $houzez_local['mu_date']; ?></label>
                                                     <input value="<?php echo sanitize_text_field( $multi_unit['fave_mu_availability_date'] ); ?>" name="fave_multi_units[<?php echo intval($count); ?>][fave_mu_availability_date]" type="text" class="form-control">
                                                 </div>
                                             </div>
@@ -185,54 +185,54 @@ get_header(); ?>
                                         <div class="row">
                                             <div class="col-sm-12 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_title]"><?php esc_html_e('Title', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_title]"><?php echo $houzez_local['mu_title']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_title]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_beds]"><?php esc_html_e('Bedrooms', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_beds]"><?php echo $houzez_local['mu_beds']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_beds]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_baths]"><?php esc_html_e('Bathrooms', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_baths]"><?php echo $houzez_local['mu_baths']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_baths]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_size]"><?php esc_html_e('Property Size', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_size]"><?php echo $houzez_local['mu_prop_size']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_size]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_size_postfix]"><?php esc_html_e('Size Postfix', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_size_postfix]"><?php echo $houzez_local['mu_size_postfix']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_size_postfix]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_price]"><?php esc_html_e('Price', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_price]"><?php echo $houzez_local['mu_price']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_price]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_price_postfix]"><?php esc_html_e('Price Postfix ', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_price_postfix]"><?php echo $houzez_local['mu_price_postfix']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_price_postfix]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
                                                 <div class="form-group">
-                                                    <label for="fave_multi_units[0][fave_mu_type]"><?php esc_html_e('Property Type', 'houzez'); ?></label>
+                                                    <label for="fave_multi_units[0][fave_mu_type]"><?php echo $houzez_local['mu_prop_type']; ?></label>
                                                     <input name="fave_multi_units[0][fave_mu_type]" type="text" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6 col-xs-12">
-                                                <label for="fave_multi_units[0][fave_mu_availability_date]"><?php esc_html_e('Availability Date', 'houzez'); ?></label>
+                                                <label for="fave_multi_units[0][fave_mu_availability_date]"><?php echo $houzez_local['mu_date']; ?></label>
                                                 <input name="fave_multi_units[0][fave_mu_availability_date]" type="text" class="form-control">
                                             </div>
                                         </div>
@@ -254,9 +254,9 @@ get_header(); ?>
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
                                         <?php if( !empty($multi_units) ) { ?>
-                                            <button id="add-subproperty-row" data-increment="<?php echo esc_attr( $count-1 ); ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php esc_html_e( 'Add More', 'houzez' ); ?></button>
+                                            <button id="add-subproperty-row" data-increment="<?php echo esc_attr( $count-1 ); ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $houzez_local['add_more']; ?></button>
                                         <?php } else { ?>
-                                            <button id="add-subproperty-row" data-increment="0" class="btn btn-primary"><i class="fa fa-plus"></i> <?php esc_html_e( 'Add More', 'houzez' ); ?></button>
+                                            <button id="add-subproperty-row" data-increment="0" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $houzez_local['add_more']; ?></button>
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@ get_header(); ?>
             <?php wp_nonce_field('submit_multiUnits', 'multiUnits_nonce'); ?>
             <input type="hidden" name="action" value="add_multiUnits"/>
             <button type="submit" id="add_new_multiUnits"
-                    class="btn btn-primary"><?php esc_html_e('Submit', 'houzez'); ?></button>
+                    class="btn btn-primary"><?php echo $houzez_local['submit']; ?></button>
         </div>
 
     </form>

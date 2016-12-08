@@ -10,7 +10,7 @@ if ( !is_user_logged_in() ) {
     wp_redirect(  home_url() );
 }
 
-global $current_user;
+global $houzez_local, $current_user;
 
 wp_get_current_user();
 $userID         = $current_user->ID;
@@ -69,15 +69,15 @@ get_header();
     <div class="profile-area-content">
         <div class="invoice-area">
             <div class="area-title">
-                <h2 class="title-left"><?php esc_html_e('Search Invoices', 'houzez'); ?></h2>
-                <div class="title-right"><?php esc_html_e( 'Total Invoices:', 'houzez' );?> <span id="invoices_total_price"><?php echo houzez_get_invoice_price($total); ?></span></div>
+                <h2 class="title-left"><?php echo $houzez_local['search_invoices']; ?></h2>
+                <div class="title-right"><?php echo $houzez_local['total_invoices']; ?> <span id="invoices_total_price"><?php echo houzez_get_invoice_price($total); ?></span></div>
             </div>
             <div class="invoice-form">
                 <form>
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group ">
-                                <label for="startDate"><?php esc_html_e('Start date', 'houzez'); ?></label>
+                                <label for="startDate"><?php echo $houzez_local['start_date']; ?></label>
                                 <div class="input-group date">
                                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                     <input type="text" id="startDate" class="input_date form-control">
@@ -86,7 +86,7 @@ get_header();
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="endDate"><?php esc_html_e('End date', 'houzez'); ?></label>
+                                <label for="endDate"><?php echo $houzez_local['end_date']; ?></label>
                                 <div class="input-group date">
                                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                     <input type="text" id="endDate" class="input_date form-control">
@@ -95,23 +95,23 @@ get_header();
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="invoice_type"><?php esc_html_e('Type', 'houzez'); ?></label>
+                                <label for="invoice_type"><?php echo $houzez_local['invoice_type']; ?></label>
                                 <select class="selectpicker" id="invoice_type" data-live-search="false" data-live-search-style="begins">
-                                    <option value=""><?php esc_html_e( 'Any', 'houzez' ); ?></option>
-                                    <option value="Listing"><?php esc_html_e( 'Listing', 'houzez' ); ?></option>
-                                    <option value="package"><?php esc_html_e( 'package', 'houzez' ); ?></option>
-                                    <option value="Listing with Featured"><?php esc_html_e( 'Listing with Featured', 'houzez' ); ?></option>
-                                    <option value="Upgrade to Featured"><?php esc_html_e( 'Upgrade to Featured', 'houzez' ); ?></option>
+                                    <option value=""><?php echo $houzez_local['any']; ?></option>
+                                    <option value="Listing"><?php echo $houzez_local['invoice_listing']; ?></option>
+                                    <option value="package"><?php echo $houzez_local['invoice_package']; ?></option>
+                                    <option value="Listing with Featured"><?php echo $houzez_local['invoice_feat_list']; ?></option>
+                                    <option value="Upgrade to Featured"><?php echo $houzez_local['invoice_upgrade_list']; ?></option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label for="invoice_status"><?php esc_html_e( 'Status', 'houzez' ); ?></label>
+                                <label for="invoice_status"><?php echo $houzez_local['invoice_status']; ?></label>
                                 <select class="selectpicker" id="invoice_status" data-live-search="false" data-live-search-style="begins">
-                                    <option value=""><?php esc_html_e( 'Any', 'houzez' ); ?></option>
-                                    <option value="1"><?php esc_html_e( 'Paid', 'houzez' ); ?></option>
-                                    <option value="0"><?php esc_html_e( 'Not Paid', 'houzez' ); ?></option>
+                                    <option value=""><?php echo $houzez_local['any']; ?></option>
+                                    <option value="1"><?php echo $houzez_local['paid']; ?></option>
+                                    <option value="0"><?php echo $houzez_local['not_paid']; ?></option>
                                 </select>
                             </div>
                         </div>
@@ -122,10 +122,10 @@ get_header();
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th><?php esc_html_e( 'Order', 'houzez' ); ?></th>
-                        <th><?php esc_html_e( 'Date', 'houzez' ); ?></th>
-                        <th><?php esc_html_e( 'Status', 'houzez' ); ?></th>
-                        <th><?php esc_html_e( 'Total', 'houzez' ); ?></th>
+                        <th><?php echo $houzez_local['order']; ?></th>
+                        <th><?php echo $houzez_local['date']; ?></th>
+                        <th><?php echo $houzez_local['invoice_status']; ?></th>
+                        <th><?php echo $houzez_local['total']; ?></th>
                         <th></th>
                     </tr>
                     </thead>

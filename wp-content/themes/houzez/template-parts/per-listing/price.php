@@ -6,7 +6,7 @@
  * Time: 12:49 PM
  */
 ?>
-<h3 class="side-block-title"> <?php esc_attr_e( 'Pay Listing', 'houzez' ); ?> </h3>
+<h3 class="side-block-title"> <?php esc_html_e( 'Pay Listing', 'houzez' ); ?> </h3>
 
 <?php
 $currency_symbol = houzez_option( 'currency_symbol' );

@@ -11,7 +11,7 @@ if ( !is_user_logged_in() ) {
     wp_redirect(  home_url() );exit;
 }
 
-global $current_user;
+global $houzez_local, $current_user;
 $current_user = wp_get_current_user();
 $prop_id = '';
 
@@ -73,7 +73,7 @@ get_header(); ?>
 
         <div class="account-block">
             <div class="add-title-tab">
-                <h3><?php esc_html_e('Floor Plans for', 'houzez'); ?> <?php echo $property_title; ?></h3>
+                <h3><?php echo $houzez_local['floor_plan_for']; ?> <?php echo $property_title; ?></h3>
                 <div class="add-expand"></div>
             </div>
             <div class="add-tab-content">
@@ -85,10 +85,10 @@ get_header(); ?>
                             <td class="sort-middle">
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
-                                        <label for="floorPlans"><?php esc_html_e('Floor Plans', 'houzez'); ?></label>
+                                        <label for="floorPlans"><?php echo $houzez_local['floor_plans']; ?></label>
                                         <select class="selectpicker" name="floorPlans_enable" id="floorPlans_enable" data-live-search="false" data-live-search-style="begins">
-                                            <option value="disable" <?php selected( $floor_plans_enable, 'disable' ); ?>><?php esc_html_e('Disable', 'houzez'); ?></option>
-                                            <option value="enable" <?php selected( $floor_plans_enable, 'enable' ); ?>><?php esc_html_e('Enable', 'houzez'); ?></option>
+                                            <option value="disable" <?php selected( $floor_plans_enable, 'disable' ); ?>><?php echo $houzez_local['disable']; ?></option>
+                                            <option value="enable" <?php selected( $floor_plans_enable, 'enable' ); ?>><?php echo $houzez_local['enable']; ?></option>
                                         </select>
                                     </div>
                                 </div>
@@ -113,49 +113,49 @@ get_header(); ?>
                                             <div class="row">
                                                 <div class="col-sm-12 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_title]"><?php esc_html_e('Plan Title', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_title]"><?php echo $houzez_local['plan_title']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_title'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_title]" type="text" id="fave_plan_title_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_rooms]"><?php esc_html_e('Plan Bedrooms', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_rooms]"><?php echo $houzez_local['plan_bedrooms']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_rooms'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_rooms]" type="text" id="fave_plan_rooms_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_bathrooms]"><?php esc_html_e('Plan Bathrooms', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_bathrooms]"><?php echo $houzez_local['plan_bathrooms']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_bathrooms'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_bathrooms]" type="text" id="fave_plan_bathrooms_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_price]"><?php esc_html_e('Plan Price', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_price]"><?php echo $houzez_local['plan_price']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_price'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_price]" type="text" id="fave_plan_price_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_price_postfix]"><?php esc_html_e('Price Postfix', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_price_postfix]"><?php echo $houzez_local['plan_postfix']; ?></label>
                                                         <input  value="<?php echo sanitize_text_field( $floorplan['fave_plan_price_postfix'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_price_postfix]" type="text" id="fave_plan_price_postfix_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_size]"><?php esc_html_e('Plan Size', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_size]"><?php echo $houzez_local['plan_size']; ?></label>
                                                         <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_size'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_size]" type="text" id="fave_plan_size_<?php echo intval($count); ?>" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="table-list">
                                                         <div class="form-group table-cell full-width" style="padding-right: 8px;">
-                                                            <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_image]"><?php esc_html_e('Plan Image', 'houzez'); ?></label>
+                                                            <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_image]"><?php echo $houzez_local['plan_image']; ?></label>
                                                             <input value="<?php echo sanitize_text_field( $floorplan['fave_plan_image'] ); ?>" name="floor_plans[<?php echo intval($count); ?>][fave_plan_image]" type="text" id="fave_plan_image_<?php echo intval($count); ?>" class="fave_plan_image form-control">
                                                         </div>
                                                         <div class="table-cell v-align-bottom">
-                                                            <button id="<?php echo esc_attr( $count ); ?>" class="floorPlansImg btn btn-primary"><?php esc_html_e('Upload', 'houzez'); ?></button>
+                                                            <button id="<?php echo esc_attr( $count ); ?>" class="floorPlansImg btn btn-primary"><?php echo $houzez_local['upload']; ?></button>
                                                         </div>
                                                         <div id="plupload-container"></div>
                                                         <div id="errors-log"></div>
@@ -164,7 +164,7 @@ get_header(); ?>
 
                                                 <div class="col-sm-12 col-xs-12">
                                                     <div class="form-group">
-                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_description]"><?php esc_html_e('Plan Description', 'houzez'); ?></label>
+                                                        <label for="floor_plans[<?php echo intval($count); ?>][fave_plan_description]"><?php echo $houzez_local['plan_des']; ?></label>
                                                         <textarea name="floor_plans[<?php echo intval($count); ?>][fave_plan_description]" rows="4" id="fave_plan_description_<?php echo intval($count); ?>" class="form-control"><?php echo sanitize_text_field( $floorplan['fave_plan_description'] ); ?></textarea>
                                                     </div>
                                                 </div>
@@ -193,53 +193,53 @@ get_header(); ?>
                                     <div class="row">
                                         <div class="col-sm-12 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_title]"><?php esc_html_e('Plan Title', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_title]"><?php echo $houzez_local['plan_title']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_title]" type="text" id="fave_plan_title_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_rooms]"><?php esc_html_e('Plan Bedrooms', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_rooms]"><?php echo $houzez_local['plan_bedrooms']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_rooms]" type="text" id="fave_plan_rooms_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_bathrooms]"><?php esc_html_e('Plan Bathrooms', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_bathrooms]"><?php echo $houzez_local['plan_bathrooms']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_bathrooms]" type="text" id="fave_plan_bathrooms_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_price]"><?php esc_html_e('Plan Price', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_price]"><?php echo $houzez_local['plan_price']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_price]" type="text" id="fave_plan_price_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_price_postfix]"><?php esc_html_e('Price Postfix', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_price_postfix]"><?php echo $houzez_local['plan_postfix']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_price_postfix]" type="text" id="fave_plan_price_postfix_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_size]"><?php esc_html_e('Plan Size', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_size]"><?php echo $houzez_local['plan_size']; ?></label>
                                                 <input name="floor_plans[0][fave_plan_size]" type="text" id="fave_plan_size_0" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-xs-12">
                                             <div class="form-group">
-                                                <label for="floor_plans[0][fave_plan_image]"><?php esc_html_e('Plan Image', 'houzez'); ?></label>
+                                                <label for="floor_plans[0][fave_plan_image]"><?php echo $houzez_local['plan_image']; ?></label>
                                                 <div class="file-upload-block">
                                                     <input name="floor_plans[0][fave_plan_image]" type="text" id="fave_plan_image_0" class="fave_plan_image form-control">
-                                                    <button id="0" class="floorPlansImg btn btn-primary"><?php esc_html_e('Upload', 'houzez'); ?></button>
+                                                    <button id="0" class="floorPlansImg btn btn-primary"><?php echo $houzez_local['upload']; ?></button>
                                                 </div>
                                                 <div id="plupload-container"></div>
                                                 <div id="errors-log"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-xs-12">
-                                            <label for="floor_plans[0][fave_plan_description]"><?php esc_html_e('Plan Description', 'houzez'); ?></label>
+                                            <label for="floor_plans[0][fave_plan_description]"><?php echo $houzez_local['plan_des']; ?></label>
                                             <textarea name="floor_plans[0][fave_plan_description]" rows="4" id="fave_plan_description_0" class="form-control"></textarea>
                                         </div>
                                     </div>
@@ -261,9 +261,9 @@ get_header(); ?>
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
                                         <?php if( !empty($floor_plans) ) { ?>
-                                            <button id="add-floorplan-row" data-increment="<?php echo esc_attr( $count-1 ); ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php esc_html_e( 'Add More', 'houzez' ); ?></button>
+                                            <button id="add-floorplan-row" data-increment="<?php echo esc_attr( $count-1 ); ?>" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $houzez_local['add_more']; ?></button>
                                          <?php } else { ?>
-                                        <button id="add-floorplan-row" data-increment="0" class="btn btn-primary"><i class="fa fa-plus"></i> <?php esc_html_e( 'Add More', 'houzez' ); ?></button>
+                                        <button id="add-floorplan-row" data-increment="0" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo $houzez_local['add_more']; ?></button>
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -280,7 +280,7 @@ get_header(); ?>
             <?php wp_nonce_field('submit_floorplan', 'floorplan_nonce'); ?>
             <input type="hidden" name="action" value="add_floor_plans"/>
             <button type="submit" id="add_new_floor_plans"
-                    class="btn btn-primary"><?php esc_html_e('Submit', 'houzez'); ?></button>
+                    class="btn btn-primary"><?php echo $houzez_local['submit']; ?></button>
         </div>
 
     </form>

@@ -10,7 +10,7 @@ $virtual_tour = get_post_meta( $post->ID, 'fave_virtual_tour', true );
 
 if( !empty( $virtual_tour ) ) {
     ?>
-    <div id="virtual_tour" class="property-virtual-tour detail-block">
+    <div id="virtual_tour" class="property-virtual-tour detail-block target-block">
         <div class="detail-title">
             <h2 class="title-left"><?php esc_html_e( '360° Virtual Tour', 'houzez' ); ?></h2>
         </div>

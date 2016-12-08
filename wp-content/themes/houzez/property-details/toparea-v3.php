@@ -20,7 +20,7 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
 }
 
 ?>
-<section class="detail-top detail-top-grid no-margin hidden-xs">
+<section class="detail-top detail-top-grid no-margin">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">

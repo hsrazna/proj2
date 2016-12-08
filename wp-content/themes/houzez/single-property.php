@@ -1,6 +1,6 @@
 <?php get_header();
 
-global $post, $property_nav;
+global $post, $property_nav, $property_layout, $property_top_area;
 $post_meta_data       = get_post_custom($post->ID);
 $houzez_prop_id              = get_post_meta( get_the_ID(), 'fave_property_id', true );
 $prop_images          = get_post_meta( get_the_ID(), 'fave_property_images', false );
@@ -26,6 +26,10 @@ $bathrooms = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
 $year_built = get_post_meta( get_the_ID(), 'fave_property_year', true );
 $garage = get_post_meta( get_the_ID(), 'fave_property_garage', true );
 $garage_size = get_post_meta( get_the_ID(), 'fave_property_garage_size', true );
+$single_top_area = get_post_meta( get_the_ID(), 'fave_single_top_area', true );
+$single_content_area = get_post_meta( get_the_ID(), 'fave_single_content_area', true );
+$property_top_area = houzez_option('prop-top-area');
+$property_layout = houzez_option('prop-content-layout');
 
 $houzez_prop_detail = false;
 
@@ -47,13 +51,19 @@ if( $tab_height < 600 ) {
     $tab_height = '600';
 }
 
-$property_top_area = houzez_option('prop-top-area');
+
+if( !empty( $single_top_area ) && $single_top_area != 'global' ) {
+    $property_top_area = $single_top_area;
+}
+
+if( !empty( $single_content_area ) && $single_content_area != 'global' ) {
+    $property_layout = $single_content_area;
+}
+
 /* For demo purpose only */
 if( isset( $_GET['s_top'] ) ) {
     $property_top_area = $_GET['s_top'];
 }
-
-$property_layout = houzez_option('prop-content-layout');
 if( isset( $_GET['s_layout'] ) ) {
     $property_layout = $_GET['s_layout'];
 }
@@ -85,9 +95,27 @@ houzez_count_property_views( $post->ID );
 
     <!--start detail content-->
     <section class="section-detail-content">
+
+        <?php if( $property_layout == 'v2' ) { ?>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 no-padding">
+                    <div class="detail-bar detail-bar-full houzez-single-property-v2">
+                    <?php get_template_part( 'property-details/single-property', 'v2'); ?>
+                    </div>
+                <div
+            </div>
+        </div>
+
+        <?php } else { ?>
+
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 container-contentbar">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container-contentbar">
+
+                    <?php get_template_part('property-details/detail-nav'); ?>
+
                     <div class="detail-bar">
 
                         <?php
@@ -105,14 +133,15 @@ houzez_count_property_views( $post->ID );
 
                         ?>
 
-                        <?php //get_template_part( 'property-details/next', 'prev' ); ?>
+                        <?php get_template_part( 'property-details/property', 'similer' ); ?>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['single_property'] != 0 ){ echo 'houzez_sticky'; }?>">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['single_property'] != 0 ){ echo 'houzez_sticky'; }?>">
                     <?php get_sidebar('property'); ?>
                 </div>
             </div>
         </div>
+        <?php } ?>
     </section>
     <!--end detail content-->
 

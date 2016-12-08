@@ -17,7 +17,7 @@ $allowed_html_array = array(
 <section class="section-detail-content">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 col-md-8 col-sm-12 container-contentbar">
+			<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container-contentbar">
 				<div class="article-main">
 					<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 
@@ -40,7 +40,7 @@ $allowed_html_array = array(
 
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 container-sidebar">
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar">
 				<?php get_sidebar(); ?>
 			</div>
 		</div>

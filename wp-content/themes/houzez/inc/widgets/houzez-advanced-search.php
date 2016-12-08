@@ -104,19 +104,25 @@ if ( ! function_exists( 'HOUZEZ_advanced_search_loader' ) ) {
 
 function houzez_advanced_search_widget() {
 
-    $search_template = houzez_get_template_link('template/template-search.php');
+    $search_template = houzez_get_search_template_link();
     $adv_show_hide = houzez_option('adv_show_hide');
     $keyword_field = houzez_option('keyword_field');
 
+    $houzez_local = houzez_get_localization();
+
     if( $keyword_field == 'prop_title' ) {
-        $keyword_field_placeholder = esc_html__('Enter keyword...', 'houzez');
+        $keyword_field_placeholder = $houzez_local['keyword_text'];
+
     } else if( $keyword_field == 'prop_city_state_county' ) {
-        $keyword_field_placeholder = esc_html__('Search City, State or Area', 'houzez');
+        $keyword_field_placeholder = $houzez_local['city_state_area'];
+
+    } else if( $keyword_field == 'prop_address' ) {
+        $keyword_field_placeholder = $houzez_local['search_address'];
 
     } else {
-        $keyword_field_placeholder = esc_html__('Enter an address, town, street, or zip', 'houzez');
+        $keyword_field_placeholder = $houzez_local['enter_location'];
     }
-    $location = $type = $status = '';
+    $location = $type = $status = $state = $searched_country = $area = '';
 
     if( isset( $_GET['status'] ) ) {
         $status = $_GET['status'];
@@ -125,10 +131,17 @@ function houzez_advanced_search_widget() {
         $type = $_GET['type'];
     }
     if( isset( $_GET['area'] ) ) {
-        $type = $_GET['area'];
+        $area = $_GET['area'];
     }
     if( isset( $_GET['location'] ) ) {
         $location = $_GET['location'];
+    }
+
+    if( isset( $_GET['state'] ) ) {
+        $state = $_GET['state'];
+    }
+    if( isset( $_GET['country'] ) ) {
+        $searched_country = $_GET['country'];
     }
 
     $keyword_field = houzez_option('keyword_field');
@@ -138,11 +151,54 @@ function houzez_advanced_search_widget() {
             <form method="get" action="<?php echo esc_url( $search_template ); ?>">
                 <div class="range-block rang-form-block">
                     <div class="row">
+                        <?php if ($adv_show_hide['keyword'] != 1) { ?>
                         <div class="col-sm-12 col-xs-12 keyword_search">
                             <div class="form-group">
                                 <input type="text" class="houzez_geocomplete form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                             </div>
                         </div>
+                        <?php } ?>
+
+                        <?php if( $adv_show_hide['countries'] != 1 ) { ?>
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <select name="country" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                    <?php
+                                    // All Option
+                                    echo '<option value="">'.$houzez_local['all_countries'].'</option>';
+
+                                    countries_dropdown( $searched_country );
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <?php if( $adv_show_hide['states'] != 1 ) { ?>
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <select name="state" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                    <?php
+                                    // All Option
+                                    echo '<option value="">'.$houzez_local['all_states'].'</option>';
+
+                                    $prop_state = get_terms (
+                                        array(
+                                            "property_state"
+                                        ),
+                                        array(
+                                            'orderby' => 'name',
+                                            'order' => 'ASC',
+                                            'hide_empty' => true,
+                                            'parent' => 0
+                                        )
+                                    );
+                                    houzez_hirarchical_options('property_state', $prop_state, $state );
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
 
                         <?php if( $adv_show_hide['cities'] != 1 ) { ?>
                         <div class="col-sm-12 col-xs-12">
@@ -150,7 +206,7 @@ function houzez_advanced_search_widget() {
                                 <select name="location" class="selectpicker" data-live-search="true" data-live-search-style="begins">
                                     <?php
                                     // All Option
-                                    echo '<option value="">'.esc_html__( 'All Cities', 'houzez' ).'</option>';
+                                    echo '<option value="">'.$houzez_local['all_cities'].'</option>';
 
                                     $prop_city = get_terms (
                                         array(
@@ -176,7 +232,7 @@ function houzez_advanced_search_widget() {
                                     <select name="area" class="selectpicker" data-live-search="true" data-live-search-style="begins">
                                         <?php
                                         // All Option
-                                        echo '<option value="">'.esc_html__( 'All Areas', 'houzez' ).'</option>';
+                                        echo '<option value="">'.$houzez_local['all_areas'].'</option>';
 
                                         $prop_area = get_terms (
                                             array(
@@ -200,7 +256,7 @@ function houzez_advanced_search_widget() {
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                    <option value=""><?php esc_html_e( 'Beds', 'houzez' ); ?></option>
+                                    <option value=""><?php echo $houzez_local['beds']; ?></option>
                                     <?php houzez_number_list('bedrooms'); ?>
                                 </select>
                             </div>
@@ -211,7 +267,7 @@ function houzez_advanced_search_widget() {
                         <div class="col-sm-6 col-xs-12">
                             <div class="form-group">
                                 <select name="bathrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                    <option value=""><?php esc_html_e( 'Baths', 'houzez' ); ?></option>
+                                    <option value=""><?php echo $houzez_local['baths']; ?></option>
                                     <?php houzez_number_list('bathrooms'); ?>
                                 </select>
                             </div>
@@ -224,7 +280,7 @@ function houzez_advanced_search_widget() {
                                 <select name="type" class="selectpicker" data-live-search="false" data-live-search-style="begins">
                                     <?php
                                     // All Option
-                                    echo '<option value="">'.esc_html__( 'All Types', 'houzez' ).'</option>';
+                                    echo '<option value="">'.$houzez_local['all_types'].'</option>';
 
                                     $prop_type = get_terms (
                                         array(
@@ -250,7 +306,7 @@ function houzez_advanced_search_widget() {
                                 <select class="selectpicker" id="widget_status" name="status" data-live-search="false" data-live-search-style="begins">
                                     <?php
                                     // All Option
-                                    echo '<option value="">'.esc_html__( 'All Status', 'houzez' ).'</option>';
+                                    echo '<option value="">'.$houzez_local['all_status'].'</option>';
 
                                     $prop_status = get_terms (
                                         array(
@@ -275,7 +331,7 @@ function houzez_advanced_search_widget() {
 
                 <?php if( $adv_show_hide['price_slider'] != 1 ) { ?>
                 <div class="range-block">
-                    <h4><?php esc_html_e('Price range', 'houzez'); ?></h4>
+                    <h4><?php echo $houzez_local['price_range']; ?></h4>
                     <div id="slider-price"></div>
                     <div class="clearfix range-text">
                         <input type="text" name="min-price" class="pull-left range-input text-left" id="min-price" readonly >
@@ -286,7 +342,7 @@ function houzez_advanced_search_widget() {
 
                 <?php if( $adv_show_hide['area_slider'] != 1 ) { ?>
                 <div class="range-block">
-                    <h4><?php esc_html_e('Area Size', 'houzez'); ?></h4>
+                    <h4><?php echo $houzez_local['area_size']; ?></h4>
                     <div id="slider-size"></div>
                     <div class="clearfix range-text">
                         <input type="text" name="min-area" class="pull-left range-input text-left" id="min-size" readonly >
@@ -295,10 +351,24 @@ function houzez_advanced_search_widget() {
                 </div>
                 <?php } ?>
 
+                <?php if( $adv_show_hide['other_features'] != 1 ) { ?>
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <label class="advance-trigger"><i class="fa fa-plus-square"></i> <?php echo $houzez_local['other_feature']; ?> </label>
+                        </div>
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="features-list field-expand">
+                                <div class="clearfix"></div>
+                                <?php get_template_part('template-parts/advanced-search/search-features'); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
                 <div class="range-block rang-form-block">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
-                            <button type="submit" class="btn btn-orange btn-block"><i class="fa fa-search fa-left"></i><?php esc_html_e( 'Search', 'houzez' ); ?></button>
+                            <button type="submit" class="btn btn-orange btn-block"><i class="fa fa-search fa-left"></i><?php echo $houzez_local['search']; ?></button>
                         </div>
                      </div>
                 </div>

@@ -6,7 +6,7 @@
  * Time: 12:49 PM
  */
 ?>
-<h3 class="side-block-title"> <?php esc_attr_e( 'Membership Package', 'houzez' ); ?> </h3>
+<h3 class="side-block-title"> <?php esc_html_e( 'Membership Package', 'houzez' ); ?> </h3>
 
 <?php
 $currency_symbol = houzez_option( 'currency_symbol' );
@@ -34,16 +34,23 @@ if( isset( $_GET['selected_package'] ) ) {
 
     ?>
     <ul class="pkg-total-list">
+        <?php if ( is_user_logged_in() ) { ?>
         <li>
             <span id="houzez_package_name" class="pull-left"><?php echo get_the_title( $selected_package_id ); ?></span>
-            <span class="pull-right"><a href="<?php echo esc_url( $select_packages_link ); ?>"><?php esc_attr_e( 'Change Packages', 'houzez' ); ?></a></span>
+            <span class="pull-right"><a href="<?php echo esc_url( $select_packages_link ); ?>"><?php esc_html_e( 'Change Package', 'houzez' ); ?></a></span>
         </li>
+        <?php } else { ?>
+            <li>
+                <span id="houzez_package_name" class="pull-left"><?php esc_html_e( 'Package Name', 'houzez' ); ?></span>
+                <span class="pull-right"><a><?php echo get_the_title( $selected_package_id ); ?></a></span>
+            </li>
+        <?php } ?>
         <li>
-            <span class="pull-left">Package Time:</span>
+            <span class="pull-left"><?php esc_html_e( 'Package Time:', 'houzez' ); ?></span>
             <span class="pull-right"><strong><?php echo esc_attr( $pack_billing_frquency ).' '.HOUZEZ_billing_period( $pack_billing_period ); ?></strong></span>
         </li>
         <li>
-            <span class="pull-left">Listing Included:</span>
+            <span class="pull-left"><?php esc_html_e( 'Listing Included:', 'houzez' ); ?></span>
                                 <span class="pull-right">
                                     <?php if( $pack_unlimited_listings == 1 ) { ?>
                                         <strong><?php esc_html_e( 'Unlimited Listings', 'houzez' ); ?></strong>
@@ -53,11 +60,11 @@ if( isset( $_GET['selected_package'] ) ) {
                                 </span>
         </li>
         <li>
-            <span class="pull-left">Featured Listing Included:</span>
+            <span class="pull-left"><?php esc_html_e( 'Featured Listing Included:', 'houzez' ); ?></span>
             <span class="pull-right"><strong><?php echo esc_attr( $pack_featured_listings ); ?></strong></span>
         </li>
         <li>
-            <span class="pull-left">Total Price:</span>
+            <span class="pull-left"><?php esc_html_e( 'Total Price:', 'houzez' ); ?></span>
             <span class="pull-right"><?php echo esc_attr( $package_price ); ?></span>
         </li>
     </ul>

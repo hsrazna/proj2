@@ -22,10 +22,17 @@ $splash_menu_align = houzez_option('splash_menu_align');
                 <div class="nav-dropdown main-nav-dropdown"></div>
             </div>
             <!--end mobile nav-->
-            <div class="header-logo logo-mobile">
-                <?php get_template_part('inc/header/logo-mobile'); ?>
+            <div class="header-logo logo-mobile-splash">
+                <?php
+                $mobile_logo = houzez_option( 'custom_logo_mobile_splash', false, 'url' );
+                ?>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                    <?php if( !empty( $mobile_logo ) ) { ?>
+                        <img src="<?php echo esc_url( $mobile_logo ); ?>" alt="Mobile logo">
+                    <?php } ?>
+                </a>
             </div>
-            <?php if( houzez_option('header_login') != 'no' ): ?>
+            <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <div class="header-user">
                     <?php get_template_part('inc/header/login', 'nav'); ?>
                 </div>
@@ -62,7 +69,7 @@ $splash_menu_align = houzez_option('splash_menu_align');
             <!--end mobile nav-->
         </div>
         <div class="header-right">
-            <?php if( houzez_option('header_login') != 'no' ): ?>
+            <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <?php get_template_part('inc/header/login', 'nav'); ?>
             <?php endif; ?>
         </div>

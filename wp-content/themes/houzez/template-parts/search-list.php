@@ -6,9 +6,7 @@ if(is_user_logged_in()){
 } else {
     $search_args = $houzez_search_data['query'];
 }
-
 $search_args_decoded = unserialize( base64_decode( $search_args ) );
-// print_r($search_args_decoded);
 ?>
 <div class="saved-search-block">
     <p><strong><?php esc_html_e( 'Search Parameters:', 'houzez' ); ?></strong></p>
@@ -39,7 +37,6 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
                 }
 
                 if (isset($val['taxonomy']) && isset($val['terms']) && $val['taxonomy'] == 'property_area') {
-                    // print_r($val['terms']);
                     if(is_array($val['terms'])){
                         echo '<strong>' . esc_html__('Neighborhood', 'houzez') . ':</strong> ';
                         foreach($val['terms'] as $az_term_val){
@@ -119,11 +116,19 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
                 }
 
                 if (isset($val['key']) && $val['key'] == 'fave_property_price') {
-                    echo '<strong>' . esc_html__('Price', 'houzez') . ':</strong> ' . esc_attr( $val['value'][0] ).' - '.esc_attr( $val['value'][1] ). ', ';
+                    if ( isset( $val['value'] ) && is_array( $val['value'] ) ) :
+                        echo '<strong>' . esc_html__('Price', 'houzez') . ':</strong> ' . esc_attr( $val['value'][0] ).' - '.esc_attr( $val['value'][1]). ', ';
+                    else :
+                        echo '<strong>' . esc_html__('Price', 'houzez') . ':</strong> ' . esc_attr( $val['value'] ).', ';
+                    endif;
                 }
 
                 if (isset($val['key']) && $val['key'] == 'fave_property_size') {
-                    echo '<strong>' . esc_html__('Size', 'houzez') . ':</strong> ' . esc_attr( $val['value'][0] ).' - '.esc_attr( $val['value'][1]). ', ';
+                    if ( isset( $val['value'] ) && is_array( $val['value'] ) ) :
+                        echo '<strong>' . esc_html__('Size', 'houzez') . ':</strong> ' . esc_attr( $val['value'][0] ).' - '.esc_attr( $val['value'][1]). ', ';
+                    else :
+                        echo '<strong>' . esc_html__('Size', 'houzez') . ':</strong> ' . esc_attr( $val['value'] ).', ';
+                    endif;
                 }
 
             endforeach;
@@ -131,11 +136,12 @@ $search_args_decoded = unserialize( base64_decode( $search_args ) );
         ?>
     </p>
     <?php if(is_user_logged_in()){ ?>
-    <button class="remove-search" data-propertyid='<?php echo intval($houzez_search_data->id); ?>'><i class="fa fa-remove"></i></button>
-    <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data->url; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
+        <button class="remove-search" data-propertyid='<?php echo intval($houzez_search_data->id); ?>'><i class="fa fa-remove"></i></button>
+        <?php $houzez_site_name     = sprintf( "%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME'] ); ?>
+        <a class="btn btn-primary" href="<?php echo esc_url( $houzez_site_name . $houzez_search_data->url ); ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
     <?php } else { ?>
-    <button class="remove-search" data-propertyid='<?php echo intval($az_search_key); ?>'><i class="fa fa-remove"></i></button>
-    <a class="btn btn-primary" href="<?php echo site_url().$houzez_search_data['url']; ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
+        <button class="remove-search" data-propertyid='<?php echo intval($az_search_key); ?>'><i class="fa fa-remove"></i></button>
+        <?php $houzez_site_name     = sprintf( "%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME'] ); ?>
+        <a class="btn btn-primary" href="<?php echo esc_url( $houzez_site_name . $houzez_search_data['url'] ); ?>"><?php esc_html_e( 'Search', 'houzez' ); ?></a>
     <?php } ?>
-    
 </div>

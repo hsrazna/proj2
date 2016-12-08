@@ -7,8 +7,10 @@
  */
 global $status,
        $type,
+       $state,
        $location,
        $area,
+       $searched_country,
        $search_template,
        $measurement_unit_adv_search,
        $adv_search_price_slider,
@@ -17,7 +19,7 @@ global $status,
        $adv_show_hide,
        $houzez_local;
 
-$search_template = houzez_get_template_link('template/template-search.php');
+$search_template = houzez_get_search_template_link();
 $measurement_unit_adv_search = houzez_option('measurement_unit_adv_search');
 
 if( $measurement_unit_adv_search == 'sqft' ) {
@@ -55,6 +57,12 @@ if( isset( $_GET['location'] ) ) {
 }
 if( isset( $_GET['area'] ) ) {
     $area = $_GET['area'];
+}
+if( isset( $_GET['state'] ) ) {
+    $state = $_GET['state'];
+}
+if( isset( $_GET['country'] ) ) {
+    $searched_country = $_GET['country'];
 }
 
 if( $adv_show_hide['status']         != 0 &&

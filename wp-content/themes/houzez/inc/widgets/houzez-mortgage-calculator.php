@@ -111,11 +111,11 @@ if( ! function_exists('houzez_mortgage_calculator_widget') ) {
             <form method="" action="#">
                 <div class="form-group icon-holder">
                     <input class="form-control" id="mc_total_amount" placeholder="<?php esc_html_e('Total Amount', 'houzez'); ?>" type="text">
-                    <span class="field-icon"><?php esc_attr_e($currency_symbol);?></span>
+                    <span class="field-icon"><?php echo esc_attr($currency_symbol);?></span>
                 </div>
                 <div class="form-group icon-holder">
                     <input class="form-control" id="mc_down_payment" placeholder="<?php esc_html_e('Down Payment', 'houzez'); ?>" type="text">
-                    <span class="field-icon"><?php esc_attr_e($currency_symbol);?></span>
+                    <span class="field-icon"><?php echo esc_attr($currency_symbol);?></span>
                 </div>
                 <div class="form-group icon-holder">
                     <input class="form-control" id="mc_interest_rate" placeholder="<?php esc_html_e('Interest Rate', 'houzez'); ?>" type="text">
@@ -153,16 +153,6 @@ if( ! function_exists('houzez_mortgage_calculator_widget') ) {
                             <?php esc_html_e('Annual cost of Loan:', 'houzez'); ?>
                         </div>
                         <div id="annual_cost" class="result-value"></div>
-
-                        <!--<div class="result-title">
-                            <?php /*esc_html_e('Total Mortgage with Interest:', 'houzez'); */?>
-                        </div>
-                        <div id="total_mortgage_with_interest" class="result-value"></div>
-
-                        <div class="result-title">
-                            <?php /*esc_html_e('Total with Down Payment:', 'houzez'); */?>
-                        </div>
-                        <div id="total_with_downpayment" class="result-value"></div>-->
 
                     </div>
                 </div>

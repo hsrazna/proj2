@@ -10,6 +10,7 @@ global $post_meta_data;
 $prop_id = get_post_meta( get_the_ID(), 'fave_property_id', true );
 $prop_price = get_post_meta( get_the_ID(), 'fave_property_price', true );
 $prop_size = get_post_meta( get_the_ID(), 'fave_property_size', true );
+$land_area = get_post_meta( get_the_ID(), 'fave_property_land', true );
 $bedrooms = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
 $bathrooms = get_post_meta( get_the_ID(), 'fave_property_bathrooms', true );
 $year_built = get_post_meta( get_the_ID(), 'fave_property_year', true );
@@ -22,6 +23,7 @@ $prop_details = false;
 if( !empty( $prop_id ) ||
     !empty( $prop_price ) ||
     !empty( $prop_size ) ||
+    !empty( $land_area ) ||
     !empty( $bedrooms ) ||
     !empty( $bathrooms ) ||
     !empty( $year_built ) ||
@@ -34,7 +36,7 @@ $hide_detail_prop_fields = houzez_option('hide_detail_prop_fields');
 
 if( $prop_details ) {
 ?>
-<div id="detail" class="detail-list detail-block">
+<div id="detail" class="detail-list detail-block target-block">
     <div class="detail-title">
         <h2 class="title-left"><?php esc_html_e( 'Detail', 'houzez' ); ?></h2>
 
@@ -56,6 +58,9 @@ if( $prop_details ) {
             }
             if( !empty( $prop_size ) && $hide_detail_prop_fields['area_size'] != 1 ) {
                 echo '<li><strong>'.esc_html__( 'Property Size:', 'houzez'). '</strong> '.houzez_property_size( 'after' ).'</li>';
+            }
+            if( !empty( $land_area ) && $hide_detail_prop_fields['land_area'] != 1 ) {
+                echo '<li><strong>'.esc_html__( 'Land Area:', 'houzez'). '</strong> '.houzez_property_land_area( 'after' ).'</li>';
             }
             if( !empty( $bedrooms ) && $hide_detail_prop_fields['bedrooms'] != 1 ) {
                 echo '<li><strong>'.esc_html__( 'Bedrooms:', 'houzez').'</strong> '.esc_attr( $bedrooms ).'</li>';

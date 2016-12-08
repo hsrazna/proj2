@@ -1,6 +1,9 @@
 <?php
 global $houzez_local;
 $copy_rights = houzez_option('copy_rights'); ?>
+
+<?php get_template_part('template-parts/scroll-to-top'); ?>
+
 <!--start footer section-->
 <footer id="footer-section">
     
@@ -37,7 +40,7 @@ $copy_rights = houzez_option('copy_rights'); ?>
 
                     </div>
                 </div>
-                <?php if( houzez_option('social-footer') != '0' ): ?>
+                <?php if( houzez_option('social-footer') != '0' && houzez_option('fs-facebook') != '' || houzez_option('fs-twitter') != '' || houzez_option('fs-linkedin') != '' || houzez_option('fs-googleplus') != '' || houzez_option('fs-instagram') != '' ): ?>
                 <div class="col-md-3 col-sm-3">
                     <div class="footer-col foot-social">
                         <p>

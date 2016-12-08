@@ -20,7 +20,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 $listing_page_link = houzez_properties_listing_link();
 
 if( $listing_view == 'grid_view' || $listing_view == 'grid_view_3_col' ) {
-    $listing_view = 'grid-view';
+    $listing_view = 'grid-view grid-view-2-col';
 } else {
     $listing_view = 'list-view';
 }
@@ -37,13 +37,9 @@ $current_page_template = get_post_meta( $post->ID, '_wp_page_template', true );
 <?php get_template_part('template-parts/properties-head'); ?>
 
 <div class="row">
-    <div class="col-lg-8 col-md-8 col-sm-12 list-grid-area container-contentbar">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 list-grid-area container-contentbar">
         <div id="content-area">
-
-            <!--start Compare Properties-->
-            <?php do_action('houzez_show_compare', $args = '' ); ?>
-            <!--end Compare Properties-->
-
+            
             <!--start list tabs-->
             <?php get_template_part( 'template-parts/listing', 'tabs' ); ?>
             <!--end list tabs-->
@@ -145,7 +141,7 @@ $current_page_template = get_post_meta( $post->ID, '_wp_page_template', true );
         </div>
     </div><!-- end container-content -->
 
-    <div class="col-lg-4 col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['property_listings'] != 0 ){ echo 'houzez_sticky'; }?>">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['property_listings'] != 0 ){ echo 'houzez_sticky'; }?>">
         <?php get_sidebar('property'); ?>
     </div> <!-- end container-sidebar -->
 </div>

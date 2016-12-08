@@ -8,11 +8,20 @@ jQuery(document).ready(function($) {
         var ajaxURL = houzezUserProfile.ajaxURL;
         var uploadNonce = houzezUserProfile.uploadNonce;
         var fileTypeTitle = houzezUserProfile.fileTypeTitle;
+        var houzez_site_url = houzezUserProfile.houzez_site_url;
+        var process_loader_refresh = houzezUserProfile.process_loader_refresh;
+        var process_loader_spinner = houzezUserProfile.process_loader_spinner;
+        var process_loader_circle = houzezUserProfile.process_loader_circle;
+        var process_loader_cog = houzezUserProfile.process_loader_cog;
+        var success_icon = houzezUserProfile.success_icon;
+        var processing_text = houzezUserProfile.processing_text;
 
         /*-------------------------------------------------------------------
          *  Update Profile [user_profile.php]
          * ------------------------------------------------------------------*/
         $("#houzez_update_profile").click( function() {
+
+            var $this = $(this);
 
             var firstname   = $("#firstname").val(),
                 lastname    = $("#lastname").val(),
@@ -38,6 +47,7 @@ jQuery(document).ready(function($) {
             $.ajax({
                 type: 'POST',
                 url: ajaxURL,
+                dataType: 'json',
                 data: {
                     'action'     : 'houzez_ajax_update_profile',
                     'firstname'  : firstname,
@@ -60,11 +70,23 @@ jQuery(document).ready(function($) {
                     'profile_pic': profile_pic,
                     'houzez-security-profile'  : securityprofile,
                 },
+                beforeSend: function( ) {
+                    $this.children('i').remove();
+                    $this.prepend('<i class="fa-left '+process_loader_spinner+'"></i>');
+                },
                 success: function(data) {
-                    $('#profile_message').empty().append('<div class="login-alert">' + data + '<div>');
+                    if( data.success ) {
+                        jQuery('#profile_message').empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ data.msg +'</p>');
+                    } else {
+                        jQuery('#profile_message').empty().append('<p class="error text-danger"><i class="fa fa-close"></i> '+ data.msg +'</p>');
+                    }
                 },
                 error: function(errorThrown) {
 
+                },
+                complete: function(){
+                    $this.children('i').removeClass(process_loader_spinner);
+                    $this.children('i').addClass(success_icon);
                 }
             });
 
@@ -76,6 +98,8 @@ jQuery(document).ready(function($) {
         $("#houzez_change_pass").click( function() {
             var securitypassword, oldpass, newpass, confirmpass;
 
+            var $this = $(this);
+
             oldpass          = $("#oldpass").val();
             newpass          = $("#newpass").val();
             confirmpass      = $("#confirmpass").val();
@@ -83,6 +107,7 @@ jQuery(document).ready(function($) {
 
             $.ajax({
                 type: 'POST',
+                dataType: 'json',
                 url:   ajaxURL,
                 data: {
                     'action'      : 'houzez_ajax_password_reset',
@@ -91,14 +116,100 @@ jQuery(document).ready(function($) {
                     'confirmpass' : confirmpass,
                     'houzez-security-pass' : securitypassword,
                 },
-                success: function(data) {
-                    jQuery('#profile_pass').empty().append('<div class="login-alert">' + data + '<div>');
-                    jQuery('#oldpass, #newpass, #confirmpass').val('');
+                beforeSend: function( ) {
+                    $this.children('i').remove();
+                    $this.prepend('<i class="fa-left '+process_loader_spinner+'"></i>');
                 },
-                error: function(errorThrown) {}
+                success: function(data) {
+                    if( data.success ) {
+                        jQuery('#password_reset_msgs').empty().append('<p class="success text-success"><i class="fa fa-check"></i> '+ data.msg +'</p>');
+                        jQuery('#oldpass, #newpass, #confirmpass').val('');
+                    } else {
+                        jQuery('#password_reset_msgs').empty().append('<p class="error text-danger"><i class="fa fa-close"></i> '+ data.msg +'</p>');
+                    }
+                },
+                error: function(errorThrown) {
+
+                },
+                complete: function(){
+                    $this.children('i').removeClass(process_loader_spinner);
+                    $this.children('i').addClass(success_icon);
+                }
             });
 
         });
+
+        $('#houzez_delete_account').click(function(e){
+
+            var userID    = $('#houzez_account_id').val();
+
+            var confirm = window.confirm("Are you sure!, you want to delete a account.");
+
+            if ( confirm == true ) {
+
+                $.ajax({
+                    type: 'post',
+                    url: ajaxURL,
+                    dataType: 'json',
+                    data: {
+                        'action': 'houzez_delete_account',
+                        'user_id': userID
+                    },
+                    beforeSend: function () {
+                        profile_processing_modal(processing_text);
+                    },
+                    success: function( response ) {
+                        if( response.success ) {
+                            window.location.href = houzez_site_url;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        console.log(err.Message);
+                    }
+                });
+
+            }
+
+        });
+
+        $( '#houzez_user_role' ).on( 'change', function() {
+            var user_role = $( this ).val();
+            var userID    = $('#houzez_account_id').val();
+
+            $.ajax({
+                type: 'post',
+                url: ajaxURL,
+                dataType: 'json',
+                data: {
+                    'action': 'houzez_change_user_role',
+                    'user_id': userID,
+                    'role': user_role
+                },
+                beforeSend: function () {
+                    profile_processing_modal(processing_text);
+                },
+                success: function( response ) {
+                    if( response.success ) {
+                        window.location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+        });
+
+        var profile_processing_modal = function ( msg ) {
+            var process_modal ='<div class="modal fade" id="fave_modal" tabindex="-1" role="dialog" aria-labelledby="faveModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body houzez_messages_modal">'+msg+'</div></div></div></div></div>';
+            jQuery('body').append(process_modal);
+            jQuery('#fave_modal').modal();
+        }
+
+        var profile_processing_modal_close = function ( ) {
+            jQuery('#fave_modal').modal('hide');
+        }
 
         /*-------------------------------------------------------------------
          *  initialize uploader

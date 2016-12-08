@@ -12,6 +12,11 @@ function houzez_scripts() {
     wp_get_current_user();
     $userID = $current_user->ID;
 
+    $houzez_logged_in = 'yes';
+    if ( !is_user_logged_in() ) {
+        $houzez_logged_in = 'no';
+    }
+
     if( is_rtl() ) {
         $houzez_rtl = "yes";
     } else {
@@ -22,8 +27,23 @@ function houzez_scripts() {
         $sort_by = $_GET['sortby'];
     }
 
+    $houzez_default_radius = houzez_option('houzez_default_radius');
+    if( isset( $_GET['radius'] ) ) {
+        $houzez_default_radius = $_GET['radius'];
+    }
+
+    $houzez_primary_color = houzez_option('houzez_primary_color');
+
+    $search_feature = array();
+    $enable_radius_search = houzez_option('enable_radius_search');
+    $enable_radius_search_halfmap = houzez_option('enable_radius_search_halfmap');
+    $search_result_page = houzez_option('search_result_page');
     $search_keyword = isset($_GET['keyword']) ? sanitize_text_field($_GET['keyword']) : '';
+    $search_feature = isset($_GET['feature']) ? ($_GET['feature']) : '';
+    $search_country = isset($_GET['country']) ? sanitize_text_field($_GET['country']) : '';
+    $search_state = isset($_GET['state']) ? sanitize_text_field($_GET['state']) : '';
     $search_city = isset($_GET['location']) ? sanitize_text_field($_GET['location']) : '';
+    $search_area = isset($_GET['area']) ? sanitize_text_field($_GET['area']) : '';
     $search_status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
     $search_type = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : '';
     $search_bedrooms = isset($_GET['bedrooms']) ? sanitize_text_field($_GET['bedrooms']) : '';
@@ -32,19 +52,33 @@ function houzez_scripts() {
     $search_max_price = isset($_GET['max-price']) ? sanitize_text_field($_GET['max-price']) : '';
     $search_min_area = isset($_GET['min-area']) ? sanitize_text_field($_GET['min-area']) : '';
     $search_max_area = isset($_GET['max-area']) ? sanitize_text_field($_GET['max-area']) : '';
+    $search_publish_date = isset($_GET['publish_date']) ? sanitize_text_field($_GET['publish_date']) : '';
     $sort_by = isset($_GET['sortby']) ? sanitize_text_field($_GET['sortby']) : '';
+
+    $search_location = isset( $_GET[ 'search_location' ] ) ? esc_attr( $_GET[ 'search_location' ] ) : false;
+    $use_radius = 'on';
+    $search_lat = isset($_GET['lat']) ? (float) $_GET['lat'] : false;
+    $search_long = isset($_GET['lng']) ? (float) $_GET['lng'] : false;
+    $search_radius = isset($_GET['radius']) ? (int) $_GET['radius'] : false;
+
+    $geo_country_limit = houzez_option('geo_country_limit');
+    $geocomplete_country = '';
+    if( $geo_country_limit != 0 ) {
+        $geocomplete_country = houzez_option('geocomplete_country');
+    }
 
     // Retina Logos
     $simple_logo = houzez_option('custom_logo', '', 'url');
     $retina_logo_url = houzez_option( 'retina_logo', '', 'url' );
     $retina_mobilelogo_url = houzez_option( 'mobile_retina_logo', '', 'url' );
+    $retina_logo_mobile_splash = houzez_option( 'retina_logo_mobile_splash', '', 'url' );
     $retina_splash_logo_url = houzez_option( 'retina_logo_splash', '', 'url' );
     $retina_logo_width = houzez_option( 'retina_logo_width' );
     $retina_logo_height = houzez_option( 'retina_logo_height' );
     $retina_logo_width = preg_replace('#[^0-9]#','',strip_tags($retina_logo_width));
     $retina_logo_height = preg_replace('#[^0-9]#','',strip_tags($retina_logo_height));
 
-    if( !is_404() && !is_search() ) {
+    if( !is_404() && !is_search() && !is_tax() && !is_author() ) {
         $header_type = get_post_meta($post->ID, 'fave_header_type', true);
         $content_has_map_shortcode = has_shortcode( get_post_field('post_content', $post->ID), 'houzez-properties-map' );
         $fave_main_menu_trans = get_post_meta( $post->ID, 'fave_main_menu_trans', true );
@@ -138,7 +172,7 @@ function houzez_scripts() {
             if( is_home() || is_front_page() ) {
                 $login_redirect = site_url();
             } else {
-                if( !is_404() && !is_search() ) {
+                if( !is_404() && !is_search() && !is_author() ) {
                     $login_redirect = get_permalink($post->ID);
                 }
             }
@@ -190,7 +224,7 @@ function houzez_scripts() {
     wp_enqueue_script( 'moment', get_template_directory_uri() . '/js/moment.js', array('jquery'), '2.11.1', true ); // date pickr
     wp_enqueue_script( 'houzez-plugins', get_template_directory_uri() . '/js/plugins.js', array('jquery'), HOUZEZ_THEME_VERSION, true );
 
-    if( is_page_template( 'template/property-listings-map.php' ) || is_page_template( 'template/submit_property.php' ) || is_page_template( 'template/submit_property_without_login.php' ) || $header_type == 'property_map' || is_singular('property') || $content_has_map_shortcode ) {
+    if( is_page_template( 'template/property-listings-map.php' ) || is_page_template( 'template/submit_property.php' ) || is_page_template( 'template/submit_property_without_login.php' ) || $header_type == 'property_map' || is_singular('property') || is_singular('houzez_agency') || $content_has_map_shortcode || $enable_radius_search != 0 ) {
         if( esc_html( $googlemap_ssl ) == 'yes' ) {
             wp_enqueue_script('google-map', 'https://maps-api-ssl.google.com/maps/api/js?libraries=places&language='.get_locale().'&key='.esc_html( $googlemap_api_key ),array('jquery'), '1.0', false);
         } else {
@@ -207,7 +241,7 @@ function houzez_scripts() {
 
     $houzez_date_language = houzez_option('houzez_date_language');
 
-    if( $year_built_calender != 'no' ) {
+    if( $year_built_calender != 'no' || is_page_template( 'template/user_dashboard_invoices.php' ) || is_page_template( 'template/property-listings-map.php' ) || $header_type == 'property_map' ) {
         wp_enqueue_script( 'jquery-ui-datepicker' );
 
         $houzez_date_language = esc_html ( $houzez_date_language );
@@ -248,6 +282,7 @@ function houzez_scripts() {
             'simple_logo' => $simple_logo,
             'retina_logo' => $retina_logo_url,
             'retina_logo_mobile' => $retina_mobilelogo_url,
+            'retina_logo_mobile_splash' => $retina_logo_mobile_splash,
             'retina_logo_splash' => $retina_splash_logo_url,
             'retina_logo_height' => $retina_logo_height,
             'retina_logo_width' => $retina_logo_width,
@@ -265,7 +300,9 @@ function houzez_scripts() {
             'featured_listings_none' => esc_html__( 'You have used all the "Featured" listings in your package.', 'houzez' ),
             'prop_sent_for_approval' => esc_html__('Sent for Approval', 'houzez'),
             'paypal_connecting' => esc_html__( 'Connecting to paypal, Please wait... ', 'houzez'),
-            'confirm' => esc_html__('Are you sure you want yo delete?', 'houzez'),
+            'confirm' => esc_html__('Are you sure you want to delete?', 'houzez'),
+            'confirm_featured' => esc_html__('Are you sure you want to make this a featured listing?', 'houzez'),
+            'confirm_relist' => esc_html__('Are you sure you want to relist this property?', 'houzez'),
             'not_found' => esc_html__("We didn't find any results", 'houzez'),
             'for_rent' => $advanced_search_rent_status,
             'for_rent_price_range' => $advanced_search_price_range_rent_status,
@@ -281,14 +318,19 @@ function houzez_scripts() {
             'google_map_style' => houzez_option('googlemap_stype'),
             'googlemap_default_zoom' => $googlemap_zoom_level,
             'googlemap_pin_cluster' => $googlemap_pin_cluster,
-            'googlemap_zoom_cluster' => 1,//$googlemap_zoom_cluster,
+            'googlemap_zoom_cluster' => $googlemap_zoom_cluster,
             'map_icons_path' => get_template_directory_uri() . '/images/map/',
             'infoboxClose' => get_template_directory_uri() . '/images/map/close.png',
             'clusterIcon' => get_template_directory_uri() . '/images/map/cluster-icon.png',
             'google_map_needed' => $google_map_needed,
             'page' => $paged,
+            'search_result_page' => $search_result_page,
             'search_keyword' => $search_keyword,
+            'search_country' => $search_country,
+            'search_state' => $search_state,
             'search_city' => $search_city,
+            'search_feature' => $search_feature,
+            'search_area' => $search_area,
             'search_status' => $search_status,
             'search_type' => $search_type,
             'search_bedrooms' => $search_bedrooms,
@@ -297,6 +339,14 @@ function houzez_scripts() {
             'search_max_price' => $search_max_price,
             'search_min_area' => $search_min_area,
             'search_max_area' => $search_max_area,
+            'search_publish_date' => $search_publish_date,
+
+            'search_location' => $search_location,
+            'use_radius' => $use_radius,
+            'search_lat' => $search_lat,
+            'search_long' => $search_long,
+            'search_radius' => $search_radius,
+
             'transportation' => esc_html__('Transportation', 'houzez'),
             'supermarket' => esc_html__('Supermarket', 'houzez'),
             'schools' => esc_html__('Schools', 'houzez'),
@@ -323,11 +373,18 @@ function houzez_scripts() {
             'compare_button_url' => houzez_get_template_link_2('template/template-compare.php'),
             'template_thankyou' => houzez_get_template_link('template/template-thankyou.php'),
             'compare_page_not_found' => esc_html__('Please create page using compare properties template', 'houzez'),
-            'property_detail_top' => esc_attr__($property_top_area),
+            'property_detail_top' => esc_attr($property_top_area),
             'houzez_autoComplete' => houzez_autocomplete_search(),
             'keyword_search_field' => $keyword_field,
             'keyword_autocomplete' => $keyword_autocomplete,
-            'houzez_date_language' => $houzez_date_language
+            'houzez_date_language' => $houzez_date_language,
+            'houzez_default_radius' => $houzez_default_radius,
+            'enable_radius_search' => $enable_radius_search,
+            'enable_radius_search_halfmap' => $enable_radius_search_halfmap,
+            'houzez_primary_color' => $houzez_primary_color,
+            'geocomplete_country' => $geocomplete_country,
+            'houzez_logged_in' => $houzez_logged_in,
+            'ipinfo_location' => houzez_option('ipinfo_location')
 
         )
     ); // end ajax calls
@@ -382,15 +439,18 @@ function houzez_scripts() {
         $user_profile_data = array(
             'ajaxURL' => admin_url( 'admin-ajax.php' ),
             'uploadNonce' => wp_create_nonce ( 'favethemes_allow_upload' ),
-            'fileTypeTitle' => esc_html__( 'Valid file formats', 'houzez' )
+            'fileTypeTitle' => esc_html__( 'Valid file formats', 'houzez' ),
+            'houzez_site_url' => site_url(),
+            'process_loader_refresh' => 'fa fa-spin fa-refresh',
+            'process_loader_spinner' => 'fa fa-spin fa-spinner',
+            'process_loader_circle' => 'fa fa-spin fa-circle-o-notch',
+            'process_loader_cog' => 'fa fa-spin fa-cog',
+            'success_icon' => 'fa fa-check',
+            'processing_text' => esc_html__('Processing, Please wait...', 'houzez'),
         );
         wp_localize_script( 'houzez_user_profile', 'houzezUserProfile', $user_profile_data );
         wp_enqueue_script( 'houzez_user_profile' );
     } // end edit profile
-
-    if( is_page_template( 'template/submit_property.php' ) || is_page_template( 'template/submit_property_without_login.php' ) ) {
-        wp_enqueue_script('geocomplete.min', get_template_directory_uri() . '/js/jquery.geocomplete.min.js', array('jquery'), '1.6.5', true);
-    }
 
     // Submit Property
     if( is_page_template( 'template/submit_property.php' ) || is_page_template( 'template/submit_property_without_login.php' ) || is_page_template( 'template/user_dashboard_floor_plans.php' ) || is_page_template( 'template/user_dashboard_multi_units.php' ) ) {
@@ -400,6 +460,8 @@ function houzez_scripts() {
         wp_enqueue_script( 'validate.min', get_template_directory_uri() . '/js/jquery.validate.min.js', array('jquery'), '1.14.0', true );
 
         wp_enqueue_script( 'houzez_property', get_template_directory_uri() . '/js/houzez_property.js', array( 'jquery', 'plupload', 'jquery-ui-sortable' ), HOUZEZ_THEME_VERSION, true );
+
+        $prop_req_fields = houzez_option('required_fields');
 
         $prop_data = array(
             'ajaxURL'       => admin_url( 'admin-ajax.php' ),
@@ -427,6 +489,23 @@ function houzez_scripts() {
             'mu_price_text' => esc_html__('Property Price', 'houzez'),
             'mu_price_postfix_text' => esc_html__('Price Postfix', 'houzez'),
             'mu_availability_text' => esc_html__('Availability Date', 'houzez'),
+
+            'prop_title' => $prop_req_fields['title'],
+            //'description' => $prop_req_fields['description'],
+            'prop_type' => $prop_req_fields['prop_type'],
+            'prop_status' => $prop_req_fields['prop_status'],
+            'prop_labels' => $prop_req_fields['prop_labels'],
+            'prop_price' => $prop_req_fields['sale_rent_price'],
+            'price_label' => $prop_req_fields['price_label'],
+            'prop_id' => $prop_req_fields['prop_id'],
+            'bedrooms' => $prop_req_fields['bedrooms'],
+            'bathrooms' => $prop_req_fields['bathrooms'],
+            'area_size' => $prop_req_fields['area_size'],
+            'land_area' => $prop_req_fields['land_area'],
+            'garages' => $prop_req_fields['garages'],
+            'year_built' => $prop_req_fields['year_built'],
+            'property_map_address' => $prop_req_fields['property_map_address'],
+
         );
         wp_localize_script( 'houzez_property', 'houzezProperty', $prop_data );
     }

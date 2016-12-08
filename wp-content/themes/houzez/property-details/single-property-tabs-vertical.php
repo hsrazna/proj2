@@ -168,6 +168,8 @@ $prop_description = get_the_content();
 
 <?php get_template_part( 'property-details/walkscore' ); ?>
 
+<?php get_template_part('property-details/yelp', 'nearby'); ?>
+
 <?php get_template_part( 'property-details/property', 'stats' ); ?>
 
 <?php get_template_part( 'property-details/agent', 'bottom' ); ?>

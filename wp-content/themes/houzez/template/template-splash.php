@@ -7,7 +7,7 @@
  * Time: 3:49 PM
  */
 get_header();
-global $post;
+global $houzez_local, $post;
 $search_template = houzez_get_template_link('template/template-search.php');
 $background_type = houzez_option('backgroud_type');
 $splash_welcome_text = houzez_option( 'splash_welcome_text' );
@@ -73,11 +73,17 @@ if( $background_type == 'image' ) {
     $ogv = houzez_option( 'splash_bg_ogv', false, 'url' );
     $splash_video_image = houzez_option('splash_video_image', false, 'url');
     $video_loop = houzez_option('video_loop');
+    $video_audio = houzez_option('video_audio');
 
     if( $video_loop != 0 ) {
         $video_loop = 'true';
     } else {
         $video_loop = 'false';
+    }
+    if( $video_audio != 0 ) {
+        $video_audio = 'true';
+    } else {
+        $video_audio = 'false';
     }
 
     if (!empty($mp4)) {
@@ -97,7 +103,7 @@ if( $background_type == 'image' ) {
                                     '<?php echo esc_url( $ogv ); ?>'
                                 ],
                                 loop: <?php echo esc_attr( $video_loop ); ?>,
-                                mute: true
+                                mute: <?php echo esc_attr( $video_audio ); ?>
                             }
                         }
                     ]
@@ -140,7 +146,7 @@ if( $background_type == 'image' ) {
                     <?php if( houzez_option('social-splash') != '0' ): ?>
                         <div class="col-sm-6 col-xs-6 splash-foot-right">
                             <p>
-                                <?php esc_html_e( 'Follow us', 'houzez' ); ?>
+                                <?php echo $houzez_local['follow_us']; ?>
                                 <?php if( houzez_option('sp-facebook') != '' ){ ?>
                                     <a target="_blank" class="btn-facebook" href="<?php echo esc_url(houzez_option('sp-facebook')); ?>"><i class="fa fa-facebook-square"></i></a>
                                 <?php } ?>

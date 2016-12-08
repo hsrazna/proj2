@@ -31,14 +31,15 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 ?>
 
 <ul class="profile-menu-tabs">
+    <?php if ( qtrans_getLanguage() == 'en' ) {?>
     <?php
-    if( $home_link != $dash_profile_link && is_user_logged_in()) {
+    if( $home_link != $dash_profile_link  && is_user_logged_in() ) {
         echo '<li ' .esc_attr( $ac_profile ). '> <a href="' . esc_url($dash_profile_link) . '">' . esc_html__('My profile', 'houzez') . '</a></li>';
     }
-    if( $home_link != $dashboard_listings && is_user_logged_in()) {
+    if( $home_link != $dashboard_listings && houzez_check_role() && is_user_logged_in() ) {
         echo '<li ' .esc_attr( $ac_props ). '> <a href="' . esc_url($dashboard_listings) . '">' . esc_html__('My Properties', 'houzez') . '</a></li>';
     }
-    if( $home_link != $dashboard_add_listing && is_user_logged_in()) {
+    if( $home_link != $dashboard_add_listing && houzez_check_role() && is_user_logged_in() ) {
         echo '<li ' .esc_attr( $ac_add_prop ). '> <a href="' . esc_url($dashboard_add_listing) . '">' . esc_html__('Add new property', 'houzez') . '</a></li>';
     }
     if( $home_link != $dashboard_favorites ) {
@@ -47,9 +48,31 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
     if( $home_link != $dashboard_search ) {
         echo '<li ' .esc_attr( $ac_search ). '> <a href="' . esc_url($dashboard_search) . '">' . esc_html__('Saved Searches', 'houzez') . '</a></li>';
     }
-    if( $home_link != $dashboard_invoices && is_user_logged_in()) {
+    if( $home_link != $dashboard_invoices && houzez_check_role() && is_user_logged_in() ) {
         echo '<li ' .esc_attr(  $ac_invoices ). '> <a href="' . esc_url($dashboard_invoices) . '">' . esc_html__('Invoices', 'houzez') . '</a></li>';
     }
     ?>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+    <?php
+    if( $home_link != $dash_profile_link  && is_user_logged_in() ) {
+        echo '<li ' .esc_attr( $ac_profile ). '> <a href="' . esc_url($dash_profile_link) . '">' . esc_html__('Профиль', 'houzez') . '</a></li>';
+    }
+    if( $home_link != $dashboard_listings && houzez_check_role() && is_user_logged_in() ) {
+        echo '<li ' .esc_attr( $ac_props ). '> <a href="' . esc_url($dashboard_listings) . '">' . esc_html__('Недвижимость', 'houzez') . '</a></li>';
+    }
+    if( $home_link != $dashboard_add_listing && houzez_check_role() && is_user_logged_in() ) {
+        echo '<li ' .esc_attr( $ac_add_prop ). '> <a href="' . esc_url($dashboard_add_listing) . '">' . esc_html__('Добавить нов. недв.', 'houzez') . '</a></li>';
+    }
+    if( $home_link != $dashboard_favorites ) {
+        echo '<li ' .esc_attr( $ac_fav ). '> <a href="' . esc_url($dashboard_favorites) . '">' . esc_html__('Избранное', 'houzez') . '</a></li>';
+    }
+    if( $home_link != $dashboard_search ) {
+        echo '<li ' .esc_attr( $ac_search ). '> <a href="' . esc_url($dashboard_search) . '">' . esc_html__('Сохр. поиск', 'houzez') . '</a></li>';
+    }
+    if( $home_link != $dashboard_invoices && houzez_check_role() && is_user_logged_in() ) {
+        echo '<li ' .esc_attr(  $ac_invoices ). '> <a href="' . esc_url($dashboard_invoices) . '">' . esc_html__('Счета', 'houzez') . '</a></li>';
+    }
+    ?>
+    <?php } ?>
 
 </ul>

@@ -50,7 +50,7 @@ if( $top_bar_right == 'houzez_switchers' ) {
                 <div class="top-bar-left <?php echo esc_attr( $nav_left_class.' '.$top_bar_left_width ); ?>">
                     <?php if( $top_bar_left == 'social_icons' || $top_bar_left == 'contact_info' || $top_bar_left == 'contact_info_and_social_icons' || $top_bar_left == 'slogan' || $top_bar_left == 'houzez_switchers' ) { ?>
                         <div class="top-contact">
-                            <ul class="<?php esc_attr_e($top_drop_downs_left);?>">
+                            <ul class="<?php echo esc_attr($top_drop_downs_left);?>">
                                 <?php
                                 if( $top_bar_left == 'contact_info' ) {
                                     get_template_part( 'inc/header/top-bar-contact' );
@@ -86,7 +86,7 @@ if( $top_bar_right == 'houzez_switchers' ) {
 
                     <?php if( $top_bar_right == 'social_icons' || $top_bar_right == 'contact_info' || $top_bar_right == 'contact_info_and_social_icons' || $top_bar_right == 'slogan' || $top_bar_right == 'houzez_switchers' ) { ?>
                     <div class="top-contact">
-                        <ul class="<?php esc_attr_e($top_drop_downs_right);?>">
+                        <ul class="<?php echo esc_attr($top_drop_downs_right);?>">
                             <?php
                             if( $top_bar_right == 'contact_info' ) {
                                 get_template_part( 'inc/header/top-bar-contact' );

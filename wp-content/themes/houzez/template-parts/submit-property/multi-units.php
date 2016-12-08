@@ -22,8 +22,8 @@
                             <div class="col-sm-12 col-xs-12">
                                 <label for="multiUnits"><?php esc_html_e('Multi Units / Sub Properties', 'houzez'); ?></label>
                                 <select class="selectpicker" name="multiUnits" id="multiUnits" data-live-search="false" data-live-search-style="begins">
-                                    <option><?php esc_html_e('Disable', 'houzez'); ?></option>
-                                    <option><?php esc_html_e('Enable', 'houzez'); ?></option>
+                                    <option value="disable"><?php esc_html_e('Disable', 'houzez'); ?></option>
+                                    <option value="enable"><?php esc_html_e('Enable', 'houzez'); ?></option>
                                 </select>
                             </div>
                         </div>

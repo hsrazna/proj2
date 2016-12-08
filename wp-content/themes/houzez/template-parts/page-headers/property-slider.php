@@ -43,7 +43,7 @@ global $post, $adv_search_which_header_show, $adv_search_over_header_pages, $adv
 
                         ?>
 
-                            <div class="item fave-screen-fix fave-mobile-screen-fix" style="background-image: url(<?php echo $imag_url[0];?>)">
+                            <div class="item fave-screen-fix" style="background-image: url(<?php echo $imag_url[0];?>)">
                                 <a href="<?php the_permalink(); ?>" class="banner-link"></a>
                                 <div class="slider-caption caption-desktop hidden-xs">
                                     <?php if( $prop_featured != 0 ) { ?>

@@ -10,6 +10,8 @@ global $post, $prop_featured, $payment_status, $property_status_text, $price_per
 $enable_wireTransfer = houzez_option('enable_wireTransfer');
 $enable_paypal = houzez_option('enable_paypal');
 $enable_stripe = houzez_option('enable_stripe');
+$per_listing_expire_unlimited = houzez_option('per_listing_expire_unlimited');
+$per_listing_expire = houzez_option('per_listing_expire');
 $postID = get_the_ID();
 
 if( $paid_submission_type == 'per_listing' && $property_status_text != 'expired' ) {

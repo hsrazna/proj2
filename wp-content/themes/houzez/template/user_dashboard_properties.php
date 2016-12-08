@@ -10,7 +10,7 @@ if ( !is_user_logged_in() ) {
     wp_redirect(  home_url() );
 }
 
-global $current_user, $post;
+global $houzez_local, $current_user, $post;
 
 wp_get_current_user();
 $userID         = $current_user->ID;
@@ -22,6 +22,8 @@ $paid_submission_type = esc_html ( houzez_option('enable_paid_submission','') );
 $approved = add_query_arg( 'prop_status', 'approved', $dashboard_listings );
 $pending = add_query_arg( 'prop_status', 'pending', $dashboard_listings );
 $expired = add_query_arg( 'prop_status', 'expired', $dashboard_listings );
+
+$packages_page_link = houzez_get_template_link('template/template-packages.php');
 
 get_header();
 ?>
@@ -66,17 +68,17 @@ $prop_qry = new WP_Query($args);
     <div class="profile-area-content">
         <div class="profile-top">
             <div class="profile-top-left">
-                <h2 class="title"><?php the_title(); ?>s</h2>
+                <h2 class="title"><?php the_title(); ?></h2>
             </div>
             <div class="profile-top-right">
                 <div class="my-property-search">
                     <form action="#" id="search_dashboard_autocomplete" method="POST">
                         <div class="table-list">
                             <div class="form-group table-cell">
-                                <input name="property_name" id="property_name" class="form-control" placeholder="<?php esc_html_e( 'Search Listing', 'houzez' ); ?>">
+                                <input name="property_name" id="property_name" class="form-control" placeholder="<?php echo $houzez_local['search_listing']; ?>">
                             </div>
                             <div class="table-cell">
-                                <button type="submit" class="btn btn-orange"><?php esc_html_e( 'Search', 'houzez' ); ?></button>
+                                <button type="submit" class="btn btn-orange"><?php echo $houzez_local['search']; ?></button>
                             </div>
                         </div>
                     </form>
@@ -92,23 +94,26 @@ $prop_qry = new WP_Query($args);
                             <div class="my-property-menu">
                                 <ul>
                                     <li>
-                                        <a href="<?php echo esc_url($approved); ?>" <?php echo esc_attr($ac_approved); ?>><?php esc_html_e( 'Published', 'houzez' ); ?></a>
+                                        <a href="<?php echo esc_url($approved); ?>" <?php echo esc_attr($ac_approved); ?>><?php echo $houzez_local['published']; ?></a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo esc_url($pending); ?>" <?php echo esc_attr($ac_pending); ?>><?php esc_html_e( 'Pending', 'houzez' ); ?></a>
+                                        <a href="<?php echo esc_url($pending); ?>" <?php echo esc_attr($ac_pending); ?>><?php echo $houzez_local['pending']; ?></a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo esc_url($expired); ?>" <?php echo esc_attr($ac_expired); ?>><?php esc_html_e( 'Expired', 'houzez' ); ?></a>
+                                        <a href="<?php echo esc_url($expired); ?>" <?php echo esc_attr($ac_expired); ?>><?php echo $houzez_local['expired']; ?></a>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="my-property-menu menu-status">
-                                <?php
-                                if ( $paid_submission_type == 'membership' ) {
-                                    houzez_get_user_current_package( $userID );
-                                }
-                                ?>
-                            </div>
+                            <?php if ( $paid_submission_type == 'membership' ) { ?>
+                                <div class="my-property-menu menu-status">
+
+                                    <?php houzez_get_user_current_package( $userID ); ?>
+
+                                </div>
+                                <div class="my-property-menu">
+                                    <a href="<?php echo esc_url($packages_page_link); ?>" class="btn btn-primary btn-block"> <?php echo esc_html__('Change Membership Plan', 'houzez'); ?></a>
+                                </div>
+                             <?php } ?>
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-12 col-xs-12">
@@ -131,7 +136,7 @@ $prop_qry = new WP_Query($args);
                             </div>
                         <?php
                         } else {
-                            print '<h4>'.esc_html__('You don\'t have any properties yet!','houzez').'</h4>';
+                            print '<h4>'.$houzez_local['properties_not_found'].'</h4>';
                         }?>
                     </div>
                 </div>

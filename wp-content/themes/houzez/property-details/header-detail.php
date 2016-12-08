@@ -8,13 +8,14 @@
  */
 global $post, $prop_address;
 $print_property_button = houzez_option('print_property_button');
+$disable_favorite = houzez_option('disable_favorite');
 ?>
 <div class="header-detail table-list">
     <div class="header-left">
         <?php get_template_part( 'inc/breadcrumb' ); ?>
         <h1><?php the_title(); ?>
 
-            <span class="label-wrap">
+            <span class="label-wrap hidden-sm hidden-xs">
                 <?php if( houzez_taxonomy_simple('property_status') ) { ?>
                     <span class="label label-primary label-status-<?php echo intval(houzez_get_taxonomy_id('property_status')); ?>"><?php echo houzez_taxonomy_simple('property_status'); ?></span>
                 <?php } ?>
@@ -34,12 +35,14 @@ $print_property_button = houzez_option('print_property_button');
             <li class="share-btn">
                 <?php get_template_part( 'template-parts/share' ); ?>
             </li>
+            <?php if( $disable_favorite != 0 ) { ?>
             <li class="fvrt-btn">
-                <span><?php get_template_part( 'template-parts/favorite' ); ?></span>
+                <?php get_template_part( 'template-parts/favorite' ); ?>
             </li>
+            <?php } ?>
             <?php if( $print_property_button != 0 ) { ?>
             <li class="print-btn">
-                <span><i id="houzez-print" class="fa fa-print" data-propid="<?php esc_attr_e( $post->ID );?>"></i></span>
+                <span><i id="houzez-print" class="fa fa-print" data-toggle="tooltip" data-original-title="<?php esc_html_e('Print', 'houzez'); ?>" data-propid="<?php echo esc_attr( $post->ID );?>"></i></span>
             </li>
             <?php } ?>
         </ul>

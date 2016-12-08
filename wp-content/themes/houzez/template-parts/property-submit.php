@@ -17,18 +17,18 @@ $select_packages_link = houzez_get_template_link('template/template-packages.php
 
 if( is_page_template( 'template/submit_property.php' ) ) {
 
-    if( $enable_paid_submission == 'membership' && $remaining_listings != -1 && $remaining_listings < 1 ) {
-        if( !houzez_user_has_membership( $userID ) ) {
-            print '<div class="user_package_status">
-                    <h4>' . esc_html__('You don\'t has any package! You need to buy your package.', 'houzez') . '</h4>
-                    <a href="'.$select_packages_link.'">'.esc_html__('Get Package', 'houzez').'</a>
+        if ($enable_paid_submission == 'membership' && $remaining_listings != -1 && $remaining_listings < 1 && is_user_logged_in() ) {
+            if (!houzez_user_has_membership($userID)) {
+                print '<div class="user_package_status">
+                    <h4>' . esc_html__('You don\'t have any package! You need to buy your package.', 'houzez') . '</h4>
+                    <a class="btn btn-primary" href="' . $select_packages_link . '">' . esc_html__('Get Package', 'houzez') . '</a>
                     </div>';
-        } else {
-            print '<div class="user_package_status"><h4>' . esc_html__('Your current package doesn\'t let you publish more properties! You need to upgrade your membership.', 'houzez') . '</h4>
-            <a href="'.$select_packages_link.'">'.esc_html__('Upgrade Package', 'houzez').'</a>
+            } else {
+                print '<div class="user_package_status"><h4>' . esc_html__('Your current package doesn\'t let you publish more properties! You need to upgrade your membership.', 'houzez') . '</h4>
+            <a class="btn btn-primary" href="' . $select_packages_link . '">' . esc_html__('Upgrade Package', 'houzez') . '</a>
             </div>';
-        }
-    } else { ?>
+            }
+        } else { ?>
 
         <form id="submit_property_form" name="new_post" method="post" action="#" enctype="multipart/form-data"
               class="add-frontend-property">
@@ -84,6 +84,10 @@ if( is_page_template( 'template/submit_property.php' ) ) {
 
                     case 'location':
                         get_template_part('template-parts/submit-property/location');
+                        break;
+
+                    case 'virtual_tour':
+                        get_template_part('template-parts/submit-property/virtual-tour');
                         break;
 
                     case 'floorplans':

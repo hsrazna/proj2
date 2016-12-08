@@ -38,19 +38,18 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 <header id="header-section" class="houzez-header-main <?php echo esc_attr( $css_class ).' '.esc_attr( $header_4_menu_align ).' '.esc_attr($trans_class).' '.esc_attr($menu_righ_no_user); ?> hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
     <div class="<?php echo sanitize_html_class( $header_layout ); ?>">
         <div class="header-left">
-            
+
             <div class="ls-md-menu">
                 <div class="mobile-nav">
                     <span class="nav-trigger"><i class="fa fa-navicon"></i></span>
                     <div class="nav-dropdown main-nav-dropdown"></div>
                 </div>
             </div>
-            
 
             <div class="logo logo-desktop">
                 <?php get_template_part('inc/header/logo'); ?>
             </div>
-            
+
             <div class="ls-soc" style="display: none;">
                 <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                 <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
@@ -80,12 +79,8 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                         <a href="#" class="btn btn-orange az-btn az-reg">Заказать звонок</a>
                     <?php } ?>
                 <?php endif; ?>
-                <!-- <a href="#" class="btn btn-orange az-btn">Заказать звонок</a> -->
             </div>
-            <!-- <div class="ls-menu">
-                <a href="#" class="az-menu"><i class="fa fa-bars" aria-hidden="true"></i></a>
-            </div> -->
-            
+
             <nav class="navi main-nav ls-lg-menu">
                 <?php
                 // Pages Menu
@@ -101,54 +96,32 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 endif;
                 ?>
             </nav>
-            
             <?php if(is_front_page()): ?>
-            <?php global $houzez_local; ?>
-            <div class="ls-search">
-                <form role="search" method="get" id="searchform" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-                    <div class="az-rel">
-                        <!-- <input value="" name="s" id="s" type="text" placeholder="<?php echo $houzez_local['blog_search']; ?>"> -->
-                        <input value="" name="s" id="s" type="text">
-                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        <div class="az-azsearch"></div>
-                        <!-- <i class="fa fa-search ls-i" aria-hidden="true"></i> -->
-                        <!-- <i class="fa fa-times ls-i ls-disp-none" aria-hidden="true"></i> -->
-                    </div>
-                </form>
-            </div>
+                <div class="ls-search">
+                    <form role="search" method="get" id="searchform" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                        <div class="az-rel">
+                            <input value="" name="s" id="s" type="text">
+                            <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <div class="az-azsearch"></div>
+                        </div>
+                    </form>
+                </div>
             <?php endif; ?>
-
-            
-
-            <!-- <div class="ls-currency">
-                <i class="fa fa-rub" aria-hidden="true"></i>
-            </div> -->
-
-            
-            
         </div>
-        
+
         <?php if( class_exists('Houzez_login_register') ): ?>
-            <?php if( houzez_option('header_login') != 'no' ): ?>
+            <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <div class="header-right">
                     <div class="ls-lang">
                         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
                     </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
-                    <!-- <div class="clearfix"></div> -->
-
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-
     </div>
 
 </header>
 <!--end section header-->
 
 <?php get_template_part( 'inc/header/mobile-header' ); ?>
-
-            <!-- <div class="ls-favorites">
-                <a href="/favorite/"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-            </div> -->
-            <!-- <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i></a> -->

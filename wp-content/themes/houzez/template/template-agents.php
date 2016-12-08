@@ -7,13 +7,15 @@
  * Time: 4:03 PM
  */
 get_header();
+global $houzez_local;
 $sticky_sidebar = houzez_option('sticky_sidebar');
+$page_id = get_the_ID();
 ?>
 
 <?php get_template_part( 'template-parts/page-title' ); ?>
 
 <div class="row">
-    <div class="col-lg-8 col-md-8 col-sm-12 list-grid-area container-contentbar">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 list-grid-area container-contentbar">
         <div id="content-area">
 
             <!--start featured property items-->
@@ -37,6 +39,27 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                     'posts_per_page' => $number_of_agents,
                     'paged' => $paged
                 );
+
+                $agent_cats = get_post_meta( $page_id, 'fave_agent_category', false );
+                $order = get_post_meta( $page_id, 'fave_agent_order', true );
+                $orderby = get_post_meta( $page_id, 'fave_agent_orderby', true );
+
+                if ( ! empty( $agent_cats ) && is_array( $agent_cats ) ) {
+                    $tax_query[] = array(
+                        'taxonomy' => 'agent_category',
+                        'field' => 'slug',
+                        'terms' => $agent_cats
+                    );
+                    $qry_args['tax_query'] = $tax_query;
+                }
+
+                if( !empty( $orderby ) && $orderby != 'none' ) {
+                    $qry_args['orderby'] = $orderby;
+                }
+                if( !empty( $order ) ) {
+                    $qry_args['order'] = $order;
+                }
+
                 $wp_query = new WP_Query( $qry_args );
 
                 if ( $wp_query->have_posts() ) :
@@ -71,7 +94,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                 <?php
                                 if( has_post_thumbnail( $post->ID ) ) {
                                     ?>
-                                    <a href="#">
+                                    <a href="<?php the_permalink(); ?>">
                                     <?php
                                         the_post_thumbnail( 'houzez-image350_350' );
                                     ?>
@@ -79,7 +102,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                     <?php
                                 }else{
                                     ?>
-                                    <a href="#">
+                                    <a href="<?php the_permalink(); ?>">
                                     <?php
                                         houzez_image_placeholder( 'houzez-image350_350' );
                                     ?>
@@ -88,7 +111,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                 }
                                 ?>
                             </figure>
-                            <a href="<?php the_permalink(); ?>" class="btn btn-primary btn-block hidden-xs"><?php esc_html_e('View My Properties', 'houzez'); ?></a>
+                            <a href="<?php the_permalink(); ?>" class="btn btn-primary btn-block hidden-xs"><?php echo $houzez_local['view_my_prop']; ?></a>
                         </div>
                         <div class="media-body">
                             <div class="profile-description">
@@ -98,7 +121,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                     if( !empty( $agent_position) ) { echo esc_attr( $agent_position ).' '; }
 
                                     if( !empty( $agent_company) ) {
-                                        esc_html_e('at', 'houzez');
+                                        echo $houzez_local['at_text'];
                                         echo ' ' . esc_attr( $agent_company );
                                     }
                                     ?>
@@ -106,19 +129,19 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                 <p><?php echo wp_kses_post( $des ); ?></p>
                                 <ul class="profile-contact">
                                     <?php if( !empty($agent_office_num) ) { ?>
-                                        <li><span><?php esc_html_e('OFFICE:', 'houzez'); ?></span> <a href="tel:<?php echo esc_attr( $agent_office_call ); ?>"><?php echo esc_attr( $agent_office_num ); ?></a></li>
+                                        <li><span><?php echo $houzez_local['office_colon']; ?></span> <a href="tel:<?php echo esc_attr( $agent_office_call ); ?>"><?php echo esc_attr( $agent_office_num ); ?></a></li>
                                     <?php } ?>
 
                                     <?php if( !empty( $agent_mobile ) ) { ?>
-                                        <li><span><?php esc_html_e('MOBILE:', 'houzez'); ?></span> <a href="tel:<?php echo esc_attr( $agent_mobile_call ); ?>"><?php echo esc_attr( $agent_mobile ); ?></a></li>
+                                        <li><span><?php echo $houzez_local['mobile_colon']; ?></span> <a href="tel:<?php echo esc_attr( $agent_mobile_call ); ?>"><?php echo esc_attr( $agent_mobile ); ?></a></li>
                                     <?php } ?>
 
                                     <?php if( !empty( $agent_fax ) ) { ?>
-                                    <li><span><?php esc_html_e('FAX:', 'houzez'); ?></span> <a><?php echo esc_attr( $agent_fax ); ?></a></li>
+                                    <li><span><?php echo $houzez_local['fax_colon']; ?></span> <a><?php echo esc_attr( $agent_fax ); ?></a></li>
                                     <?php } ?>
 
                                     <?php if( !empty( $agent_email ) ) { ?>
-                                        <li class="email"><span><?php esc_html_e('Email:', 'houzez'); ?></span> <a href="mailto:<?php echo esc_attr( $agent_email ); ?>"><?php echo esc_attr( $agent_email ); ?></a></li>
+                                        <li class="email"><span><?php echo $houzez_local['email_colon']; ?></span> <a href="mailto:<?php echo esc_attr( $agent_email ); ?>"><?php echo esc_attr( $agent_email ); ?></a></li>
                                     <?php } ?>
 
                                 </ul>
@@ -160,7 +183,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                     <?php } ?>
 
                                 </ul>
-                                <a href="<?php the_permalink(); ?>" class="btn btn-primary btn-block visible-xs"><?php esc_html_e('View My Properties', 'houzez'); ?></a>
+                                <a href="<?php the_permalink(); ?>" class="btn btn-primary btn-block visible-xs"><?php echo $houzez_local['view_my_prop']; ?></a>
                             </div>
                         </div>
                     </div>
@@ -184,7 +207,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
         </div>
     </div><!-- end container-content -->
 
-    <div class="col-lg-4 col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['agent_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['agent_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">
         <?php get_sidebar('houzez_agents'); ?>
     </div> <!-- end container-sidebar -->
 </div>

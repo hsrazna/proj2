@@ -22,7 +22,7 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
 
     $prop_agent_id = get_post_meta( get_the_ID(), 'fave_agents', true );
     $prop_agent_mobile = get_post_meta( $prop_agent_id, 'fave_agent_mobile', true );
-    $prop_agent_phone = get_post_meta( $prop_agent_id, 'fave_agent_phone', true );
+    $prop_agent_phone = get_post_meta( $prop_agent_id, 'fave_agent_office_num', true );
     $prop_agent_email = get_post_meta( $prop_agent_id, 'fave_agent_email', true );
     $agent_num_call = str_replace(array('(',')',' ','-'),'', $prop_agent_mobile);
     $prop_agent = get_the_title( $prop_agent_id );
@@ -62,7 +62,7 @@ $agent_email = is_email( $prop_agent_email );
 
 if( $enableDisable_agent_forms != 0 && $agent_display_option != 'none') {
 ?>
-    <div id="agent_bottom" class="detail-contact detail-block">
+    <div id="agent_bottom" class="detail-contact detail-block target-block">
         <div class="detail-title">
             <h2 class="title-left"><?php esc_html_e( 'Contact info', 'houzez' ); ?></h2>
             <div class="title-right"><strong><a href="<?php echo esc_url($prop_agent_permalink); ?>"><?php esc_html_e( 'View my listing', 'houzez' ); ?></a></strong></div>
@@ -110,7 +110,7 @@ if( $enableDisable_agent_forms != 0 && $agent_display_option != 'none') {
                             <span><a class="btn-google-plus" target="_blank" href="<?php echo esc_url( $fave_author_googleplus ); ?>"><i class="fa fa-google-plus-square"></i> <span>Google Plus</span></a></span>
                         <?php } ?>
 
-                        <?php if( !empty( $fb_author_youtube ) ) { ?>
+                        <?php if( !empty( $fave_author_youtube ) ) { ?>
                             <span><a class="btn-youtube" target="_blank" href="<?php echo esc_url( $fave_author_youtube ); ?>"><i class="fa fa-youtube-square"></i> <span>Youtube</span></a></span>
                         <?php } ?>
                     </dd>
@@ -155,7 +155,7 @@ if( $enableDisable_agent_forms != 0 && $agent_display_option != 'none') {
                         <div class="col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <textarea class="form-control" name="message" rows="5"
-                                          placeholder="<?php esc_html_e('Message', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in ", "houzez"); ?> [<?php echo get_the_title(); ?>]</textarea>
+                                          placeholder="<?php esc_html_e('Message', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in", "houzez"); ?> [<?php echo get_the_title(); ?>]</textarea>
                             </div>
                         </div>
                     </div>

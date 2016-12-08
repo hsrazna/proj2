@@ -6,6 +6,7 @@
  * Date: 07/04/16
  * Time: 11:34 PM
  */
+global $houzez_local;
 $fave_meta = houzez_get_invoice_meta( get_the_ID() );
 $user_info = get_userdata($fave_meta['invoice_buyer_id']);
 ?>
@@ -16,14 +17,14 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
         <?php
         $invoice_status = get_post_meta(  get_the_ID(), 'invoice_payment_status', true );
         if( $invoice_status == 0 ) {
-            echo esc_html__('Not Paid','houzez');
+            echo $houzez_local['not_paid'];
         } else {
-            echo esc_html__('Paid','houzez');
+            echo $houzez_local['paid'];
         }
         ?>
     </td>
     <td><?php echo houzez_get_invoice_price( $fave_meta['invoice_item_price'] );?></td>
-    <td><button class="btn btn-invoice" data-toggle="modal" data-target="#invoiceModal-<?php echo get_the_ID(); ?>"><?php esc_html_e( 'View Details', 'houzez' ); ?></button></td>
+    <td><button class="btn btn-invoice" data-toggle="modal" data-target="#invoiceModal-<?php echo get_the_ID(); ?>"><?php echo $houzez_local['view_details']; ?></button></td>
 </tr>
 
 <div id="invoiceModal-<?php echo get_the_ID(); ?>" class="modal fade invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModal">
@@ -31,7 +32,7 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?php esc_html_e( 'Payment details', 'houzez' ); ?></h4>
+                <h4 class="modal-title"><?php echo $houzez_local['payment_details']; ?></h4>
             </div>
             <div class="modal-body">
                 <div class="payment-details">
@@ -43,9 +44,9 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                                         <strong>
                                             <?php
                                             if( $fave_meta['invoice_billion_for'] != 'package' && $fave_meta['invoice_billion_for'] != 'Package' ) {
-                                                esc_html_e( 'Property Title', 'houzez' );
+                                                echo $houzez_local['property_title'];
                                             } else {
-                                                esc_html_e( 'Package', 'houzez' );
+                                                echo $houzez_local['invoice_package'];
                                             }
                                             ?>
                                         </strong>
@@ -63,12 +64,17 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-left">
-                                    <p><strong><?php esc_html_e( 'Payment Method', 'houzez' ); ?></strong></p>
+                                    <p><strong><?php echo $houzez_local['payment_method']; ?></strong></p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <p><?php echo esc_html( $fave_meta['invoice_payment_method'] ); ?></p>
+                                    <p><?php if( $fave_meta['invoice_payment_method'] == 'Direct Bank Transfer' ) {
+                                            echo $houzez_local['bank_transfer'];
+                                        } else {
+                                            echo $fave_meta['invoice_payment_method'];
+                                        } ?>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +83,7 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-left">
-                                    <p><strong><?php esc_html_e( 'Billing Type', 'houzez' ); ?></strong></p>
+                                    <p><strong><?php echo $houzez_local['billing_type']; ?></strong></p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -91,7 +97,7 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-left">
-                                    <p><strong><?php esc_html_e( 'Price:', 'houzez' ); ?></strong></p>
+                                    <p><strong><?php echo $houzez_local['invoice_price']; ?></strong></p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -103,14 +109,14 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                     </div><!-- payment-details-total -->
                 </div><!-- payment-details -->
 
-                <h4><?php esc_html_e( 'Customer details:', 'houzez' ); ?></h4>
+                <h4><?php echo $houzez_local['customer_details']; ?></h4>
 
                 <div class="customer-details">
                     <div class="customer-details-name">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-left">
-                                    <p><strong><?php esc_html_e( 'Name:', 'houzez' ); ?></strong></p>
+                                    <p><strong><?php echo $houzez_local['customer_name']; ?></strong></p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -124,26 +130,17 @@ $user_info = get_userdata($fave_meta['invoice_buyer_id']);
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="text-left">
-                                    <p><strong><?php esc_html_e( 'Email:', 'houzez' ); ?></strong></p>
+                                    <p><strong><?php echo $houzez_local['customer_email']; ?></strong></p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <p><?php esc_attr_e( $user_info->user_email ); ?></p>
+                                    <p><?php echo esc_attr( $user_info->user_email ); ?></p>
                                 </div>
                             </div>
                         </div>
                     </div><!-- customer-details-email-->
                 </div><!-- customer-details -->
-
-                <!--<h4><?php /*esc_html_e( 'Billing address', 'houzez' ); */?></h4>
-
-                <div class="billing-address">
-                    <address>
-                        7601 East Treasure Dr. #2498<br>
-                        Miami Beach, 33141 FL
-                    </address>
-                </div>--><!-- billing-address -->
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

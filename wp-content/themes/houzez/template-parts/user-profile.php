@@ -36,15 +36,16 @@ if($user_custom_picture==''){
     $user_custom_picture=get_template_directory_uri().'/images/profile-avatar.png';
 }
 $current_user_meta = get_user_meta( $userID );
+$user_data              =   get_userdata( $userID );
+$role                   =   $user_data->roles[0];
+$user_show_roles_profile = houzez_option('user_show_roles_profile');
 ?>
 
 <?php get_header(); ?>
 
 <div class="profile-area account-block white-block">
-    <div id="profile_message"></div>
     <div class="row">
         <div class="col-md-4 col-sm-5">
-            <!--<h4><?php /*esc_html_e('Welcome back, ','houzez'); echo esc_attr( $user_login );*/?></h4>-->
             <div class="my-avatar">
                 <div id="user-profile-img">
                     <div class="profile-thumb">
@@ -66,7 +67,6 @@ $current_user_meta = get_user_meta( $userID );
                     <div id="plupload-container"></div>
                 </div><!-- end of profile image controls -->
                 <a id="select-profile-image" class="btn btn-primary btn-block" href="javascript:;"><?php esc_html_e('Update Profile Picture','houzez'); ?></a>
-                <!--<a id="remove-profile-image" class="btn btn-primary btn-block" href="javascript:;"><?php /*esc_html_e('Remove','houzez'); */?></a>-->
                 <span class="profile-img-info"><?php esc_html_e( '*minimum 270px x 270px', 'houzez' ); ?><br/></span>
             </div>
         </div>
@@ -184,12 +184,18 @@ $current_user_meta = get_user_meta( $userID );
         <div class="col-sm-12 col-xs-12 text-right">
             <?php  wp_nonce_field( 'houzez_profile_ajax_nonce', 'houzez-security-profile' );   ?>
             <button class="btn btn-primary" id="houzez_update_profile"><?php esc_html_e('Update Profile','houzez');?></button>
+            <div id="profile_message" class="houzez_messages message"></div>
         </div>
     </div>
 </div>
 
 <div class="profile-area account-block white-block">
     <h4><?php esc_html_e( 'Change password', 'houzez' ); ?></h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="password_reset_msgs" class="houzez_messages message"></div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
@@ -212,4 +218,24 @@ $current_user_meta = get_user_meta( $userID );
     </div>
     <?php   wp_nonce_field( 'houzez_pass_ajax_nonce', 'houzez-security-pass' );   ?>
     <button class="btn btn-primary" id="houzez_change_pass"><?php esc_html_e('Update Password','houzez');?></button>
+</div>
+
+<?php if( $user_show_roles_profile != 0 ) { ?>
+<div class="profile-area account-block white-block">
+    <h4 class="account-action-title"> <?php esc_html_e( 'Account role', 'houzez' ); ?> </h4>
+    <div class="account-action-right">
+        <select name="houzez_user_role" id="houzez_user_role" class="selectpicker" data-live-search="false" data-live-search-style="begins" title=" Registered User ">
+            <option value="houzez_buyer" <?php selected( 'houzez_buyer', $role  ); ?>> <?php esc_html_e('Buyer', 'houzez'); ?>  </option>
+            <option value="houzez_agent" <?php selected( 'houzez_agent', $role  ); ?>> <?php esc_html_e('Seller (Agent)', 'houzez'); ?> </option>
+        </select>
+    </div>
+</div>
+<?php } ?>
+
+<div class="profile-area account-block white-block">
+    <h4 class="account-action-title"> <?php esc_html_e( 'Delete account', 'houzez' ); ?> </h4>
+    <div class="account-action-right">
+        <input type="hidden" name="houzez_account_id" id="houzez_account_id" value="<?php echo $userID; ?>">
+        <button class="btn btn-danger" id="houzez_delete_account"> <?php esc_html_e( 'Detele My Account', 'houzez' ); ?> </button>
+    </div>
 </div>

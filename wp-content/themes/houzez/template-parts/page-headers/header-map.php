@@ -1,8 +1,11 @@
-<?php global $fave_header_full_screen, $post, $adv_search_which_header_show, $adv_search_over_header_pages, $adv_search_selected_pages; ?>
+<?php
+global $fave_header_full_screen, $post, $adv_search_which_header_show, $adv_search_over_header_pages, $adv_search_selected_pages;
+$geo_location = houzez_option('geo_location');
+?>
 
 <div class="header-media">
-    <div id="houzez-gmap-main">
-        <div id="houzez-listing-map" class="<?php echo esc_attr( $fave_header_full_screen ); ?>">
+    <div id="houzez-gmap-main" class="<?php echo esc_attr( $fave_header_full_screen ); ?>">
+        <div id="houzez-listing-map">
         </div>
         <div id="houzez-map-loading">
             <div class="mapPlaceholder">
@@ -17,7 +20,7 @@
         <div  class="map-arrows-actions">
             <button id="listing-mapzoomin" class="map-btn"><i class="fa fa-plus"></i> </button>
             <button id="listing-mapzoomout" class="map-btn"><i class="fa fa-minus"></i></button>
-            <!--<input type="text" id="google-map-search" placeholder="<?php /*esc_html_e('Google Map Search', 'houzez'); */?>" class="map-search">-->
+            <input type="text" id="google-map-search" placeholder="<?php esc_html_e('Google Map Search', 'houzez'); ?>" class="map-search">
         </div>
         <div class="map-next-prev-actions">
             <ul class="dropdown-menu" aria-labelledby="houzez-gmap-view">
@@ -32,8 +35,10 @@
             <button id="houzez-gmap-next" class="map-btn"><span><?php esc_html_e('Next', 'houzez'); ?></span> <i class="fa fa-chevron-right"></i></button>
         </div>
         <div  class="map-zoom-actions">
-            <!--<span id="houzez-gmap-location" class="map-btn"><i class="fa fa-map-marker"></i> <span><?php /*esc_html_e('My location', 'houzez'); */?></span></span>-->
-            <!--<span id="houzez-gmap-full"  class="map-btn"><i class="fa fa-arrows-alt"></i> <span><?php /*esc_html_e('Fullscreen', 'houzez'); */?></span></span>-->
+            <?php if( $geo_location != 0 ) { ?>
+                <span id="houzez-gmap-location" class="map-btn"><i class="fa fa-map-marker"></i> <span><?php esc_html_e('My location', 'houzez'); ?></span></span>
+            <?php } ?>
+            <span id="houzez-gmap-full"  class="map-btn"><i class="fa fa-arrows-alt"></i> <span><?php esc_html_e('Fullscreen', 'houzez'); ?></span></span>
         </div>
     </div>
     <?php

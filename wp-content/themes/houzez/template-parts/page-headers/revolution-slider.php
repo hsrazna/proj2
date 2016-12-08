@@ -4,12 +4,12 @@ global $post, $adv_search_which_header_show, $adv_search_over_header_pages, $adv
 if (is_plugin_active('revslider/revslider.php')) {
     $revslider_alias = get_post_meta($post->ID, 'fave_page_header_revslider', true);
     ?>
-    <div class="header-media az-dispay-lg">
+    <div class="header-media">
         <div class="page-banner-revolution-slider">
-            <?php //putRevSlider($revslider_alias) ?>
+            <?php putRevSlider($revslider_alias) ?>
         </div>
         <?php
-        if( 0/*$adv_search_which_header_show['header_rs'] != 0*/ ) {
+        if( $adv_search_which_header_show['header_rs'] != 0 ) {
             if( $adv_search_over_header_pages == 'only_home' ) {
                 if (is_front_page()) {
                     get_template_part('template-parts/advanced-search/desktop', 'type2');
@@ -29,7 +29,12 @@ if (is_plugin_active('revslider/revslider.php')) {
         }
         ?>
     </div>
-    <div class="header-media">
+    
+    <?php
+} else {
+    ?>
+
+<div class="header-media">
         <div class="page-banner-revolution-slider">
             <div class="az-slider" style="">
                 <!-- <div id="custom-pag-place"></div> -->
@@ -650,8 +655,4 @@ if (is_plugin_active('revslider/revslider.php')) {
             </div>
         </div>
     </div>
-<script>
-
-</script>
-    <?php
-}?>
+<?php } ?>

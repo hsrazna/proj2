@@ -7,6 +7,7 @@
  * Time: 7:49 PM
  */
 global $post, $property_streetView, $property_map;
+$disable_favorite = houzez_option('disable_favorite');
 ?>
 <div class="media-tabs">
     <ul class="media-tabs-list">
@@ -37,8 +38,10 @@ global $post, $property_streetView, $property_map;
         <li class="share-btn">
             <?php get_template_part( 'template-parts/share' ); ?>
         </li>
+        <?php if( $disable_favorite != 0 ) { ?>
         <li>
-            <span><?php get_template_part( 'template-parts/favorite' ); ?></span>
+            <?php get_template_part( 'template-parts/favorite' ); ?>
         </li>
+        <?php } ?>
     </ul>
 </div>

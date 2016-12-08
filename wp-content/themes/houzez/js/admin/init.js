@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
     $('#fave_header_type, #fave_floor_plans_enable, #fave_additional_features_enable').change(checkPageSettings);
     $('#fave_page_sidebar').change(checkDefaultTemplateSettings);
     $('#fave_adv_search_enable').change( advancedSearch );
-    $('#fave_listings_tabs').change( TabsShowHide );
+    //$('#fave_listings_tabs').change( TabsShowHide );
 
     $('#authordiv h2 span').empty();
     $('#authordiv h2 span').append('Assign Property to User');
@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 
         var template = jQuery('#page_template').attr('value');
 
-        if( template == 'template/property-listing-template.php' || template == 'template/property-listing-fullwidth.php' ) {
+        if( template == 'template/property-listing-template.php' || template == 'template/property-listing-template-style2.php' || template == 'template/property-listing-fullwidth.php' || template == 'template/property-listing-style2-fullwidth.php' ) {
             jQuery('#fave_listing_template').stop(true,true).fadeIn(500);
 
         } else {
@@ -44,6 +44,17 @@ jQuery(document).ready(function($) {
         } else {
             jQuery('#fave_default_template_settings').hide();
         }
+        if( template == 'template/template-agents.php' ) {
+            jQuery('#fave_agents_template').stop(true,true).fadeIn(500);
+        } else {
+            jQuery('#fave_agents_template').hide();
+        }
+        if( template == 'template/template-agencies.php' ) {
+            jQuery('#fave_agencies_template').stop(true,true).fadeIn(500);
+        } else {
+            jQuery('#fave_agencies_template').hide();
+        }
+
 
     }
 
@@ -51,11 +62,12 @@ jQuery(document).ready(function($) {
     $('#fave_advanced_search .inside .rwmb-meta-box > div:gt(0):lt(2)').wrapAll('<div id="fave_advanced_search_option">');
 
     $('#fave_page_settings .inside .rwmb-meta-box > div:gt(0):lt(1)').wrapAll('<div id="page_header_fix_screen_settings">');
-    $('#fave_page_settings .inside .rwmb-meta-box > div:gt(1):lt(3)').wrapAll('<div id="page_header_common_settings">');
-    $('#fave_page_settings .inside .rwmb-meta-box > div:gt(2):lt(1)').wrapAll('<div id="page_header_slider_settings">');
-    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(3):lt(4)").wrapAll('<div id="page_header_image_settings">');
-    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(4):lt(6)").wrapAll('<div id="page_header_video_settings">');
-    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(5):lt(7)").wrapAll('<div id="page_header_map_settings">');
+    $('#fave_page_settings .inside .rwmb-meta-box > div:gt(1):lt(1)').wrapAll('<div id="page_header_fix_screen_type_settings">');
+    $('#fave_page_settings .inside .rwmb-meta-box > div:gt(2):lt(3)').wrapAll('<div id="page_header_common_settings">');
+    $('#fave_page_settings .inside .rwmb-meta-box > div:gt(3):lt(1)').wrapAll('<div id="page_header_slider_settings">');
+    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(4):lt(4)").wrapAll('<div id="page_header_image_settings">');
+    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(5):lt(6)").wrapAll('<div id="page_header_video_settings">');
+    $("#fave_page_settings .inside .rwmb-meta-box > div:gt(6):lt(7)").wrapAll('<div id="page_header_map_settings">');
 
     $("#additional-details .inside .rwmb-meta-box > div:gt(0):lt(1)").wrapAll('<div id="additional_details_settings">');
     $("#floor-plans .inside .rwmb-meta-box > div:gt(0):lt(1)").wrapAll('<div id="floor_plans_settings">');
@@ -78,19 +90,19 @@ jQuery(document).ready(function($) {
         var fave_additional_features_enable = jQuery('#fave_additional_features_enable').attr('value');
 
 
-        jQuery('#page_header_slider_settings, #page_header_image_settings, #page_header_video_settings, #page_header_common_settings, #floor_plans_settings, #additional_details_settings, #page_header_fix_screen_settings, #page_header_map_settings').hide();
+        jQuery('#page_header_slider_settings, #page_header_image_settings, #page_header_video_settings, #page_header_common_settings, #floor_plans_settings, #additional_details_settings, #page_header_fix_screen_settings, #page_header_fix_screen_type_settings, #page_header_map_settings').hide();
         if( header_type == 'rev_slider' ) {
             jQuery('#page_header_slider_settings, #fave_menu_settings').stop(true,true).fadeIn(500);
             //jQuery('#page_header_fix_screen_settings').hide();
 
         } else if( header_type == 'static_image' ) {
-            jQuery('#page_header_image_settings, #page_header_common_settings, #page_header_fix_screen_settings, #fave_menu_settings').stop(true,true).fadeIn(500);
+            jQuery('#page_header_image_settings, #page_header_common_settings, #page_header_fix_screen_settings, #page_header_fix_screen_type_settings, #fave_menu_settings').stop(true,true).fadeIn(500);
 
         } else if( header_type == 'video' ) {
             jQuery('#page_header_video_settings, #page_header_common_settings, #page_header_fix_screen_settings, #fave_menu_settings').stop(true,true).fadeIn(500);
 
         } else if ( header_type == 'property_slider' ) {
-            jQuery('#page_header_common_settings, #page_header_fix_screen_settings, #fave_menu_settings, #page_header_map_settings').hide();
+            jQuery('#page_header_common_settings, #page_header_fix_screen_settings, #page_header_fix_screen_type_settings, #fave_menu_settings, #page_header_map_settings').hide();
 
         } else if ( header_type == 'property_map' ) {
             jQuery('#page_header_fix_screen_settings, #page_header_map_settings').stop(true,true).fadeIn(500);
@@ -134,7 +146,7 @@ jQuery(document).ready(function($) {
         checkPageSettings();
         checkDefaultTemplateSettings();
         advancedSearch();
-        TabsShowHide();
+        //TabsShowHide();
     });
 
 	

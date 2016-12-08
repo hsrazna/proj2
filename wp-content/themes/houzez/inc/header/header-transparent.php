@@ -40,7 +40,7 @@ $header_4_menu_align = houzez_option('header_4_menu_align');
         </div>
 
         <?php if( class_exists('Houzez_login_register') ): ?>
-            <?php if( houzez_option('header_login') != 'no' ): ?>
+            <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <div class="header-right">
                     <?php get_template_part('inc/header/login', 'nav'); ?>
                 </div>

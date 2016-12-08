@@ -100,15 +100,11 @@ if( $property_status_text != 'expired' ) {
             <div class="my-actions houzez-per-listing-buttons-main">
                 <div class="btn-group">
                     <a href="<?php echo esc_url($edit_link); ?>" class="action-btn" data-toggle="tooltip" data-placement="top" title="<?php esc_html_e( 'Edit Property', 'houzez' ); ?>"><i class="fa fa-edit"></i></a>
-                    <?php
-                    /* Delete Post Link Bypassing Trash */
-                    if ( current_user_can('delete_posts') ) {
-                        $delete_post_link = get_delete_post_link( $post->ID, '', true );
+                    <?php $delete_post_link = get_delete_post_link( $post->ID, '', true );
                         if(!empty($delete_post_link)){
                         ?>
                             <a onclick="return confirm('<?php esc_html_e( 'Are you sure you wish to delete?', 'houzez' ); ?>')" href="<?php echo esc_url( $delete_post_link ); ?>" class="action-btn" data-toggle="tooltip" data-placement="top" title="<?php esc_html_e( 'Delete Property', 'houzez' ); ?>"><i class="fa fa-close"></i></a>
                     <?php
-                        }
                     }?>
 
                     <!--<a href="#" class="action-btn" data-toggle="tooltip" data-placement="top" title="Floor Plan"><i class="fa fa-book"></i></a>-->
@@ -126,7 +122,7 @@ if( $property_status_text != 'expired' ) {
                     <?php } ?>
 
                     <?php if( $property_status_text == 'expired' && $paid_submission_type == 'membership' ) { ?>
-                        <a href="#" data-propid="<?php echo intval( $post->ID ); ?>" class="resend-for-approval action-btn" data-toggle="tooltip" data-placement="top" title="<?php esc_html_e( 'Resend for Approval', 'houzez' ); ?>"><i class="fa fa-upload"></i></a>
+                        <a href="#" data-propid="<?php echo intval( $post->ID ); ?>" class="resend-for-approval action-btn" data-toggle="tooltip" data-placement="top" title="<?php esc_html_e( 'Reactivate Listing', 'houzez' ); ?>"><i class="fa fa-upload"></i></a>
                     <?php } ?>
 
                     <?php if( $property_status_text == 'expired' && $paid_submission_type == 'per_listing' ) { ?>
@@ -135,6 +131,59 @@ if( $property_status_text != 'expired' ) {
                     <!--<a href="#" class="action-btn"><i class="fa fa-area-chart"></i></a>-->
                 </div>
                 <?php get_template_part( 'template-parts/payment', 'buttons' ); ?>
+                <?php
+                $houzez_listing_type = houzez_option( 'enable_paid_submission' );
+                $houzez_listing_expire = houzez_option( 'per_listing_expire_unlimited' );
+
+                if ( $houzez_listing_type == 'per_listing' && $houzez_listing_expire == 1 ) :
+
+                    $houzez_listing_expire_limit = houzez_option( 'per_listing_expire' );
+
+                    $parts = explode( '-', get_the_date( 'Y-m-d' ) );
+                    $today = new DateTime("now");
+                    $_expire_date = date( 'Y-m-d h:i:sa', mktime( 0, 0, 0, $parts[1], $parts[2] + $houzez_listing_expire_limit, $parts[0] ) );
+                    $expire_date = new DateTime( $_expire_date );
+
+                    $interval = $expire_date->diff( $today );
+                    $years = $interval->format('%y');
+                    $months = $interval->format('%m');
+                    $days = $interval->format('%d');
+                    $hours = $interval->format('%h');
+                    $minutes = $interval->format('%i');
+                    // $diff = $interval->format('%y-%m-%d');
+
+                    $time_left = '';
+
+                    if ( $years != 0 ) :
+
+                        $time_left = $years . ' years remaining';
+
+                    elseif ( $months != 0 ) :
+
+                        $time_left = $months . ' months remaining';
+
+                    elseif ( $days != 0 ) :
+
+                        $time_left = $days . ' days remaining';
+
+                    elseif ( $days != 0 ) :
+
+                        $time_left = $days . ' hours remaining';
+
+                    elseif ( $days != 0 ) :
+
+                        $time_left = $days . ' minutes remaining';
+
+                    else:
+
+                        $time_left = 'expired';
+
+                    endif;
+
+                    echo '<p class="expire-text"><strong>Expiration:</strong> ' . $time_left . '</p>';
+
+                endif;
+                ?>
             </div>
         </div>
     </div>
