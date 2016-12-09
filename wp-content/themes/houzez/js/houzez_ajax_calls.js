@@ -2305,7 +2305,7 @@ jQuery(document).ready(function ($) {
 
         }
 
-        var houzez_header_listing_map = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
+        var houzez_header_listing_map = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
             var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
 
@@ -2315,13 +2315,13 @@ jQuery(document).ready(function ($) {
                 url: ajaxurl,
                 data: {
                     'action': 'houzez_header_map_listings',
-                    'initial_city': initial_city,
+                    // 'initial_city': initial_city,
                     'keyword': keyword,
                     'country': country,
                     'state': state,
                     'location': location,
                     'area': area,
-                    'status': status,
+                    'status': $('input[name=status]').val(),
                     'type': type,
                     'bedrooms': bedrooms,
                     'bathrooms': bathrooms,
@@ -2336,13 +2336,14 @@ jQuery(document).ready(function ($) {
                     'use_radius': use_radius,
                     'search_location': search_location,
                     'search_radius': search_radius,
-                    'security': headerMapSecurity
+                    'security': headerMapSecurity,
+                    'price_type' : price_type
                 },
                 beforeSend: function() {
                     $('#houzez-map-loading').show();
                 },
                 success: function(data) {
-
+                    houzezHeaderMapOptions.maxZoom = 12;
                     houzezMap = new google.maps.Map(document.getElementById('houzez-listing-map'), houzezHeaderMapOptions);
                     google.maps.event.trigger(houzezMap, 'resize');
 
@@ -2426,6 +2427,7 @@ jQuery(document).ready(function ($) {
 
                         reloadMarkers();
                         houzezAddMarkers( data.properties, houzezMap );
+                        
 
                         houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
                             return bounds.extend( marker.getPosition() );
@@ -2458,7 +2460,7 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var houzez_half_map_listings = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
+        var houzez_half_map_listings = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
             var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
 
@@ -2468,7 +2470,7 @@ jQuery(document).ready(function ($) {
                 url: ajaxurl,
                 data: {
                     'action': 'houzez_header_map_listings',
-                    'initial_city': initial_city,
+                    // 'initial_city': initial_city,
                     'keyword': keyword,
                     'location': location,
                     'country': country,
@@ -2489,7 +2491,8 @@ jQuery(document).ready(function ($) {
                     'use_radius': use_radius,
                     'search_location': search_location,
                     'search_radius': search_radius,
-                    'security': headerMapSecurity
+                    'security': headerMapSecurity,
+                    'price_type': price_type
                 },
                 beforeSend: function() {
                     $('#houzez-map-loading').show();
@@ -2578,9 +2581,14 @@ jQuery(document).ready(function ($) {
                         reloadMarkers();
                         houzezAddMarkers( data.properties, houzezMap );
 
-                        houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
+                        var temp1 = markers.reduce(function(bounds, marker ) {
                             return bounds.extend( marker.getPosition() );
-                        }, new google.maps.LatLngBounds()));
+                        }, new google.maps.LatLngBounds());
+                        houzezMap.fitBounds( temp1 );
+
+                        // houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
+                        //     return bounds.extend( marker.getPosition() );
+                        // }, new google.maps.LatLngBounds()));
 
                         google.maps.event.trigger( houzezMap, 'resize' );
 
@@ -2609,7 +2617,7 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        var houzez_half_map_listings_list = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius ) {
+        var houzez_half_map_listings_list = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
 
 
@@ -2642,7 +2650,8 @@ jQuery(document).ready(function ($) {
                     'use_radius': use_radius,
                     'search_location': search_location,
                     'search_radius': search_radius,
-                    'security': headerMapSecurity
+                    'security': headerMapSecurity,
+                    'price_type': price_type
                 },
                 beforeSend: function() {
                     ajax_container.empty().append(''
@@ -2668,7 +2677,7 @@ jQuery(document).ready(function ($) {
         }
 
         var houzez_search_on_change = function (current_form, form_widget, min_price_onchange_status, max_price_onchange_status, only_city, only_state, only_country ) {
-            var country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, keyword, publish_date, search_lat, search_long, search_radius, search_location, use_radius, features;
+            var country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, keyword, publish_date, search_lat, search_long, search_radius, search_location, use_radius, features, price_type;
 
             if( min_price_onchange_status != null && max_price_onchange_status != null ) {
                 min_price = min_price_onchange_status;
@@ -2713,6 +2722,7 @@ jQuery(document).ready(function ($) {
             max_area  = current_form.find('input[name="max-area"]').val();
             keyword   = current_form.find('input[name="keyword"]').val();
             publish_date   = current_form.find('input[name="publish_date"]').val();
+            price_type   = current_form.find('select[name="price_type"]').val();
             features = current_form.find('.features-list input[type=checkbox]:checked').map(function(_, el) {
                 return $(el).val();
             }).toArray();
@@ -2735,10 +2745,10 @@ jQuery(document).ready(function ($) {
             }
 
             if(current_tempalte == 'template/property-listings-map.php') {
-                houzez_half_map_listings(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
-                houzez_half_map_listings_list(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
+                houzez_half_map_listings(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type );
+                houzez_half_map_listings_list(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type );
             } else {
-                houzez_header_listing_map(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius );
+                houzez_header_listing_map(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type );
             }
         }
 
@@ -2831,7 +2841,7 @@ jQuery(document).ready(function ($) {
 
         if($("#houzez-listing-map").length > 0 || $('#mapViewHalfListings').length > 0 ) {
 
-            $('select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"]').on('change', function() {
+            $('select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"], select[name="price_type"]').on('change', function() {
                 var current_form = $(this).parents('form');
                 var form_widget = $(this).parents('.widget_houzez_advanced_search');
                 houzez_search_on_change(current_form, form_widget);

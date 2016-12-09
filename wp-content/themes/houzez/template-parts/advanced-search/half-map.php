@@ -63,7 +63,7 @@ if ($adv_show_hide['keyword'] != 1) {
 <div class="advanced-search houzez-adv-price-range">
 
     <form method="get" action="#">
-
+        
         <?php if( $enable_radius_search != 0 ) { ?>
             <input type="hidden" name="search_radius" id="radius-range-value">
             <input type="hidden" name="lat" value="<?php echo isset ( $_GET['lat'] ) ? $_GET['lat'] : ''; ?>" id="latitude">
@@ -217,8 +217,21 @@ if ($adv_show_hide['keyword'] != 1) {
             </div>
             <?php } ?>
 
+            <div class="col-sm-3 col-xs-6">
+                <div class="form-group az-text1">
+                    <select name="price_type" class="selectpicker az-text1" data-live-search="false" data-live-search-style="begins">
+                        <option value="fave_property_price">Цена продажи</option>
+                        <option value="price_day">Цена по дням</option>
+                        <option value="price_week">Цена по неделям</option>
+                        <option value="price_month">Цена по месяцам</option>
+                        <option value="price_longterm">Цена на 6+</option>
+                        <option value="price_spec">Цена спец</option>
+                    </select>
+                </div>
+            </div>
 
-            <?php if( $adv_show_hide['status'] != 1 ) { ?>
+            <input type="hidden" name="status" value="<?php the_title(); ?>">
+            <?php if( 0/*$adv_show_hide['status'] != 1*/ ) { ?>
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="form-group">
                     <select class="selectpicker" name="status" data-live-search="false" data-live-search-style="begins">
