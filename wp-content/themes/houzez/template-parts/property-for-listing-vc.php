@@ -5,6 +5,18 @@
  * Date: 09/02/16
  * Time: 12:36 AM
  */
+global $ls_en_ru;
+$ls_beds = get_post_meta( get_the_ID(), 'fave_property_bedrooms', true );
+$ls_add = get_post_meta( get_the_ID(), 'additional_features', true );
+foreach ($ls_add as $ls_add_value) {
+    // if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["name2"])
+        // $ls_title_second = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["stars"])
+        $ls_stars = (int)esc_attr( $ls_add_value['fave_additional_feature_value'] );
+    // if($ls_add_value['fave_additional_feature_title'] == $ls_en_ru["date_check"])
+        // $ls_date_check = esc_attr( $ls_add_value['fave_additional_feature_value'] );
+}
+
 global $post, $prop_images;
 $post_meta_data     = get_post_custom($post->ID);
 $prop_images        = get_post_meta( get_the_ID(), 'fave_property_images', false );
@@ -91,7 +103,14 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
                     <?php
                     echo '<h3 class="property-title"><a href="'.esc_url( get_permalink() ).'">'. esc_attr( get_the_title() ). '</a></h3>';
 
-                    if( !empty( $prop_address )) {
+                    if( !empty( $ls_beds /*$prop_address*/ )) {
+                        if ( qtrans_getLanguage() == 'en' ) {
+                            echo '<address class="property-address az-text1">Beds: '.esc_attr( $ls_beds ).'</address>';
+                        } elseif ( qtrans_getLanguage() == 'ru' ) {
+                            echo '<address class="property-address az-text1">Количество спален: '.esc_attr( $ls_beds ).'</address>';                           
+                        }
+                    }
+                    if( 0/*!empty( $prop_address )*/) {
                         echo '<address class="property-address">'.esc_attr( $prop_address ).'</address>';
                     }
                     ?>
@@ -99,13 +118,22 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
                 <div class="table-list full-width info-row">
                     <div class="cell">
                         <div class="info-row amenities">
-                            <?php echo houzez_listing_meta_v1(); ?>
-                            <p><?php echo houzez_taxonomy_simple('property_type'); ?></p>
+                            <?php
+                                for($i=0; $i<$ls_stars; $i++){
+                                    echo '<img src="'.get_template_directory_uri().'/images/az-star-yellow2.png" alt="">';
+                                }
+                            ?>
+                            <?php //echo houzez_listing_meta_v1(); ?>
+                            <p><?php //echo houzez_taxonomy_simple('property_type'); ?></p>
                         </div>
                     </div>
                     <div class="cell">
                         <div class="phone">
-                            <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"> <?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                            <?php if ( qtrans_getLanguage() == 'en' ) { ?>
+                                <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"> <?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                                <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"> <?php esc_html_e( 'Детали', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -113,14 +141,14 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
 
         </div>
     </div>
-    <div class="item-foot date hide-on-list">
+    <!-- <div class="item-foot date hide-on-list">
         <div class="item-foot-left">
-            <?php if( !empty( $listing_agent ) ) { ?>
-                <p class="prop-user-agent"><i class="fa fa-user"></i> <?php echo implode( ', ', $listing_agent ); ?></p>
-            <?php } ?>
+            <?php //if( 0/*!empty( $listing_agent )*/ ) { ?>
+                <p class="prop-user-agent"><i class="fa fa-user"></i> <?php //echo implode( ', ', $listing_agent ); ?></p>
+            <?php //} ?>
         </div>
         <div class="item-foot-right">
-            <p><i class="fa fa-calendar"></i><?php printf( __( '%s ago', 'houzez' ), human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) ); ?></p>
+            <p><i class="fa fa-calendar"></i><?php //printf( __( '%s ago', 'houzez' ), human_time_diff( get_the_time( 'U' ), current_time( 'timestamp' ) ) ); ?></p>
         </div>
-    </div>
+    </div> -->
 </div>

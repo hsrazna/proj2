@@ -2428,10 +2428,13 @@ jQuery(document).ready(function ($) {
                         reloadMarkers();
                         houzezAddMarkers( data.properties, houzezMap );
                         
-
-                        houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
+                        var temp1 = markers.reduce(function(bounds, marker ) {
                             return bounds.extend( marker.getPosition() );
-                        }, new google.maps.LatLngBounds()));
+                        }, new google.maps.LatLngBounds());
+                        houzezMap.fitBounds( temp1 );
+                        // houzezMap.fitBounds( markers.reduce(function(bounds, marker ) {
+                        //     return bounds.extend( marker.getPosition() );
+                        // }, new google.maps.LatLngBounds()));
 
                         google.maps.event.trigger( houzezMap, 'resize' );
 
@@ -2463,7 +2466,6 @@ jQuery(document).ready(function ($) {
         var houzez_half_map_listings = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
             var initial_city = HOUZEZ_ajaxcalls_vars.header_map_selected_city;
-
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -2476,7 +2478,7 @@ jQuery(document).ready(function ($) {
                     'country': country,
                     'state': state,
                     'area': area,
-                    'status': status,
+                    'status': $('input[name=status]').val(),//status,
                     'type': type,
                     'bedrooms': bedrooms,
                     'bathrooms': bathrooms,
@@ -2498,7 +2500,7 @@ jQuery(document).ready(function ($) {
                     $('#houzez-map-loading').show();
                 },
                 success: function(data) { //alert(JSON.stringify(data.properties)); return;
-
+                    houzezMapoptions.maxZoom = 12;
                     houzezMap = new google.maps.Map(document.getElementById('mapViewHalfListings'), houzezMapoptions);
 
                     if( google_map_style !== '' ) {
@@ -3414,6 +3416,7 @@ jQuery(document).ready(function ($) {
                 };
 
                 var initialize = function () {
+                    mapOptions.maxZoom = 12;
                     map = new google.maps.Map(document.getElementById('singlePropertyMap'), mapOptions);
                     if( $('#street-map').length > 0 ) {
                         panorama = new google.maps.StreetViewPanorama(document.getElementById('street-map'), panoramaOptions);

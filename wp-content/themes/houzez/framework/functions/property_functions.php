@@ -9,6 +9,8 @@
 /*-----------------------------------------------------------------------------------*/
 // Submit Property filter
 /*-----------------------------------------------------------------------------------*/
+$price_type = '';
+
 add_filter('houzez_submit_listing', 'houzez_submit_listing');
 
 if( !function_exists('houzez_submit_listing') ) {

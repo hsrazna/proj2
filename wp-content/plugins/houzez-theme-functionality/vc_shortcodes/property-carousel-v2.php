@@ -49,7 +49,12 @@ if( !function_exists('houzez_prop_carousel_v2') ) {
 		<div id="carousel-module-grid" class="houzez-module carousel-module">
 			<div class="module-title-nav clearfix">
 				<div>
-					<h2><?php echo esc_attr($custom_title); ?></h2>
+					<h2 class="az-title1"><?php echo esc_attr($custom_title); ?></h2>
+					<?php if ( qtrans_getLanguage() == 'en' ) { ?>
+              
+          <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+							
+          <?php } ?>
 				</div>
 				<div class="module-nav">
 					<?php if ($navigation == 'true') { ?>

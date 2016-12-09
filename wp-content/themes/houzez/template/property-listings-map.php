@@ -104,13 +104,24 @@ if( isset( $_GET['sortby'] ) ) {
                                 if ( is_front_page()  ) {
                                     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
                                 }
+                                $ls_status = get_the_title();
+                                if($ls_status == 'For Rent' || $ls_status == 'For Sale'){
+                                    $latest_listing_args = array(
+                                        'post_type' => 'property',
+                                        'posts_per_page' => 10,//$posts_per_page,
+                                        'paged' => $paged,
+                                        'post_status' => 'publish',
+                                        'property_status' => get_the_title(),
+                                    );
+                                } else {
+                                    $latest_listing_args = array(
+                                        'post_type' => 'property',
+                                        'posts_per_page' => 10,//$posts_per_page,
+                                        'paged' => $paged,
+                                        'post_status' => 'publish',
+                                    );
+                                }
 
-                                $latest_listing_args = array(
-                                    'post_type' => 'property',
-                                    'posts_per_page' => 10,//$posts_per_page,
-                                    'paged' => $paged,
-                                    'post_status' => 'publish'
-                                );
 
                                 //if( $search_result_page == 'half_map' ) {
                                     $latest_listing_args = apply_filters('houzez_search_parameters_2', $latest_listing_args);

@@ -655,14 +655,27 @@ if ( ! function_exists( 'houzez_clean' ) ) {
 /* --------------------------------------------------------------------------
  * Get term
  ---------------------------------------------------------------------------*/
+function en($lang){
+    return $lang;
+}
+function ru($lang){
+    $change_lang = [
+        "For Sale" => "Продажа",
+        "For Rent" => "Аренда",
+    ];
+    return $change_lang[$lang];
+}
 if ( ! function_exists( 'houzez_taxonomy_simple' ) ) {
     function houzez_taxonomy_simple( $tax_name )
     {
+        
+        $lang = qtrans_getLanguage();
         $terms = wp_get_post_terms( get_the_ID(), $tax_name, array("fields" => "names"));
+        $terms = $terms;
         $t = '';
         if (!empty($terms)):
             foreach( $terms as $term ):
-                $t .= $term.', ';
+                $t .= $lang($term).', ';
             endforeach;
             $trimed = rtrim ( $t, ', ' );
             return $trimed;

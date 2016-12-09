@@ -802,6 +802,14 @@ input[name="daterange"]{
     bottom: 48px !important;
 }
 
+.item-body .amenities{
+    img{
+        width: unset !important;
+        display: inline-block !important;
+    }
+}
+
+
 @media only screen and (min-width: 345px){
     .az-carousel {
         .az-prev{
