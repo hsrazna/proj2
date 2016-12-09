@@ -7,7 +7,9 @@ $splash_logolink_type = houzez_option('splash-logolink-type');
 $splash_logolink = houzez_option('splash-logolink');
 
 if( empty( $custom_logo ) ) {
-	$custom_logo = get_template_directory_uri() . '/images/logo/logo-houzez-white.png';
+	
+	$custom_logo = get_template_directory_uri() . '/images/logo/astar7-black-1.png';
+	// $custom_logo = get_template_directory_uri() . '/images/logo/logo-houzez-white.png';
 }
 
 if( is_page_template( 'template/template-splash.php' ) ) {

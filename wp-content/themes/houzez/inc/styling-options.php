@@ -491,7 +491,7 @@ function houzez_custom_styling() {
 
     $header_style_4_transparent = "
       .houzez-header-transparent {
-       background-color: transparent; position: absolute; width: 100%;
+       background-color: rgba(255,255,255,0.5); position: absolute; width: 100%;
        border-bottom: {$header_4_transparent_border_bottom['border-bottom']} {$header_4_transparent_border_bottom['border-style']};
        border-color: {$header_4_transparent_border_bottom_color};
       }

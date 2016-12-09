@@ -63,9 +63,9 @@
     float: left;
     line-height: 90px;
     margin-right: 15px;
-    .nav-trigger{
-        color: #fff !important;
-    }
+    // .nav-trigger{
+    //     color: #fff !important;
+    // }
 
     .mobile-nav .nav-trigger + .nav-dropdown{
         opacity: 0;
@@ -492,7 +492,8 @@
 
 /*menu*/
 .houzez-header-transparent{
-    background: rgba(0,0,0,0.5) !important;
+    // background: rgba(0,0,0,0.5) !important;
+    box-shadow: 0 1px 2px #666666;
 }
 // #header-section{
 //     background: rgba(0,0,0,0.3);
