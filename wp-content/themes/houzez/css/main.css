@@ -4773,8 +4773,9 @@ input[type="button"].btn-block {
 }
 .navi > ul > li > a {
   display: inline-block;
-  padding: 0 15px;
+  padding: 0 10px;
   line-height: 60px;
+  letter-spacing: -0.02em;
   text-decoration: none;
   color: #fff;
   /* mini phones and down */

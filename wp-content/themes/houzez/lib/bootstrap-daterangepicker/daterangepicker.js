@@ -1280,13 +1280,16 @@
 
                     if ((dt.isAfter(startDate) && dt.isBefore(date)) || dt.isSame(date, 'day')) {
                         $(el).addClass('in-range');
+                        // number_of_nights++;
                     } else {
                         $(el).removeClass('in-range');
+                        // number_of_nights--;
                     }
 
                 });
+                alert($('.in-range').length);
             }
-
+            
         },
 
         clickDate: function(e) {

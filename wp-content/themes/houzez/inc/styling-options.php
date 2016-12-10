@@ -452,7 +452,7 @@ function houzez_custom_styling() {
         .header-section-4 .navi > ul ul,
         .account-dropdown > ul,
         .sticky_nav.header-section-4 {
-            background-color: {$header_4_bg};
+            background-color: rgba(255,255,255,0.7)/*{$header_4_bg}*/;
         }
         .header-section-4 .navi > ul > li > a,
         .header-section-4 .navi > ul ul a,        

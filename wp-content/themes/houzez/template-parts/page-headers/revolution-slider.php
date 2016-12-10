@@ -34,12 +34,17 @@ if (is_plugin_active('revslider/revslider.php')) {
 } else {
     ?>
 
-<div class="header-media">
+    <div class="header-media">
         <div class="page-banner-revolution-slider">
             <div class="az-slider" style="">
                 <!-- <div id="custom-pag-place"></div> -->
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
                 <div id="az-slider" class="az-carousel owl-theme">
+                    <div class="az-item az-item0">
+                        <div class="az-img-box-preload">
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/az/loader.gif" alt="">
+                        </div>
+                    </div>
                     <div class="az-item az-item1">
                         <div class="az-item1-wrap">
                             <div class="ls-mask2">
@@ -346,6 +351,11 @@ if (is_plugin_active('revslider/revslider.php')) {
                 </div>
                 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                 <div id="az-slider" class="az-carousel owl-theme">
+                    <div class="az-item az-item0">
+                        <div class="az-img-box-preload">
+                            <img src="<?php echo get_template_directory_uri(); ?>/images/az/loader.gif" alt="">
+                        </div>
+                    </div>
                     <div class="az-item az-item1">
                         <div class="az-item1-wrap">
                             <div class="ls-mask2">
@@ -655,4 +665,17 @@ if (is_plugin_active('revslider/revslider.php')) {
             </div>
         </div>
     </div>
+    <script>
+        (function($){
+            if(window.matchMedia('(min-width: 992px)').matches){
+                var az_temp_height221122 = $(window).height();
+                az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+                $('.az-slider').height(az_temp_height221122);
+            } else {
+                var az_temp_height221122 = $(window).height();
+                az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+                $('.az-slider').height(az_temp_height221122 - 60);
+            }
+        })(jQuery);
+    </script>
 <?php } ?>
