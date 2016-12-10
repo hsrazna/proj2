@@ -27,14 +27,39 @@
             // "startDate": "11/26/2016",
             // "endDate": "12/02/2016"
         });
+        if(window.matchMedia('(min-width: 992px)').matches){
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122);
+        } else {
+            var az_temp_height221122 = $(window).height();
+            az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
+            $('.az-slider').height(az_temp_height221122 - 60);
+        }
+        $('.az-item').css({'opacity': '0', 'z-index': '2', 'transition': 'all 1.2s ease-out'});
+        $('.az-item').eq(1).css({'opacity': '1', 'z-index': '3', 'transition': 'all 1.2s ease-in'});
         
-        $('input[name="daterange"]').change(function(){
+        var az_rangedates = $('input[name="daterange"]').eq(0).data('daterangepicker');
+        var one_day=1000*60*60*24;
+        var az_num_nights = (az_rangedates.endDate - az_rangedates.startDate)/one_day;
+        $('.az-nights .az-num-nights').text(Math.round(az_num_nights-1));
+        
+        $('input[name="daterange"]').on('apply.daterangepicker', function(){
             // alert(1);
             // var date = new Date();
             // var minutes = 43200;
             // date.setTime(date.getTime() + (minutes * 60 * 1000));
+            var az_rangedates = $(this).data('daterangepicker');
+            // alert(az_rangedates.startDate +'/'+az_rangedates.endDate);
             $.cookie("az_range", $(this).val(), { expires: 30});
-            $('input[name="daterange"]').val($(this).val());
+            $('input[name="daterange"]').each(function(){
+                $(this).data('daterangepicker').setStartDate(az_rangedates.startDate);
+                $(this).data('daterangepicker').setEndDate(az_rangedates.endDate);
+            });
+            var one_day=1000*60*60*24;
+            var az_num_nights = (az_rangedates.endDate - az_rangedates.startDate)/one_day;
+            $('.az-nights .az-num-nights').text(Math.round(az_num_nights-1));
+            // $('input[name="daterange"]').val($(this).val());
             // $.cookie('az_range', $(this).val(), );
             // alert($.cookie('az_range'));
             // alert( document.cookie );
@@ -117,7 +142,7 @@
     // $(document).find('#az-slider').load(function(){
     //     alert(1);
     // });
-    $(window).on('load', windowSizeload);
+    // $(window).on('load', windowSizeload);
     $(window).on('resize', windowSizeresize);
     
 // });

@@ -97,6 +97,7 @@
         //html template for the picker UI
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template = '<div class="daterangepicker dropdown-menu">' +
+                '<div class="az-nights"><span class="az-num-nights">0</span> <span class="az-word-night">ночей</span></div>' +
                 '<div class="calendar left">' +
                     '<div class="daterangepicker_input">' +
                       '<input class="input-mini form-control" type="text" name="daterangepicker_start" value="" />' +
@@ -1288,6 +1289,8 @@
                     }
 
                 });
+
+                this.container.find('.az-nights .az-num-nights').text(this.container.find('.in-range:not(.in-range.off):not(.start-date)').length);
             }
 
         },
