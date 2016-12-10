@@ -1062,306 +1062,607 @@ if( !function_exists('houzez_radius_filter_callback') ) {
 if( !function_exists('houzez_property_search_2') ) {
     function houzez_property_search_2($search_query)
     {
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            $tax_query = array();
+            $meta_query = array();
+            $allowed_html = array();
+            $keyword_array = '';
 
-        $tax_query = array();
-        $meta_query = array();
-        $allowed_html = array();
-        $keyword_array = '';
+            $keyword_field = houzez_option('keyword_field');
 
-        $keyword_field = houzez_option('keyword_field');
+            $search_location = isset($_GET['search_location']) ? esc_attr($_GET['search_location']) : false;
+            $use_radius = 'on';
+            $search_lat = isset($_GET['lat']) ? (float)$_GET['lat'] : false;
+            $search_long = isset($_GET['lng']) ? (float)$_GET['lng'] : false;
+            $search_radius = isset($_GET['radius']) ? (int)$_GET['radius'] : false;
 
-        $search_location = isset($_GET['search_location']) ? esc_attr($_GET['search_location']) : false;
-        $use_radius = 'on';
-        $search_lat = isset($_GET['lat']) ? (float)$_GET['lat'] : false;
-        $search_long = isset($_GET['lng']) ? (float)$_GET['lng'] : false;
-        $search_radius = isset($_GET['radius']) ? (int)$_GET['radius'] : false;
+            $search_query = apply_filters('houzez_radius_filter', $search_query, $search_lat, $search_long, $search_radius, $use_radius, $search_location);
 
-        $search_query = apply_filters('houzez_radius_filter', $search_query, $search_lat, $search_long, $search_radius, $use_radius, $search_location);
+            if (isset($_GET['keyword']) && $_GET['keyword'] != '') {
+                if ($keyword_field == 'prop_address') {
+                    $meta_keywork = esc_html(wp_kses($_GET['keyword'], $allowed_html));
+                    $address_array = array(
+                        'key' => 'fave_property_map_address',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => 'LIKE',
+                    );
 
-        if (isset($_GET['keyword']) && $_GET['keyword'] != '') {
-            if ($keyword_field == 'prop_address') {
-                $meta_keywork = esc_html(wp_kses($_GET['keyword'], $allowed_html));
-                $address_array = array(
-                    'key' => 'fave_property_map_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
+                    $street_array = array(
+                        'key' => 'fave_property_address',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => 'LIKE',
+                    );
 
-                $street_array = array(
-                    'key' => 'fave_property_address',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => 'LIKE',
-                );
+                    $zip_array = array(
+                        'key' => 'fave_property_zip',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => '=',
+                    );
 
-                $zip_array = array(
-                    'key' => 'fave_property_zip',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => '=',
-                );
+                    $propid_array = array(
+                        'key' => 'fave_property_id',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => '=',
+                    );
 
-                $propid_array = array(
-                    'key' => 'fave_property_id',
-                    'value' => $meta_keywork,
-                    'type' => 'CHAR',
-                    'compare' => '=',
-                );
+                    $keyword_array = array(
+                        'relation' => 'OR',
+                        $address_array,
+                        $street_array,
+                        $propid_array,
+                        $zip_array
+                    );
 
-                $keyword_array = array(
-                    'relation' => 'OR',
-                    $address_array,
-                    $street_array,
-                    $propid_array,
-                    $zip_array
-                );
+                } else if ($keyword_field == 'prop_city_state_county') {
+                    $taxlocation[] = sanitize_title(esc_html(wp_kses($_GET['keyword'], $allowed_html)));
 
-            } else if ($keyword_field == 'prop_city_state_county') {
-                $taxlocation[] = sanitize_title(esc_html(wp_kses($_GET['keyword'], $allowed_html)));
+                    $_tax_query = Array();
+                    $_tax_query['relation'] = 'OR';
 
-                $_tax_query = Array();
-                $_tax_query['relation'] = 'OR';
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_area',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
 
-                $_tax_query[] = array(
-                    'taxonomy' => 'property_area',
-                    'field' => 'slug',
-                    'terms' => $taxlocation
-                );
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_city',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
 
-                $_tax_query[] = array(
-                    'taxonomy' => 'property_city',
-                    'field' => 'slug',
-                    'terms' => $taxlocation
-                );
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_state',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
+                    $tax_query[] = $_tax_query;
 
-                $_tax_query[] = array(
-                    'taxonomy' => 'property_state',
-                    'field' => 'slug',
-                    'terms' => $taxlocation
-                );
-                $tax_query[] = $_tax_query;
-
-            } else {
-                $keyword = trim($_GET['keyword']);
-                if (!empty($keyword)) {
-                    $search_query['s'] = $keyword;
+                } else {
+                    $keyword = trim($_GET['keyword']);
+                    if (!empty($keyword)) {
+                        $search_query['s'] = $keyword;
+                    }
                 }
             }
-        }
 
-        // bedrooms logic
-        if (isset($_GET['bedrooms']) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
-            $bedrooms = sanitize_text_field($_GET['bedrooms']);
-            $meta_query[] = array(
-                'key' => 'fave_property_bedrooms',
-                'value' => $bedrooms,
-                'type' => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // Property ID
-        if (isset($_GET['propid']) && !empty($_GET['propid'])) {
-            $propid = sanitize_text_field($_GET['propid']);
-            $meta_query[] = array(
-                'key' => 'fave_property_id',
-                'value' => $propid,
-                'type' => 'char',
-                'compare' => '=',
-            );
-        }
-
-        // bathrooms logic
-        if (isset($_GET['bathrooms']) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
-            $bathrooms = sanitize_text_field($_GET['bathrooms']);
-            $meta_query[] = array(
-                'key' => 'fave_property_bathrooms',
-                'value' => $bathrooms,
-                'type' => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        // min and max price logic
-        if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any' && isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
-            $min_price = doubleval(houzez_clean($_GET['min-price']));
-            $max_price = doubleval(houzez_clean($_GET['max-price']));
-
-            if ($min_price >= 0 && $max_price > $min_price) {
+            // bedrooms logic
+            if (isset($_GET['bedrooms']) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
+                $bedrooms = sanitize_text_field($_GET['bedrooms']);
                 $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => array($min_price, $max_price),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-        } else if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any') {
-            $min_price = doubleval(houzez_clean($_GET['min-price']));
-            if ($min_price >= 0) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => $min_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        } else if (isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
-            $max_price = doubleval(houzez_clean($_GET['max-price']));
-            if ($max_price >= 0) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_price',
-                    'value' => $max_price,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        }
-
-
-        // min and max area logic
-        if (isset($_GET['min-area']) && !empty($_GET['min-area']) && isset($_GET['max-area']) && !empty($_GET['max-area'])) {
-            $min_area = intval($_GET['min-area']);
-            $max_area = intval($_GET['max-area']);
-
-            if ($min_area >= 0 && $max_area > $min_area) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => array($min_area, $max_area),
-                    'type' => 'NUMERIC',
-                    'compare' => 'BETWEEN',
-                );
-            }
-
-        } else if (isset($_GET['max-area']) && !empty($_GET['max-area'])) {
-            $max_area = intval($_GET['max-area']);
-            if ($max_area >= 0) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $max_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '<=',
-                );
-            }
-        } else if (isset($_GET['min-area']) && !empty($_GET['min-area'])) {
-            $min_area = intval($_GET['min-area']);
-            if ($min_area >= 0) {
-                $meta_query[] = array(
-                    'key' => 'fave_property_size',
-                    'value' => $min_area,
-                    'type' => 'NUMERIC',
-                    'compare' => '>=',
-                );
-            }
-        }
-
-        //Date Query
-        $publish_date = isset($_GET['publish_date']) ? $_GET['publish_date'] : '';
-        if (!empty($publish_date)) {
-            $publish_date = explode('-', $publish_date);
-            $search_query['date_query'] = array(
-                array(
-                    'year' => $publish_date[0],
+                    'key' => 'fave_property_bedrooms',
+                    'value' => $bedrooms,
+                    'type' => 'CHAR',
                     'compare' => '=',
-                ),
-                array(
-                    'month' => $publish_date[1],
+                );
+            }
+
+            // Property ID
+            if (isset($_GET['propid']) && !empty($_GET['propid'])) {
+                $propid = sanitize_text_field($_GET['propid']);
+                $meta_query[] = array(
+                    'key' => 'fave_property_id',
+                    'value' => $propid,
+                    'type' => 'char',
                     'compare' => '=',
-                ),
-                array(
-                    'day' => $publish_date[2],
-                    'compare' => '>=',
-                )
-            );
-        }
+                );
+            }
 
+            // bathrooms logic
+            if (isset($_GET['bathrooms']) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
+                $bathrooms = sanitize_text_field($_GET['bathrooms']);
+                $meta_query[] = array(
+                    'key' => 'fave_property_bathrooms',
+                    'value' => $bathrooms,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+            }
 
-        // Taxonomies
-        if (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] != 'all') {
-            $tax_query[] = array(
-                'taxonomy' => 'property_status',
-                'field' => 'slug',
-                'terms' => $_GET['status']
-            );
-        }
+            // min and max price logic
+            if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any' && isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
+                $min_price = doubleval(houzez_clean($_GET['min-price']));
+                $max_price = doubleval(houzez_clean($_GET['max-price']));
 
-        if (isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] != 'all') {
-            $tax_query[] = array(
-                'taxonomy' => 'property_type',
-                'field' => 'slug',
-                'terms' => $_GET['type']
-            );
-        }
-
-        if (isset($_GET['country']) && !empty($_GET['country']) && $_GET['country'] != 'all') {
-            $meta_query[] = array(
-                'key' => 'fave_property_country',
-                'value' => $_GET['country'],
-                'type' => 'CHAR',
-                'compare' => '=',
-            );
-        }
-
-        if (isset($_GET['state']) && !empty($_GET['state']) && $_GET['state'] != 'all') {
-            $tax_query[] = array(
-                'taxonomy' => 'property_state',
-                'field' => 'slug',
-                'terms' => $_GET['state']
-            );
-        }
-
-        if (isset($_GET['location']) && !empty($_GET['location']) && $_GET['location'] != 'all') {
-            $tax_query[] = array(
-                'taxonomy' => 'property_city',
-                'field' => 'slug',
-                'terms' => $_GET['location']
-            );
-        }
-
-        if (isset($_GET['area']) && !empty($_GET['area']) && $_GET['area'] != 'all') {
-            $tax_query[] = array(
-                'taxonomy' => 'property_area',
-                'field' => 'slug',
-                'terms' => $_GET['area']
-            );
-        }
-
-        if (isset($_GET['feature']) && !empty($_GET['feature'])) {
-            if (is_array($_GET['feature'])) {
-                $features = $_GET['feature'];
-
-                foreach ($features as $feature):
-                    $tax_query[] = array(
-                        'taxonomy' => 'property_feature',
-                        'field' => 'slug',
-                        'terms' => $feature
+                if ($min_price >= 0 && $max_price > $min_price) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => array($min_price, $max_price),
+                        'type' => 'NUMERIC',
+                        'compare' => 'BETWEEN',
                     );
-                endforeach;
+                }
+            } else if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any') {
+                $min_price = doubleval(houzez_clean($_GET['min-price']));
+                if ($min_price >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => $min_price,
+                        'type' => 'NUMERIC',
+                        'compare' => '>=',
+                    );
+                }
+            } else if (isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
+                $max_price = doubleval(houzez_clean($_GET['max-price']));
+                if ($max_price >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => $max_price,
+                        'type' => 'NUMERIC',
+                        'compare' => '<=',
+                    );
+                }
             }
-        }
 
-        $meta_count = count($meta_query);
 
-        if ($meta_count > 0 || !empty($keyword_array)) {
-            $search_query['meta_query'] = array(
-                'relation' => 'AND',
-                $keyword_array,
-                array(
+            // min and max area logic
+            if (isset($_GET['min-area']) && !empty($_GET['min-area']) && isset($_GET['max-area']) && !empty($_GET['max-area'])) {
+                $min_area = intval($_GET['min-area']);
+                $max_area = intval($_GET['max-area']);
+
+                if ($min_area >= 0 && $max_area > $min_area) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => array($min_area, $max_area),
+                        'type' => 'NUMERIC',
+                        'compare' => 'BETWEEN',
+                    );
+                }
+
+            } else if (isset($_GET['max-area']) && !empty($_GET['max-area'])) {
+                $max_area = intval($_GET['max-area']);
+                if ($max_area >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => $max_area,
+                        'type' => 'NUMERIC',
+                        'compare' => '<=',
+                    );
+                }
+            } else if (isset($_GET['min-area']) && !empty($_GET['min-area'])) {
+                $min_area = intval($_GET['min-area']);
+                if ($min_area >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => $min_area,
+                        'type' => 'NUMERIC',
+                        'compare' => '>=',
+                    );
+                }
+            }
+
+            //Date Query
+            $publish_date = isset($_GET['publish_date']) ? $_GET['publish_date'] : '';
+            if (!empty($publish_date)) {
+                $publish_date = explode('-', $publish_date);
+                $search_query['date_query'] = array(
+                    array(
+                        'year' => $publish_date[0],
+                        'compare' => '=',
+                    ),
+                    array(
+                        'month' => $publish_date[1],
+                        'compare' => '=',
+                    ),
+                    array(
+                        'day' => $publish_date[2],
+                        'compare' => '>=',
+                    )
+                );
+            }
+
+
+            // Taxonomies
+            if (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_status',
+                    'field' => 'slug',
+                    'terms' => $_GET['status']
+                );
+            }
+
+            if (isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_type',
+                    'field' => 'slug',
+                    'terms' => $_GET['type']
+                );
+            }
+
+            if (isset($_GET['country']) && !empty($_GET['country']) && $_GET['country'] != 'all') {
+                $meta_query[] = array(
+                    'key' => 'fave_property_country',
+                    'value' => $_GET['country'],
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+            }
+
+            if (isset($_GET['state']) && !empty($_GET['state']) && $_GET['state'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_state',
+                    'field' => 'slug',
+                    'terms' => $_GET['state']
+                );
+            }
+
+            if (isset($_GET['location']) && !empty($_GET['location']) && $_GET['location'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_city',
+                    'field' => 'slug',
+                    'terms' => $_GET['location']
+                );
+            }
+
+            if (isset($_GET['area']) && !empty($_GET['area']) && $_GET['area'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_area',
+                    'field' => 'slug',
+                    'terms' => $_GET['area']
+                );
+            }
+
+            if (isset($_GET['feature']) && !empty($_GET['feature'])) {
+                if (is_array($_GET['feature'])) {
+                    $features = $_GET['feature'];
+
+                    foreach ($features as $feature):
+                        $tax_query[] = array(
+                            'taxonomy' => 'property_feature',
+                            'field' => 'slug',
+                            'terms' => $feature
+                        );
+                    endforeach;
+                }
+            }
+
+            $meta_count = count($meta_query);
+
+            if ($meta_count > 0 || !empty($keyword_array)) {
+                $search_query['meta_query'] = array(
                     'relation' => 'AND',
-                    $meta_query
-                ),
-            );
+                    $keyword_array,
+                    array(
+                        'relation' => 'AND',
+                        $meta_query
+                    ),
+                );
+            }
+
+            $tax_count = count($tax_query);
+
+            $tax_query['relation'] = 'AND';
+
+            if ($tax_count > 0) {
+                $search_query['tax_query'] = $tax_query;
+            }
+            //print_r($search_query);
+            return $search_query;
+        } elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $tax_query = array();
+            $meta_query = array();
+            $allowed_html = array();
+            $keyword_array = '';
+
+            $keyword_field = houzez_option('keyword_field');
+
+            $search_location = isset($_POST['search_location']) ? esc_attr($_POST['search_location']) : false;
+            $use_radius = 'on';
+            $search_lat = isset($_POST['lat']) ? (float)$_POST['lat'] : false;
+            $search_long = isset($_POST['lng']) ? (float)$_POST['lng'] : false;
+            $search_radius = isset($_POST['radius']) ? (int)$_POST['radius'] : false;
+
+            $search_query = apply_filters('houzez_radius_filter', $search_query, $search_lat, $search_long, $search_radius, $use_radius, $search_location);
+
+            if (isset($_POST['keyword']) && $_POST['keyword'] != '') {
+                if ($keyword_field == 'prop_address') {
+                    $meta_keywork = esc_html(wp_kses($_POST['keyword'], $allowed_html));
+                    $address_array = array(
+                        'key' => 'fave_property_map_address',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => 'LIKE',
+                    );
+
+                    $street_array = array(
+                        'key' => 'fave_property_address',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => 'LIKE',
+                    );
+
+                    $zip_array = array(
+                        'key' => 'fave_property_zip',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => '=',
+                    );
+
+                    $propid_array = array(
+                        'key' => 'fave_property_id',
+                        'value' => $meta_keywork,
+                        'type' => 'CHAR',
+                        'compare' => '=',
+                    );
+
+                    $keyword_array = array(
+                        'relation' => 'OR',
+                        $address_array,
+                        $street_array,
+                        $propid_array,
+                        $zip_array
+                    );
+
+                } else if ($keyword_field == 'prop_city_state_county') {
+                    $taxlocation[] = sanitize_title(esc_html(wp_kses($_GET['keyword'], $allowed_html)));
+
+                    $_tax_query = Array();
+                    $_tax_query['relation'] = 'OR';
+
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_area',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
+
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_city',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
+
+                    $_tax_query[] = array(
+                        'taxonomy' => 'property_state',
+                        'field' => 'slug',
+                        'terms' => $taxlocation
+                    );
+                    $tax_query[] = $_tax_query;
+
+                } else {
+                    $keyword = trim($_POST['keyword']);
+                    if (!empty($keyword)) {
+                        $search_query['s'] = $keyword;
+                    }
+                }
+            }
+
+            // bedrooms logic
+            if (isset($_POST['bedrooms']) && !empty($_POST['bedrooms']) && $_POST['bedrooms'] != 'any') {
+                $bedrooms = sanitize_text_field($_POST['bedrooms']);
+                $meta_query[] = array(
+                    'key' => 'fave_property_bedrooms',
+                    'value' => $bedrooms,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+            }
+
+            // Property ID
+            if (isset($_POST['propid']) && !empty($_POST['propid'])) {
+                $propid = sanitize_text_field($_POST['propid']);
+                $meta_query[] = array(
+                    'key' => 'fave_property_id',
+                    'value' => $propid,
+                    'type' => 'char',
+                    'compare' => '=',
+                );
+            }
+
+            // bathrooms logic
+            if (isset($_POST['bathrooms']) && !empty($_POST['bathrooms']) && $_POST['bathrooms'] != 'any') {
+                $bathrooms = sanitize_text_field($_POST['bathrooms']);
+                $meta_query[] = array(
+                    'key' => 'fave_property_bathrooms',
+                    'value' => $bathrooms,
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+            }
+
+            // min and max price logic
+            if (isset($_POST['min-price']) && !empty($_POST['min-price']) && $_POST['min-price'] != 'any' && isset($_POST['max-price']) && !empty($_POST['max-price']) && $_POST['max-price'] != 'any') {
+                $min_price = doubleval(houzez_clean($_POST['min-price']));
+                $max_price = doubleval(houzez_clean($_POST['max-price']));
+
+                if ($min_price >= 0 && $max_price > $min_price) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => array($min_price, $max_price),
+                        'type' => 'NUMERIC',
+                        'compare' => 'BETWEEN',
+                    );
+                }
+            } else if (isset($_POST['min-price']) && !empty($_POST['min-price']) && $_POST['min-price'] != 'any') {
+                $min_price = doubleval(houzez_clean($_POST['min-price']));
+                if ($min_price >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => $min_price,
+                        'type' => 'NUMERIC',
+                        'compare' => '>=',
+                    );
+                }
+            } else if (isset($_POST['max-price']) && !empty($_POST['max-price']) && $_POST['max-price'] != 'any') {
+                $max_price = doubleval(houzez_clean($_POST['max-price']));
+                if ($max_price >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => $max_price,
+                        'type' => 'NUMERIC',
+                        'compare' => '<=',
+                    );
+                }
+            }
+
+
+            // min and max area logic
+            if (isset($_POST['min-area']) && !empty($_POST['min-area']) && isset($_POST['max-area']) && !empty($_POST['max-area'])) {
+                $min_area = intval($_POST['min-area']);
+                $max_area = intval($_POST['max-area']);
+
+                if ($min_area >= 0 && $max_area > $min_area) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => array($min_area, $max_area),
+                        'type' => 'NUMERIC',
+                        'compare' => 'BETWEEN',
+                    );
+                }
+
+            } else if (isset($_POST['max-area']) && !empty($_POST['max-area'])) {
+                $max_area = intval($_POST['max-area']);
+                if ($max_area >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => $max_area,
+                        'type' => 'NUMERIC',
+                        'compare' => '<=',
+                    );
+                }
+            } else if (isset($_POST['min-area']) && !empty($_POST['min-area'])) {
+                $min_area = intval($_POST['min-area']);
+                if ($min_area >= 0) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_size',
+                        'value' => $min_area,
+                        'type' => 'NUMERIC',
+                        'compare' => '>=',
+                    );
+                }
+            }
+
+            //Date Query
+            $publish_date = isset($_POST['publish_date']) ? $_POST['publish_date'] : '';
+            if (!empty($publish_date)) {
+                $publish_date = explode('-', $publish_date);
+                $search_query['date_query'] = array(
+                    array(
+                        'year' => $publish_date[0],
+                        'compare' => '=',
+                    ),
+                    array(
+                        'month' => $publish_date[1],
+                        'compare' => '=',
+                    ),
+                    array(
+                        'day' => $publish_date[2],
+                        'compare' => '>=',
+                    )
+                );
+            }
+
+
+            // Taxonomies
+            if (isset($_POST['status']) && !empty($_POST['status']) && $_POST['status'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_status',
+                    'field' => 'slug',
+                    'terms' => $_POST['status']
+                );
+            }
+
+            if (isset($_GET['type']) && !empty($_POST['type']) && $_POST['type'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_type',
+                    'field' => 'slug',
+                    'terms' => $_POST['type']
+                );
+            }
+
+            if (isset($_POST['country']) && !empty($_POST['country']) && $_POST['country'] != 'all') {
+                $meta_query[] = array(
+                    'key' => 'fave_property_country',
+                    'value' => $_POST['country'],
+                    'type' => 'CHAR',
+                    'compare' => '=',
+                );
+            }
+
+            if (isset($_POST['state']) && !empty($_POST['state']) && $_POST['state'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_state',
+                    'field' => 'slug',
+                    'terms' => $_POST['state']
+                );
+            }
+
+            if (isset($_POST['location']) && !empty($_POST['location']) && $_POST['location'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_city',
+                    'field' => 'slug',
+                    'terms' => $_POST['location']
+                );
+            }
+
+            if (isset($_POST['area']) && !empty($_POST['area']) && $_POST['area'] != 'all') {
+                $tax_query[] = array(
+                    'taxonomy' => 'property_area',
+                    'field' => 'slug',
+                    'terms' => $_POST['area']
+                );
+            }
+
+            if (isset($_POST['feature']) && !empty($_POST['feature'])) {
+                if (is_array($_POST['feature'])) {
+                    $features = $_POST['feature'];
+
+                    foreach ($features as $feature):
+                        $tax_query[] = array(
+                            'taxonomy' => 'property_feature',
+                            'field' => 'slug',
+                            'terms' => $feature
+                        );
+                    endforeach;
+                }
+            }
+
+            $meta_count = count($meta_query);
+
+            if ($meta_count > 0 || !empty($keyword_array)) {
+                $search_query['meta_query'] = array(
+                    'relation' => 'AND',
+                    $keyword_array,
+                    array(
+                        'relation' => 'AND',
+                        $meta_query
+                    ),
+                );
+            }
+
+            $tax_count = count($tax_query);
+
+            $tax_query['relation'] = 'AND';
+
+            if ($tax_count > 0) {
+                $search_query['tax_query'] = $tax_query;
+            }
+            //print_r($search_query);
+            return $search_query;
         }
-
-        $tax_count = count($tax_query);
-
-        $tax_query['relation'] = 'AND';
-
-        if ($tax_count > 0) {
-            $search_query['tax_query'] = $tax_query;
-        }
-        //print_r($search_query);
-        return $search_query;
     }
 }
 add_filter('houzez_search_parameters_2', 'houzez_property_search_2');

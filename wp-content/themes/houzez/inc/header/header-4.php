@@ -35,6 +35,9 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 }
 ?>
 <!--start section header-->
+<form method="post" class="az-menu-post"></form>
+
+
 <header id="header-section" class="houzez-header-main <?php echo esc_attr( $css_class ).' '.esc_attr( $header_4_menu_align ).' '.esc_attr($trans_class).' '.esc_attr($menu_righ_no_user); ?> hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
     <div class="<?php echo sanitize_html_class( $header_layout ); ?>">
         <div class="header-left">

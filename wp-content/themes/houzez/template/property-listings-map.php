@@ -18,7 +18,7 @@ $fave_prop_no = get_post_meta( $post->ID, 'fave_prop_no', true );
 $search_result_page = houzez_option('search_result_page');
 $geo_location = houzez_option('geo_location');
 $map_fullscreen = houzez_option('map_fullscreen');
-
+$enable_disable_save_search = houzez_option('enable_disable_save_search');
 $listing_page_link = houzez_properties_listing_link();
 
 if( $listing_view == 'grid_view' || $listing_view == 'grid_view_3_col' ) {
@@ -37,7 +37,7 @@ if( isset( $_GET['sortby'] ) ) {
 <div class="container-fluid">
     <div class="row">
 
-        <div class="col-md-5 col-sm-5 col-xs-12 no-padding">
+        <!-- <div class="col-md-5 col-sm-5 col-xs-12 no-padding">
             <div id="houzez-gmap-main" class="fave-screen-fix">
                 <div id="mapViewHalfListings" class="map-half">
                 </div>
@@ -78,9 +78,9 @@ if( isset( $_GET['sortby'] ) ) {
                 </div>
 
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-md-7 col-sm-7 col-xs-12 no-padding">
+        <div class="col-md-12 col-sm-12 col-xs-12 no-padding">
             <div class="module-half map-module-half fave-screen-fix">
                 <?php get_template_part('template-parts/advanced-search/half-map'); ?>
                 <!--start latest listing module-->
@@ -96,6 +96,15 @@ if( isset( $_GET['sortby'] ) ) {
                         </div>
                     </div>
                     <!--end list tabs-->
+                    <?php if( 0/*$enable_disable_save_search != 0*/ ) { ?>
+                    <div class="tabs table-cell v-align-top">
+                        <p><?php echo $houzez_local['save_search'];?></p>
+                    </div>
+                    <?php } ?>
+                    <?php
+                    if( $enable_disable_save_search != 0 ) {
+                        get_template_part('template-parts/save', 'search');
+                    }?>
                     <div class="property-listing list-view">
                         <div class="row">
                             <div id="houzez_ajax_container">
@@ -104,23 +113,24 @@ if( isset( $_GET['sortby'] ) ) {
                                 if ( is_front_page()  ) {
                                     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
                                 }
-                                $ls_status = get_the_title();
-                                if($ls_status == 'For Rent' || $ls_status == 'For Sale'){
+                                // $ls_status = $_POST['property_status'];
+                                // echo $ls_status;
+                                // if(0/*$ls_status == 'For Rent' || $ls_status == 'For Sale'*/){
+                                //     $latest_listing_args = array(
+                                //         'post_type' => 'property',
+                                //         'posts_per_page' => 10,//$posts_per_page,
+                                //         'paged' => $paged,
+                                //         'post_status' => 'publish',
+                                //         // 'property_status' => $ls_status,
+                                //     );
+                                // } else {
                                     $latest_listing_args = array(
                                         'post_type' => 'property',
                                         'posts_per_page' => 10,//$posts_per_page,
                                         'paged' => $paged,
                                         'post_status' => 'publish',
-                                        'property_status' => get_the_title(),
                                     );
-                                } else {
-                                    $latest_listing_args = array(
-                                        'post_type' => 'property',
-                                        'posts_per_page' => 10,//$posts_per_page,
-                                        'paged' => $paged,
-                                        'post_status' => 'publish',
-                                    );
-                                }
+                                // }
 
 
                                 //if( $search_result_page == 'half_map' ) {
@@ -133,7 +143,7 @@ if( isset( $_GET['sortby'] ) ) {
 
                                 if ( $latest_posts->have_posts() ) :
                                     while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
-
+                                        // echo 1111;//$ls_status;
                                         get_template_part('template-parts/property-for-listing');
 
                                     endwhile;
