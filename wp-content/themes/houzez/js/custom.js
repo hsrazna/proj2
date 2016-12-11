@@ -15,7 +15,18 @@ var nice = false;
 
 /*ajax puller*/
 
-
+    $('a[rel^="method-post"]').click(function(){
+        var az_post = $(this).attr('rel').split('-');
+        var az_href = $(this).attr('href');
+        var az_str = '';
+        for (var i43 = 0; i43<az_post.length; i43+=2){
+            az_str+='<input type="hidden" name="'+az_post[i43]+'" value="'+az_post[i43+1]+'" />';
+        }
+        $('.az-menu-post').attr('action', az_href);
+        $('.az-menu-post').html(az_str);
+        $('.az-menu-post').trigger('submit');
+        return false;
+    });
     
     $('input[name="area[]"]').click(function(){
         if($(this).hasAttr('checked')){
@@ -959,14 +970,25 @@ var nice = false;
         $('.view-btn').removeClass('active');
         $(this).addClass('active');
         if($(this).hasClass('btn-list')) {
-            $('.property-listing').removeClass('grid-view grid-view-3-col').addClass('list-view');
+            $('.property-listing').removeClass('grid-view grid-view-3-col map-view').addClass('list-view');
+            $('.az-col-map1').fadeOut(0);
+            $('.az-col-map').addClass('az-col-map3').removeClass('az-col-map2');
         }
         else if($(this).hasClass('btn-grid')) {
-            $('.property-listing').removeClass('list-view grid-view-3-col').addClass('grid-view');
+            $('.property-listing').removeClass('list-view grid-view-3-col map-view').addClass('grid-view');
+            $('.az-col-map1').fadeOut(0);
+            $('.az-col-map').addClass('az-col-map3').removeClass('az-col-map2');
         }
         else if($(this).hasClass('btn-grid-3-col')) {
-            $('.property-listing').removeClass('list-view grid-view').addClass('grid-view grid-view-3-col');
-
+            $('.property-listing').removeClass('list-view grid-view map-view').addClass('grid-view grid-view-3-col');
+            $('.az-col-map1').fadeOut(0);
+            $('.az-col-map').addClass('az-col-map3').removeClass('az-col-map2');
+        }
+        else if($(this).hasClass('btn-map')){
+            $('.property-listing').removeClass('list-view grid-view-3-col grid-view').addClass('grid-view map-view');
+            $('.az-col-map1').fadeIn(0);
+            $('.az-col-map').addClass('az-col-map2').removeClass('az-col-map3');
+            $('#half_map_update').trigger('click');
         }
     });
 

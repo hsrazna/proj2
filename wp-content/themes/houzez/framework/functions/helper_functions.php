@@ -1494,7 +1494,8 @@ if(!function_exists('houzez_hirarchical_options')){
                         echo '<option data-parentcountry="'.$parent_country.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
                     }
                 } else {
-                    if ($searched_term == $term->slug) {
+                    // print_r($term);
+                    if ($searched_term == $term->slug || $searched_term == $term->name) {
                         echo '<option value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
                     } else {
                         echo '<option value="' . $term->slug . '">' . $prefix . $term->name . '</option>';

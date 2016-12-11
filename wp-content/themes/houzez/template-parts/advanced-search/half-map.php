@@ -17,25 +17,45 @@ $adv_search_price_slider = houzez_option('adv_search_price_slider');
 $status = $type = $location = $area = $searched_country = $state = '';
 $adv_show_hide = houzez_option('adv_show_hide_halmap');
 
-if( isset( $_GET['status'] ) ) {
-    $status = $_GET['status'];
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+    if( isset( $_GET['status'] ) ) {
+        $status = $_GET['status'];
+    }
+    if( isset( $_GET['type'] ) ) {
+        $type = $_GET['type'];
+    }
+    if( isset( $_GET['location'] ) ) {
+        $location = $_GET['location'];
+    }
+    if( isset( $_GET['area'] ) ) {
+        $area = $_GET['area'];
+    }
+    if( isset( $_GET['state'] ) ) {
+        $state = $_GET['state'];
+    }
+    if( isset( $_GET['country'] ) ) {
+        $searched_country = $_GET['country'];
+    }
+} elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if( isset( $_POST['status'] ) ) {
+        $status = $_POST['status'];
+    }
+    if( isset( $_POST['type'] ) ) {
+        $type = $_POST['type'];
+    }
+    if( isset( $_POST['location'] ) ) {
+        $location = $_POST['location'];
+    }
+    if( isset( $_POST['area'] ) ) {
+        $area = $_POST['area'];
+    }
+    if( isset( $_GET['state'] ) ) {
+        $state = $_POST['state'];
+    }
+    if( isset( $_POST['country'] ) ) {
+        $searched_country = $_POST['country'];
+    }
 }
-if( isset( $_GET['type'] ) ) {
-    $type = $_GET['type'];
-}
-if( isset( $_GET['location'] ) ) {
-    $location = $_GET['location'];
-}
-if( isset( $_GET['area'] ) ) {
-    $area = $_GET['area'];
-}
-if( isset( $_GET['state'] ) ) {
-    $state = $_GET['state'];
-}
-if( isset( $_GET['country'] ) ) {
-    $searched_country = $_GET['country'];
-}
-
 $keyword_field = houzez_option('keyword_field');
 
 if( $keyword_field == 'prop_title' ) {
@@ -66,14 +86,14 @@ if ($adv_show_hide['keyword'] != 1) {
         
         <?php if( $enable_radius_search != 0 ) { ?>
             <input type="hidden" name="search_radius" id="radius-range-value">
-            <input type="hidden" name="lat" value="<?php echo isset ( $_GET['lat'] ) ? $_GET['lat'] : ''; ?>" id="latitude">
-            <input type="hidden" name="lng" value="<?php echo isset ( $_GET['lng'] ) ? $_GET['lng'] : ''; ?>" id="longitude">
+            <input type="hidden" name="lat" value="<?php echo isset ( $_GET['lat'] ) ? $_GET['lat'] : isset ( $_POST['lat'] ) ? $_POST['lat'] : ''; ?>" id="latitude">
+            <input type="hidden" name="lng" value="<?php echo isset ( $_GET['lng'] ) ? $_GET['lng'] : isset ( $_POST['lng'] ) ? $_POST['lng'] : ''; ?>" id="longitude">
         <div class="row">
             <?php if ($adv_show_hide['keyword'] != 1) { ?>
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group table-list search-long">
                     <div class="input-search input-icon">
-                        <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
+                        <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : isset ( $_POST['keyword'] ) ? $_POST['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                     </div>
                 </div>
             </div>
@@ -82,7 +102,7 @@ if ($adv_show_hide['keyword'] != 1) {
             <div class="<?php echo esc_attr($geo_location_field_classes);?>">
                 <div class="form-group">
                     <div class="search-location">
-                        <input type="text" class="form-control search_location" value="<?php echo isset ( $_GET['search_location'] ) ? $_GET['search_location'] : ''; ?>" name="search_location" placeholder="<?php echo esc_html__('Location', 'houzez'); ?>">
+                        <input type="text" class="form-control search_location" value="<?php echo isset ( $_GET['search_location'] ) ? $_GET['search_location'] : isset ( $_POST['search_location'] ) ? $_POST['search_location'] : ''; ?>" name="search_location" placeholder="<?php echo esc_html__('Location', 'houzez'); ?>">
                         <i class="location-trigger fa fa-dot-circle-o"></i>
                     </div>
                 </div>
@@ -115,7 +135,7 @@ if ($adv_show_hide['keyword'] != 1) {
                         <div class="form-group table-list search-long">
                             <div class="input-search input-icon">
                                 <input type="text" class="form-control"
-                                       value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : ''; ?>"
+                                       value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : isset ($_POST['keyword'])?$_POST['keyword']:''; ?>"
                                        name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                             </div>
                         </div>
@@ -217,7 +237,7 @@ if ($adv_show_hide['keyword'] != 1) {
             </div>
             <?php } ?>
 
-            <div class="col-sm-3 col-xs-6">
+            <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="form-group az-text1">
                     <select name="price_type" class="selectpicker az-text1" data-live-search="false" data-live-search-style="begins">
                         <option value="fave_property_price">Цена продажи</option>
@@ -230,10 +250,11 @@ if ($adv_show_hide['keyword'] != 1) {
                 </div>
             </div>
 
-            <input type="hidden" name="status" value="<?php the_title(); ?>">
-            <?php if( 0/*$adv_show_hide['status'] != 1*/ ) { ?>
+            <!-- <input type="hidden" name="status" value="<?php //the_title(); ?>"> -->
+            <?php if( $adv_show_hide['status'] != 1 ) { ?>
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="form-group">
+                    <?php //echo $status; ?>
                     <select class="selectpicker" name="status" data-live-search="false" data-live-search-style="begins">
                         <?php
                         // All Option
@@ -253,6 +274,7 @@ if ($adv_show_hide['keyword'] != 1) {
                         houzez_hirarchical_options('property_status', $prop_status, $status );
                         ?>
                     </select>
+
                 </div>
             </div>
             <?php } ?>

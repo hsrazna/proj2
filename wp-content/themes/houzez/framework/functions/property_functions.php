@@ -2232,10 +2232,10 @@ if( !function_exists('houzez_half_map_listings') ) {
         }
 
         // Meta Queries
-        $meta_query[] = array(
-            'key' => 'fave_property_map_address',
-            'compare' => 'EXISTS',
-        );
+        // $meta_query[] = array(
+        //     'key' => 'fave_property_map_address',
+        //     'compare' => 'EXISTS',
+        // );
 
         if( !empty($location) && $location != 'all' ) {
             $tax_query[] = array(
@@ -2349,7 +2349,7 @@ if( !function_exists('houzez_half_map_listings') ) {
 
             if( $min_price >= 0 && $max_price > $min_price ) {
                 $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
+                    'key' => $price_type_field,//'fave_property_price',//
                     'value' => array($min_price, $max_price),
                     'type' => 'NUMERIC',
                     'compare' => 'BETWEEN',
@@ -2359,7 +2359,7 @@ if( !function_exists('houzez_half_map_listings') ) {
             $min_price = doubleval( houzez_clean( $min_price ) );
             if( $min_price >= 0 ) {
                 $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
+                    'key' => $price_type_field,//'fave_property_price',//$price_type_field,//
                     'value' => $min_price,
                     'type' => 'NUMERIC',
                     'compare' => '>=',
@@ -2369,7 +2369,7 @@ if( !function_exists('houzez_half_map_listings') ) {
             $max_price = doubleval( houzez_clean( $max_price ) );
             if( $max_price >= 0 ) {
                 $meta_query[] = array(
-                    'key' => $price_type_field,//'fave_property_price',
+                    'key' => $price_type_field,//'fave_property_price',//$price_type_field,//
                     'value' => $max_price,
                     'type' => 'NUMERIC',
                     'compare' => '<=',
@@ -2435,15 +2435,29 @@ if( !function_exists('houzez_half_map_listings') ) {
         if( $tax_count > 0 ) {
             $query_args['tax_query']  = $tax_query;
         }
-
+        print_r($query_args);
+        echo "<br><br><br><br><br><br><br><br><br>";
         $query_args = new WP_Query( $query_args );
 
         $properties = array();
 
+        $az_i = 0;
+        
+
         while( $query_args->have_posts() ): $query_args->the_post();
+        if($az_i%2==0){
+            echo '<div class="az-col">';
+        }
 
             get_template_part('template-parts/property-for-listing');
 
+        if($az_i%2==1){
+            echo '</div>';
+        }
+        if($az_i%4==3){
+            echo '<div class="clearfix"></div>';
+        }
+        $az_i++;
         endwhile;
 
         wp_reset_postdata();

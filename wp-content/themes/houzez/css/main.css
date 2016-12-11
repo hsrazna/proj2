@@ -11483,7 +11483,7 @@ body.transparent-yes .banner-caption {
 }
 @media (min-width: 768px) and (max-width: 991px) {
   #section-body.houzez-body-half .property-listing .item-wrap {
-    width: 100%;
+    /*width: 100%;*/
   }
 }
 @media (max-width: 481px) {

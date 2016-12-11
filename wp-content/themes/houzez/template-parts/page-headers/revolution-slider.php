@@ -48,7 +48,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item1">
                         <div class="az-item1-wrap">
                             <div class="ls-mask2">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -91,7 +91,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item2">
                         <div class="az-item1-wrap">
                             <div class="ls-mask3">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -217,7 +217,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item3">
                         <div class="az-item1-wrap">
                             <div class="ls-mask3">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -359,7 +359,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item1">
                         <div class="az-item1-wrap">
                             <div class="ls-mask2">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl-ru">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -402,7 +402,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item2">
                         <div class="az-item1-wrap">
                             <div class="ls-mask3">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl-ru">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -528,7 +528,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                     <div class="az-item az-item3">
                         <div class="az-item1-wrap">
                             <div class="ls-mask3">
-                                <form role="search" method="get" id="searchform" class="searchform" action="/advanced-search/">
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl-ru">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">

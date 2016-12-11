@@ -2321,7 +2321,7 @@ jQuery(document).ready(function ($) {
                     'state': state,
                     'location': location,
                     'area': area,
-                    'status': $('input[name=status]').val(),
+                    'status': status,//$('input[name=status]').val(), $('select[name=status]').val(), //
                     'type': type,
                     'bedrooms': bedrooms,
                     'bathrooms': bathrooms,
@@ -2478,7 +2478,7 @@ jQuery(document).ready(function ($) {
                     'country': country,
                     'state': state,
                     'area': area,
-                    'status': $('input[name=status]').val(),//status,
+                    'status': status,//,$('input[name=status]').val() $('select[name=status]').val(),//
                     'type': type,
                     'bedrooms': bedrooms,
                     'bathrooms': bathrooms,
@@ -2488,11 +2488,11 @@ jQuery(document).ready(function ($) {
                     'max_area': max_area,
                     'features': features,
                     'publish_date': publish_date,
-                    'search_lat': search_lat,
-                    'search_long': search_long,
-                    'use_radius': use_radius,
-                    'search_location': search_location,
-                    'search_radius': search_radius,
+                    // 'search_lat': search_lat,
+                    // 'search_long': search_long,
+                    // 'use_radius': use_radius,
+                    // 'search_location': search_location,
+                    // 'search_radius': search_radius,
                     'security': headerMapSecurity,
                     'price_type': price_type
                 },
@@ -2622,7 +2622,32 @@ jQuery(document).ready(function ($) {
         var houzez_half_map_listings_list = function(keyword, country, state, location, area, status, type, bedrooms, bathrooms, min_price, max_price, min_area, max_area, features, publish_date, search_lat, search_long, search_radius, search_location, use_radius, price_type ) {
             var headerMapSecurity = $('#securityHouzezHeaderMap').val();
 
-
+            // alert(JSON.stringify({
+            //         'action': 'houzez_half_map_listings',
+            //         //'initial_city': initial_city,
+            //         'keyword': keyword,
+            //         'country': country,
+            //         'state': state,
+            //         'location': location,
+            //         'area': area,
+            //         'status': status,
+            //         'type': type,
+            //         'bedrooms': bedrooms,
+            //         'bathrooms': bathrooms,
+            //         'min_price': min_price,
+            //         'max_price': max_price,
+            //         'min_area': min_area,
+            //         'max_area': max_area,
+            //         'features': features,
+            //         'publish_date': publish_date,
+            //         // 'search_lat': search_lat,
+            //         // 'search_long': search_long,
+            //         // 'use_radius': use_radius,
+            //         // 'search_location': search_location,
+            //         // 'search_radius': search_radius,
+            //         'security': headerMapSecurity,
+            //         'price_type': price_type
+            //     }));
             var ajax_container = $('#houzez_ajax_container');
 
             $.ajax({
@@ -2647,11 +2672,11 @@ jQuery(document).ready(function ($) {
                     'max_area': max_area,
                     'features': features,
                     'publish_date': publish_date,
-                    'search_lat': search_lat,
-                    'search_long': search_long,
-                    'use_radius': use_radius,
-                    'search_location': search_location,
-                    'search_radius': search_radius,
+                    // 'search_lat': search_lat,
+                    // 'search_long': search_long,
+                    // 'use_radius': use_radius,
+                    // 'search_location': search_location,
+                    // 'search_radius': search_radius,
                     'security': headerMapSecurity,
                     'price_type': price_type
                 },

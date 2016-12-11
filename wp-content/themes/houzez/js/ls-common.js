@@ -7,18 +7,7 @@
     // alert(1);
     $(document).ready(function(){
         // alert(1);
-        $('a[rel^="method-post"]').click(function(){
-            var az_post = $(this).attr('rel').split('-');
-            var az_href = $(this).attr('href');
-            var az_str = '';
-            for (var i43 = 0; i43<az_post.length; i43+=2){
-                az_str+='<input type="hidden" name="'+az_post[i43]+'" value="'+az_post[i43+1]+'" />';
-            }
-            $('.az-menu-post').attr('action', az_href);
-            $('.az-menu-post').html(az_str);
-            $('.az-menu-post').trigger('submit');
-            return false;
-        });
+        
         var number_of_nights = 0;
         if($.cookie('az_range')){
             $('input[name="daterange"]').val($.cookie('az_range'));

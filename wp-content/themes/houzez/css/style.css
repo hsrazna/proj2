@@ -107,6 +107,7 @@
 .ls-phone {
   float: left;
   line-height: 90px;
+  height: 90px;
   margin-left: 15px; }
   .ls-phone a {
     font-size: 20px;
@@ -277,7 +278,8 @@
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-call {
   line-height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-phone {
-  line-height: 60px; }
+  line-height: 60px;
+  height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-md-menu {
   line-height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-search {
@@ -501,7 +503,13 @@
   font-family: "OpenSans-Bold";
   font-size: 14px; }
 
-.list-view .az-col {
+.az-col-map1 {
+  width: 0;
+  float: left;
+  overflow: hidden;
+  display: none; }
+
+.az-col-map2 {
   width: 100%;
   float: left; }
 
@@ -779,7 +787,26 @@ input[name="daterange"] {
     margin-bottom: 0px; }
 
   .az-md-margin146 {
-    margin-top: 146px; } }
+    margin-top: 146px; }
+
+  .az-col-map1 {
+    width: 40%;
+    float: left;
+    display: block; }
+
+  .az-col-map2 {
+    width: 60%;
+    float: left; }
+
+  .az-col-map3 {
+    width: 100%; }
+
+  .az-map-view .az-col {
+    width: 100%;
+    float: left; }
+    .az-map-view .az-col > div {
+      width: 50%;
+      float: left; } }
 @media only screen and (min-width: 1075px) {
   .az-dispay-lg {
     display: block !important; }
@@ -796,7 +823,14 @@ input[name="daterange"] {
 
   .grid-view .az-col {
     width: 50%;
-    float: left; } }
+    float: left; }
+
+  .map-view .az-col {
+    width: 100%;
+    float: left; }
+    .map-view .az-col > div {
+      width: 50%;
+      float: left; } }
 @media only screen and (min-width: 1400px) {
   .ls-md-menu {
     display: none; }
