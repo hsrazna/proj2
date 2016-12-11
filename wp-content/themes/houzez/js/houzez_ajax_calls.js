@@ -2691,8 +2691,13 @@ jQuery(document).ready(function ($) {
                     );
                 },
                 success: function(data) {
-                    if( data != '' ) {
-                        ajax_container.empty().html(data);
+                    var d = $.parseJSON(data);
+                    // alert(d.data);
+                    // var d = $.parseJSON(data);
+                    if( d.data != '' ) {
+                        ajax_container.empty().html(d.data);
+                        $('#save_search_form').find('input[name="search_args"]').val(d.query);
+                        $('#save_search_form_params').val(d.params);
                     } else {
                         ajax_container.empty().html('<div class="map-notfound">'+not_found+'</div>');
                     }

@@ -418,50 +418,95 @@ if( !function_exists('houzez_number_list') ) {
         $num_array = array(1,2,3,4,5,6,7,8,9,10);
         $searched_num = '';
 
-        if( $list_for == 'bedrooms' ) {
-            if( isset( $_GET['bedrooms'] ) ) {
-                $searched_num = $_GET['bedrooms'];
-            }
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            if( $list_for == 'bedrooms' ) {
+                if( isset( $_GET['bedrooms'] ) ) {
+                    $searched_num = $_GET['bedrooms'];
+                }
 
-            $adv_beds_list = houzez_option('adv_beds_list');
-            if( !empty($adv_beds_list) ) {
-                $adv_beds_list_array = explode( ',', $adv_beds_list );
+                $adv_beds_list = houzez_option('adv_beds_list');
+                if( !empty($adv_beds_list) ) {
+                    $adv_beds_list_array = explode( ',', $adv_beds_list );
 
-                if( is_array( $adv_beds_list_array ) && !empty( $adv_beds_list_array ) ) {
-                    $temp_adv_beds_list_array = array();
-                    foreach( $adv_beds_list_array as $beds ) {
-                        $temp_adv_beds_list_array[] = $beds;
+                    if( is_array( $adv_beds_list_array ) && !empty( $adv_beds_list_array ) ) {
+                        $temp_adv_beds_list_array = array();
+                        foreach( $adv_beds_list_array as $beds ) {
+                            $temp_adv_beds_list_array[] = $beds;
+                        }
+
+                        if( !empty( $temp_adv_beds_list_array ) ) {
+                            $num_array = $temp_adv_beds_list_array;
+                        }
                     }
+                }
 
-                    if( !empty( $temp_adv_beds_list_array ) ) {
-                        $num_array = $temp_adv_beds_list_array;
+            }
+            if( $list_for == 'bathrooms' ) {
+                if( isset( $_GET['bathrooms'] ) ) {
+                    $searched_num = $_GET['bathrooms'];
+                }
+
+                $adv_baths_list = houzez_option('adv_baths_list');
+                if( !empty($adv_baths_list) ) {
+                    $adv_baths_list_array = explode( ',', $adv_baths_list );
+
+                    if( is_array( $adv_baths_list_array ) && !empty( $adv_baths_list_array ) ) {
+                        $temp_adv_baths_list_array = array();
+                        foreach( $adv_baths_list_array as $baths ) {
+                            $temp_adv_baths_list_array[] = $baths;
+                        }
+
+                        if( !empty( $temp_adv_baths_list_array ) ) {
+                            $num_array = $temp_adv_baths_list_array;
+                        }
                     }
                 }
             }
+        }elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if( $list_for == 'bedrooms' ) {
+                if( isset( $_POST['bedrooms'] ) ) {
+                    $searched_num = $_POST['bedrooms'];
+                }
 
-        }
-        if( $list_for == 'bathrooms' ) {
-            if( isset( $_GET['bathrooms'] ) ) {
-                $searched_num = $_GET['bathrooms'];
-            }
+                $adv_beds_list = houzez_option('adv_beds_list');
+                if( !empty($adv_beds_list) ) {
+                    $adv_beds_list_array = explode( ',', $adv_beds_list );
 
-            $adv_baths_list = houzez_option('adv_baths_list');
-            if( !empty($adv_baths_list) ) {
-                $adv_baths_list_array = explode( ',', $adv_baths_list );
+                    if( is_array( $adv_beds_list_array ) && !empty( $adv_beds_list_array ) ) {
+                        $temp_adv_beds_list_array = array();
+                        foreach( $adv_beds_list_array as $beds ) {
+                            $temp_adv_beds_list_array[] = $beds;
+                        }
 
-                if( is_array( $adv_baths_list_array ) && !empty( $adv_baths_list_array ) ) {
-                    $temp_adv_baths_list_array = array();
-                    foreach( $adv_baths_list_array as $baths ) {
-                        $temp_adv_baths_list_array[] = $baths;
+                        if( !empty( $temp_adv_beds_list_array ) ) {
+                            $num_array = $temp_adv_beds_list_array;
+                        }
                     }
+                }
 
-                    if( !empty( $temp_adv_baths_list_array ) ) {
-                        $num_array = $temp_adv_baths_list_array;
+            }
+            if( $list_for == 'bathrooms' ) {
+                if( isset( $_POST['bathrooms'] ) ) {
+                    $searched_num = $_POST['bathrooms'];
+                }
+
+                $adv_baths_list = houzez_option('adv_baths_list');
+                if( !empty($adv_baths_list) ) {
+                    $adv_baths_list_array = explode( ',', $adv_baths_list );
+
+                    if( is_array( $adv_baths_list_array ) && !empty( $adv_baths_list_array ) ) {
+                        $temp_adv_baths_list_array = array();
+                        foreach( $adv_baths_list_array as $baths ) {
+                            $temp_adv_baths_list_array[] = $baths;
+                        }
+
+                        if( !empty( $temp_adv_baths_list_array ) ) {
+                            $num_array = $temp_adv_baths_list_array;
+                        }
                     }
                 }
             }
         }
-
         if( !empty( $num_array ) ) {
             foreach( $num_array as $num ){
                 if( $searched_num == $num ) {
@@ -1470,7 +1515,7 @@ if(!function_exists('houzez_hirarchical_options')){
                     $term_meta= get_option( "_houzez_property_area_$term->term_id");
                     $parent_city = sanitize_title($term_meta['parent_city']);
 
-                    if ($searched_term == $term->slug) {
+                    if ($searched_term == $term->slug || $searched_term == $term->name) {
                         echo '<option data-parentcity="'.$parent_city.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
                     } else {
                         echo '<option data-parentcity="'.$parent_city.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
@@ -1479,7 +1524,7 @@ if(!function_exists('houzez_hirarchical_options')){
                     $term_meta= get_option( "_houzez_property_city_$term->term_id");
                     $parent_state = sanitize_title($term_meta['parent_state']);
 
-                    if ($searched_term == $term->slug) {
+                    if ($searched_term == $term->slug || $searched_term == $term->name) {
                         echo '<option data-parentstate="'.$parent_state.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
                     } else {
                         echo '<option data-parentstate="'.$parent_state.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';
@@ -1488,7 +1533,7 @@ if(!function_exists('houzez_hirarchical_options')){
                     $term_meta= get_option( "_houzez_property_state_$term->term_id");
                     $parent_country = sanitize_title($term_meta['parent_country']);
 
-                    if ($searched_term == $term->slug) {
+                    if ($searched_term == $term->slug || $searched_term == $term->name) {
                         echo '<option data-parentcountry="'.$parent_country.'" value="' . $term->slug . '" selected="selected">' . $prefix . $term->name . '</option>';
                     } else {
                         echo '<option data-parentcountry="'.$parent_country.'" value="' . $term->slug . '">' . $prefix . $term->name .'</option>';

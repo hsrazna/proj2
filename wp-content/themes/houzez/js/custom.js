@@ -14,8 +14,16 @@ var nice = false;
 "use strict";
 
 /*ajax puller*/
+    
+    $('body').on('click','#az-post-saved-search', function(){
+        var az_href = $(this).attr('href');
+        $(this).prev('form').attr('action', az_href);
+        $(this).prev('form').trigger('submit');
+        return false;
+    });
+    
 
-    $('a[rel^="method-post"]').click(function(){
+    $('body').on('click','a[rel^="method-post"]', function(){
         var az_post = $(this).attr('rel').split('-');
         var az_href = $(this).attr('href');
         var az_str = '';

@@ -77,13 +77,13 @@ if( !empty( $min_price ) && !empty( $max_price ) ) {
     $search_parameters .= esc_html__('Area', 'houzez').' '.esc_attr( $min_area ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_area );
 }
 ?>
-<?php print_r($latest_listing_args); ?>
-<?php echo 1231231; ?>
+<?php //print_r($latest_listing_args); ?>
+<?php //echo 1231231; ?>
 <div class="list-search">
     <form method="post" action="" id="save_search_form">
 
         <div class="input-level-down input-icon">
-            <input placeholder="<?php esc_html_e('Search Listing', 'houzez'); ?>" class="form-control" readonly value="<?php echo esc_attr( $search_parameters ); ?>">
+            <input id="save_search_form_params" placeholder="<?php esc_html_e('Search Listing', 'houzez'); ?>" class="form-control" readonly value="<?php echo esc_attr( $search_parameters ); ?>">
             <input type="hidden" name="search_args" value='<?php print base64_encode( serialize( $latest_listing_args/*$search_qry*/ ) ); ?>'>
             <input type="hidden" name="search_URI" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
             <input type="hidden" name="action" value='houzez_save_search'>
