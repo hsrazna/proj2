@@ -105,6 +105,13 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
             <?php
             if( houzez_option('header_login') != 'no' ) {
                 if ( qtrans_getLanguage() == 'en' ) {
+                    echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user-o" aria-hidden="true"></i><i class="fa fa-user"></i></a>';
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user-o" aria-hidden="true"></i><i class="fa fa-user"></i></a>';
+                }
+            }
+            if( 0/*houzez_option('header_login') != 'no'*/ ) {
+                if ( qtrans_getLanguage() == 'en' ) {
                     echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-margin-right15">'.esc_html__( 'Sign In / Register', 'houzez' ).'</span></a>';
                 } elseif ( qtrans_getLanguage() == 'ru' ) {
                     echo '<a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user hidden-md hidden-lg"></i> <span class="hidden-sm hidden-xs az-title1 az-margin-right15">'.esc_html__( 'Вход / Регистрация', 'houzez' ).'</span></a>';

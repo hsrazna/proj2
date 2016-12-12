@@ -39,6 +39,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 
 
 <header id="header-section" class="houzez-header-main <?php echo esc_attr( $css_class ).' '.esc_attr( $header_4_menu_align ).' '.esc_attr($trans_class).' '.esc_attr($menu_righ_no_user); ?> hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
+<div><br><br></div>
     <div class="<?php echo sanitize_html_class( $header_layout ); ?>">
         <div class="header-left">
 
@@ -64,7 +65,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
             </div>
 
-            <div class="ls-phone"><a href="tel:88002000600">8(800)-2000-600 <i class="fa fa-phone" aria-hidden="true"></i></a></div>
+            <div class="ls-phone"><a href="tel:+66600035625">+66 6000 35 625 <i class="fa fa-phone" aria-hidden="true"></i></a></div>
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
             <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
             <?php } ?>
@@ -77,14 +78,14 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                     <?php } ?>
                 <?php else: ?>
                     <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                        <a href="#" class="btn btn-orange az-btn">Feed back</a>
+                        <a href="#" class="btn btn-orange az-btn">Request a call</a>
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                         <a href="#" class="btn btn-orange az-btn az-reg">Заказать звонок</a>
                     <?php } ?>
                 <?php endif; ?>
             </div>
 
-            <nav class="navi main-nav ls-lg-menu">
+            <!-- <nav class="navi main-nav ls-lg-menu">
                 <?php
                 // Pages Menu
                 if ( has_nav_menu( 'main-menu' ) ) :
@@ -98,8 +99,8 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                     ));
                 endif;
                 ?>
-            </nav>
-            <?php if(is_front_page()): ?>
+            </nav> -->
+            <?php if(0/*is_front_page()*/): ?>
                 <div class="ls-search">
                     <form role="search" method="get" id="searchform" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                         <div class="az-rel">
@@ -119,6 +120,21 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
                     </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
+                    <nav class="navi main-nav ls-lg-menu">
+                        <?php
+                        // Pages Menu
+                        if ( has_nav_menu( 'main-menu' ) ) :
+                            wp_nav_menu( array (
+                                'theme_location' => 'main-menu',
+                                'container' => '',
+                                'container_class' => '',
+                                'menu_class' => '',
+                                'menu_id' => 'main-nav',
+                                'depth' => 4
+                            ));
+                        endif;
+                        ?>
+                    </nav>
                 </div>
             <?php endif; ?>
         <?php endif; ?>

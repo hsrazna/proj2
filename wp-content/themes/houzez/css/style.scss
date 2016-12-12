@@ -125,8 +125,13 @@
     height: 90px;
     margin-left: 15px;
     a{
+        display: inline-block;
+        margin-top: 5px;
         font-size: 20px;
         color: #000;// !important;
+        i{
+            font-size: 22px;
+        }
     }
 }
 .ls-search{
@@ -203,8 +208,36 @@
     position: relative;
 }
 
+.header-section-4.nav-right .header-right{
+    width: 750px !important;
+}
+
+.user{
+    a{
+        text-align: center !important;
+        width: 35px !important;
+        .fa{
+            margin: 0px !important;
+        }
+        .fa-user{
+            display: none;
+        }
+    }
+    a:hover{
+        .fa-user{
+            display: block;
+        }
+        .fa-user-o{
+            display: none;
+        }
+    }
+}
 
 .ls-lang{
+    font-size: 0px;
+        a{
+            font-size: 0px !important;
+        }
     float: right;
     line-height: 60px !important;
     height: 60px;
@@ -514,7 +547,7 @@
 .main-nav{
     li{
         a{
-            font-family: "OpenSans-Bold";
+            font-family: "OpenSans-Bold" !important;
             //font-family: "OpenSans-Semibold";
             font-size: 14px;
         }
@@ -1015,6 +1048,10 @@ input[name="daterange"]{
         margin-right: 15px;
         line-height: 90px !important;
         height: 90px;
+        font-size: 0px;
+        a{
+            font-size: 0px;
+        }
     }
     .az-sm-margin10{
         margin-bottom: 0px;
@@ -1086,7 +1123,7 @@ input[name="daterange"]{
     }
 }
 
-@media only screen and (min-width: 1400px){
+@media only screen and (min-width: 1300px){
     .ls-md-menu{
         display: none;
     }

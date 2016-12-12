@@ -110,8 +110,12 @@
   height: 90px;
   margin-left: 15px; }
   .ls-phone a {
+    display: inline-block;
+    margin-top: 5px;
     font-size: 20px;
     color: #000; }
+    .ls-phone a i {
+      font-size: 22px; }
 
 .ls-search {
   float: left;
@@ -175,11 +179,29 @@
 .az-rel {
   position: relative; }
 
+.header-section-4.nav-right .header-right {
+  width: 750px !important; }
+
+.user a {
+  text-align: center !important;
+  width: 35px !important; }
+  .user a .fa {
+    margin: 0px !important; }
+  .user a .fa-user {
+    display: none; }
+.user a:hover .fa-user {
+  display: block; }
+.user a:hover .fa-user-o {
+  display: none; }
+
 .ls-lang {
+  font-size: 0px;
   float: right;
   line-height: 60px !important;
   height: 60px;
   vertical-align: middle; }
+  .ls-lang a {
+    font-size: 0px !important; }
   .ls-lang .qtranxs_widget {
     padding: 0px;
     display: inline-block;
@@ -500,7 +522,7 @@
     font-family: "OpenSans-Regular"; }
 
 .main-nav li a {
-  font-family: "OpenSans-Bold";
+  font-family: "OpenSans-Bold" !important;
   font-size: 14px; }
 
 .az-col-map1 {
@@ -781,7 +803,10 @@ input[name="daterange"] {
     float: right;
     margin-right: 15px;
     line-height: 90px !important;
-    height: 90px; }
+    height: 90px;
+    font-size: 0px; }
+    .ls-lang a {
+      font-size: 0px; }
 
   .az-sm-margin10 {
     margin-bottom: 0px; }
@@ -831,7 +856,7 @@ input[name="daterange"] {
     .map-view .az-col > div {
       width: 50%;
       float: left; } }
-@media only screen and (min-width: 1400px) {
+@media only screen and (min-width: 1300px) {
   .ls-md-menu {
     display: none; }
 
