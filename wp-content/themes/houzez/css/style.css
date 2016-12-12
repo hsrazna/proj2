@@ -796,6 +796,9 @@ input[name="daterange"] {
 .az-dispay-block-md {
   display: none !important; }
 
+.search .input-icon:before {
+  color: #ce214f; }
+
 @media only screen and (min-width: 345px) {
   .az-carousel .az-prev {
     width: 75px; }

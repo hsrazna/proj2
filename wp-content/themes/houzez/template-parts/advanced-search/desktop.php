@@ -114,7 +114,7 @@ $checked = true;
     <div class="<?php echo esc_attr( $search_width ); ?>">
         <div class="row">
             <div class="col-sm-12">
-                <form method="get" action="<?php echo esc_url( $search_template ); ?>">
+                <form method="post" action="<?php echo esc_url( $search_template ); ?>">
 
 
                     <?php if( $search_style == 'style_1' ) { ?>
@@ -292,16 +292,29 @@ $checked = true;
                             </div>
                             <?php } ?>
 
-                            <?php if( $adv_show_hide['countries'] != 1 ) { ?>
-                                <select name="country" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                            <?php if( $adv_show_hide['type'] != 1 ) { ?>
+                                <select class="selectpicker" name="type" data-live-search="false" data-live-search-style="begins">
                                     <?php
                                     // All Option
-                                    echo '<option value="">'.$houzez_local['all_countries'].'</option>';
+                                    echo '<option value="">'.$houzez_local['all_types'].'</option>';
 
-                                    countries_dropdown( $searched_country );
+                                    $prop_type = get_terms (
+                                        array(
+                                            "property_type"
+                                        ),
+                                        array(
+                                            'orderby' => 'name',
+                                            'order' => 'ASC',
+                                            'hide_empty' => false,
+                                            'parent' => 0
+                                        )
+                                    );
+                                    houzez_hirarchical_options('property_type', $prop_type, $type );
                                     ?>
                                 </select>
                             <?php } ?>
+
+
 
                             <?php if( $adv_show_hide['states'] != 1 ) { ?>
                                 <select name="state" class="selectpicker" data-live-search="false" data-live-search-style="begins">
@@ -369,7 +382,26 @@ $checked = true;
                                 </select>
                                 <?php } ?>
 
-
+                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
+                            <!-- <div class="col-sm-3 col-xs-6"> -->
+                                <!-- <div class="form-group"> -->
+                                    <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
+                                        <?php houzez_number_list('bedrooms'); ?>
+                                    </select>
+                                <!-- </div> -->
+                            <!-- </div> -->
+                            <?php } ?>
+                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
+                            <!-- <div class="col-sm-3 col-xs-6"> -->
+                                <!-- <div class="form-group"> -->
+                                    <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
+                                        <?php houzez_number_list('bedrooms'); ?>
+                                    </select>
+                                <!-- </div> -->
+                            <!-- </div> -->
+                            <?php } ?>
                             <?php if( $hide_advanced != true ) { ?>
                             <div class="advance-btn-holder">
                                 <button class="advance-btn btn" type="button"><i class="fa fa-gear"></i> <?php echo $houzez_local['advanced']; ?></button>
@@ -414,7 +446,21 @@ $checked = true;
                             </div>
                             <?php } ?>
 
-                            <?php if( $adv_show_hide['type'] != 1 ) { ?>
+                            <?php if( 0/*$adv_show_hide['countries'] != 1*/ ) { ?>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="form-group">
+                                        <select name="country" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                            <?php
+                                            // All Option
+                                            echo '<option value="">'.$houzez_local['all_countries'].'</option>';
+
+                                            countries_dropdown( $searched_country );
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if( 0/*$adv_show_hide['type'] != 1*/ ) { ?>
                             <div class="col-sm-3 col-xs-6">
                                 <div class="form-group">
                                     <select class="selectpicker" name="type" data-live-search="false" data-live-search-style="begins">
@@ -440,7 +486,7 @@ $checked = true;
                             </div>
                             <?php } ?>
 
-                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
+                            <?php if( 0/*$adv_show_hide['beds'] != 1*/ ) { ?>
                             <div class="col-sm-3 col-xs-6">
                                 <div class="form-group">
                                     <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
