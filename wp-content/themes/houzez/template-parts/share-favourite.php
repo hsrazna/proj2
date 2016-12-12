@@ -61,11 +61,11 @@ $disable_compare = houzez_option('disable_compare');
 
         <?php get_template_part( 'template-parts/share' ); ?>
 
-    <li>
-        <span data-toggle="tooltip" data-placement="top" title="(<?php echo count( $prop_images ); ?>) <?php echo $houzez_local['photos']; ?>">
+    <!-- <li>
+        <span data-toggle="tooltip" data-placement="top" title="(<?php //echo count( $prop_images ); ?>) <?php //echo $houzez_local['photos']; ?>">
             <i class="fa fa-camera"></i>
         </span>
-    </li>
+    </li> -->
     <?php if( $disable_compare != 0 ) { ?>
     <li>
         <span id="compare-link-<?php echo esc_attr( $post->ID ); ?>" class="compare-property" data-propid="<?php echo esc_attr( $post->ID ); ?>" data-toggle="tooltip" data-placement="top" title="<?php esc_html_e( 'Compare', 'houzez' ); ?>">

@@ -36,10 +36,46 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 ?>
 <!--start section header-->
 <form method="post" class="az-menu-post"></form>
-
-
+<?php if(is_front_page()){ ?>
+<div class="az-above-header az-dispay-block-md">
+    <div class="container-fluid">
+        <nav class="main-nav2">
+            <?php
+                wp_nav_menu( array (
+                    // 'theme_location' => 'main menu2',
+                    'menu' => 'main menu2',
+                    'container' => '',
+                    'container_class' => '',
+                    'menu_class' => '',
+                    'menu_id' => 'main-nav2',
+                    'depth' => 4
+                ));
+            ?>
+        </nav>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="az-above-header az-dispay-none-md">
+    <div class="container">
+        <nav class="main-nav2">
+            <?php
+                wp_nav_menu( array (
+                    // 'theme_location' => 'main menu2',
+                    'menu' => 'main menu2',
+                    'container' => '',
+                    'container_class' => '',
+                    'menu_class' => '',
+                    'menu_id' => 'main-nav2',
+                    'depth' => 4
+                ));
+            ?>
+        </nav>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<?php } ?>
 <header id="header-section" class="houzez-header-main <?php echo esc_attr( $css_class ).' '.esc_attr( $header_4_menu_align ).' '.esc_attr($trans_class).' '.esc_attr($menu_righ_no_user); ?> hidden-sm hidden-xs" data-sticky="<?php echo esc_attr( $main_menu_sticky ); ?>">
-<div><br><br></div>
+
     <div class="<?php echo sanitize_html_class( $header_layout ); ?>">
         <div class="header-left">
 
@@ -116,11 +152,16 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
         <?php if( class_exists('Houzez_login_register') ): ?>
             <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <div class="header-right">
-                    <div class="ls-lang">
+                    <?php if(!is_user_logged_in()): ?>
+                    <div class="ls-favorites">
+                        <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
+                    </div>
+                    <?php endif; ?>
+                    <div class="ls-lang <?=is_user_logged_in()?'az-margin-right15':''?>">
                         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
                     </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
-                    <nav class="navi main-nav ls-lg-menu">
+                    <nav class="navi main-nav ls-lg-menu az-margin-right15">
                         <?php
                         // Pages Menu
                         if ( has_nav_menu( 'main-menu' ) ) :

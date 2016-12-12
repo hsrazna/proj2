@@ -179,20 +179,42 @@
 .az-rel {
   position: relative; }
 
-.header-section-4.nav-right .header-right {
-  width: 750px !important; }
+.az-above-header {
+  background: #f1f1f1; }
 
-.user a {
-  text-align: center !important;
-  width: 35px !important; }
-  .user a .fa {
-    margin: 0px !important; }
-  .user a .fa-user {
+.header-section-4.nav-right .header-right {
+  width: 700px !important; }
+
+.main-nav2 {
+  float: right; }
+  .main-nav2 ul {
+    margin: 0 0 0 0 !important;
+    text-align: center; }
+  .main-nav2 li {
+    display: inline-block;
+    list-style-type: none; }
+  .main-nav2 a {
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 45px;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: #000;
+    font-size: 16px; }
+
+.user {
+  float: right; }
+  .user a {
+    text-align: center !important;
+    width: 45px !important; }
+    .user a .fa {
+      margin: 0px !important; }
+    .user a .fa-user {
+      display: none; }
+  .user a:hover .fa-user {
+    display: block; }
+  .user a:hover .fa-user-o {
     display: none; }
-.user a:hover .fa-user {
-  display: block; }
-.user a:hover .fa-user-o {
-  display: none; }
 
 .ls-lang {
   font-size: 0px;
@@ -269,14 +291,37 @@
     vertical-align: middle; }
 
 .ls-favorites {
-  float: right;
-  line-height: 90px;
-  margin-left: 15px;
-  margin-right: 15px;
-  color: #fff; }
+  float: right; }
   .ls-favorites a {
+    text-align: center !important;
+    width: 45px !important; }
+    .ls-favorites a .fa {
+      margin: 0px !important; }
+    .ls-favorites a .fa-star {
+      display: none; }
+  .ls-favorites a:hover .fa-star {
+    display: block; }
+  .ls-favorites a:hover .fa-star-o {
+    display: none; }
+
+.header-right .ls-favorites {
+  float: right;
+  color: #fff; }
+  .header-right .ls-favorites a {
+    font-size: 16px !important;
+    color: #000 !important;
     line-height: normal;
-    display: inline-block; }
+    display: inline-block;
+    text-align: center !important;
+    width: 45px !important; }
+    .header-right .ls-favorites a .fa {
+      margin: 0px !important; }
+    .header-right .ls-favorites a .fa-star {
+      display: none; }
+  .header-right .ls-favorites a:hover .fa-star {
+    display: block; }
+  .header-right .ls-favorites a:hover .fa-star-o {
+    display: none; }
 
 .az-star {
   float: right;
@@ -523,7 +568,7 @@
 
 .main-nav li a {
   font-family: "OpenSans-Bold" !important;
-  font-size: 14px; }
+  font-size: 14px  !important; }
 
 .az-col-map1 {
   width: 0;
@@ -614,19 +659,6 @@ input[name="daterange"] {
 .account-action {
   float: right;
   margin-right: 15px !important; }
-
-/*margins*/
-.az-margin-right15 {
-  margin-right: 15px; }
-
-.az-margin-bottom10 {
-  margin-bottom: 10px; }
-
-.az-sm-margin10 {
-  margin-bottom: 10px; }
-
-.az-margin-right0 {
-  margin-right: 0px; }
 
 .az-dispay-lg {
   display: none !important; }
@@ -748,6 +780,22 @@ input[name="daterange"] {
 .az-nights {
   padding: 0 10px; }
 
+/*margins*/
+.az-margin-right15 {
+  margin-right: 15px; }
+
+.az-margin-bottom10 {
+  margin-bottom: 10px; }
+
+.az-sm-margin10 {
+  margin-bottom: 10px; }
+
+.az-margin-right0 {
+  margin-right: 0px; }
+
+.az-dispay-block-md {
+  display: none !important; }
+
 @media only screen and (min-width: 345px) {
   .az-carousel .az-prev {
     width: 75px; }
@@ -787,6 +835,9 @@ input[name="daterange"] {
   .az-stamp_style {
     font-size: 16px; } }
 @media only screen and (min-width: 992px) {
+  .main-nav2 ul {
+    text-align: right; }
+
   .ls-form-owl {
     width: 90%; }
 
@@ -801,12 +852,15 @@ input[name="daterange"] {
 
   .ls-lang {
     float: right;
-    margin-right: 15px;
     line-height: 90px !important;
     height: 90px;
     font-size: 0px; }
     .ls-lang a {
       font-size: 0px; }
+
+  .header-right .ls-favorites {
+    float: right;
+    line-height: 90px; }
 
   .az-sm-margin10 {
     margin-bottom: 0px; }
@@ -831,7 +885,13 @@ input[name="daterange"] {
     float: left; }
     .az-map-view .az-col > div {
       width: 50%;
-      float: left; } }
+      float: left; }
+
+  .az-dispay-block-md {
+    display: block !important; }
+
+  .az-dispay-none-md {
+    display: none !important; } }
 @media only screen and (min-width: 1075px) {
   .az-dispay-lg {
     display: block !important; }
@@ -856,7 +916,7 @@ input[name="daterange"] {
     .map-view .az-col > div {
       width: 50%;
       float: left; } }
-@media only screen and (min-width: 1300px) {
+@media only screen and (min-width: 1200px) {
   .ls-md-menu {
     display: none; }
 

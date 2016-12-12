@@ -208,14 +208,40 @@
     position: relative;
 }
 
+.az-above-header{
+    background: #f1f1f1;
+}
+
 .header-section-4.nav-right .header-right{
-    width: 750px !important;
+    width: 700px !important;
+}
+
+.main-nav2{
+    float: right;
+    ul{
+        margin: 0 0 0 0 !important;
+        text-align: center;
+    }
+    li{
+        display: inline-block;
+        list-style-type: none;
+    }
+    a{
+        display: inline-block;
+        padding: 0 10px;
+        line-height: 45px;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;       
+    }
 }
 
 .user{
+    float: right;
     a{
         text-align: center !important;
-        width: 35px !important;
+        width: 45px !important;
         .fa{
             margin: 0px !important;
         }
@@ -224,6 +250,7 @@
         }
     }
     a:hover{
+
         .fa-user{
             display: block;
         }
@@ -232,6 +259,7 @@
         }
     }
 }
+
 
 .ls-lang{
     font-size: 0px;
@@ -331,13 +359,55 @@
 
 .ls-favorites{
     float: right;
-    line-height: 90px;
-    margin-left: 15px;
-    margin-right: 15px;
-    color: #fff;
     a{
-        line-height: normal;
-        display: inline-block;
+        text-align: center !important;
+        width: 45px !important;
+        .fa{
+            margin: 0px !important;
+        }
+        .fa-star{
+            display: none;
+        }
+    }
+    a:hover{
+
+        .fa-star{
+            display: block;
+        }
+        .fa-star-o{
+            display: none;
+        }
+    }
+}
+.header-right{
+    .ls-favorites{
+        float: right;
+        // line-height: 90px !important;
+        // margin-left: 15px;
+        // margin-right: 15px;
+        color: #fff;
+        a{
+            font-size: 16px !important;
+            color: #000 !important;
+            line-height: normal;
+            display: inline-block;
+            text-align: center !important;
+            width: 45px !important;
+            .fa{
+                margin: 0px !important;
+            }
+            .fa-star{
+                display: none;
+            }
+        }
+        a:hover{
+            .fa-star{
+                display: block;
+            }
+            .fa-star-o{
+                display: none;
+            }
+        }
     }
 }
 
@@ -549,7 +619,7 @@
         a{
             font-family: "OpenSans-Bold" !important;
             //font-family: "OpenSans-Semibold";
-            font-size: 14px;
+            font-size: 14px  !important;
         }
     }
 }
@@ -732,19 +802,7 @@ input[name="daterange"]{
     margin-right: 15px !important;
 }
 
-/*margins*/
-.az-margin-right15{
-    margin-right: 15px;
-}
-.az-margin-bottom10{
-    margin-bottom: 10px;
-}
-.az-sm-margin10{
-    margin-bottom: 10px;
-}
-.az-margin-right0{
-    margin-right: 0px;
-}
+
 
 .az-dispay-lg{
     display: none !important;
@@ -943,6 +1001,26 @@ input[name="daterange"]{
     padding: 0 10px;
 }
 
+/*margins*/
+.az-margin-right15{
+    margin-right: 15px;
+}
+.az-margin-bottom10{
+    margin-bottom: 10px;
+}
+.az-sm-margin10{
+    margin-bottom: 10px;
+}
+.az-margin-right0{
+    margin-right: 0px;
+}
+
+.az-dispay-block-md{
+    display: none !important;
+}
+// .az-dispay-none-md{
+//     display: none !important;
+// }
 
 @media only screen and (min-width: 345px){
     .az-carousel {
@@ -1030,6 +1108,11 @@ input[name="daterange"]{
 }
 
 @media only screen and (min-width: 992px){
+    .main-nav2{
+        ul{
+            text-align: right;
+        }
+    }
     .ls-form-owl{
         width: 90%;
     }
@@ -1045,12 +1128,18 @@ input[name="daterange"]{
     }
     .ls-lang{
         float: right;
-        margin-right: 15px;
+        // margin-right: 15px;
         line-height: 90px !important;
         height: 90px;
         font-size: 0px;
         a{
             font-size: 0px;
+        }
+    }
+    .header-right{
+        .ls-favorites{
+            float: right;
+            line-height: 90px;
         }
     }
     .az-sm-margin10{
@@ -1081,6 +1170,12 @@ input[name="daterange"]{
                 float: left;
             }
         }
+    }
+    .az-dispay-block-md{
+        display: block !important;
+    }
+    .az-dispay-none-md{
+        display: none !important;
     }
     // }
 }
@@ -1123,7 +1218,7 @@ input[name="daterange"]{
     }
 }
 
-@media only screen and (min-width: 1300px){
+@media only screen and (min-width: 1200px){
     .ls-md-menu{
         display: none;
     }

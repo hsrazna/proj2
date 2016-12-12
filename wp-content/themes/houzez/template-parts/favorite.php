@@ -15,9 +15,9 @@ if( !empty($fav_option) ) {
 }
 
 if( $key != false || $key != '' ) {
-    $fav_class = 'fa fa-heart';
+    $fav_class = 'fa fa-star';//''fa fa-heart';
 } else {
-    $fav_class = 'fa fa-heart-o';
+    $fav_class = 'fa fa-star-o';//'fa fa-heart-o';
 }
 ?>
 <span class="add_fav" data-toggle="tooltip" data-original-title="<?php esc_html_e('Favorite', 'houzez'); ?>" data-propid="<?php echo intval( $post->ID ); ?>"><i class="<?php echo esc_attr( $fav_class ); ?>"></i></span>

@@ -18,9 +18,14 @@ if ( is_page_template( 'template/template-onepage.php' ) ) {
 		<div class="header-logo logo-mobile">
 			<?php get_template_part('inc/header/logo-mobile'); ?>
 		</div>
+		<?php if(!is_user_logged_in()): ?>
+	        <div class="ls-favorites">
+	            <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
+	        </div>
+        <?php endif; ?>
 		<div class="ls-lang">
         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
-    </div>
+	    </div>
 		<?php if( class_exists('Houzez_login_register') ): ?>
 			<?php if( houzez_option('header_login') != 'no' || $create_lisiting_enable != 0 ): ?>
 				<div class="header-user">

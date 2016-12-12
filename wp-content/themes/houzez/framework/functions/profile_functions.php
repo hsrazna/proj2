@@ -640,7 +640,7 @@ if( !function_exists('az_call_back') ) {
                 }
                 echo json_encode(array(
                     'success' => true,
-                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                    'msg' => esc_html__( 'Your request is sent!', 'houzez')
                 ));
                 wp_die();
             } elseif($userID == $postId && $userLogin == $postName && !empty($az_phone)){
@@ -664,7 +664,7 @@ if( !function_exists('az_call_back') ) {
                 update_user_meta($userID, 'fave_author_phone', $az_phone);
                 echo json_encode(array(
                     'success' => true,
-                    'msg' => esc_html__( 'Request is sent!', 'houzez')
+                    'msg' => esc_html__( 'Your request is sent!', 'houzez')
                 ));
                 wp_die();
             }
@@ -688,7 +688,7 @@ if( !function_exists('az_call_back') ) {
             }
             echo json_encode(array(
                 'success' => true,
-                'msg' => esc_html__( 'Request is sent!', 'houzez')
+                'msg' => esc_html__( 'Your request is sent!', 'houzez')
             ));
             wp_die();
         }

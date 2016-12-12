@@ -32,11 +32,11 @@
         if(window.matchMedia('(min-width: 992px)').matches){
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122);
+            $('.az-slider').height(az_temp_height221122 - 45);
         } else {
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122 - 60);
+            $('.az-slider').height(az_temp_height221122 - 60 - 45);
         }
         $('.az-item').css({'opacity': '0', 'z-index': '2', 'transition': 'all 1.2s ease-out'});
         $('.az-item').eq(1).css({'opacity': '1', 'z-index': '3', 'transition': 'all 1.2s ease-in'});
@@ -119,11 +119,11 @@
         if(window.matchMedia('(min-width: 992px)').matches){
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122);
+            $('.az-slider').height(az_temp_height221122 - 45);
         } else {
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122 - 60);
+            $('.az-slider').height(az_temp_height221122 - 60 - 45);
         }
         $('.az-item').css({'opacity': '0', 'z-index': '2', 'transition': 'all 1.2s ease-out'});
         $('.az-item').eq(1).css({'opacity': '1', 'z-index': '3', 'transition': 'all 1.2s ease-in'});
@@ -135,11 +135,11 @@
         if(window.matchMedia('(min-width: 992px)').matches){
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122);
+            $('.az-slider').height(az_temp_height221122 - 45);
         } else {
             var az_temp_height221122 = $(window).height();
             az_temp_height221122 = (az_temp_height221122>=590)?az_temp_height221122: 590;
-            $('.az-slider').height(az_temp_height221122 - 60);
+            $('.az-slider').height(az_temp_height221122 - 60 - 45);
         }
     }
 

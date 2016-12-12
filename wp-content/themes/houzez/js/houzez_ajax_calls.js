@@ -1168,6 +1168,7 @@ jQuery(document).ready(function ($) {
             // if( parseInt( userID, 10 ) === 0 ) {
             //     $('#pop-login').modal('show');
             // } else {
+                // alert(1);
                 jQuery.ajax({
                     type: 'post',
                     url: ajaxurl,
@@ -1181,9 +1182,11 @@ jQuery(document).ready(function ($) {
                     },
                     success: function( data ) {
                         if( data.added ) {
-                            curnt.removeClass('fa-heart-o').addClass('fa-heart');
+                            curnt.removeClass('fa-star-o').addClass('fa-star');
+                            // curnt.removeClass('fa-heart-o').addClass('fa-heart');
                         } else {
-                            curnt.removeClass('fa-heart').addClass('fa-heart-o');
+                            curnt.removeClass('fa-star').addClass('fa-star-o');
+                            // curnt.removeClass('fa-heart').addClass('fa-heart-o');
                         }
                         curnt.removeClass('faa-pulse animated');
                     },

@@ -58,10 +58,11 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                         if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '"> <i class="fa fa-plus-circle"></i>' . esc_html__('Add new property', 'houzez') . '</a></li>';
                         }
+                        // <i class="fa fa-heart"></i>
                         if( $home_link != $dashboard_favorites ) {
-                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '"> <i class="fa fa-heart"></i>' . esc_html__('Favourite properties', 'houzez') . '</a></li>';
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '"> <i class="fa fa-star" aria-hidden="true"></i>' . esc_html__('Favourite properties', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_search ) {
+                        if( 0/*$home_link != $dashboard_search*/ ) {
                             echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '"> <i class="fa fa-search-plus"></i>' . esc_html__('Saved searches', 'houzez') . '</a></li>';
                         }
                         if( $home_link != $dashboard_invoices && houzez_check_role() ) {
@@ -81,10 +82,11 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                         if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '" class="az-text3"> <i class="fa fa-plus-circle"></i>' . esc_html__('Добавить нов. недв.', 'houzez') . '</a></li>';
                         }
+                        //<i class="fa fa-heart">
                         if( $home_link != $dashboard_favorites ) {
-                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '" class="az-text3"> <i class="fa fa-heart"></i>' . esc_html__('Избранное', 'houzez') . '</a></li>';
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '" class="az-text3"> <i class="fa fa-star" aria-hidden="true"></i></i>' . esc_html__('Избранное', 'houzez') . '</a></li>';
                         }
-                        if( $home_link != $dashboard_search ) {
+                        if( 0/*$home_link != $dashboard_search*/ ) {
                             echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '" class="az-text3"> <i class="fa fa-search-plus"></i>' . esc_html__('Сохр. поиск', 'houzez') . '</a></li>';
                         }
                         if( $home_link != $dashboard_invoices && houzez_check_role() ) {
