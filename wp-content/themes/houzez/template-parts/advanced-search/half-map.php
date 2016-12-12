@@ -358,14 +358,16 @@ if ($adv_show_hide['keyword'] != 1) {
             <?php if( $adv_search_price_slider != 0 ) { ?>
                 <?php if( $adv_show_hide['price_slider'] != 1 ) { ?>
                     <div class="col-sm-12 col-xs-12">
-                        <div class="range-advanced-main">
-                            <div class="range-text">
-                                <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly >
-                                <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly >
-                                <p><span class="range-title"><?php echo $houzez_local['price_range'];?></span> <?php echo $houzez_local['from']; ?> <span class="min-price-range"></span> <?php echo $houzez_local['to']; ?> <span class="max-price-range"></span></p>
-                            </div>
-                            <div class="range-wrap">
-                                <div class="price-range-advanced"></div>
+                        <div class="form-group">
+                            <div class="range-advanced-main">
+                                <div class="range-text">
+                                    <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly >
+                                    <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly >
+                                    <p><span class="range-title"><?php echo $houzez_local['price_range'];?></span> <?php echo $houzez_local['from']; ?> <span class="min-price-range"></span> <?php echo $houzez_local['to']; ?> <span class="max-price-range"></span></p>
+                                </div>
+                                <div class="range-wrap">
+                                    <div class="price-range-advanced"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

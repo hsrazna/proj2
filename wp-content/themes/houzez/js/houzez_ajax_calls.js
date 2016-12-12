@@ -990,6 +990,7 @@ jQuery(document).ready(function ($) {
         * Delete Search
         * --------------------------------------------------------------------------*/
         $('.remove-search').click(function(e) {
+            // alert(1);
             e.preventDefault();
             var $this = $(this);
             var prop_id = $this.data('propertyid');
@@ -2698,6 +2699,7 @@ jQuery(document).ready(function ($) {
                         ajax_container.empty().html(d.data);
                         $('#save_search_form').find('input[name="search_args"]').val(d.query);
                         $('#save_search_form_params').val(d.params);
+                        $('.save-btn').removeClass('saved');
                     } else {
                         ajax_container.empty().html('<div class="map-notfound">'+not_found+'</div>');
                     }

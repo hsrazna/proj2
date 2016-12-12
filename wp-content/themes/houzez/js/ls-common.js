@@ -41,10 +41,13 @@
         $('.az-item').css({'opacity': '0', 'z-index': '2', 'transition': 'all 1.2s ease-out'});
         $('.az-item').eq(1).css({'opacity': '1', 'z-index': '3', 'transition': 'all 1.2s ease-in'});
         
-        var az_rangedates = $('input[name="daterange"]').eq(0).data('daterangepicker');
-        var one_day=1000*60*60*24;
-        var az_num_nights = (az_rangedates.endDate - az_rangedates.startDate)/one_day;
-        $('.az-nights .az-num-nights').text(Math.round(az_num_nights-1));
+        var az_datarange = $('input[name="daterange"]');
+        if(az_datarange.length > 0){
+            var az_rangedates = $('input[name="daterange"]').eq(0).data('daterangepicker');
+            var az_one_day=1000*60*60*24;
+            var az_num_nights = (az_rangedates.endDate - az_rangedates.startDate)/az_one_day;
+            $('.az-nights .az-num-nights').text(Math.round(az_num_nights-1));
+        }
         
         $('input[name="daterange"]').on('apply.daterangepicker', function(){
             // alert(1);

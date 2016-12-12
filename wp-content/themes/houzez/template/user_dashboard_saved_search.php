@@ -42,7 +42,7 @@ get_header(); ?>
 
                     if ( sizeof( $results ) !== 0 ) :
 
-                        foreach ( $results as $houzez_search_data ) :
+                        foreach ( $results as $az_search_key => $houzez_search_data ) :
 
                             get_template_part( 'template-parts/search', 'list' );
 
