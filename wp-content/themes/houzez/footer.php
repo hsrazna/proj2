@@ -101,6 +101,7 @@ global $houzez_local;
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.ru.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.ru.js"></script>
 <?php } ?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
 
 <?php wp_footer(); ?>

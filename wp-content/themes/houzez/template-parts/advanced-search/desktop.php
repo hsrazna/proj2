@@ -314,8 +314,59 @@ $checked = true;
                                 </select>
                             <?php } ?>
 
+                            <?php if( $adv_show_hide['areas'] != 1 ) { ?>
+                                <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                    <?php
+                                    // All Option
+                                    echo '<option value="">'.$houzez_local['all_areas'].'</option>';
 
+                                    $prop_area = get_terms (
+                                        array(
+                                            "property_area"
+                                        ),
+                                        array(
+                                            'orderby' => 'name',
+                                            'order' => 'ASC',
+                                            'hide_empty' => true,
+                                            'parent' => 0
+                                        )
+                                    );
+                                    houzez_hirarchical_options('property_area', $prop_area, $area );
+                                    ?>
+                                </select>
+                                <?php } ?>
 
+                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
+                            <!-- <div class="col-sm-3 col-xs-6"> -->
+                                <!-- <div class="form-group"> -->
+                                <div class="az-beds">
+                                    <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
+                                        <?php houzez_number_list('bedrooms'); ?>
+                                    </select>
+                                    <i class="fa fa-bed" aria-hidden="true"></i>
+                                </div>
+                                <!-- </div> -->
+                            <!-- </div> -->
+                            <?php } ?>
+                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
+                            <!-- <div class="col-sm-3 col-xs-6"> -->
+                                <!-- <div class="form-group"> -->
+                                <input class="az-number" type="text" value="" name="min-price">
+<!--                                     <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
+                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
+                                        <?php houzez_number_list('bedrooms'); ?>
+                                    </select>
+                                    <i class="fa fa-btc" aria-hidden="true"></i>
+ -->                                <!-- </div> -->
+                            <!-- </div> -->
+                            <script>
+                            $(document).ready(function(){
+
+                            });
+                                
+                            </script>
+                            <?php } ?>
                             <?php if( $adv_show_hide['states'] != 1 ) { ?>
                                 <select name="state" class="selectpicker" data-live-search="false" data-live-search-style="begins">
                                     <?php
@@ -359,50 +410,7 @@ $checked = true;
                                 ?>
                                 </select>
                                 <?php } ?>
-
-                                <?php if( $adv_show_hide['areas'] != 1 ) { ?>
-                                <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                                    <?php
-                                    // All Option
-                                    echo '<option value="">'.$houzez_local['all_areas'].'</option>';
-
-                                    $prop_area = get_terms (
-                                        array(
-                                            "property_area"
-                                        ),
-                                        array(
-                                            'orderby' => 'name',
-                                            'order' => 'ASC',
-                                            'hide_empty' => true,
-                                            'parent' => 0
-                                        )
-                                    );
-                                    houzez_hirarchical_options('property_area', $prop_area, $area );
-                                    ?>
-                                </select>
-                                <?php } ?>
-
-                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
-                            <!-- <div class="col-sm-3 col-xs-6"> -->
-                                <!-- <div class="form-group"> -->
-                                    <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
-                                        <?php houzez_number_list('bedrooms'); ?>
-                                    </select>
-                                <!-- </div> -->
-                            <!-- </div> -->
-                            <?php } ?>
-                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
-                            <!-- <div class="col-sm-3 col-xs-6"> -->
-                                <!-- <div class="form-group"> -->
-                                    <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
-                                        <?php houzez_number_list('bedrooms'); ?>
-                                    </select>
-                                <!-- </div> -->
-                            <!-- </div> -->
-                            <?php } ?>
-                            <?php if( $hide_advanced != true ) { ?>
+                            <?php if( 0/*$hide_advanced != true*/ ) { ?>
                             <div class="advance-btn-holder">
                                 <button class="advance-btn btn" type="button"><i class="fa fa-gear"></i> <?php echo $houzez_local['advanced']; ?></button>
                             </div>
@@ -417,7 +425,7 @@ $checked = true;
 
                     <?php } ?>
 
-                    <div class="advance-fields">
+                    <!-- <div class="advance-fields">
                         <div class="row">
 
                             <?php if( $adv_show_hide['status'] != 1 ) { ?>
@@ -588,7 +596,7 @@ $checked = true;
                             </div>
                             <?php } ?>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

@@ -36,7 +36,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 ?>
 <!--start section header-->
 <form method="post" class="az-menu-post"></form>
-<?php if(is_front_page()){ ?>
+<?php if(1/*is_front_page()*/){ ?>
 <div class="az-above-header az-dispay-block-md">
     <div class="container-fluid">
         <nav class="main-nav2">

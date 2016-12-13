@@ -7,7 +7,19 @@
     // alert(1);
     $(document).ready(function(){
         // alert(1);
+        var az_number = $(".az-number");
+        if(az_number.length > 0){
+            $(".az-number").TouchSpin({
+              verticalbuttons: true,
+              verticalupclass: 'glyphicon glyphicon-plus',
+              verticaldownclass: 'glyphicon glyphicon-minus',
+              step: 200,
+              min: 0,
+              max: 100000,
+            });
+        }
         
+        // alert(1);
         var number_of_nights = 0;
         if($.cookie('az_range')){
             $('input[name="daterange"]').val($.cookie('az_range'));

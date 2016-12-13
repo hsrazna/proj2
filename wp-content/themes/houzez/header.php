@@ -16,6 +16,7 @@ $houzez_local = houzez_get_localization();
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/style.css">
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.css" />
 	<?php wp_head(); ?>
 </head>
 

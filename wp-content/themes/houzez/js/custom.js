@@ -1178,15 +1178,17 @@ var nice = false;
             }
         }
 
+        var menu_above = $('.az-above-header').height();
+
         var topBarsHeight =  getWindowHeight() - totalTopBarsHeight;
 
         if (isChrome){
-            $('.fave-screen-fix').css( 'height', topBarsHeight-1 );
+            $('.fave-screen-fix').css( 'height', topBarsHeight-1-menu_above );
         }else{
-            $('.fave-screen-fix').css( 'height', topBarsHeight );
+            $('.fave-screen-fix').css( 'height', topBarsHeight-menu_above );
         }
 
-        $('.banner-parallax-fix').css( 'height', topBarsHeight );
+        $('.banner-parallax-fix').css( 'height', topBarsHeight-menu_above );
 
         if(getWindowWidth() > 768){
             var image_url = $('.banner-parallax-auto .banner-inner').css('background-image');
