@@ -29,9 +29,9 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
     $ac_props = 'class=active';
 } elseif ( is_page_template( 'template/submit_property.php' ) ) {
     $ac_add_prop = 'class=active';
-} elseif ( is_page_template( 'template/user_dashboard_saved_search.php' ) ) {
+} elseif ( 0/*is_page_template( 'template/user_dashboard_saved_search.php' )*/ ) {
     $ac_search = 'class=active';
-} elseif ( is_page_template( 'template/user_dashboard_favorites.php' ) ) {
+} elseif ( is_page_template( 'template/user_dashboard_saved_search_favorites.php' ) ) { //is_page_template( 'template/user_dashboard_favorites.php' )
     $ac_fav = 'class=active';
 } elseif ( is_page_template( 'template/user_dashboard_invoices.php' ) ) {
     $ac_invoices = 'class=active';

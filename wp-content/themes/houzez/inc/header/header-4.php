@@ -154,7 +154,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 <div class="header-right">
                     <?php if(!is_user_logged_in()): ?>
                     <div class="ls-favorites">
-                        <a href="/saved-searches/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
+                        <a href="/favorite/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
                     </div>
                     <?php endif; ?>
                     <div class="ls-lang <?=is_user_logged_in()?'az-margin-right15':''?>">

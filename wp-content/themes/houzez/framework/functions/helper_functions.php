@@ -1351,7 +1351,8 @@ if( !function_exists('houzez_dashboard_favorites_link') ) {
     function houzez_dashboard_favorites_link() {
         $args = array(
             'meta_key' => '_wp_page_template',
-            'meta_value' => 'template/user_dashboard_favorites.php'
+            'meta_value' => 'template/user_dashboard_saved_search_favorites.php',
+            // 'meta_value' => 'template/user_dashboard_favorites.php'
         );
         $pages = get_pages($args);
         if( $pages ) {
