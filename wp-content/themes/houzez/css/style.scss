@@ -228,7 +228,7 @@
     }
     a{
         display: inline-block;
-        padding: 0 10px;
+        padding: 0 8px;
         line-height: 45px;
         letter-spacing: -0.02em;
         text-decoration: none;
@@ -359,28 +359,32 @@
 
 .ls-favorites{
     float: right;
+    line-height: 60px;
     a{
-        text-align: center !important;
-        width: 45px !important;
-        .fa{
-            margin: 0px !important;
-        }
-        .fa-star{
-            display: none;
-        }
-    }
-    a:hover{
+                display: inline-block;
+                text-align: center !important;
+                width: 35px !important;
+                color: #fff;
+                // .fa{
+                //     margin: 0px !important;
+                // }
+                // .fa-star{
+                //     display: none;
+                // }
+            }
+            a:hover{
 
-        .fa-star{
-            display: block;
-        }
-        .fa-star-o{
-            display: none;
-        }
-    }
+                // .fa-star{
+                //     display: block;
+                // }
+                // .fa-star-o{
+                //     display: none;
+                // }
+            }
 }
 .header-right{
     .ls-favorites{
+        line-height: 60px;
         float: right;
         // line-height: 90px !important;
         // margin-left: 15px;
@@ -794,12 +798,27 @@ input[name="daterange"]{
     display: none;
     margin-left: 0 !important;
 }
-.header-mobile .header-user{
-    width: calc(25% - 40px) !important;
+@media only screen and (min-width: 270px) and (max-width: 400px){
+    .header-mobile .mobile-nav{
+        width: 20px !important;
+    }
+    .header-mobile .header-user{
+        width: calc(50% - 94px) !important;
+
+    }
+    .account-action{
+        float: right;
+        margin-right: 15px !important;
+    }
 }
-.account-action{
-    float: right;
-    margin-right: 15px !important;
+@media only screen and (min-width: 401px){
+    .header-mobile .header-user{
+        width: calc(25% - 70px) !important;
+    }
+    .account-action{
+        float: right;
+        margin-right: 15px !important;
+    }
 }
 
 
@@ -1027,6 +1046,8 @@ input[name="daterange"]{
 
 
 
+
+
 @media only screen and (min-width: 345px){
     .az-carousel {
         .az-prev{
@@ -1145,6 +1166,26 @@ input[name="daterange"]{
         .ls-favorites{
             float: right;
             line-height: 90px;
+            a{
+                display: inline-block;
+                text-align: center !important;
+                width: 35px !important;
+                .fa{
+                    margin: 0px !important;
+                }
+                .fa-star{
+                    display: none;
+                }
+            }
+            a:hover{
+
+                .fa-star{
+                    display: block;
+                }
+                .fa-star-o{
+                    display: none;
+                }
+            }
         }
     }
     .az-sm-margin10{

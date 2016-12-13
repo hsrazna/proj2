@@ -195,7 +195,7 @@
     list-style-type: none; }
   .main-nav2 a {
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 8px;
     line-height: 45px;
     letter-spacing: -0.02em;
     text-decoration: none;
@@ -291,20 +291,16 @@
     vertical-align: middle; }
 
 .ls-favorites {
-  float: right; }
+  float: right;
+  line-height: 60px; }
   .ls-favorites a {
+    display: inline-block;
     text-align: center !important;
-    width: 45px !important; }
-    .ls-favorites a .fa {
-      margin: 0px !important; }
-    .ls-favorites a .fa-star {
-      display: none; }
-  .ls-favorites a:hover .fa-star {
-    display: block; }
-  .ls-favorites a:hover .fa-star-o {
-    display: none; }
+    width: 35px !important;
+    color: #fff; }
 
 .header-right .ls-favorites {
+  line-height: 60px;
   float: right;
   color: #fff; }
   .header-right .ls-favorites a {
@@ -653,13 +649,23 @@ input[name="daterange"] {
   display: none;
   margin-left: 0 !important; }
 
-.header-mobile .header-user {
-  width: calc(25% - 40px) !important; }
+@media only screen and (min-width: 270px) and (max-width: 400px) {
+  .header-mobile .mobile-nav {
+    width: 20px !important; }
 
-.account-action {
-  float: right;
-  margin-right: 15px !important; }
+  .header-mobile .header-user {
+    width: calc(50% - 94px) !important; }
 
+  .account-action {
+    float: right;
+    margin-right: 15px !important; } }
+@media only screen and (min-width: 401px) {
+  .header-mobile .header-user {
+    width: calc(25% - 70px) !important; }
+
+  .account-action {
+    float: right;
+    margin-right: 15px !important; } }
 .az-dispay-lg {
   display: none !important; }
 
@@ -864,6 +870,18 @@ input[name="daterange"] {
   .header-right .ls-favorites {
     float: right;
     line-height: 90px; }
+    .header-right .ls-favorites a {
+      display: inline-block;
+      text-align: center !important;
+      width: 35px !important; }
+      .header-right .ls-favorites a .fa {
+        margin: 0px !important; }
+      .header-right .ls-favorites a .fa-star {
+        display: none; }
+    .header-right .ls-favorites a:hover .fa-star {
+      display: block; }
+    .header-right .ls-favorites a:hover .fa-star-o {
+      display: none; }
 
   .az-sm-margin10 {
     margin-bottom: 0px; }

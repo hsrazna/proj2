@@ -643,7 +643,7 @@ function houzez_custom_styling() {
             color: {$mob_link_color};
         }
         .mobile-nav a {
-            font-family: {$typo_mobile_menu['font-family']};
+            font-family: 'OpenSans-Regular'/*{$typo_mobile_menu['font-family']}*/;
             font-size: {$typo_mobile_menu['font-size']};
             font-weight: {$typo_mobile_menu['font-weight']};
             line-height: {$typo_mobile_menu['line-height']};
