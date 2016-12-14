@@ -1250,7 +1250,7 @@ jQuery(document).ready(function ($) {
 
             var $form = currnt.parents('form');
             var $messages = currnt.parents('.class-for-register-msg').find('.houzez_messages_register');
-
+            alert($form.serialize());
             $.ajax({
                 type: 'post',
                 url: ajaxurl,

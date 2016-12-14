@@ -85,7 +85,7 @@ if( !function_exists('houzez_register') ) {
 
         $allowed_html = array();
 
-        $usermane          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
+        // $usermane          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
         $email             = trim( sanitize_text_field( wp_kses( $_POST['useremail'], $allowed_html ) ));
         $term_condition    = wp_kses( $_POST['term_condition'], $allowed_html );
         $enable_password = houzez_option('enable_password');
@@ -97,19 +97,20 @@ if( !function_exists('houzez_register') ) {
             wp_die();
         }
 
-        if( empty( $usermane ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__(' The username field is empty.', 'houzez') ) );
-            wp_die();
-        }
-        if (preg_match("/^[0-9A-Za-z_]+$/", $usermane) == 0) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username (do not use special characters or spaces)!', 'houzez') ) );
-            wp_die();
-        }
+        // if( empty( $usermane ) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__(' The username field is empty.', 'houzez') ) );
+        //     wp_die();
+        // }
+        // if (preg_match("/^[0-9A-Za-z_]+$/", $usermane) == 0) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username (do not use special characters or spaces)!', 'houzez') ) );
+        //     wp_die();
+        // }
         if( empty( $email ) ) {
             echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
             wp_die();
         }
-        if( username_exists( $usermane ) ) {
+        // if( username_exists( $usermane ) ) {
+        if( username_exists( $email ) ) {
             echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
             wp_die();
         }
@@ -143,7 +144,8 @@ if( !function_exists('houzez_register') ) {
         } else {
             $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
         }
-        $user_id = wp_create_user( $usermane, $user_password, $email );
+        $user_id = wp_create_user( $email, $user_password, $email );
+        // $user_id = wp_create_user( $usermane, $user_password, $email );
 
         if ( is_wp_error($user_id) ) {
             echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
@@ -161,7 +163,8 @@ if( !function_exists('houzez_register') ) {
             $user_as_agent = houzez_option('user_as_agent');
             
             if( $user_as_agent == 'yes' ) {
-                houzez_register_as_agent ( $usermane, $email, $user_id );
+                houzez_register_as_agent ( $email, $email, $user_id );
+                // houzez_register_as_agent ( $usermane, $email, $user_id );
             }
         }
         wp_die();
