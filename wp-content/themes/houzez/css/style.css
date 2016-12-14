@@ -24,6 +24,20 @@
 .az-w-100 {
   width: 100% !important; }
 
+.az-rel {
+  position: relative; }
+
+.az-abs {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  z-index: 9; }
+
+.az-inner-padding button {
+  padding: 6px 25px !important; }
+
 .az-stamp {
   position: absolute;
   top: 50px;
@@ -56,9 +70,6 @@
   top: 34px;
   font-size: 16px;
   border: solid 2px #c00; }
-
-.az-rel {
-  position: relative; }
 
 .ls-disp-none {
   display: none !important; }
@@ -178,9 +189,6 @@
   background-size: cover;
   cursor: pointer;
   margin-top: 27px; }
-
-.az-rel {
-  position: relative; }
 
 .az-above-header {
   background: #f1f1f1; }

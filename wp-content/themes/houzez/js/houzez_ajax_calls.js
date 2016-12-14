@@ -3630,6 +3630,33 @@ jQuery(document).ready(function ($) {
                 }
             });
         });
+
+        /*--------------------------------------------------------------------------
+         *  request form
+         * -------------------------------------------------------------------------*/
+        $('#az-request-form').submit(function(){
+            var send_data = $(this).serialize();
+            $.ajax({
+                url: ajaxurl,
+                dataType: 'JSON',
+                method: 'POST',
+                data: send_data + '&action=az_request_form',
+                success: function (res) {
+                    // alert(res);
+                    if( res.success ) {
+                        // $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                        alert(res.msg);
+                    } else {
+                        console.log( res );
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+            return false;
+        });
     }// typeof HOUZEZ_ajaxcalls_vars
 
 }); // end document ready

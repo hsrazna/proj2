@@ -123,7 +123,7 @@ get_header();
 	</div>
 	<div class="row">
 		<div class="col-md-12 col-xs-12">
-			<div class="az-request-form">
+			<form id="az-request-form">
 				<div class="col-sm-6 col-xs-12">
 	                <div class="form-group">
 	                <?php if ( qtrans_getLanguage() == 'en' ) {?>
@@ -210,7 +210,7 @@ get_header();
 	                        <label>
 	                            <input name="az-choose-ticket" id="az-choose-ticket" type="checkbox">
 	                            <?php if ( qtrans_getLanguage() == 'en' ) {?>
-	                                <?php esc_html_e( '', 'houzez' ); ?>
+	                                <?php esc_html_e( 'Would you like us to help?', 'houzez' ); ?>
 	                            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
 	                                <?php esc_html_e( 'Подобрать билеты?', 'houzez' ); ?>
 	                            <?php } ?>
@@ -222,42 +222,66 @@ get_header();
 	            <div class="col-sm-6 col-xs-12">
 		            <div class="form-group">
 	                <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                        <input class="form-control" name="az-call-me" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text">
+                        <input class="form-control" name="az-prefer" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text">
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                        <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-phone" placeholder="<?php esc_html_e('Предпочтения по району и типу жилья', 'houzez'); ?>" type="text">
+                        <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-prefer" placeholder="<?php esc_html_e('Предпочтения по району и типу жилья', 'houzez'); ?>" type="text">
                     <?php } ?>
 	                </div>
 	            </div>
 	            <div class="col-sm-3 col-xs-6">
-                    <select class="selectpicker" name="az-male" data-live-search="false" data-live-search-style="begins">
-                        <option value>Количество <i class="fa fa-male" aria-hidden="true"></i></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+		            <div class="form-group az-rel az-inner-padding">
+	                    <select class="selectpicker" name="az-male" data-live-search="false" data-live-search-style="begins">
+		                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+		                        <option value>Adult</option>
+		                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+		                        <option value>Взрослые</option>
+		                    <?php } ?>
+	                        <option value="1">1</option>
+	                        <option value="2">2</option>
+	                        <option value="3">3</option>
+	                        <option value="4">4</option>
+	                        <option value="5">5</option>
+	                    </select>
+	                    <span class="az-abs"><i class="fa fa-male" aria-hidden="true"></i></span>
+                    </div>
                 </div>
                 <div class="col-sm-3 col-xs-6">
-                    <select class="selectpicker" name="az-child" data-live-search="false" data-live-search-style="begins">
-                        <option value><i class="fa fa-child"></i></option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+	                <div class="form-group az-rel az-inner-padding">
+	                    <select class="selectpicker" name="az-child" data-live-search="false" data-live-search-style="begins">
+	                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+		                        <option value>Child</option>
+		                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+		                        <option value>Дети</option>
+		                    <?php } ?>
+	                        <option value="1">1</option>
+	                        <option value="2">2</option>
+	                        <option value="3">3</option>
+	                        <option value="4">4</option>
+	                        <option value="5">5</option>
+	                    </select>
+	                    <span class="az-abs"><i class="fa fa-child"></i></span>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <textarea class="form-control" name="message" rows="5"
-                                  placeholder="<?php esc_html_e('Message', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in", "houzez"); ?> [<?php echo get_the_title(); ?>]</textarea>
+	                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+	                        <textarea class="form-control" name="az-message" rows="5" placeholder="<?php esc_html_e('Message', 'houzez'); ?>"><?php esc_html_e("", "houzez"); ?></textarea>
+	                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+	                        <textarea class="form-control az-text1" name="az-message" rows="5" placeholder="<?php esc_html_e('Прочие комментарии', 'houzez'); ?>"><?php esc_html_e("", "houzez"); ?></textarea>
+	                    <?php } ?>
                     </div>
                 </div>
-                <button
-                        class="agent_contact_form btn btn-orange"><?php esc_html_e('Request info', 'houzez'); ?></button>
-            </div>
+                <div class="col-sm-12 col-xs-12">
+	                <div class="form-group">
+		                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+	                        <button class="btn btn-orange az-w-100"><?php esc_html_e('Request info', 'houzez'); ?></button>
+	                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+	                        <button class="btn btn-orange az-w-100"><?php esc_html_e('Отправить запрос', 'houzez'); ?></button>
+	                    <?php } ?>
+	                </div>
+                </div>
+            </form>
 		</div>
 	</div>
 </div>
