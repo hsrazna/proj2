@@ -7,19 +7,38 @@
     // alert(1);
     $(document).ready(function(){
         // alert(1);
-        var az_number = $(".az-number");
-        if(az_number.length > 0){
-            $(".az-number").TouchSpin({
-              verticalbuttons: true,
-              verticalupclass: 'glyphicon glyphicon-plus',
-              verticaldownclass: 'glyphicon glyphicon-minus',
-              step: 200,
-              min: 0,
-              max: 100000,
-            });
-        }
+
+        // var az_number = $(".az-number");
+        // if(az_number.length > 0){
+        //     $(".az-number").TouchSpin({
+        //       verticalbuttons: true,
+        //       verticalupclass: 'glyphicon glyphicon-plus',
+        //       verticaldownclass: 'glyphicon glyphicon-minus',
+        //       step: 200,
+        //       min: 0,
+        //       max: 980000,
+        //     });
+        // }
         
         // alert(1);
+        $('.az-name, .az-email').keyup(function(){
+            // alert(1);
+            if($('.az-name').val()!='' && $('.az-email').val().indexOf('@')!=-1){
+                $('#az-reg').fadeIn(0).parent().fadeIn(0);
+            } else {
+                $('#az-reg').fadeOut(0).parent().fadeOut(0);
+            }
+        });
+
+        $('#az-b-ticket').change(function(){
+            // alert(1);
+            if($(this).attr("checked") == 'checked'){
+                $('#az-choose-ticket').fadeOut(0).parent().fadeOut(0);
+            } else {
+                $('#az-choose-ticket').fadeIn(0).parent().fadeIn(0);
+            }
+        });
+
         var number_of_nights = 0;
         if($.cookie('az_range')){
             $('input[name="daterange"]').val($.cookie('az_range'));

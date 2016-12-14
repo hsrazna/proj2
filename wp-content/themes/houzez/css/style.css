@@ -823,7 +823,9 @@ input[name="daterange"] {
     z-index: 999; }
 
 .az-number {
-  width: 100px !important; }
+  width: 130px !important;
+  padding: 6px 39px 6px 26px !important;
+  background: #fff !important; }
 
 .input-group-btn-vertical {
   position: absolute !important;
@@ -849,6 +851,35 @@ input[name="daterange"] {
       float: none !important;
       line-height: unset !important;
       margin: 0px !important; }
+
+.bg-white {
+  background: #fff; }
+
+.az-beds .fa-sort {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%); }
+
+.az-price {
+  position: relative; }
+  .az-price .az-before {
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    z-index: 9;
+    color: #959595; }
+  .az-price .az-after {
+    position: absolute;
+    top: 50%;
+    right: 34px;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    z-index: 9;
+    color: #959595; }
 
 @media only screen and (min-width: 345px) {
   .az-carousel .az-prev {

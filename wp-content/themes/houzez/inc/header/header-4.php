@@ -152,14 +152,15 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
         <?php if( class_exists('Houzez_login_register') ): ?>
             <?php if( houzez_option('header_login') != 'no' || houzez_option('create_lisiting_enable') != 0 ): ?>
                 <div class="header-right">
+                    
+                    <div class="ls-lang az-margin-right15">
+                        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
+                    </div>
                     <?php if(!is_user_logged_in()): ?>
                     <div class="ls-favorites">
                         <a href="/favorite/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
                     </div>
                     <?php endif; ?>
-                    <div class="ls-lang <?=is_user_logged_in()?'az-margin-right15':''?>">
-                        <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
-                    </div>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
                     <nav class="navi main-nav ls-lg-menu az-margin-right15">
                         <?php

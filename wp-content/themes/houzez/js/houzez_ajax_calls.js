@@ -3582,6 +3582,54 @@ jQuery(document).ready(function ($) {
             });
         });
 
+        /*--------------------------------------------------------------------------
+         *  save search in session (ajax puller)
+         * -------------------------------------------------------------------------*/
+        $('body').on('change','input[name="min-price"], input[name="max-price"], select[name="type"], select[name="area"], select[name="bedrooms"]', function(){
+            // alert($(this).val());
+            // alert($(this).attr('name'));
+            $.ajax({
+                url: ajaxurl,
+                // dataType: 'JSON',
+                method: 'POST',
+                data: {
+                    'action' : 'az_save_search_in_session',
+                    'name' : $(this).attr('name'),
+                    'val' : $(this).val(),
+                },
+                success: function (res) {
+                    // alert(res);
+                    // if( res.success ) {
+                    //     $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                    // } else {
+                    //     console.log( res );
+                    // }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+        });
+        $('body').on('keyup', 'input[name="keyword"]', function(){
+            $.ajax({
+                url: ajaxurl,
+                // dataType: 'JSON',
+                method: 'POST',
+                data: {
+                    'action' : 'az_save_search_in_session',
+                    'name' : $(this).attr('name'),
+                    'val' : $(this).val(),
+                },
+                success: function (res) {
+
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    console.log(err.Message);
+                }
+            });
+        });
     }// typeof HOUZEZ_ajaxcalls_vars
 
 }); // end document ready

@@ -694,3 +694,20 @@ if( !function_exists('az_call_back') ) {
         }
     }
 }
+
+
+add_action( 'wp_ajax_nopriv_az_save_search_in_session', 'az_save_search_in_session' );
+add_action( 'wp_ajax_az_save_search_in_session', 'az_save_search_in_session' );
+if( !function_exists('az_save_search_in_session') ) {
+    function az_save_search_in_session() {
+        // session_start();
+        // echo $_POST['name'];
+        $az_name = $_POST['name'];
+        $az_val = $_POST['val'];
+        // print_r($_POST);
+        
+        $_SESSION[$az_name] = $az_val;
+        // echo $_SESSION[$az_name];
+        wp_die();
+    }
+}

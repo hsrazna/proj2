@@ -5,6 +5,8 @@
  * Date: 20/01/16
  * Time: 6:31 PM
  */
+// global $az_mix_price, $az_max_price;
+
 global $status,
        $search_template,
        $type, $location,
@@ -16,7 +18,8 @@ global $status,
        $hide_advanced,
        $keyword_field_placeholder,
        $adv_show_hide,
-       $houzez_local;
+       $houzez_local,
+       $az_mix_price, $az_max_price;
 
 $search_width = houzez_option('search_width');
 $search_sticky = houzez_option('main-search-sticky');
@@ -284,11 +287,11 @@ $checked = true;
 
                     <?php } else { ?>
                         <div class="form-group search-long">
-                        
+                        <?php //session_start(); ?>
                         <div class="search">
                             <?php if ($adv_show_hide['keyword'] != 1) { ?>
                             <div class="input-search input-icon">
-                                <input class="form-control" type="text" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
+                                <input class="form-control" type="text" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : $_SESSION['keyword'] ? $_SESSION['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                             </div>
                             <?php } ?>
 
@@ -341,7 +344,7 @@ $checked = true;
                                 <!-- <div class="form-group"> -->
                                 <div class="az-beds">
                                     <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
+                                        <option value=""><?php //echo $houzez_local['beds']; ?></option>
                                         <?php houzez_number_list('bedrooms'); ?>
                                     </select>
                                     <i class="fa fa-bed" aria-hidden="true"></i>
@@ -349,24 +352,42 @@ $checked = true;
                                 <!-- </div> -->
                             <!-- </div> -->
                             <?php } ?>
-                            <?php if( $adv_show_hide['beds'] != 1 ) { ?>
-                            <!-- <div class="col-sm-3 col-xs-6"> -->
-                                <!-- <div class="form-group"> -->
-                                <input class="az-number" type="text" value="" name="min-price">
-<!--                                     <select name="bedrooms" class="selectpicker" data-live-search="false" data-live-search-style="begins" title="">
-                                        <option value=""><?php echo $houzez_local['beds']; ?></option>
-                                        <?php houzez_number_list('bedrooms'); ?>
-                                    </select>
-                                    <i class="fa fa-btc" aria-hidden="true"></i>
- -->                                <!-- </div> -->
-                            <!-- </div> -->
-                            <script>
-                            $(document).ready(function(){
+                            <div class="az-price">
+                                <input class="az-number" type="text" readonly value="<?=isset($_SESSION['min-price'])?$_SESSION['min-price']:'10000'?>" name="min-price">
+                                <span class="az-before">от</span>
+                                <span class="az-after">฿</span>
+                            </div>
+                            <div class="az-price">
+                                <input class="az-number" type="text" readonly value="<?=isset($_SESSION['max-price'])?$_SESSION['max-price']:'50000'?>" name="max-price">
+                                <span class="az-before">до</span>
+                                <span class="az-after">฿</span>
+                            </div>
+                           
+                            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.js"></script>
+                            <script type="text/javascript">
+                             // alert(1);
+                                // $(document).ready(function(){
+                                    // alert(1);
+        
+                                    // var az_number = $(".az-number");
+                                    // if(az_number.length > 0){
+                                    //     $(".az-number").TouchSpin({
+                                    //       verticalbuttons: true,
+                                    //       verticalupclass: 'glyphicon glyphicon-plus',
+                                    //       verticaldownclass: 'glyphicon glyphicon-minus',
+                                    //       step: 200,
+                                    //       min: 0,
+                                    //       max: 980000,
+                                    //     });
+                                    // }
 
-                            });
-                                
+// $('body').on('change','input[name="min-price"], input[name="max-price"], select[name="type"], select[name="area"], select[name="beds"], input[name="keyword"]', function(){
+    // alert(1);
+// });
+                                // });
                             </script>
-                            <?php } ?>
+                            <!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script> -->
+
                             <?php if( $adv_show_hide['states'] != 1 ) { ?>
                                 <select name="state" class="selectpicker" data-live-search="false" data-live-search-style="begins">
                                     <?php

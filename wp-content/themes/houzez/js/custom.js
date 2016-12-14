@@ -15,6 +15,25 @@ var nice = false;
 
 /*ajax puller*/
     
+    $(document).ready(function(){
+        
+        
+        
+        var az_number = $(".az-number");
+        if(az_number.length > 0){
+            // alert(1);
+            $(".az-number").TouchSpin({
+              verticalbuttons: true,
+              verticalupclass: 'glyphicon glyphicon-plus',
+              verticaldownclass: 'glyphicon glyphicon-minus',
+              step: 200,
+              min: 0,
+              max: 980000,
+            });
+        }
+
+    });
+
     $('body').on('click','#az-post-saved-search', function(){
         var az_href = $(this).attr('href');
         $(this).prev('form').attr('action', az_href);

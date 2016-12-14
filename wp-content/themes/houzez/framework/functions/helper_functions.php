@@ -417,11 +417,13 @@ if( !function_exists('houzez_number_list') ) {
     function houzez_number_list($list_for) {
         $num_array = array(1,2,3,4,5,6,7,8,9,10);
         $searched_num = '';
-
+        // session_start();
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
             if( $list_for == 'bedrooms' ) {
                 if( isset( $_GET['bedrooms'] ) ) {
                     $searched_num = $_GET['bedrooms'];
+                } elseif(isset( $_SESSION['bedrooms'])){
+                    $searched_num = $_SESSION['bedrooms'];
                 }
 
                 $adv_beds_list = houzez_option('adv_beds_list');
@@ -466,6 +468,8 @@ if( !function_exists('houzez_number_list') ) {
             if( $list_for == 'bedrooms' ) {
                 if( isset( $_POST['bedrooms'] ) ) {
                     $searched_num = $_POST['bedrooms'];
+                } elseif( isset( $_SESSION['bedrooms'] ) ) {
+                    $searched_num = $_SESSION['bedrooms'];
                 }
 
                 $adv_beds_list = houzez_option('adv_beds_list');
@@ -488,6 +492,50 @@ if( !function_exists('houzez_number_list') ) {
             if( $list_for == 'bathrooms' ) {
                 if( isset( $_POST['bathrooms'] ) ) {
                     $searched_num = $_POST['bathrooms'];
+                }
+
+                $adv_baths_list = houzez_option('adv_baths_list');
+                if( !empty($adv_baths_list) ) {
+                    $adv_baths_list_array = explode( ',', $adv_baths_list );
+
+                    if( is_array( $adv_baths_list_array ) && !empty( $adv_baths_list_array ) ) {
+                        $temp_adv_baths_list_array = array();
+                        foreach( $adv_baths_list_array as $baths ) {
+                            $temp_adv_baths_list_array[] = $baths;
+                        }
+
+                        if( !empty( $temp_adv_baths_list_array ) ) {
+                            $num_array = $temp_adv_baths_list_array;
+                        }
+                    }
+                }
+            }
+        } elseif( isset( $_SESSION['bedrooms'] ) || isset( $_SESSION['bathrooms'] )){
+            if( $list_for == 'bedrooms' ) {
+                if( isset( $_SESSION['bedrooms'] ) ) {
+                    $searched_num = $_SESSION['bedrooms'];
+                }
+
+                $adv_beds_list = houzez_option('adv_beds_list');
+                if( !empty($adv_beds_list) ) {
+                    $adv_beds_list_array = explode( ',', $adv_beds_list );
+
+                    if( is_array( $adv_beds_list_array ) && !empty( $adv_beds_list_array ) ) {
+                        $temp_adv_beds_list_array = array();
+                        foreach( $adv_beds_list_array as $beds ) {
+                            $temp_adv_beds_list_array[] = $beds;
+                        }
+
+                        if( !empty( $temp_adv_beds_list_array ) ) {
+                            $num_array = $temp_adv_beds_list_array;
+                        }
+                    }
+                }
+
+            }
+            if( $list_for == 'bathrooms' ) {
+                if( isset( $_SESSION['bathrooms'] ) ) {
+                    $searched_num = $_SESSION['bathrooms'];
                 }
 
                 $adv_baths_list = houzez_option('adv_baths_list');

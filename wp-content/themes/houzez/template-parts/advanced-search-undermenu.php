@@ -79,6 +79,26 @@ if( $adv_show_hide['status']         != 0 &&
 
     $hide_advanced = true;
 }
+// session_start();
+
+if( isset( $_SESSION['min-price'] ) ) {
+    $az_min_price = $_SESSION['min-price'];
+}
+if( isset( $_SESSION['max-price'] ) ) {
+    $az_max_price = $_SESSION['max-price'];
+}
+if( isset( $_SESSION['type'] ) ) {
+    $type = $_SESSION['type'];
+}
+if( isset( $_SESSION['area'] ) ) {
+    $area = $_SESSION['area'];
+}
+if( isset( $_SESSION['bedrooms'] ) ) {
+    $az_bedrooms = $_SESSION['bedrooms'];
+}
+if( isset( $_SESSION['keyword'] ) ) {
+    $az_keyword = $_SESSION['keyword'];
+}
 
 get_template_part( 'template-parts/advanced-search/desktop' );
 get_template_part( 'template-parts/advanced-search/mobile' );
