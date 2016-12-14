@@ -255,8 +255,8 @@ get_header();
                                   placeholder="<?php esc_html_e('Message', 'houzez'); ?>"><?php esc_html_e("Hello, I'm interested in", "houzez"); ?> [<?php echo get_the_title(); ?>]</textarea>
                     </div>
                 </div>
-                <button
-                        class="agent_contact_form btn btn-orange"><?php esc_html_e('Request info', 'houzez'); ?></button>
+                <?php wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
+                <button class="agent_contact_form btn btn-orange"><?php esc_html_e('Request info', 'houzez'); ?></button>
             </div>
 		</div>
 	</div>

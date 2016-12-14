@@ -25,15 +25,17 @@ $allowed_html_array = array(
         <form>
             <div class="form-group field-group">
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                    <div class="input-user input-icon">
-                        <input id="login_username" name="username" placeholder="<?php esc_html_e('Username','houzez'); ?>" type="text" />
+                    <!-- input-user -->
+                    <div class="input-email input-icon">
+                        <input id="login_username" name="username" placeholder="<?php esc_html_e('Email','houzez'); ?>" type="text" />
                     </div>
                     <div class="input-pass input-icon">
                         <input id="password" name="password" placeholder="<?php esc_html_e('Password','houzez'); ?>" type="password" />
                     </div>
                 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                    <div class="input-user input-icon">
-                        <input id="login_username" name="username" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Логин','houzez'); ?>" type="text" />
+                    <!-- input-user -->
+                    <div class="input-email input-icon">
+                        <input id="login_username" name="username" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Email','houzez'); ?>" type="text" />
                     </div>
                     <div class="input-pass input-icon">
                         <input id="password" name="password" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
@@ -90,16 +92,16 @@ $allowed_html_array = array(
         <form>
             <div class="form-group field-group">
                 <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                    <div class="input-user input-icon">
+                    <!-- <div class="input-user input-icon">
                         <input id="register_username" name="username" type="text" placeholder="<?php esc_html_e('Username','houzez'); ?>" />
-                    </div>
+                    </div> -->
                     <div class="input-email input-icon">
                         <input id="useremail" name="useremail" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
                     </div>
                 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                    <div class="input-user input-icon">
+                    <!-- <div class="input-user input-icon">
                         <input id="register_username" name="username" style="font-family: 'OpenSans-Regular';" type="text" placeholder="<?php esc_html_e('Логин','houzez'); ?>" />
-                    </div>
+                    </div> -->
                     <div class="input-email input-icon">
                         <input id="useremail" name="useremail" style="font-family: 'OpenSans-Regular';" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
                     </div>
