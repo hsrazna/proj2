@@ -35,6 +35,11 @@
   transform: translate(0, -50%);
   z-index: 9; }
 
+.az-login {
+  font-family: "OpenSans-Regular" !important;
+  font-size: 16px !important;
+  text-transform: none !important; }
+
 .az-inner-padding button {
   padding: 6px 25px !important; }
 

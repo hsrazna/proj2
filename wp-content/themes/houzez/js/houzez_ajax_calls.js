@@ -3632,7 +3632,7 @@ jQuery(document).ready(function ($) {
         });
 
         /*--------------------------------------------------------------------------
-         *  request form
+         *  request form (ajax puller)
          * -------------------------------------------------------------------------*/
         $('#az-request-form').submit(function(){
             var send_data = $(this).serialize();

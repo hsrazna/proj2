@@ -717,8 +717,10 @@ add_action( 'wp_ajax_az_request_form', 'az_request_form' );
 if( !function_exists('az_request_form') ) {
     function az_request_form() {
 
+        check_ajax_referer('az_request_form_nonce', 'az_request_form_security');
+
         $az_name = $_POST['az-name'];
-        $az_email = $_POST['az-email'];
+        $az_email = trim( sanitize_text_field( wp_kses( $_POST['az-email'], $allowed_html ) ));
         $az_reg = $_POST['az-reg'];
         $az_phone = $_POST['az-phone'];
         $az_best_time = $_POST['az-best-time'];
@@ -759,10 +761,117 @@ if( !function_exists('az_request_form') ) {
             // echo "false";
         }
 
-        echo json_encode(array(
-            'success' => true,
-            'msg' => esc_html__( 'Your request is sent!', 'houzez')
-        ));
+        if(1/*$az_reg*/){
+            $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
+        
+            $user_id = wp_create_user( $az_email, $user_password, $az_email );
+            // $user_id = wp_create_user( $usermane, $user_password, $email );
+
+            if ( is_wp_error($user_id) ) {
+                echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
+                wp_die();
+            } else {
+                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your request is sent! An email with the generated password was sent!', 'houzez') ) );
+                houzez_update_profile( $user_id );
+                houzez_wp_new_user_notification( $user_id, $user_password );
+                $user_as_agent = houzez_option('user_as_agent');
+            }
+        } else {
+            echo json_encode(array(
+                'success' => true,
+                'msg' => esc_html__( 'Your request is sent!', 'houzez')
+            ));            
+        }
+
         wp_die();
     }
 }
+
+
+
+
+        // $allowed_html = array();
+
+        // // $usermane          = trim( sanitize_text_field( wp_kses( $_POST['username'], $allowed_html ) ));
+        // $email             = trim( sanitize_text_field( wp_kses( $_POST['useremail'], $allowed_html ) ));
+        // $term_condition    = wp_kses( $_POST['term_condition'], $allowed_html );
+        // $enable_password = houzez_option('enable_password');
+
+        // $term_condition = ( $term_condition == 'on') ? true : false;
+
+        // if( !$term_condition ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('You need to agree with terms & conditions.', 'houzez') ) );
+        //     wp_die();
+        // }
+
+        // // if( empty( $usermane ) ) {
+        // //     echo json_encode( array( 'success' => false, 'msg' => esc_html__(' The username field is empty.', 'houzez') ) );
+        // //     wp_die();
+        // // }
+        // // if (preg_match("/^[0-9A-Za-z_]+$/", $usermane) == 0) {
+        // //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username (do not use special characters or spaces)!', 'houzez') ) );
+        // //     wp_die();
+        // // }
+        // if( empty( $email ) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+        //     wp_die();
+        // }
+        // // if( username_exists( $usermane ) ) {
+        // if( username_exists( $email ) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
+        //     wp_die();
+        // }
+        // if( email_exists( $email ) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+        //     wp_die();
+        // }
+
+        // if( !is_email( $email ) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+        //     wp_die();
+        // }
+
+        // if( $enable_password == 'yes' ){
+        //     $user_pass         = trim( sanitize_text_field(wp_kses( $_POST['register_pass'] ,$allowed_html) ) );
+        //     $user_pass_retype  = trim( sanitize_text_field(wp_kses( $_POST['register_pass_retype'] ,$allowed_html) ) );
+
+        //     if ($user_pass == '' || $user_pass_retype == '' ) {
+        //         echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+        //         wp_die();
+        //     }
+
+        //     if ($user_pass !== $user_pass_retype ){
+        //         echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+        //         wp_die();
+        //     }
+        // }
+
+        // if($enable_password == 'yes' ) {
+        //     $user_password = $user_pass;
+        // } else {
+        //     $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
+        // }
+        // $user_id = wp_create_user( $email, $user_password, $email );
+        // // $user_id = wp_create_user( $usermane, $user_password, $email );
+
+        // if ( is_wp_error($user_id) ) {
+        //     echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
+        //     wp_die();
+        // } else {
+
+        //     if( $enable_password =='yes' ) {
+        //         echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your account was created and you can login now!', 'houzez') ) );
+        //     } else {
+        //         echo json_encode( array( 'success' => true, 'msg' => esc_html__('An email with the generated password was sent!', 'houzez') ) );
+        //     }
+
+        //     houzez_update_profile( $user_id );
+        //     houzez_wp_new_user_notification( $user_id, $user_password );
+        //     $user_as_agent = houzez_option('user_as_agent');
+            
+        //     if( $user_as_agent == 'yes' ) {
+        //         houzez_register_as_agent ( $email, $email, $user_id );
+        //         // houzez_register_as_agent ( $usermane, $email, $user_id );
+        //     }
+        // }
+        // wp_die();

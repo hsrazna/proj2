@@ -272,9 +272,10 @@ get_header();
 	                    <?php } ?>
                     </div>
                 </div>
-<<<<<<< HEAD
+
                 <div class="col-sm-12 col-xs-12">
 	                <div class="form-group">
+	                	<?php wp_nonce_field( 'az_request_form_nonce', 'az_request_form_security' ); ?>
 		                <?php if ( qtrans_getLanguage() == 'en' ) {?>
 	                        <button class="btn btn-orange az-w-100"><?php esc_html_e('Request info', 'houzez'); ?></button>
 	                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
@@ -283,11 +284,6 @@ get_header();
 	                </div>
                 </div>
             </form>
-=======
-                <?php wp_nonce_field( 'houzez_login_nonce', 'houzez_login_security' ); ?>
-                <button class="agent_contact_form btn btn-orange"><?php esc_html_e('Request info', 'houzez'); ?></button>
-            </div>
->>>>>>> ada9ce4135a815407edfe813f027730235ea48e2
 		</div>
 	</div>
 </div>
