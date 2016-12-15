@@ -3635,20 +3635,42 @@ jQuery(document).ready(function ($) {
          *  request form (ajax puller)
          * -------------------------------------------------------------------------*/
         $('#az-request-form').submit(function(){
-            var send_data = $(this).serialize();
+            alert(1);
+            var az_properties = $('div[id^="ID-"]');
+            // alert(az_properties.length);
+            var az_temp_properties = Array();
+            var az_array_properties = Array();
+            az_properties.each(function(){
+                // var az_p_temp = Array();
+                var az_p_temp = { 
+                                'prop_id' : $(this).attr('id'),
+                                'name' : $(this).find('.property-title').children('a').text(),
+                                'url' : $(this).find('.property-title').children('a').attr('href'),
+                            };
+                // alert($(this).find('.property-title').children('a').attr('href'));
+                az_array_properties.push(az_p_temp);
+            });
+            // alert(az_array_properties);
+            var send_data = {
+                                'send_data' : $(this).serializeArray(),
+                                'send_property' : az_array_properties,
+                                'action' : 'az_request_form',
+                            };
             $.ajax({
                 url: ajaxurl,
                 dataType: 'JSON',
                 method: 'POST',
-                data: send_data + '&action=az_request_form',
+                data: send_data,// + '&action=az_request_form',
                 success: function (res) {
-                    // alert(res);
-                    if( res.success ) {
-                        // $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
-                        alert(res.msg);
-                    } else {
-                        console.log( res );
-                    }
+                    // alert(JSON.stringify(res));
+                    alert(res);
+                    // if( res.success ) {
+                    //     $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                    //     $('#az-call-back').modal("show");
+                    //     // alert(res.msg);
+                    // } else {
+                    //     console.log( res );
+                    // }
                 },
                 error: function (xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");

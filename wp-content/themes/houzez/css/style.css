@@ -43,6 +43,21 @@
 .az-inner-padding button {
   padding: 6px 25px !important; }
 
+.az-second {
+  opacity: 0.5; }
+
+.az-second.az-active {
+  opacity: 1; }
+
+.az-second2 .bootstrap-select {
+  opacity: 0.5; }
+.az-second2 .bootstrap-select ~ .az-abs {
+  opacity: 0.5; }
+.az-second2 .bootstrap-select.open {
+  opacity: 1; }
+.az-second2 .bootstrap-select.open ~ .az-abs {
+  opacity: 1; }
+
 .az-stamp {
   position: absolute;
   top: 50px;

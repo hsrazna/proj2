@@ -107,6 +107,12 @@ var nice = false;
             }            
         }
     });
+    // $(window).click(function(){
+    //     if(is_open){
+    //         $('.qtranxs_widget li:not(.active)').slideUp(300);
+    //         is_open = false;
+    //     }
+    // });
     /*languages*/
 
 /*ajax puller*/

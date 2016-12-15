@@ -21,6 +21,32 @@
         // }
         
         // alert(1);
+        // $(document).click(function(event) {
+        //     // alert(1);
+        //     if($(event.target).closest('.az-second').length) {
+        //         $('.az-second').removeClass('az-active');
+        //         $(event.target).closest('.az-second').addClass('az-active');
+        //     }else{
+        //         $('.az-second').removeClass('az-active');
+        //     }
+        // });
+        $('body').on('click', '.az-second', function () {
+          $(this).addClass('az-active').focus();
+        });
+
+        $('body').on('focusout', '.az-second', function () {
+          $(this).removeClass('az-active');
+        });
+        // $('.az-second').click(function(event){
+        //     $('.az-second').removeClass('az-active');
+        //     $(this).addClass('az-active');
+        //     // event.stopPropagation();
+
+        // });
+        // // $(window).click
+        // $(window).click(function(){
+        //     $('.az-second').removeClass('az-active');
+        // });
         $('.az-name, .az-email').keyup(function(){
             // alert(1);
             if($('.az-name').val()!='' && $('.az-email').val().indexOf('@')!=-1){
@@ -43,6 +69,9 @@
         if($.cookie('az_range')){
             $('input[name="daterange"]').val($.cookie('az_range'));
         }
+        $('input[name="daterange"]').click(function(){
+            $(this).blur();
+        });
         $('input[name="daterange"]').daterangepicker({
             "locale": {
                 "format": "MM/DD/YYYY",

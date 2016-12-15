@@ -716,72 +716,97 @@ add_action( 'wp_ajax_nopriv_az_request_form', 'az_request_form' );
 add_action( 'wp_ajax_az_request_form', 'az_request_form' );
 if( !function_exists('az_request_form') ) {
     function az_request_form() {
+        //$_POST['send_property'][0]['prop_id']
+        //$_POST['send_data'][0]['name']
+        //$_POST['send_data'][0]['value']
+        // check_ajax_referer('az_request_form_nonce', 'az_request_form_security');
 
-        check_ajax_referer('az_request_form_nonce', 'az_request_form_security');
-
-        $az_name = $_POST['az-name'];
-        $az_email = trim( sanitize_text_field( wp_kses( $_POST['az-email'], $allowed_html ) ));
-        $az_reg = $_POST['az-reg'];
-        $az_phone = $_POST['az-phone'];
-        $az_best_time = $_POST['az-best-time'];
-        $daterange = $_POST['daterange'];
-        $az_call_me = $_POST['az-call-me'];
-        $az_b_ticket = $_POST['az-b-ticket'];
-        $az_choose_ticket = $_POST['az-choose-ticket'];
-        $az_prefer = $_POST['az-prefer'];
-        $az_male = $_POST['az-male'];
-        $az_child = $_POST['az-child'];
-        $az_message = $_POST['az-message'];
-
-        $subject  = "Новое сообщение";
-        $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
-        $headers .= "Reply-To: ". strip_tags($az_email) . "\r\n";
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
-        $msg  = "<html><body>";
-        $msg .= "<h2>Новое сообщение</h2>\r\n";
-        $msg .= "<p><strong>Заявка:</strong> форма запроса от ".$az_name."</p>\r\n";
-        if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
-        if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$az_email."</p>\r\n";}
-        if($az_best_time!==""){$msg .= "<p><strong>Удобное время для связи:</strong> ".$az_best_time."</p>\r\n";}
-        if($daterange!==""){$msg .= "<p><strong>Дата приезда/отъезда:</strong> ".$daterange."</p>\r\n";}
-        if($az_call_me!==""){$msg .= "<p><strong>Позвоните мне, я расскажу детали:</strong> ".$az_call_me."</p>\r\n";}
-                            $msg .= '<p><strong>Вы уже приобрели билеты?:</strong> '.($az_b_ticket?'да':'нет')."</p>\r\n";
-                            $msg .= '<p><strong>Подобрать Вам билеты?:</strong> '.($az_b_ticket?'нет':($az_choose_ticket?'да':'нет'))."</p>\r\n";
-        if($az_prefer!==""){$msg .= "<p><strong>Предпочтения по району и типу жилья:</strong> ".$az_prefer."</p>\r\n";}
-        if($az_male!==""){$msg .= "<p><strong>Количество взрослых:</strong> ".$az_male."</p>\r\n";}
-        if($az_child!==""){$msg .= "<p><strong>Количетсво детей:</strong> ".$az_child."</p>\r\n";}
-        if($az_message!==""){$msg .= "<p><strong>Прочие комментарии:</strong> ".$az_message."</p>\r\n";}
-        $msg .= "</body></html>";
-
-        // отправка сообщения
-        if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
-            // echo "true";
-        } else {
-            // echo "false";
+        // $send_data = $_POST['send_data'];
+        // $str = '';
+        foreach($send_data as $az_value){
+            // $str.=$_POST['send_data'][$az_i]['name'];
+            // $str.=$az_value['name'].$az_value['value'];
+            if($az_value['name'] == 'az-name'){$az_name = $az_value['value'];}
+            elseif($az_value['name'] == 'az-email'){$az_email = trim( sanitize_text_field( wp_kses( $az_value['value'], $allowed_html ) ));}
+            elseif($az_value['name'] == 'az-reg'){$az_reg = $az_value['value'];}
+            elseif($az_value['name'] == 'az-phone'){$az_phone = $az_value['value'];}
+            elseif($az_value['name'] == 'az-best-time'){$az_best_time = $az_value['value'];}
+            elseif($az_value['name'] == 'daterange'){$daterange = $az_value['value'];}
+            elseif($az_value['name'] == 'az-call-me'){$az_call_me = $az_value['value'];}
+            elseif($az_value['name'] == 'az-b-ticket'){$az_b_ticket = $az_value['value'];}
+            elseif($az_value['name'] == 'az-choose-ticket'){$az_choose_ticket = $az_value['value'];}
+            elseif($az_value['name'] == 'az-prefer'){$az_prefer = $az_value['value'];}
+            elseif($az_value['name'] == 'az-male'){$az_male = $az_value['value'];}
+            elseif($az_value['name'] == 'az-child'){$az_child = $az_value['value'];}
+            elseif($az_value['name'] == 'az-message'){$az_message = $az_value['value'];}
         }
+        // echo json_encode($send_data); 
+        // echo 1111;//$str;
+        // echo $str;
+        echo json_encode($az_name);
+        // $az_name = $_POST['az-name'];
+        // $az_email = trim( sanitize_text_field( wp_kses( $_POST['az-email'], $allowed_html ) ));
+        // $az_reg = $_POST['az-reg'];
+        // $az_phone = $_POST['az-phone'];
+        // $az_best_time = $_POST['az-best-time'];
+        // $daterange = $_POST['daterange'];
+        // $az_call_me = $_POST['az-call-me'];
+        // $az_b_ticket = $_POST['az-b-ticket'];
+        // $az_choose_ticket = $_POST['az-choose-ticket'];
+        // $az_prefer = $_POST['az-prefer'];
+        // $az_male = $_POST['az-male'];
+        // $az_child = $_POST['az-child'];
+        // $az_message = $_POST['az-message'];
 
-        if(1/*$az_reg*/){
-            $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
+        // $subject  = "Новое сообщение";
+        // $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+        // $headers .= "Reply-To: ". strip_tags($az_email) . "\r\n";
+        // $headers .= "MIME-Version: 1.0\r\n";
+        // $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+        // $msg  = "<html><body>";
+        // $msg .= "<h2>Новое сообщение</h2>\r\n";
+        // $msg .= "<p><strong>Заявка:</strong> форма запроса от ".$az_name."</p>\r\n";
+        // if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
+        // if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$az_email."</p>\r\n";}
+        // if($az_best_time!==""){$msg .= "<p><strong>Удобное время для связи:</strong> ".$az_best_time."</p>\r\n";}
+        // if($daterange!==""){$msg .= "<p><strong>Дата приезда/отъезда:</strong> ".$daterange."</p>\r\n";}
+        // if($az_call_me!==""){$msg .= "<p><strong>Позвоните мне, я расскажу детали:</strong> ".$az_call_me."</p>\r\n";}
+        //                     $msg .= '<p><strong>Вы уже приобрели билеты?:</strong> '.($az_b_ticket?'да':'нет')."</p>\r\n";
+        //                     $msg .= '<p><strong>Подобрать Вам билеты?:</strong> '.($az_b_ticket?'нет':($az_choose_ticket?'да':'нет'))."</p>\r\n";
+        // if($az_prefer!==""){$msg .= "<p><strong>Предпочтения по району и типу жилья:</strong> ".$az_prefer."</p>\r\n";}
+        // if($az_male!==""){$msg .= "<p><strong>Количество взрослых:</strong> ".$az_male."</p>\r\n";}
+        // if($az_child!==""){$msg .= "<p><strong>Количетсво детей:</strong> ".$az_child."</p>\r\n";}
+        // if($az_message!==""){$msg .= "<p><strong>Прочие комментарии:</strong> ".$az_message."</p>\r\n";}
+        // $msg .= "</body></html>";
+
+        // // отправка сообщения
+        // if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+        //     // echo "true";
+        // } else {
+        //     // echo "false";
+        // }
+
+        // if((bool)$az_reg){
+        //     $user_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
         
-            $user_id = wp_create_user( $az_email, $user_password, $az_email );
-            // $user_id = wp_create_user( $usermane, $user_password, $email );
+        //     $user_id = wp_create_user( $az_email, $user_password, $az_email );
+        //     // $user_id = wp_create_user( $usermane, $user_password, $email );
 
-            if ( is_wp_error($user_id) ) {
-                echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
-                wp_die();
-            } else {
-                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your request is sent! An email with the generated password was sent!', 'houzez') ) );
-                houzez_update_profile( $user_id );
-                houzez_wp_new_user_notification( $user_id, $user_password );
-                $user_as_agent = houzez_option('user_as_agent');
-            }
-        } else {
-            echo json_encode(array(
-                'success' => true,
-                'msg' => esc_html__( 'Your request is sent!', 'houzez')
-            ));            
-        }
+        //     if ( is_wp_error($user_id) ) {
+        //         echo json_encode( array( 'success' => false, 'msg' => $user_id ) );
+        //         wp_die();
+        //     } else {
+        //         echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your request is sent! An email with the generated password was sent!', 'houzez') ) );
+        //         houzez_update_profile( $user_id );
+        //         houzez_wp_new_user_notification( $user_id, $user_password );
+        //         $user_as_agent = houzez_option('user_as_agent');
+        //     }
+        // } else {
+        //     echo json_encode(array(
+        //         'success' => true,
+        //         'msg' => esc_html__( 'Your request is sent!', 'houzez')
+        //     ));            
+        // }
 
         wp_die();
     }
