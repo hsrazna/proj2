@@ -3,7 +3,49 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-RewriteRule ^index\.php$ - [L]
+RewriteRule ^index\.php$ - [L] 
+
+#START - WP Hide & Security Enhancer
+#WriteCheckString:1481838570_34985
+<IfModule mod_env.c>
+SetEnv HTTP_MOD_REWRITE On
+</IfModule>
+
+RewriteRule ^front/unnamed-file.css /wp-content/plugins/wp-hide-security-enhancer/router/file-process.php?action=style-clean&file_path=/wp-content/themes/houzez/style.css [L,QSA]
+
+RewriteRule ^front/unnamed-file.css /wp-content/themes/houzez/style.css [L,QSA]
+
+RewriteRule ^front/(.+) /wp-content/themes/houzez/$1 [L,QSA]
+
+RewriteRule ^includes/ieldq/(.+) /wp-content/plugins/acf-qtranslate/$1 [L,QSA]
+RewriteRule ^includes/ield/(.+) /wp-content/plugins/advanced-custom-fields/$1 [L,QSA]
+RewriteRule ^includes/tactf/(.+) /wp-content/plugins/contact-form-7/$1 [L,QSA]
+RewriteRule ^includes/reg/(.+) /wp-content/plugins/houzez-login-register/$1 [L,QSA]
+RewriteRule ^includes/func/(.+) /wp-content/plugins/houzez-theme-functionality/$1 [L,QSA]
+RewriteRule ^includes/visualx/(.+) /wp-content/plugins/js-composer-qtranslate-x/$1 [L,QSA]
+RewriteRule ^includes/visual/(.+) /wp-content/plugins/js_composer/$1 [L,QSA]
+RewriteRule ^includes/ajaxpuller/(.+) /wp-content/plugins/ls_plugin/$1 [L,QSA]
+RewriteRule ^includes/mc/(.+) /wp-content/plugins/mailchimp-for-wp/$1 [L,QSA]
+RewriteRule ^includes/langs/(.+) /wp-content/plugins/qtranslate-x/$1 [L,QSA]
+RewriteRule ^includes/(.+) /wp-content/plugins/$1 [L,QSA]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^wp-content/plugins(.+) /index.php [L]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in.*$ [NC]
+RewriteRule ^wp-includes(.+) /index.php [L]
+
+RewriteRule ^inc/(.+) /wp-includes/$1 [L,QSA]
+
+RewriteRule ^source/(.+) /wp-content/uploads/$1 [L,QSA]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^wp-content/uploads(.+) /index.php [L]
+
+RewriteRule ^contents/(.+) /wp-content/$1 [L,QSA]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in.*$ [NC]
+RewriteRule ^wp-content(.+) /index.php [L]
+#END - WP Hide & Security Enhancer
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
