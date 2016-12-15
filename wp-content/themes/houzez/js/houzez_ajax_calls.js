@@ -3635,7 +3635,7 @@ jQuery(document).ready(function ($) {
          *  request form (ajax puller)
          * -------------------------------------------------------------------------*/
         $('#az-request-form').submit(function(){
-            alert(1);
+            // alert(1);
             var az_properties = $('div[id^="ID-"]');
             // alert(az_properties.length);
             var az_temp_properties = Array();
@@ -3656,6 +3656,7 @@ jQuery(document).ready(function ($) {
                                 'send_property' : az_array_properties,
                                 'action' : 'az_request_form',
                             };
+            // alert($(this).serializeArray()[3]['value']);
             $.ajax({
                 url: ajaxurl,
                 dataType: 'JSON',
@@ -3663,14 +3664,17 @@ jQuery(document).ready(function ($) {
                 data: send_data,// + '&action=az_request_form',
                 success: function (res) {
                     // alert(JSON.stringify(res));
-                    alert(res);
-                    // if( res.success ) {
-                    //     $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
-                    //     $('#az-call-back').modal("show");
-                    //     // alert(res.msg);
-                    // } else {
-                    //     console.log( res );
-                    // }
+                    // alert(res);
+                    if( res.success ) {
+                        $('#az-pop-message-text').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
+                        $('#az-pop-message').modal("show");
+                        // alert(res.msg);
+                    } else {
+                        // $messages.empty().append('<p class="error text-danger"><i class="fa fa-close"></i> '+ response.msg +'</p>');
+                        $('#az-pop-message-text').html('<p class="error text-danger"><i class="fa fa-close"></i> '+res.msg+'</p>');
+                        $('#az-pop-message').modal("show");
+                        //console.log( res );
+                    }
                 },
                 error: function (xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");

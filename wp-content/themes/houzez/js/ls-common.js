@@ -47,12 +47,16 @@
         // $(window).click(function(){
         //     $('.az-second').removeClass('az-active');
         // });
+        function az_validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
         $('.az-name, .az-email').keyup(function(){
             // alert(1);
-            if($('.az-name').val()!='' && $('.az-email').val().indexOf('@')!=-1){
-                $('#az-reg').fadeIn(0).parent().fadeIn(0);
+            if(az_validateEmail($('.az-email').val())/*$('.az-name').val()!='' && $('.az-email').val().indexOf('@')!=-1*/){
+                $('#az-reg').fadeIn(0).attr('checked', 'checked').parent().fadeIn(0);
             } else {
-                $('#az-reg').fadeOut(0).parent().fadeOut(0);
+                $('#az-reg').fadeOut(0).removeAttr('checked').parent().fadeOut(0);
             }
         });
 

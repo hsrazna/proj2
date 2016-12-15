@@ -20,7 +20,7 @@
           <div class="form-group pull-left az-second">
                 <div class="checkbox">
                     <label style="display: none;">
-                        <input style="display: none;" name="az-reg" id="az-reg" type="checkbox" checked="checked">
+                        <input style="display: none;" name="az-reg" id="az-reg" type="checkbox">
                         <?php if ( qtrans_getLanguage() == 'en' ) {?>
                             <?php esc_html_e( 'Register', 'houzez' ); ?>
                         <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
@@ -60,7 +60,7 @@
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
                   <input class="form-control" name="az-call-me" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text">
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-phone" placeholder="<?php esc_html_e('Позвоните мне я расскажу детали', 'houzez'); ?>" type="text">
+                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-call-me" placeholder="<?php esc_html_e('Позвоните мне я расскажу детали', 'houzez'); ?>" type="text">
               <?php } ?>
             </div>
         </div>
@@ -150,6 +150,9 @@
 
           <div class="col-sm-12 col-xs-12">
             <div class="form-group">
+              <input type="hidden" name="page-id" value="<?php echo get_the_id(); ?>">
+              <?php $houzez_site_name = sprintf( "%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']); ?>
+              <input type="hidden" name="page-url" value="<?php echo $houzez_site_name.$_SERVER['REQUEST_URI']; ?>">
             	<?php wp_nonce_field( 'az_request_form_nonce', 'az_request_form_security' ); ?>
               <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <button class="btn btn-orange az-w-100"><?php esc_html_e('Request info', 'houzez'); ?></button>

@@ -156,4 +156,25 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="az-pop-message" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <ul class="login-tabs">
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <li class="active"><?php esc_html_e( 'Message', 'houzez' ); ?></li>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <li class="active"><?php esc_html_e( 'Сообщение', 'houzez' ); ?></li>
+                    <?php } ?>
+                </ul>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+
+            </div>
+            <div class="modal-body login-block">
+                <div id="az-pop-message-text" class="message"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /*ajax puller*/ -->
