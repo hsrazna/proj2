@@ -38,7 +38,6 @@
 // define('DB_COLLATE', '');
 
 // for db starasia
-define( 'ADMIN_COOKIE_PATH', '/starasia-admin' ); //Added by Hide My Wordpress
 define('DB_NAME', 'starasia');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
