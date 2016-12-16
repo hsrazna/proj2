@@ -1,16 +1,4 @@
-<?php
-/**
- * The Template for displaying all single posts
- * @since Houzez 1.0
- */
-
-get_header();
-$sticky_sidebar = houzez_option('sticky_sidebar');
-?>
-    <?php if (in_category('70')) { ?>
-        <?php require_once 'single-our-services.php' ?>
-    <?php } else {?>
-    <section class="section-detail-content">
+<section class="section-detail-content">
 
             <div class="row">
             <div class="col-sm-12">
@@ -32,7 +20,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                             <article class="blog-article">
                                 <div class="page-title">
                                     <h2><?php the_title(); ?></h2>
-                                    <?php get_template_part( 'single-post/post-meta' ); ?>
+                                    <?php //get_template_part( 'single-post/post-meta' ); ?>
                                 </div>
                                 <?php houzez_post_thumbnail(); ?>
 
@@ -59,13 +47,13 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
                             <?php get_template_part( 'single-post/post-nav' ); ?>
 
-                            <?php get_template_part( 'single-post/author' ); ?>
+                            <?php //get_template_part( 'single-post/author' ); ?>
 
-                            <?php get_template_part( 'single-post/related-posts' ); ?>
+                            <?php //get_template_part( 'single-post/related-posts' ); ?>
 
                             <?php
                             // If comments are open or we have at least one comment, load up the comment template.
-                            if ( comments_open() || get_comments_number() ) {
+                            if ( 0/*comments_open() || get_comments_number()*/ ) {
                                 comments_template();
                             }
                         endwhile;
@@ -79,6 +67,3 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
         </div>
 
     </section>
-    <?php } ?>
-<?php
-get_footer();

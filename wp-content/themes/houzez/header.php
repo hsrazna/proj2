@@ -87,6 +87,8 @@ if( ! is_search() ) {
 					}
 				}
 			}
+		} elseif(is_singular('post')){
+			get_template_part('template-parts/advanced-search', 'undermenu');
 		}
 	}
 }

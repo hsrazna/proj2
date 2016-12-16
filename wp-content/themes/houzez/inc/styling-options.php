@@ -1001,6 +1001,7 @@ function houzez_custom_styling() {
             font-size: 24px;
             line-height: 32px;
             margin: 0 0 10px 0;
+            font-family: 'OpenSans-Regular';
         }
         .houzez-module .module-title-nav h2 {
             margin: 0;

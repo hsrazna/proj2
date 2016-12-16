@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Blog Masonry Template
+ * Template Name: Our services
  * Created by PhpStorm.
  * User: waqasriaz
  * Date: 25/01/16
@@ -24,9 +24,9 @@ if ( is_front_page()  ) {
                 if (!$number_of_posts) {
                     $number_of_posts = '12';
                 }
-
+                //'category__not_in' => 70
                 $wp_query_args = array(
-                'category__not_in' => 70,
+                'category_name' => 'Our services',
                 'post_type' => 'post',
                 'posts_per_page' => $number_of_posts,
                 'paged' => $paged,
@@ -42,9 +42,9 @@ if ( is_front_page()  ) {
                                     <a href="<?php the_permalink(); ?>" class="hover-effect">
                                         <?php the_post_thumbnail('houzez-image_masonry'); ?>
                                     </a>
-                                    <figcaption class="thumb-caption clearfix">
+                                    <!-- <figcaption class="thumb-caption clearfix">
                                         <div class="file-type pull-left"><i class="fa fa-file"></i></i></div>
-                                        <?php if ( comments_open() ) { ?>
+                                        <?php if (0/* comments_open()*/ ) { ?>
                                             <?php if( get_comments_number() != 0 ) { ?>
                                                 <div class="comment-count pull-right">
                                                     <span class="count"><?php comments_number( '0', '1', '%' ); ?></span>
@@ -52,7 +52,7 @@ if ( is_front_page()  ) {
                                                 </div>
                                             <?php } ?>
                                         <?php } ?>
-                                    </figcaption>
+                                    </figcaption> -->
                                 </figure>
                                 <div class="post-card-body">
 

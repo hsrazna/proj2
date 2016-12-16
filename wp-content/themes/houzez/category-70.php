@@ -1,11 +1,8 @@
 <?php
-/**
- * Template Name: Blog Masonry Template
- * Created by PhpStorm.
- * User: waqasriaz
- * Date: 25/01/16
- * Time: 9:12 PM
- */
+// wp_redirect( get_category_link( 70 ) );
+// exit;
+// get_category_link( 70 );
+
 get_header();
 global $houzez_local, $wp_query, $paged;
 if ( is_front_page()  ) {
@@ -14,6 +11,7 @@ if ( is_front_page()  ) {
 ?>
 
 <?php get_template_part('template-parts/page-title'); ?>
+<?php//get_template_part('template-parts/cat-title'); ?>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div id="content-area">
@@ -24,9 +22,9 @@ if ( is_front_page()  ) {
                 if (!$number_of_posts) {
                     $number_of_posts = '12';
                 }
-
+                //'category__not_in' => 70
                 $wp_query_args = array(
-                'category__not_in' => 70,
+                'category_name' => 'Our services',
                 'post_type' => 'post',
                 'posts_per_page' => $number_of_posts,
                 'paged' => $paged,
@@ -42,9 +40,9 @@ if ( is_front_page()  ) {
                                     <a href="<?php the_permalink(); ?>" class="hover-effect">
                                         <?php the_post_thumbnail('houzez-image_masonry'); ?>
                                     </a>
-                                    <figcaption class="thumb-caption clearfix">
+                                    <!-- <figcaption class="thumb-caption clearfix">
                                         <div class="file-type pull-left"><i class="fa fa-file"></i></i></div>
-                                        <?php if ( comments_open() ) { ?>
+                                        <?php if (0/* comments_open()*/ ) { ?>
                                             <?php if( get_comments_number() != 0 ) { ?>
                                                 <div class="comment-count pull-right">
                                                     <span class="count"><?php comments_number( '0', '1', '%' ); ?></span>
@@ -52,20 +50,20 @@ if ( is_front_page()  ) {
                                                 </div>
                                             <?php } ?>
                                         <?php } ?>
-                                    </figcaption>
+                                    </figcaption> -->
                                 </figure>
                                 <div class="post-card-body">
 
                                     <div class="post-card-description">
-                                        <ul class="list-inline">
+                                        <!-- <ul class="list-inline">
                                             <li><i class="fa fa-calendar"></i> <?php esc_attr( the_time( get_option( 'date_format' ) ));?> </li>
                                             <li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
-                                        </ul>
+                                        </ul> -->
                                         <h3><?php the_title(); ?></h3>
                                         <p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
                                         <a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
                                     </div>
-                                    <div class="post-card-author">
+                                    <!-- <div class="post-card-author">
                                         <?php if( get_the_author_meta( 'fave_author_custom_picture' ) != '' ) { ?>
                                             <div class="author-image">
                                                 <img width="40" height="40" src="<?php echo esc_url(get_the_author_meta( 'fave_author_custom_picture' )); ?>" class="img-circle">
@@ -74,7 +72,7 @@ if ( is_front_page()  ) {
                                         <div class="author-name">
                                             <span><?php echo $houzez_local['by_text']; ?> <?php the_author(); ?></span>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>

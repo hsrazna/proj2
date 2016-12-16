@@ -6,7 +6,7 @@ RewriteBase /
 RewriteRule ^index\.php$ - [L] 
 
 #START - WP Hide & Security Enhancer
-#WriteCheckString:1481877562_46952
+#WriteCheckString:1481931326_91375
 <IfModule mod_env.c>
 SetEnv HTTP_MOD_REWRITE On
 </IfModule>
@@ -77,7 +77,6 @@ RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in.*$ [NC]
 RewriteRule ^wp-content(.+) /index.php [L]
 #END - WP Hide & Security Enhancer
 
-RewriteRule ^starasia-admin/(.*) /wp-admin/$1 [QSA,L]
 RewriteRule ^starasia-login.php(.*) /wp-login.php$1 [QSA,L]
 RewriteRule ^starasia-login.php/(.*) /wp-login.php$1 [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
