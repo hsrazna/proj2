@@ -1,0 +1,4 @@
+If a page is not working, add this parameter ?hmw_disable=844072 to access the admin page
+
+If you want to change the wp-admin path, first copy the safe link: 
+http://starasiaphuket.loc/wp-login.php?hmw_disable=844072
