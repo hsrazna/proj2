@@ -4639,7 +4639,8 @@ input[type="button"].btn-block {
   border-bottom: 0;
 }
 .header-section-4 .navi > ul > li > a:hover {
-  color: rgba(0, 174, 239, 0.5);
+  /*color: rgba(0, 174, 239, 0.5);*/
+  color: #fff;
   background-color: transparent;
 }
 .header-section-4 .navi > ul > li > a:active {

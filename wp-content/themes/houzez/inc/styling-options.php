@@ -476,7 +476,8 @@ function houzez_custom_styling() {
             .header-section-4 .navi > ul > li.active > a,
             .header-section-4 .header-right .user a:hover,
             .header-section-4 .header-right .user a:focus {
-                color: {$header_4_links_hover_color};
+                background: #bf1e2e; //ajax-puller
+                color: #fff/*{$header_4_links_hover_color}*/;
             }";
     }
 
@@ -510,7 +511,7 @@ function houzez_custom_styling() {
         .header-section-4.houzez-header-transparent .header-right .account-action span:hover,
         .header-section-4.houzez-header-transparent .header-right .user span:hover,
         .header-section-4.houzez-header-transparent .header-right .user a:focus {
-            color: {$header_4_transparent_links_hover_color};
+            color: #fff/*{$header_4_transparent_links_hover_color}*/;
         }
     .header-section-4.houzez-header-transparent .header-right .btn {
         color: {$header_4_transparent_btn_color};

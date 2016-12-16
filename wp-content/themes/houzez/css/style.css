@@ -242,10 +242,13 @@
       margin: 0px !important; }
     .user a .fa-user {
       display: none; }
-  .user a:hover .fa-user {
-    display: block; }
-  .user a:hover .fa-user-o {
-    display: none; }
+  .user a:hover {
+    background: transparent !important;
+    color: #000 !important; }
+    .user a:hover .fa-user {
+      display: block; }
+    .user a:hover .fa-user-o {
+      display: none; }
 
 .ls-lang {
   font-size: 0px;

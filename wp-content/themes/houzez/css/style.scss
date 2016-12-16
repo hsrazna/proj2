@@ -305,7 +305,8 @@
         }
     }
     a:hover{
-
+        background: transparent !important;
+        color: #000 !important;
         .fa-user{
             display: block;
         }
