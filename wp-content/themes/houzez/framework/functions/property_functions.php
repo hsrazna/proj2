@@ -1062,6 +1062,11 @@ if( !function_exists('houzez_radius_filter_callback') ) {
 if( !function_exists('houzez_property_search_2') ) {
     function houzez_property_search_2($search_query)
     {
+        $add_query = $search_query['az_add_query'];
+        unset($search_query['az_add_query']);
+        // echo "<br>";
+        // print_r($add_query);
+        // echo "<br>";
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
             $tax_query = array();
             $meta_query = array();
@@ -1277,7 +1282,16 @@ if( !function_exists('houzez_property_search_2') ) {
 
 
             // Taxonomies
-            if (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] != 'all') {
+            // echo "<br>";
+            // print_r($add_query);
+            // echo "<br>";
+            if($add_query['status']){
+                $tax_query[] = array(
+                    'taxonomy' => 'property_status',
+                    'field' => 'slug',
+                    'terms' => $add_query['status']
+                );
+            } elseif (isset($_GET['status']) && !empty($_GET['status']) && $_GET['status'] != 'all') {
                 $tax_query[] = array(
                     'taxonomy' => 'property_status',
                     'field' => 'slug',
@@ -1577,7 +1591,18 @@ if( !function_exists('houzez_property_search_2') ) {
 
 
             // Taxonomies
-            if (isset($_POST['status']) && !empty($_POST['status']) && $_POST['status'] != 'all') {
+            // $temp = $az_status;//get_field('status');
+            // print_r($add_query['status']);
+            // echo "<br>";
+            // print_r($add_query);
+            // echo "<br>";
+            if($add_query['status']){
+                $tax_query[] = array(
+                    'taxonomy' => 'property_status',
+                    'field' => 'slug',
+                    'terms' => $add_query['status']
+                );
+            } elseif (isset($_POST['status']) && !empty($_POST['status']) && $_POST['status'] != 'all') {
                 $tax_query[] = array(
                     'taxonomy' => 'property_status',
                     'field' => 'slug',

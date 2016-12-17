@@ -56,6 +56,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $searched_country = $_POST['country'];
     }
 }
+$temp = get_field('status');
+if($temp){
+    $status = $temp;
+    $adv_show_hide['status'] = 1;
+}
+
 $keyword_field = houzez_option('keyword_field');
 
 if( $keyword_field == 'prop_title' ) {
@@ -277,6 +283,13 @@ if ($adv_show_hide['keyword'] != 1) {
 
                 </div>
             </div>
+            <?php } else { ?>
+                <div style="display: none;">
+                    <select name="status">
+                        <option value="<?=$status?>"><?=$status?></option>
+                    </select>
+                </div>
+                <!-- <input type="hidden" name="status" value="<?=$status?>"> -->
             <?php } ?>
 
 

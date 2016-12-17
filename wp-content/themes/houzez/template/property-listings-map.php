@@ -33,17 +33,31 @@ if( isset($_GET['prop_featured']) && $_GET['prop_featured'] == 'no' ) {
 if( isset( $_GET['sortby'] ) ) {
     $sortby = $_GET['sortby'];
 }
+$add_query = Array();
+$temp = get_field('status');
 
+if($temp){
+    $add_query = Array(
+            'status' => $temp,
+        );
+    // $status = $temp;
+    // $adv_show_hide['status'] = 1;
+}
+// print_r($add_query);
 $latest_listing_args = array(
     'post_type' => 'property',
     'posts_per_page' => -1,
     // 'posts_per_page' => 10,//$posts_per_page,
     // 'paged' => $paged,
     'post_status' => 'publish',
+    'az_add_query' => $add_query
 );
-$latest_listing_args = apply_filters('houzez_search_parameters_2', $latest_listing_args);
+// print_r($latest_listing_args);
 
+$latest_listing_args = apply_filters('houzez_search_parameters_2', $latest_listing_args);
+// print_r($latest_listing_args);
 $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
+// print_r($latest_listing_args);
 ?>
 <div class="container-fluid">
     <div class="row">
