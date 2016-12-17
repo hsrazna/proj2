@@ -58,9 +58,11 @@
         <div class="col-sm-6 col-xs-12">
           <div class="form-group az-second">
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                  <input class="form-control" name="az-call-me" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text">
+            <a href="tel:+66600035625" class="btn btn-orange az-w-100" style="font-family: 'OpenSans-Regular';">Call me I'll tell you the details</a>
+                  <!-- <input class="form-control" name="az-call-me" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text"> -->
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-call-me" placeholder="<?php esc_html_e('Позвоните мне я расскажу детали', 'houzez'); ?>" type="text">
+                <a href="tel:+74996771664" class="btn btn-orange az-w-100" style="font-family: 'OpenSans-Regular';">Позвоните мне я расскажу детали</a>
+                  <!-- <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-call-me" placeholder="<?php esc_html_e('Позвоните мне я расскажу детали', 'houzez'); ?>" type="text"> -->
               <?php } ?>
             </div>
         </div>
