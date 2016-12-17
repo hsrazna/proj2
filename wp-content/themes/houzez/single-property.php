@@ -135,6 +135,11 @@ houzez_count_property_views( $post->ID );
 
                         <?php get_template_part( 'property-details/property', 'similer' ); ?>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                      <?php get_template_part( 'template-parts/az-form' ); ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php if( $sticky_sidebar['single_property'] != 0 ){ echo 'houzez_sticky'; }?>">
                     <?php get_sidebar('property'); ?>

@@ -4631,8 +4631,11 @@ input[type="button"].btn-block {
 .header-section-4 .navi > ul > li {
   font-weight: 400;
 }
+
 .header-section-4 .navi > ul > li > a {
-  line-height: 90px;
+  /*line-height: 90px;*/
+  line-height: 35px;
+  border-radius: 4px;
   color: #00aeef;
   border: 1px solid transparent;
   border-top: 0;

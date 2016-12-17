@@ -204,46 +204,54 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
 
                                     $latest_posts = new WP_Query( $latest_listing_args );
 
-                                    if ( $latest_posts->have_posts() ) :
+                                    if ( $latest_posts->have_posts() ) {
                                         while ( $latest_posts->have_posts() ) : $latest_posts->the_post();
                                             // echo 1111;//$ls_status;
-                                    if($az_i%2==0):
-                                    ?>
-                                        <div class="az-col">
-                                    <?php
-                                    endif;
+                                        if($az_i%2==0):
+                                        ?>
+                                            <div class="az-col">
+                                        <?php
+                                        endif;
                                             get_template_part('template-parts/property-for-listing');
-                                    if($az_i%2==1):
-                                    ?>
-                                        </div>
-                                    <?php
-                                    endif;
-                                    if($az_i%4==3):
-                                    ?>
-                                        <div class="clearfix"></div>
-                                    <?php
-                                    endif;
+                                        if($az_i%2==1):
+                                        ?>
+                                            </div>
+                                        <?php
+                                        endif;
+                                        if($az_i%4==3):
+                                        ?>
+                                            <div class="clearfix"></div>
+                                        <?php
+                                        endif;
                                     $az_i++;
-                                        endwhile;
-                                    else:
+                                    endwhile;
+                                        if($az_i%2==1)
+                                            echo '</div>';
+                                        
+                                    }else{
                                         get_template_part('template-parts/property', 'none');
-                                    endif;
+                                    }
                                     wp_reset_postdata();
                                     ?>
 
-                                    <hr>
+                                    
                                     <!--start Pagination-->
                                     <?php //houzez_pagination( $latest_posts->max_num_pages, $range = 2 ); ?>
                                     <!--start Pagination-->
 
                                 </div>
-                            
+                                
                             </div>
-
+                            <hr>
                         </div>
                     </div>
                     <!--end latest listing module-->
 
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                      <?php get_template_part( 'template-parts/az-form' ); ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

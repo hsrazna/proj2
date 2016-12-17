@@ -73,7 +73,7 @@ get_header();
 			        </div>
 			        <!--end property items-->
 			    </div>
-			    <hr>
+			    
 
 			    <!--start Pagination-->
 			    <?php houzez_pagination(); ?>
@@ -118,11 +118,15 @@ get_header();
 			            </div>
 			        </div>
 			    </div>
+
 			</div>
 		</div>
+
 	</div>
+
 	<div class="row">
 		<div class="col-md-12 col-xs-12">
+		<hr>
       <?php get_template_part( 'template-parts/az-form' ); ?>
 		</div>
 	</div>

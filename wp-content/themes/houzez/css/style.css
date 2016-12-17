@@ -360,6 +360,12 @@
   margin-right: 15px;
   color: #fff; }
 
+.header-section-4 .navi.main-nav.ls-lg-menu.az-margin-right15 > ul > li {
+  line-height: 90px; }
+
+.sticky_nav .header-section-4 .navi.main-nav.ls-lg-menu.az-margin-right15 > ul > li {
+  line-height: 60px; }
+
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .header-right .user {
   line-height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-md-menu .mobile-nav .nav-trigger.mobile-open + .nav-dropdown {
@@ -371,7 +377,7 @@
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .account-action li {
   line-height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .navi > ul > li > a {
-  line-height: 60px; }
+  line-height: 35px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-call {
   line-height: 60px; }
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .ls-phone {
@@ -884,7 +890,8 @@ input[name="daterange"] {
       margin: 0px !important; }
 
 .bg-white {
-  background: #fff; }
+  background: #fff;
+  margin-top: 30px; }
 
 .az-beds .fa-sort {
   position: absolute;
