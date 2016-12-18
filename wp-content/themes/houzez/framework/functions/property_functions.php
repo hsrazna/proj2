@@ -1153,6 +1153,80 @@ if( !function_exists('houzez_property_search_2') ) {
                         $search_query['s'] = $keyword;
                     }
                 }
+            } elseif(is_page_template( 'template/property-listings-map.php' )){
+                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(isset($_SESSION['az_half_map_keyword']) && $_SESSION['az_half_map_keyword'] != ''){
+                        if ($keyword_field == 'prop_address') {
+                            $meta_keywork = esc_html(wp_kses($_SESSION['az_half_map_keyword'], $allowed_html));
+                            $address_array = array(
+                                'key' => 'fave_property_map_address',
+                                'value' => $meta_keywork,
+                                'type' => 'CHAR',
+                                'compare' => 'LIKE',
+                            );
+
+                            $street_array = array(
+                                'key' => 'fave_property_address',
+                                'value' => $meta_keywork,
+                                'type' => 'CHAR',
+                                'compare' => 'LIKE',
+                            );
+
+                            $zip_array = array(
+                                'key' => 'fave_property_zip',
+                                'value' => $meta_keywork,
+                                'type' => 'CHAR',
+                                'compare' => '=',
+                            );
+
+                            $propid_array = array(
+                                'key' => 'fave_property_id',
+                                'value' => $meta_keywork,
+                                'type' => 'CHAR',
+                                'compare' => '=',
+                            );
+
+                            $keyword_array = array(
+                                'relation' => 'OR',
+                                $address_array,
+                                $street_array,
+                                $propid_array,
+                                $zip_array
+                            );
+
+                        } else if ($keyword_field == 'prop_city_state_county') {
+                            $taxlocation[] = sanitize_title(esc_html(wp_kses($_SESSION['az_half_map_keyword'], $allowed_html)));
+
+                            $_tax_query = Array();
+                            $_tax_query['relation'] = 'OR';
+
+                            $_tax_query[] = array(
+                                'taxonomy' => 'property_area',
+                                'field' => 'slug',
+                                'terms' => $taxlocation
+                            );
+
+                            $_tax_query[] = array(
+                                'taxonomy' => 'property_city',
+                                'field' => 'slug',
+                                'terms' => $taxlocation
+                            );
+
+                            $_tax_query[] = array(
+                                'taxonomy' => 'property_state',
+                                'field' => 'slug',
+                                'terms' => $taxlocation
+                            );
+                            $tax_query[] = $_tax_query;
+
+                        } else {
+                            $keyword = trim($_SESSION['az_half_map_keyword']);
+                            if (!empty($keyword)) {
+                                $search_query['s'] = $keyword;
+                            }
+                        }
+                    }
+                }
             }
 
             // bedrooms logic
@@ -1768,7 +1842,7 @@ if( !function_exists('houzez_header_map_listings') ) {
         $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
         $state = isset($_POST['state']) ? sanitize_text_field($_POST['state']) : '';
         $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
-        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
+        $area = isset($_POST['area']) ? $_POST['area'] : '';//sanitize_text_field($_POST['area']) : '';
         $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
         $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
         $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
@@ -2182,17 +2256,27 @@ if( !function_exists('houzez_half_map_listings') ) {
         $keyword_array =  '';
 
         $initial_city = isset($_POST['initial_city']) ? $_POST['initial_city'] : '';
-        $features = isset($_POST['features']) ? $_POST['features'] : '';
+        // $features = isset($_POST['features']) ? $_POST['features'] : '';
         $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : '';
+        $_SESSION['az_half_map_keyword'] = $keyword;
         $country = isset($_POST['country']) ? sanitize_text_field($_POST['country']) : '';
         $location = isset($_POST['location']) ? sanitize_text_field($_POST['location']) : '';
-        $area = isset($_POST['area']) ? sanitize_text_field($_POST['area']) : '';
+        $area = isset($_POST['area']) ? $_POST['area'] : '';
+        $_SESSION['az_half_map_area'] = $area;
+        // echo json_encode($area);//(111) ;
+        // die();
+        //sanitize_text_field($_POST['area']) : '';
         $state = isset($_POST['state']) ? sanitize_text_field($_POST['state']) : '';
         $status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+        $_SESSION['az_half_map_status'] = $status;
         $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+        $_SESSION['az_half_map_type'] = $type;
         $bedrooms = isset($_POST['bedrooms']) ? sanitize_text_field($_POST['bedrooms']) : '';
+        $_SESSION['az_half_map_bedrooms'] = $bedrooms;
         $bathrooms = isset($_POST['bathrooms']) ? sanitize_text_field($_POST['bathrooms']) : '';
+        $_SESSION['az_half_map_bathrooms'] = $bathrooms;
         $min_price = isset($_POST['min_price']) ? sanitize_text_field($_POST['min_price']) : '';
+
         $max_price = isset($_POST['max_price']) ? sanitize_text_field($_POST['max_price']) : '';
         $min_area = isset($_POST['min_area']) ? sanitize_text_field($_POST['min_area']) : '';
         $max_area = isset($_POST['max_area']) ? sanitize_text_field($_POST['max_area']) : '';
@@ -2354,12 +2438,20 @@ if( !function_exists('houzez_half_map_listings') ) {
 
         if( !empty($area) ) {
             $tax_query[] = array(
-                'taxonomy' => 'property_area',
-                'field' => 'slug',
-                'terms' => $area
+                'relation' => 'OR',
+                array(
+                    'taxonomy' => 'property_area',
+                    'field' => 'slug',
+                    'terms' => $area
+                ),
+                array(
+                    'taxonomy' => 'property_area',
+                    'field' => 'name',
+                    'terms' => $area
+                ),
             );
         }
-
+        // echo json_encode($tax_query);
         if( !empty($state) ) {
             $tax_query[] = array(
                 'taxonomy'      => 'property_state',
@@ -2376,11 +2468,11 @@ if( !function_exists('houzez_half_map_listings') ) {
             );
         }
         if( !empty( $features ) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'property_feature',
-                'field' => 'slug',
-                'terms' => $features
-            );
+            // $tax_query[] = array(
+            //     'taxonomy' => 'property_feature',
+            //     'field' => 'slug',
+            //     'terms' => $features
+            // );
         }
         if( !empty($type) ) {
             $tax_query[] = array(
@@ -2425,7 +2517,8 @@ if( !function_exists('houzez_half_map_listings') ) {
         if( !empty( $min_price ) && $min_price != 'any' && !empty( $max_price ) && $max_price != 'any' ) {
             $min_price = doubleval( houzez_clean( $min_price ) );
             $max_price = doubleval( houzez_clean( $max_price ) );
-
+            $_SESSION['az_half_map_min_price'] = $min_price;
+            $_SESSION['az_half_map_max_price'] = $max_price;
             if( $min_price >= 0 && $max_price > $min_price ) {
                 $meta_query[] = array(
                     'key' => $price_type_field,//'fave_property_price',//
@@ -2516,6 +2609,8 @@ if( !function_exists('houzez_half_map_listings') ) {
         }
         // print_r($query_args);
         // echo "<br><br><br><br><br><br><br><br><br>";
+        // echo json_encode($query_args);
+        // exit;
         $az_temp_query_args = $query_args;
         $query_args = new WP_Query( $query_args );
 

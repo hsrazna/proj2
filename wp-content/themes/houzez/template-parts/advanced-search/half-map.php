@@ -16,7 +16,7 @@ if( $measurement_unit_adv_search == 'sqft' ) {
 $adv_search_price_slider = houzez_option('adv_search_price_slider');
 $status = $type = $location = $area = $searched_country = $state = '';
 $adv_show_hide = houzez_option('adv_show_hide_halmap');
-
+// echo $_SESSION['az_half_map_keyword'];
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $temp = get_field('status');
     if(empty($temp)){
@@ -75,6 +75,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     }
     // print_r($_SESSION);
 } elseif($_SERVER['REQUEST_METHOD'] == 'POST'){
+    unset($_SESSION['az_half_map_keyword']);
     unset($_SESSION['az_half_map_status']);
     unset($_SESSION['az_half_map_type']);
     unset($_SESSION['az_half_map_location']);
@@ -85,6 +86,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     unset($_SESSION['az_half_map_max_price']);
     unset($_SESSION['az_half_map_bedrooms']);
     unset($_SESSION['az_half_map_bathrooms']);
+    if( isset( $_POST['keyword'] ) ) {
+        $keyword = $_POST['keyword'];
+        $_SESSION['az_half_map_keyword'] = $keyword;
+        // print_r($keyword);
+    }
     if( isset( $_POST['status'] ) ) {
         $status = $_POST['status'];
         $_SESSION['az_half_map_status'] = $status;
@@ -129,7 +135,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $bathrooms = $_POST['bathrooms'];
         $_SESSION['az_half_map_bathrooms'] = $bathrooms;
     }
-    // $_SESSION['az_half_map_bedrooms'] = $searched_num;
+    $_SESSION['az_half_map_bathrooms'] = $searched_num;
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
     // print_r($_SESSION);
@@ -180,7 +186,7 @@ if ($adv_show_hide['keyword'] != 1) {
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group table-list search-long">
                     <div class="input-search input-icon">
-                        <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : isset ( $_POST['keyword'] ) ? $_POST['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
+                        <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : isset ( $_POST['keyword'] ) ? $_POST['keyword'] : isset($_SESSION['az_half_map_keyword'])? $_SESSION['az_half_map_keyword']:''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                     </div>
                 </div>
             </div>
@@ -234,7 +240,7 @@ if ($adv_show_hide['keyword'] != 1) {
                                     <div class="form-group table-list search-long">
                                         <div class="input-search input-icon">
                                             <input type="text" class="form-control"
-                                                   value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : isset ($_POST['keyword'])?$_POST['keyword']:''; ?>"
+                                                   value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : isset ($_POST['keyword'])?$_POST['keyword']:isset($_SESSION['az_half_map_keyword'])?$_SESSION['az_half_map_keyword']:''; ?>"
                                                    name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                                         </div>
                                     </div>

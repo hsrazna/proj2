@@ -2653,7 +2653,7 @@ jQuery(document).ready(function ($) {
             //         'price_type': price_type
             //     }));
             var ajax_container = $('#houzez_ajax_container');
-
+            // alert(area);
             $.ajax({
                 type: 'POST',
                 //dataType: 'json',
@@ -2665,7 +2665,7 @@ jQuery(document).ready(function ($) {
                     'country': country,
                     'state': state,
                     'location': location,
-                    'area': area,
+                    'area': area,//current_form.find('input[name="area[]"]:checked').map(function(){return $(this).val();}).get(),//area,
                     'status': status,
                     'type': type,
                     'bedrooms': bedrooms,
@@ -2695,9 +2695,9 @@ jQuery(document).ready(function ($) {
                     );
                 },
                 success: function(data) {
-                    var d = $.parseJSON(data);
-                    // alert(d.data);
                     // var d = $.parseJSON(data);
+                    // alert(data);
+                    var d = $.parseJSON(data);
                     if( d.data != '' ) {
                         ajax_container.empty().html(d.data);
                         $('#save_search_form').find('input[name="search_args"]').val(d.query);
@@ -2734,9 +2734,17 @@ jQuery(document).ready(function ($) {
             if (location == '' || location == null || typeof location == 'undefined' ) {
                 location = 'all';
             }
-
+            // var searchIDs = current_form.find('input[name="area[]"]:checked').map(function(){
+            //     return $(this).val();
+            // }).get();
+            // alert(searchIDs);
             if( only_city != 'yes' ) {
-                area = current_form.find('select[name="area"]').val();
+                area = current_form.find('input[name="area[]"]:checked').map(function(){
+                    return $(this).val();
+                }).get();
+                // alert(area);
+            // alert(searchIDs);
+                // area = current_form.find('select[name="area"]').val();
             }
 
             if( only_state == 'yes' ) {
@@ -2760,9 +2768,9 @@ jQuery(document).ready(function ($) {
             keyword   = current_form.find('input[name="keyword"]').val();
             publish_date   = current_form.find('input[name="publish_date"]').val();
             price_type   = current_form.find('select[name="price_type"]').val();
-            features = current_form.find('.features-list input[type=checkbox]:checked').map(function(_, el) {
-                return $(el).val();
-            }).toArray();
+            // features = current_form.find('.features-list input[type=checkbox]:checked').map(function(_, el) {
+            //     return $(el).val();
+            // }).toArray();
 
             //Radius Search
             search_lat  = current_form.find('input[name="lat"]').val();
@@ -2878,7 +2886,7 @@ jQuery(document).ready(function ($) {
 
         if($("#houzez-listing-map").length > 0 || $('#mapViewHalfListings').length > 0 ) {
 
-            $('select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"], select[name="price_type"]').on('change', function() {
+            $('select[name="area"], select[name="bedrooms"], select[name="bathrooms"], select[name="min-price"], select[name="max-price"], input[name="min-price"], input[name="max-price"], input[name="min-area"], input[name="max-area"], select[name="type"], input[name="keyword"], select[name="price_type"], input[name="area[]"]').on('change', function() {
                 var current_form = $(this).parents('form');
                 var form_widget = $(this).parents('.widget_houzez_advanced_search');
                 houzez_search_on_change(current_form, form_widget);
