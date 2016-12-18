@@ -417,11 +417,17 @@ if( !function_exists('houzez_number_list') ) {
     function houzez_number_list($list_for) {
         $num_array = array(1,2,3,4,5,6,7,8,9,10);
         $searched_num = '';
+        // echo "111";
         // session_start();
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
             if( $list_for == 'bedrooms' ) {
                 if( isset( $_GET['bedrooms'] ) ) {
                     $searched_num = $_GET['bedrooms'];
+                } elseif(is_page_template( 'template/property-listings-map.php' )){
+                    if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                        $searched_num = $_SESSION['az_half_map_bedrooms'];
+                    }
+                    // echo "111";
                 } elseif(isset( $_SESSION['bedrooms'])){
                     $searched_num = $_SESSION['bedrooms'];
                 }
@@ -446,6 +452,8 @@ if( !function_exists('houzez_number_list') ) {
             if( $list_for == 'bathrooms' ) {
                 if( isset( $_GET['bathrooms'] ) ) {
                     $searched_num = $_GET['bathrooms'];
+                } elseif(is_page_template( 'template/property-listings-map.php' )){
+                    $searched_num = $_SESSION['az_half_map_bathrooms'];
                 }
 
                 $adv_baths_list = houzez_option('adv_baths_list');
@@ -468,6 +476,7 @@ if( !function_exists('houzez_number_list') ) {
             if( $list_for == 'bedrooms' ) {
                 if( isset( $_POST['bedrooms'] ) ) {
                     $searched_num = $_POST['bedrooms'];
+                    $_SESSION['az_half_map_bedrooms'] = $searched_num;
                 } elseif( isset( $_SESSION['bedrooms'] ) ) {
                     $searched_num = $_SESSION['bedrooms'];
                 }
@@ -492,6 +501,9 @@ if( !function_exists('houzez_number_list') ) {
             if( $list_for == 'bathrooms' ) {
                 if( isset( $_POST['bathrooms'] ) ) {
                     $searched_num = $_POST['bathrooms'];
+                    $_SESSION['az_half_map_bathrooms'] = $searched_num;
+                } elseif( isset( $_SESSION['bathrooms'] ) ) {
+                    $searched_num = $_SESSION['bathrooms'];
                 }
 
                 $adv_baths_list = houzez_option('adv_baths_list');

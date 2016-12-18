@@ -839,6 +839,9 @@ input[name="daterange"] {
 .az-margin-right0 {
   margin-right: 0px; }
 
+.az-margin-none {
+  margin: 0px !important; }
+
 .az-dispay-block-md {
   display: none !important; }
 

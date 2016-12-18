@@ -43,6 +43,10 @@ if($temp){
     // $status = $temp;
     // $adv_show_hide['status'] = 1;
 }
+// if(is_page_template( 'template/property-listings-map.php' )){
+//     echo '111';
+// }
+// echo '111';
 // print_r($add_query);
 $latest_listing_args = array(
     'post_type' => 'property',
@@ -268,6 +272,13 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
 <?php } ?>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
 <?php wp_footer(); ?>
+<?php //global $max_price, $min_price ?>
+<script type="text/javascript">
+    // if(1$( ".price-range-advanced").length > 0 ) {
+        // alert(1);
+        // price_range_main_search( <?php //echo $_SESSION['az_half_map_min_price'] ?>, <?php //echo $_SESSION['az_half_map_max_price'] ?> );
+    // }
+</script>
 
 </body>
 </html>

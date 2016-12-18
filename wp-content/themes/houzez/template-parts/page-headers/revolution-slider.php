@@ -163,7 +163,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                                                     <label for="Kathu">Kathu</label>
                                                 </div>
                                                 <div class="phuket-district p-dist14">
-                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket City"/>
+                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket Town"/>
                                                     <label for="Phuket Town">Phuket Town</label>
                                                 </div>
                                                 <div class="phuket-district p-dist15">
@@ -289,7 +289,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                                                     <label for="Kathu">Kathu</label>
                                                 </div>
                                                 <div class="phuket-district p-dist14">
-                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket City"/>
+                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket Town"/>
                                                     <label for="Phuket Town">Phuket Town</label>
                                                 </div>
                                                 <div class="phuket-district p-dist15">
@@ -474,7 +474,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                                                     <label for="Kathu">Кату</label>
                                                 </div>
                                                 <div class="phuket-district p-dist14">
-                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket City"/>
+                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket Town"/>
                                                     <label for="Phuket Town">Пхукет Таун</label>
                                                 </div>
                                                 <div class="phuket-district p-dist15">
@@ -600,7 +600,7 @@ if (is_plugin_active('revslider/revslider.php')) {
                                                     <label for="Kathu">Кату</label>
                                                 </div>
                                                 <div class="phuket-district p-dist14">
-                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket City"/>
+                                                    <input id="Phuket Town" title="Phuket Town" type="checkbox" name="area[]" value="Phuket Town"/>
                                                     <label for="Phuket Town">Пхукет Таун</label>
                                                 </div>
                                                 <div class="phuket-district p-dist15">

@@ -1164,6 +1164,18 @@ if( !function_exists('houzez_property_search_2') ) {
                     'type' => 'CHAR',
                     'compare' => '=',
                 );
+            } elseif(is_page_template( 'template/property-listings-map.php' )){
+                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(isset($_SESSION['az_half_map_bedrooms']) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any'){
+                        $bedrooms = sanitize_text_field($_SESSION['az_half_map_bedrooms']);
+                        $meta_query[] = array(
+                            'key' => 'fave_property_bedrooms',
+                            'value' => $bedrooms,
+                            'type' => 'CHAR',
+                            'compare' => '=',
+                        );
+                    }
+                }
             }
 
             // Property ID
@@ -1192,6 +1204,18 @@ if( !function_exists('houzez_property_search_2') ) {
             if (isset($_GET['min-price']) && !empty($_GET['min-price']) && $_GET['min-price'] != 'any' && isset($_GET['max-price']) && !empty($_GET['max-price']) && $_GET['max-price'] != 'any') {
                 $min_price = doubleval(houzez_clean($_GET['min-price']));
                 $max_price = doubleval(houzez_clean($_GET['max-price']));
+
+                if ($min_price >= 0 && $max_price > $min_price) {
+                    $meta_query[] = array(
+                        'key' => 'fave_property_price',
+                        'value' => array($min_price, $max_price),
+                        'type' => 'NUMERIC',
+                        'compare' => 'BETWEEN',
+                    );
+                }
+            } if (isset($_SESSION['az_half_map_min_price']) && !empty($_SESSION['az_half_map_min_price']) && $_SESSION['az_half_map_min_price'] != 'any' && isset($_SESSION['az_half_map_max_price']) && !empty($_SESSION['az_half_map_max_price']) && $_SESSION['az_half_map_max_price'] != 'any') {
+                $min_price = doubleval(houzez_clean($_SESSION['az_half_map_min_price']));
+                $max_price = doubleval(houzez_clean($_SESSION['az_half_map_max_price']));
 
                 if ($min_price >= 0 && $max_price > $min_price) {
                     $meta_query[] = array(
@@ -1297,6 +1321,16 @@ if( !function_exists('houzez_property_search_2') ) {
                     'field' => 'slug',
                     'terms' => $_GET['status']
                 );
+            } elseif(is_page_template( 'template/property-listings-map.php' )){
+                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(isset($_SESSION['az_half_map_status']) && !empty($_SESSION['az_half_map_status']) && $_SESSION['az_half_map_status'] != 'all'){
+                        $tax_query[] = array(
+                            'taxonomy' => 'property_status',
+                            'field' => 'slug',
+                            'terms' => $_SESSION['az_half_map_status']
+                        );
+                    }
+                }
             }
 
             if (isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] != 'all') {
@@ -1305,6 +1339,16 @@ if( !function_exists('houzez_property_search_2') ) {
                     'field' => 'slug',
                     'terms' => $_GET['type']
                 );
+            } elseif(is_page_template( 'template/property-listings-map.php' )){
+                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(isset($_SESSION['az_half_map_type']) && !empty($_SESSION['az_half_map_type']) && $_SESSION['az_half_map_type'] != 'all'){
+                        $tax_query[] = array(
+                            'taxonomy' => 'property_type',
+                            'field' => 'slug',
+                            'terms' => $_SESSION['az_half_map_type']
+                        );
+                    }
+                }
             }
 
             if (isset($_GET['country']) && !empty($_GET['country']) && $_GET['country'] != 'all') {
@@ -1338,6 +1382,16 @@ if( !function_exists('houzez_property_search_2') ) {
                     'field' => 'slug',
                     'terms' => $_GET['area']
                 );
+            } elseif(is_page_template( 'template/property-listings-map.php' )){
+                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(isset($_SESSION['az_half_map_area']) && !empty($_SESSION['az_half_map_area']) && $_SESSION['az_half_map_area'] != 'all'){
+                        $tax_query[] = array(
+                            'taxonomy' => 'property_area',
+                            'field' => 'slug',
+                            'terms' => $_SESSION['az_half_map_area']
+                        );
+                    }
+                }
             }
 
             if (isset($_GET['feature']) && !empty($_GET['feature'])) {

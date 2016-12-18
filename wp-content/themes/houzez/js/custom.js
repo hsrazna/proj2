@@ -1202,11 +1202,13 @@ var nice = false;
                 totalTopBarsHeight = parseInt(mobHeaderH) + parseInt(admin_bar_height) + parseInt(topbarH);
             }
         }
-
-        var menu_above = $('.az-above-header').height();
-
+        if(getWindowWidth() > 992){
+            var menu_above = $('.az-above-header.az-dispay-block-md').height();
+        } else {
+            var menu_above = $('.az-above-header.az-dispay-none-md').height();
+        }
         var topBarsHeight =  getWindowHeight() - totalTopBarsHeight;
-
+        // alert(menu_above);
         if (isChrome){
             $('.fave-screen-fix').css( 'height', topBarsHeight-1-menu_above );
         }else{
