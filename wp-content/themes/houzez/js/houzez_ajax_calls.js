@@ -1158,7 +1158,7 @@ jQuery(document).ready(function ($) {
         /*--------------------------------------------------------------------------
         *   Add or remove favorites
         * -------------------------------------------------------------------------*/
-        $(".add_fav").click(function () {
+        $("body").on('click', ".add_fav", function () {
             var curnt = $(this).children('i');
             var propID = $(this).attr('data-propid');
             add_to_favorite( propID, curnt );

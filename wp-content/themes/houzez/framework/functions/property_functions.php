@@ -2642,9 +2642,13 @@ if( !function_exists('houzez_half_map_listings') ) {
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
             if( isset( $_GET['type'] ) && !empty($_GET['type']) ) {
                 $search_parameters = $_GET['type'].', ';
+            } elseif( isset( $_SESSION['az_half_map_type'] ) && !empty($_SESSION['az_half_map_type']) ) {
+                $search_parameters = $_SESSION['az_half_map_type'].', ';
             }
             if( isset( $_GET['bedrooms'] ) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
                 $search_parameters .= $_GET['bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
+            } elseif( isset( $_SESSION['az_half_map_bedrooms'] ) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any') {
+                $search_parameters .= $_SESSION['az_half_map_bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
             }
             if( isset( $_GET['bathrooms'] ) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
                 $search_parameters .= $_GET['bathrooms'].' '.esc_html__('Bathrooms', 'houzez').', ';
@@ -2667,12 +2671,12 @@ if( !function_exists('houzez_half_map_listings') ) {
             if( isset( $_GET['max-price'] ) && !empty($_GET['max-price']) ) {
                 $max_price = $_GET['max-price'];
             }
-            if( isset( $_GET['min-area'] ) && !empty($_GET['min-area']) ) {
-                $min_area = $_GET['min-area'];
-            }
-            if( isset( $_GET['max-area'] ) && !empty($_GET['max-area']) ) {
-                $max_area = $_GET['max-area'];
-            }
+            // if( isset( $_GET['min-area'] ) && !empty($_GET['min-area']) ) {
+            //     $min_area = $_GET['min-area'];
+            // }
+            // if( isset( $_GET['max-area'] ) && !empty($_GET['max-area']) ) {
+            //     $max_area = $_GET['max-area'];
+            // }
         }else if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if( isset( $_POST['type'] ) && !empty($_POST['type']) ) {
                 $search_parameters = $_POST['type'].', ';
@@ -2686,11 +2690,17 @@ if( !function_exists('houzez_half_map_listings') ) {
             if( isset( $_POST['status'] ) && !empty($_POST['status']) ) {
                 $search_parameters .= $_POST['status'].', ';
             }
-            if( isset( $_POST['location'] ) && !empty($_POST['location']) ) {
-                $search_parameters .= esc_html__('in', 'houzez').' '.$_POST['location'].', ';
-            }
+            // if( isset( $_POST['location'] ) && !empty($_POST['location']) ) {
+            //     $search_parameters .= esc_html__('in', 'houzez').' '.$_POST['location'].', ';
+            // }
             if( isset( $_POST['area'] ) && !empty($_POST['area']) ) {
-                $search_parameters .= $_GET['area'].', ';
+                if(is_array($_POST['area'])){
+                    foreach($_POST['area'] as $az_val){
+                        $search_parameters .= $az_val.', ';
+                    }
+                } else{
+                    $search_parameters .= $_GET['area'].', ';
+                }
             }
             if( isset( $_POST['keyword'] ) && !empty($_POST['keyword']) ) {
                 $search_parameters .= $_POST['keyword'].', ';
@@ -2701,19 +2711,19 @@ if( !function_exists('houzez_half_map_listings') ) {
             if( isset( $_POST['max-price'] ) && !empty($_POST['max-price']) ) {
                 $max_price = $_POST['max-price'];
             }
-            if( isset( $_POST['min-area'] ) && !empty($_POST['min-area']) ) {
-                $min_area = $_POST['min-area'];
-            }
-            if( isset( $_POST['max-area'] ) && !empty($_POST['max-area']) ) {
-                $max_area = $_POST['max-area'];
-            }
+            // if( isset( $_POST['min-area'] ) && !empty($_POST['min-area']) ) {
+            //     $min_area = $_POST['min-area'];
+            // }
+            // if( isset( $_POST['max-area'] ) && !empty($_POST['max-area']) ) {
+            //     $max_area = $_POST['max-area'];
+            // }
         }
         if( !empty( $min_price ) && !empty( $max_price ) ) {
             $search_parameters .= esc_html__('From', 'houzez').' '.esc_attr( $min_price ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_price ).', ';
         }
-        if( !empty( $min_price ) && !empty( $max_price ) ) {
-            $search_parameters .= esc_html__('Area', 'houzez').' '.esc_attr( $min_area ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_area );
-        }
+        // if( !empty( $min_price ) && !empty( $max_price ) ) {
+        //     $search_parameters .= esc_html__('Area', 'houzez').' '.esc_attr( $min_area ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_area );
+        // }
         echo json_encode(array(
             'data' => $az_content_temp,
             'query' => base64_encode(serialize($az_temp_query_args)),

@@ -79,6 +79,7 @@ $copy_rights = houzez_option('copy_rights'); ?>
 <!--end footer section-->
 
 <?php wp_footer(); ?>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
 
 </body>
 </html>

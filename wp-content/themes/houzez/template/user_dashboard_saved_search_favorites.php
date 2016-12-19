@@ -19,7 +19,7 @@ if(is_user_logged_in()){
     $fav_ids = 'houzez_favorites-'.$userID;
     $fav_ids = get_option( $fav_ids );
 } else {
-    $results = unserialize(base64_decode($_COOKIE['az_saved_search']));
+    $results = isset($_COOKIE['az_saved_search'])?unserialize(base64_decode($_COOKIE['az_saved_search'])):'';
 
     $fav_ids = unserialize(base64_decode($_COOKIE['az_favorites']));
 }
@@ -99,8 +99,9 @@ get_header();
 			        <div class="account-block">
 			            <div class="saved-search-list">
 			                <?php
-
-			                if ( sizeof( $results ) !== 0 ) :
+			                // echo 111;
+			                // print_r( gettype($results) );
+			                if ( sizeof( $results ) !== 0 && isset($_COOKIE['az_saved_search']) ) :
 
 			                    foreach ( $results as $az_search_key => $houzez_search_data ) :
 

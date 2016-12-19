@@ -4,37 +4,59 @@ $search_parameters = $min_price = $max_price = $min_area = $max_area = '';
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if( isset( $_GET['type'] ) && !empty($_GET['type']) ) {
         $search_parameters = $_GET['type'].', ';
+    } elseif( isset( $_SESSION['az_half_map_type'] ) && !empty($_SESSION['az_half_map_type']) ) {
+        $search_parameters = $_SESSION['az_half_map_type'].', ';
     }
     if( isset( $_GET['bedrooms'] ) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
         $search_parameters .= $_GET['bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
+    } elseif( isset( $_SESSION['az_half_map_bedrooms'] ) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any') {
+        $search_parameters .= $_SESSION['az_half_map_bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
     }
     if( isset( $_GET['bathrooms'] ) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
         $search_parameters .= $_GET['bathrooms'].' '.esc_html__('Bathrooms', 'houzez').', ';
+    } elseif( isset( $_SESSION['az_half_map_bathrooms'] ) && !empty($_SESSION['az_half_map_bathrooms']) && $_SESSION['az_half_map_bathrooms'] != 'any') {
+        $search_parameters .= $_SESSION['az_half_map_bathrooms'].' '.esc_html__('Bathrooms', 'houzez').', ';
     }
     if( isset( $_GET['status'] ) && !empty($_GET['status']) ) {
         $search_parameters .= $_GET['status'].', ';
+    } elseif( $_SESSION['az_half_map_status'] && !empty($_SESSION['az_half_map_status']) ) {
+        $search_parameters .= $_SESSION['az_half_map_status'].', ';
     }
-    if( isset( $_GET['location'] ) && !empty($_GET['location']) ) {
-        $search_parameters .= esc_html__('in', 'houzez').' '.$_GET['location'].', ';
-    }
+    // if( isset( $_GET['location'] ) && !empty($_GET['location']) ) {
+    //     $search_parameters .= esc_html__('in', 'houzez').' '.$_GET['location'].', ';
+    // }
     if( isset( $_GET['area'] ) && !empty($_GET['area']) ) {
         $search_parameters .= $_GET['area'].', ';
+    } elseif( isset( $_SESSION['az_half_map_area'] ) && !empty($_SESSION['az_half_map_area']) ) {
+        if(is_array($_SESSION['az_half_map_area'])){
+            foreach($_SESSION['az_half_map_area'] as $az_val){
+                $search_parameters .= $az_val.', ';
+            }
+        } else{
+            $search_parameters .= $_SESSION['az_half_map_area'].', ';
+        }
     }
     if( isset( $_GET['keyword'] ) && !empty($_GET['keyword']) ) {
         $search_parameters .= $_GET['keyword'].', ';
+    } elseif( isset( $_SESSION['az_half_map_keyword'] ) && !empty($_SESSION['az_half_map_keyword']) ) {
+        $search_parameters .= $_SESSION['az_half_map_keyword'].', ';
     }
     if( isset( $_GET['min-price'] ) && !empty($_GET['min-price']) ) {
         $min_price = $_GET['min-price'];
+    } elseif( isset( $_SESSION['az_half_map_min_price'] ) && !empty($_SESSION['az_half_map_min_price']) ) {
+        $min_price = $_SESSION['az_half_map_min_price'];
     }
     if( isset( $_GET['max-price'] ) && !empty($_GET['max-price']) ) {
         $max_price = $_GET['max-price'];
+    } elseif( isset( $_SESSION['az_half_map_max_price'] ) && !empty($_SESSION['az_half_map_max_price']) ) {
+        $max_price = $_SESSION['az_half_map_max_price'];
     }
-    if( isset( $_GET['min-area'] ) && !empty($_GET['min-area']) ) {
-        $min_area = $_GET['min-area'];
-    }
-    if( isset( $_GET['max-area'] ) && !empty($_GET['max-area']) ) {
-        $max_area = $_GET['max-area'];
-    }
+    // if( isset( $_GET['min-area'] ) && !empty($_GET['min-area']) ) {
+    //     $min_area = $_GET['min-area'];
+    // }
+    // if( isset( $_GET['max-area'] ) && !empty($_GET['max-area']) ) {
+    //     $max_area = $_GET['max-area'];
+    // }
 }else if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if( isset( $_POST['type'] ) && !empty($_POST['type']) ) {
         $search_parameters = $_POST['type'].', ';
@@ -73,9 +95,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 if( !empty( $min_price ) && !empty( $max_price ) ) {
     $search_parameters .= esc_html__('From', 'houzez').' '.esc_attr( $min_price ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_price ).', ';
 }
-if( !empty( $min_price ) && !empty( $max_price ) ) {
-    $search_parameters .= esc_html__('Area', 'houzez').' '.esc_attr( $min_area ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_area );
-}
+// if( !empty( $min_price ) && !empty( $max_price ) ) {
+//     $search_parameters .= esc_html__('Area', 'houzez').' '.esc_attr( $min_area ).' '.esc_html__('to', 'houzez').' '.esc_attr( $max_area );
+// }
 ?>
 <?php //print_r($latest_listing_args); ?>
 <?php //echo 1231231; ?>
