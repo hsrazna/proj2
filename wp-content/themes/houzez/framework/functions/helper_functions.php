@@ -424,7 +424,8 @@ if( !function_exists('houzez_number_list') ) {
                 if( isset( $_GET['bedrooms'] ) ) {
                     $searched_num = $_GET['bedrooms'];
                 } elseif(is_page_template( 'template/property-listings-map.php' )){
-                    if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                    if(get_the_ID() == 1648){
                         $searched_num = $_SESSION['az_half_map_bedrooms'];
                     }
                     // echo "111";
@@ -453,7 +454,9 @@ if( !function_exists('houzez_number_list') ) {
                 if( isset( $_GET['bathrooms'] ) ) {
                     $searched_num = $_GET['bathrooms'];
                 } elseif(is_page_template( 'template/property-listings-map.php' )){
-                    $searched_num = $_SESSION['az_half_map_bathrooms'];
+                    if(get_the_ID() == 1648){
+                        $searched_num = $_SESSION['az_half_map_bathrooms'];
+                    }
                 }
 
                 $adv_baths_list = houzez_option('adv_baths_list');

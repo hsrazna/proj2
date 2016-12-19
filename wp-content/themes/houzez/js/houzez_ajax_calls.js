@@ -3620,6 +3620,7 @@ jQuery(document).ready(function ($) {
             });
         });
         $('body').on('keyup', 'input[name="keyword"]', function(){
+            // alert(1);
             $.ajax({
                 url: ajaxurl,
                 // dataType: 'JSON',

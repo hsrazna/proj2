@@ -37,13 +37,13 @@ if( isset( $_GET['radius'] ) ) {
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <form method="get" action="<?php echo esc_url( $search_template ); ?>">
+                <form method="post" action="<?php echo esc_url( $search_template ); ?>">
                     <div class="single-search-wrap">
                         <div class="single-search-inner advance-btn">
                             <button class="table-cell text-left" type="button"><i class="fa fa-gear"></i></button>
                         </div>
                         <div class="single-search-inner single-search">
-                            <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
+                            <input type="text" class="form-control" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : $_SESSION['keyword'] ? $_SESSION['keyword'] : ''; ?>" name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                         </div>
                         <div class="single-search-inner single-seach-btn">
                             <button class="table-cell text-right" type="submit"><i class="fa fa-search"></i></button>

@@ -4,22 +4,22 @@ $search_parameters = $min_price = $max_price = $min_area = $max_area = '';
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     if( isset( $_GET['type'] ) && !empty($_GET['type']) ) {
         $search_parameters = $_GET['type'].', ';
-    } elseif( isset( $_SESSION['az_half_map_type'] ) && !empty($_SESSION['az_half_map_type']) ) {
+    } elseif( isset( $_SESSION['az_half_map_type'] ) && !empty($_SESSION['az_half_map_type']) && get_the_ID() == 1648 ) {
         $search_parameters = $_SESSION['az_half_map_type'].', ';
     }
     if( isset( $_GET['bedrooms'] ) && !empty($_GET['bedrooms']) && $_GET['bedrooms'] != 'any') {
         $search_parameters .= $_GET['bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
-    } elseif( isset( $_SESSION['az_half_map_bedrooms'] ) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any') {
+    } elseif( isset( $_SESSION['az_half_map_bedrooms'] ) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any' && get_the_ID() == 1648) {
         $search_parameters .= $_SESSION['az_half_map_bedrooms'].' '.esc_html__('Bedrooms', 'houzez').', ';
     }
     if( isset( $_GET['bathrooms'] ) && !empty($_GET['bathrooms']) && $_GET['bathrooms'] != 'any') {
         $search_parameters .= $_GET['bathrooms'].' '.esc_html__('Bathrooms', 'houzez').', ';
-    } elseif( isset( $_SESSION['az_half_map_bathrooms'] ) && !empty($_SESSION['az_half_map_bathrooms']) && $_SESSION['az_half_map_bathrooms'] != 'any') {
+    } elseif( isset( $_SESSION['az_half_map_bathrooms'] ) && !empty($_SESSION['az_half_map_bathrooms']) && $_SESSION['az_half_map_bathrooms'] != 'any' && get_the_ID() == 1648) {
         $search_parameters .= $_SESSION['az_half_map_bathrooms'].' '.esc_html__('Bathrooms', 'houzez').', ';
     }
     if( isset( $_GET['status'] ) && !empty($_GET['status']) ) {
         $search_parameters .= $_GET['status'].', ';
-    } elseif( $_SESSION['az_half_map_status'] && !empty($_SESSION['az_half_map_status']) ) {
+    } elseif( $_SESSION['az_half_map_status'] && !empty($_SESSION['az_half_map_status']) && get_the_ID() == 1648 ) {
         $search_parameters .= $_SESSION['az_half_map_status'].', ';
     }
     // if( isset( $_GET['location'] ) && !empty($_GET['location']) ) {
@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     // }
     if( isset( $_GET['area'] ) && !empty($_GET['area']) ) {
         $search_parameters .= $_GET['area'].', ';
-    } elseif( isset( $_SESSION['az_half_map_area'] ) && !empty($_SESSION['az_half_map_area']) ) {
+    } elseif( isset( $_SESSION['az_half_map_area'] ) && !empty($_SESSION['az_half_map_area']) && get_the_ID() == 1648 ) {
         if(is_array($_SESSION['az_half_map_area'])){
             foreach($_SESSION['az_half_map_area'] as $az_val){
                 $search_parameters .= $az_val.', ';
@@ -38,17 +38,17 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     }
     if( isset( $_GET['keyword'] ) && !empty($_GET['keyword']) ) {
         $search_parameters .= $_GET['keyword'].', ';
-    } elseif( isset( $_SESSION['az_half_map_keyword'] ) && !empty($_SESSION['az_half_map_keyword']) ) {
+    } elseif( isset( $_SESSION['az_half_map_keyword'] ) && !empty($_SESSION['az_half_map_keyword']) && get_the_ID() == 1648 ) {
         $search_parameters .= $_SESSION['az_half_map_keyword'].', ';
     }
     if( isset( $_GET['min-price'] ) && !empty($_GET['min-price']) ) {
         $min_price = $_GET['min-price'];
-    } elseif( isset( $_SESSION['az_half_map_min_price'] ) && !empty($_SESSION['az_half_map_min_price']) ) {
+    } elseif( isset( $_SESSION['az_half_map_min_price'] ) && !empty($_SESSION['az_half_map_min_price']) && get_the_ID() == 1648 ) {
         $min_price = $_SESSION['az_half_map_min_price'];
     }
     if( isset( $_GET['max-price'] ) && !empty($_GET['max-price']) ) {
         $max_price = $_GET['max-price'];
-    } elseif( isset( $_SESSION['az_half_map_max_price'] ) && !empty($_SESSION['az_half_map_max_price']) ) {
+    } elseif( isset( $_SESSION['az_half_map_max_price'] ) && !empty($_SESSION['az_half_map_max_price']) && get_the_ID() == 1648 ) {
         $max_price = $_SESSION['az_half_map_max_price'];
     }
     // if( isset( $_GET['min-area'] ) && !empty($_GET['min-area']) ) {
@@ -107,10 +107,10 @@ if( !empty( $min_price ) && !empty( $max_price ) ) {
         <div class="input-level-down input-icon">
             <input id="save_search_form_params" placeholder="<?php esc_html_e('Search Listing', 'houzez'); ?>" class="form-control" readonly value="<?php echo esc_attr( $search_parameters ); ?>">
             <input type="hidden" name="search_args" value='<?php print base64_encode( serialize( $latest_listing_args/*$search_qry*/ ) ); ?>'>
-            <input type="hidden" name="search_URI" value="<?php echo $_SERVER['REQUEST_URI'] ?>">
+            <input type="hidden" name="search_URI" value="<?php echo '/advanced-search/' ?>">
             <input type="hidden" name="action" value='houzez_save_search'>
             <input type="hidden" name="houzez_save_search_ajax" value="<?php echo wp_create_nonce('houzez-save-search-nounce')?>">
         </div>
-        <span  id="save_search_click" class="save-btn"><?php esc_html_e( 'Save', 'houzez' ); ?></span>
+        <span id="save_search_click" class="save-btn"><?php esc_html_e( 'Save', 'houzez' ); ?></span>
     </form>
 </div>

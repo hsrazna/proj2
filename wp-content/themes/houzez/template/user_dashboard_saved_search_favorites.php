@@ -11,13 +11,14 @@ global $houzez_local, $current_user;
 
 global $wpdb;
 if(is_user_logged_in()){
-    $table_name     = $wpdb->prefix . 'houzez_search';
-    $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
-
+    
     $userID         = $current_user->ID;
     $user_login     = $current_user->user_login;
     $fav_ids = 'houzez_favorites-'.$userID;
     $fav_ids = get_option( $fav_ids );
+    $table_name     = $wpdb->prefix . 'houzez_search';
+    $results        = $wpdb->get_results( 'SELECT * FROM ' . $table_name . ' WHERE auther_id = ' . $userID, OBJECT );
+
 } else {
     $results = isset($_COOKIE['az_saved_search'])?unserialize(base64_decode($_COOKIE['az_saved_search'])):'';
 
@@ -48,7 +49,7 @@ get_header();
 			    <div class="profile-area-content">
 			    <div class="account-block">
 			        <!--start property items-->
-			        <div class="property-listing list-view">
+			        <div class="property-listing list-view az-margin-none">
 			            <div class="row">
 
 			                <?php
@@ -64,7 +65,9 @@ get_header();
 			                    wp_reset_postdata();
 			                } else {
 			                    echo '<div class="col-sm-12">';
+			                    echo '<div class="az-message">';
 			                    echo $houzez_local['favorite_not_found'];
+			                    echo '</div>';
 			                    echo '</div>';
 			                }
 			                ?>
@@ -100,7 +103,7 @@ get_header();
 			            <div class="saved-search-list">
 			                <?php
 			                // echo 111;
-			                // print_r( gettype($results) );
+			                // print_r( $results );
 			                if ( sizeof( $results ) !== 0 && isset($_COOKIE['az_saved_search']) ) :
 
 			                    foreach ( $results as $az_search_key => $houzez_search_data ) :

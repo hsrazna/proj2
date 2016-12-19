@@ -1154,7 +1154,8 @@ if( !function_exists('houzez_property_search_2') ) {
                     }
                 }
             } elseif(is_page_template( 'template/property-listings-map.php' )){
-                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                if(get_the_ID() == 1648){
                     if(isset($_SESSION['az_half_map_keyword']) && $_SESSION['az_half_map_keyword'] != ''){
                         if ($keyword_field == 'prop_address') {
                             $meta_keywork = esc_html(wp_kses($_SESSION['az_half_map_keyword'], $allowed_html));
@@ -1239,7 +1240,8 @@ if( !function_exists('houzez_property_search_2') ) {
                     'compare' => '=',
                 );
             } elseif(is_page_template( 'template/property-listings-map.php' )){
-                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                if(get_the_ID() == 1648){
+                // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
                     if(isset($_SESSION['az_half_map_bedrooms']) && !empty($_SESSION['az_half_map_bedrooms']) && $_SESSION['az_half_map_bedrooms'] != 'any'){
                         $bedrooms = sanitize_text_field($_SESSION['az_half_map_bedrooms']);
                         $meta_query[] = array(
@@ -1396,7 +1398,8 @@ if( !function_exists('houzez_property_search_2') ) {
                     'terms' => $_GET['status']
                 );
             } elseif(is_page_template( 'template/property-listings-map.php' )){
-                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                if(get_the_ID() == 1648){
+                // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
                     if(isset($_SESSION['az_half_map_status']) && !empty($_SESSION['az_half_map_status']) && $_SESSION['az_half_map_status'] != 'all'){
                         $tax_query[] = array(
                             'taxonomy' => 'property_status',
@@ -1414,7 +1417,8 @@ if( !function_exists('houzez_property_search_2') ) {
                     'terms' => $_GET['type']
                 );
             } elseif(is_page_template( 'template/property-listings-map.php' )){
-                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                if(get_the_ID() == 1648){
+                // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
                     if(isset($_SESSION['az_half_map_type']) && !empty($_SESSION['az_half_map_type']) && $_SESSION['az_half_map_type'] != 'all'){
                         $tax_query[] = array(
                             'taxonomy' => 'property_type',
@@ -1457,7 +1461,8 @@ if( !function_exists('houzez_property_search_2') ) {
                     'terms' => $_GET['area']
                 );
             } elseif(is_page_template( 'template/property-listings-map.php' )){
-                if('/advanced-search/' == $_SERVER['REQUEST_URI']){
+                if(get_the_ID() == 1648){
+                // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
                     if(isset($_SESSION['az_half_map_area']) && !empty($_SESSION['az_half_map_area']) && $_SESSION['az_half_map_area'] != 'all'){
                         $tax_query[] = array(
                             'taxonomy' => 'property_area',
