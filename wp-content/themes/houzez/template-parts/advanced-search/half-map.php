@@ -240,7 +240,7 @@ if ($adv_show_hide['keyword'] != 1) {
                                     <div class="form-group table-list search-long">
                                         <div class="input-search input-icon">
                                             <input type="text" class="form-control"
-                                                   value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : isset ($_POST['keyword'])?$_POST['keyword']:isset($_SESSION['az_half_map_keyword'])?$_SESSION['az_half_map_keyword']:''; ?>"
+                                                   value="<?php echo isset ($_GET['keyword']) ? $_GET['keyword'] : isset ($_POST['keyword'])?$_POST['keyword']:isset($_SESSION['az_half_map_keyword'])&&(get_the_ID() == 1648)?$_SESSION['az_half_map_keyword']:''; ?>"
                                                    name="keyword" placeholder="<?php echo $keyword_field_placeholder; ?>">
                                         </div>
                                     </div>

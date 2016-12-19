@@ -643,7 +643,11 @@ if( !function_exists('az_call_back') ) {
                     'msg' => esc_html__( 'Your request is sent!', 'houzez')
                 ));
                 wp_die();
-            } elseif($userID == $postId && $userLogin == $postName && !empty($az_phone)){
+            } elseif($userID == $postId && $userLogin == $postName){
+                if( empty( $az_phone ) ) {
+                    echo json_encode( array( 'success' => false, 'msg' => esc_html__('The phone field is empty.', 'houzez') ) );
+                    wp_die();
+                }
                 $subject  = "Новое сообщение";
                 $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
                 $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
@@ -669,6 +673,24 @@ if( !function_exists('az_call_back') ) {
                 wp_die();
             }
         } else {
+            if( empty( $az_name ) ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The name field is empty.', 'houzez') ) );
+                wp_die();
+            }
+            // if( empty( $az_email ) ) {
+            //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            //     wp_die();
+            // }
+            if( empty( $az_phone ) ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The phone field is empty.', 'houzez') ) );
+                wp_die();
+            }
+            // if( username_exists( $usermane ) ) {
+            
+            // if( !is_email( $az_email ) ) {
+            //     echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            //     wp_die();
+            // }
             $subject  = "Новое сообщение";
             $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
             $headers .= "Reply-To: ". "\r\n";

@@ -1250,7 +1250,7 @@ jQuery(document).ready(function ($) {
 
             var $form = currnt.parents('form');
             var $messages = currnt.parents('.class-for-register-msg').find('.houzez_messages_register');
-            alert($form.serialize());
+            // alert($form.serialize());
             $.ajax({
                 type: 'post',
                 url: ajaxurl,
@@ -3580,7 +3580,9 @@ jQuery(document).ready(function ($) {
                     if( res.success ) {
                         $('#az_msg_reset').html('<p class="success text-success"><i class="fa fa-check"></i> '+res.msg+'</p>');
                     } else {
-                        console.log( res );
+                        $('#az_msg_reset').html('<p class="error text-danger"><i class="fa fa-close"></i> '+res.msg+'</p>');
+                        
+                        // console.log( res );
                     }
                 },
                 error: function (xhr, status, error) {
