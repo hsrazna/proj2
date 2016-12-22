@@ -275,6 +275,17 @@
     width: 700px !important;
 }
 
+.az-tels{
+    float: right;
+    line-height: 45px;
+    span, a{
+        strong{
+            font-family: "OpenSans-Semibold" !important;
+            color: #000;
+        }
+    }
+}
+
 .main-nav2{
     float: right;
     ul{

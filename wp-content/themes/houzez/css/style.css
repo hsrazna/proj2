@@ -219,6 +219,13 @@
 .header-section-4.nav-right .header-right {
   width: 700px !important; }
 
+.az-tels {
+  float: right;
+  line-height: 45px; }
+  .az-tels span strong, .az-tels a strong {
+    font-family: "OpenSans-Semibold" !important;
+    color: #000; }
+
 .main-nav2 {
   float: right; }
   .main-nav2 ul {

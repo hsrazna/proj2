@@ -52,6 +52,18 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                 ));
             ?>
         </nav>
+        <div class="az-tels">
+            <span><?php //echo geoip_continent_code_by_name(); ?></span>
+            <a href="tel:+66600035625"><strong>(+66 / 0) 60 00 35 625</strong></a>
+            <span class="az-city">Пхукет</span>
+            <span class="az-time"><strong>00<span>:</span>00</strong></span>
+             - 
+            <span class="az-city">Москва</span>
+            <span class="az-time2"><strong>00<span>:</span>00</strong></span>
+            <a href="tel:+74996771664"><strong>(+7 / 8) 499 677 1664</strong></a>
+        </div>
+<!-- $_SERVER['REMOTE_ADDR'] -->
+
     </div>
     <div class="clearfix"></div>
 </div>
