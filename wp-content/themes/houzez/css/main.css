@@ -8328,7 +8328,8 @@ img {
   text-align: center;
 }
 .actions li > span:hover {
-  background-color: #00aeef;
+  /*background-color: #00aeef;*/
+  background-color: #bf1e2e;
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -8337,7 +8338,8 @@ img {
   position: absolute;
   right: -4px;
   bottom: 35px;
-  background-color: #00aeef;
+  /*background-color: #00aeef;*/
+  background-color: #bf1e2e;
   white-space: nowrap;
   display: block;
   padding: 0 5px;
@@ -8409,7 +8411,8 @@ img {
   left: inherit;
   z-index: 2;
   border-top-color: transparent;
-  border-left-color: #00aeef;
+  /*border-left-color: #00aeef;*/
+  border-left-color: #bf1e2e;
 }
 
 .item-thumb, figure {

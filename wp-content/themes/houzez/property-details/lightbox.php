@@ -6,6 +6,7 @@
  * Time: 2:06 PM
  */
 global $post, $prop_address;
+$mobile_logo = houzez_option( 'mobile_logo', false, 'url' );
 $lightbox_agent_contact = houzez_option( 'lightbox_agent_cotnact' );
 $enableDisable_agent_forms = houzez_option('agent_forms');
 
@@ -36,7 +37,10 @@ if( $prop_agent_display != '-1' && $agent_display_option == 'agent_info' ) {
                         <p>
                             <?php if( !empty( $lightbox_logo ) ) { ?>
                             <span>
-                                <img src="<?php echo esc_url( $lightbox_logo ); ?>" alt="<?php the_title(); ?>" width="86" height="13">
+                                <!-- <img src="<?php echo esc_url( $lightbox_logo ); ?>" alt="<?php the_title(); ?>" width="86" height="13"> -->
+                                <?php if( !empty( $mobile_logo ) ) { ?>
+                                   <img src="<?php echo esc_url( $mobile_logo ); ?>" alt="Mobile logo">
+                                <?php } ?>
                             </span>
                             <?php } ?>
                             <span class="hidden-xs">

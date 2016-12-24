@@ -25,6 +25,7 @@
 
                 // Pad the minutes and seconds with leading zeros, if required
                 currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+                currentMinutes_Moscow = ( currentMinutes_Moscow < 10 ? "0" : "" ) + currentMinutes_Moscow;
                 // currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
 
                 // Choose either "AM" or "PM" as appropriate
