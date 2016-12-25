@@ -6,10 +6,13 @@
     
     // alert(1);
     $(document).ready(function(){
+
         var az_gmt_moscow = (new Date().getTimezoneOffset() + 180) * 60 * 1000;
         var az_gmt_phuket = (new Date().getTimezoneOffset() + 420) * 60 * 1000;
         // alert(az_gmt_moscow);
         var az_interval = 0;
+
+
         setInterval(function( )
             {
                 var currentTime = new Date ( );
@@ -47,7 +50,7 @@
 
                 az_interval++;
 
-             }, 1000);
+            }, 1000);
         // alert(1);
 
         // var az_number = $(".az-number");
@@ -220,6 +223,7 @@
             // alert(az_slide_num);
         });
     });
+
     var windowSizeload = function(){
         // alert(1);
         if(window.matchMedia('(min-width: 992px)').matches){
@@ -255,6 +259,6 @@
     // });
     // $(window).on('load', windowSizeload);
     $(window).on('resize', windowSizeresize);
-    
+    // alert(1);
 // });
 })(jQuery);

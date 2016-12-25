@@ -14,7 +14,7 @@ var addresstocoordination = function(city){
 }
 
 $(document).ready(function(){
-    
+    // alert(1);
 for(var i=0; i<az_json.length; i++){
     var temp_gps = az_json[i].gps.split(',');
     az_json[i].gps = (Number(temp_gps[0]) + ((Math.random() * 20 - 10)/1000)) + ',' 
