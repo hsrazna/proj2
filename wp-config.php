@@ -38,14 +38,25 @@
 // define('DB_COLLATE', '');
 
 // for db starasia
-define('DB_NAME', 'starasia');
-define('DB_USER', 'root');
+if($_SERVER['HTTP_HOST'] == 'starasiaphuket.com' || $_SERVER['HTTP_HOST'] == 'starasia.phuketeasy.com'){
+
+define('DB_NAME', 'starasia');
+define('DB_USER', 'starasia');
+define('DB_PASSWORD', 'dEgWtnJmpqM4kAtq');
+define('DB_HOST', 'localhost'); 
+define('DB_CHARSET', 'utf8');
+define('DB_COLLATE', '');
+
+} else {
+
+define('DB_NAME', 'starasia');
+define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost'); 
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
-
+}
 /**#@+
  * Уникальные ключи и соли для аутентификации.
  *
