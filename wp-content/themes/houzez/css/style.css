@@ -61,6 +61,10 @@
 .az-second2 .bootstrap-select.open ~ .az-abs {
   opacity: 1; }
 
+.az-sticky .advanced-search {
+  padding: 20px;
+  background-color: #fff; }
+
 .az-stamp {
   position: absolute;
   top: 50px;
@@ -247,14 +251,18 @@
   float: right; }
   .user a {
     text-align: center !important;
-    width: 45px !important; }
+    width: 35px !important;
+    line-height: 35px !important;
+    border-radius: 4px;
+    font-size: 16px !important; }
     .user a .fa {
-      margin: 0px !important; }
+      margin: 0px !important;
+      line-height: 35px; }
     .user a .fa-user {
       display: none; }
   .user a:hover {
-    background: transparent !important;
-    color: #000 !important; }
+    color: #fff !important;
+    background: #bf1e2e !important; }
     .user a:hover .fa-user {
       display: block; }
     .user a:hover .fa-user-o {
@@ -341,27 +349,36 @@
     display: inline-block;
     text-align: center !important;
     width: 35px !important;
+    color: #fff;
+    line-height: 35px;
+    border-radius: 4px; }
+    .ls-favorites a .fa {
+      line-height: 35px;
+      margin: 0px !important; }
+  .ls-favorites a:hover {
     color: #fff; }
 
 .header-right .ls-favorites {
   line-height: 60px;
   float: right;
   color: #fff; }
+  .header-right .ls-favorites a:hover {
+    color: #fff !important; }
+    .header-right .ls-favorites a:hover .fa-star {
+      display: block; }
+    .header-right .ls-favorites a:hover .fa-star-o {
+      display: none; }
   .header-right .ls-favorites a {
-    font-size: 16px !important;
+    font-size: 17px !important;
     color: #000 !important;
     line-height: normal;
     display: inline-block;
     text-align: center !important;
-    width: 45px !important; }
+    width: 35px !important; }
     .header-right .ls-favorites a .fa {
       margin: 0px !important; }
     .header-right .ls-favorites a .fa-star {
       display: none; }
-  .header-right .ls-favorites a:hover .fa-star {
-    display: block; }
-  .header-right .ls-favorites a:hover .fa-star-o {
-    display: none; }
 
 .az-star {
   float: right;
@@ -370,10 +387,10 @@
   margin-right: 15px;
   color: #fff; }
 
-.header-section-4 .navi.main-nav.ls-lg-menu.az-margin-right15 > ul > li {
+.header-section-4 .navi.main-nav.ls-lg-menu > ul > li {
   line-height: 90px; }
 
-.sticky_nav .header-section-4 .navi.main-nav.ls-lg-menu.az-margin-right15 > ul > li {
+.sticky_nav .header-section-4 .navi.main-nav.ls-lg-menu > ul > li {
   line-height: 60px; }
 
 .sticky_nav.houzez-header-main.header-section-4.not-splash-header.nav-right .header-right .user {
@@ -1008,10 +1025,13 @@ input[name="daterange"] {
         margin: 0px !important; }
       .header-right .ls-favorites a .fa-star {
         display: none; }
-    .header-right .ls-favorites a:hover .fa-star {
-      display: block; }
-    .header-right .ls-favorites a:hover .fa-star-o {
-      display: none; }
+    .header-right .ls-favorites a:hover {
+      background: #bf1e2e;
+      color: #fff; }
+      .header-right .ls-favorites a:hover .fa-star {
+        display: block; }
+      .header-right .ls-favorites a:hover .fa-star-o {
+        display: none; }
 
   .az-sm-margin10 {
     margin-bottom: 0px; }

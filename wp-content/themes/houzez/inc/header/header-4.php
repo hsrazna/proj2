@@ -169,12 +169,13 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
                     </div>
                     <?php if(!is_user_logged_in()): ?>
-                    <div class="ls-favorites">
+                    <div class="ls-favorites az-margin-right15">
                         <a href="/favorite/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
                     </div>
                     <?php endif; ?>
                     <?php get_template_part('inc/header/login', 'nav'); ?>
-                    <nav class="navi main-nav ls-lg-menu az-margin-right15">
+                    <!--  az-margin-right15 -->
+                    <nav class="navi main-nav ls-lg-menu">
                         <?php
                         // Pages Menu
                         if ( has_nav_menu( 'main-menu' ) ) :

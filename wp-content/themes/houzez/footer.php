@@ -103,7 +103,13 @@ global $houzez_local;
 <?php } ?>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
 
-<?php wp_footer(); ?>
 
+<?php wp_footer(); ?>
+<script type="text/javascript">
+// jQuery(document).ready(function(){
+//     alert(1);
+// });
+    // alert(1);
+</script>
 </body>
 </html>

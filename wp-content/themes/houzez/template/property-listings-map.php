@@ -66,120 +66,80 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
 <div class="container-fluid">
     <div class="row">
 
-        <!-- <div class="col-md-5 col-sm-5 col-xs-12 no-padding">
-            <div id="houzez-gmap-main" class="fave-screen-fix">
-                <div id="mapViewHalfListings" class="map-half">
-                </div>
-                <div id="houzez-map-loading">
-                    <div class="mapPlaceholder">
-                        <div class="loader-ripple">
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-                <?php wp_nonce_field('houzez_header_map_ajax_nonce', 'securityHouzezHeaderMap', true); ?>
-
-                <div  class="map-arrows-actions">
-                    <button id="listing-mapzoomin" class="map-btn"><i class="fa fa-plus"></i> </button>
-                    <button id="listing-mapzoomout" class="map-btn"><i class="fa fa-minus"></i></button>
-                    <input type="text" id="google-map-search" placeholder="<?php esc_html_e('Google Map Search', 'houzez'); ?>" class="map-search">
-                </div>
-                <div class="map-next-prev-actions">
-                    <ul class="dropdown-menu" aria-labelledby="houzez-gmap-view">
-                        <li><a href="#" class="houzezMapType" data-maptype="roadmap"><span><?php esc_html_e( 'Roadmap', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="satellite"><span><?php esc_html_e( 'Satelite', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="hybrid"><span><?php esc_html_e( 'Hybrid', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="terrain"><span><?php esc_html_e( 'Terrain', 'houzez' ); ?></span></a></li>
-                    </ul>
-                    <button id="houzez-gmap-view" class="map-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-globe"></i> <span><?php esc_html_e( 'View', 'houzez' ); ?></span></button>
-
-                    <button id="houzez-gmap-prev" class="map-btn"><i class="fa fa-chevron-left"></i> <span><?php esc_html_e('Prev', 'houzez'); ?></span></button>
-                    <button id="houzez-gmap-next" class="map-btn"><span><?php esc_html_e('Next', 'houzez'); ?></span> <i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div  class="map-zoom-actions">
-                    <?php if( $geo_location != 0 ) { ?>
-                        <span id="houzez-gmap-location" class="map-btn"><i class="fa fa-map-marker"></i> <span><?php esc_html_e('My location', 'houzez'); ?></span></span>
-                    <?php } ?>
-                    <?php if( $map_fullscreen != 0 ) { ?>
-                        <span id="houzez-gmap-full"  class="map-btn"><i class="fa fa-arrows-alt"></i> <span><?php esc_html_e('Fullscreen', 'houzez'); ?></span></span>
-                    <?php } ?>
-                </div>
-
-            </div>
-        </div> -->
+ 
 
         <div class="col-md-12 col-sm-12 col-xs-12 no-padding">
-        <div class="az-col-map1" style="display:none;">
-            <div id="houzez-gmap-main" class="fave-screen-fix">
-                <div id="mapViewHalfListings" class="map-half">
-                </div>
-                <div id="houzez-map-loading">
-                    <div class="mapPlaceholder">
-                        <div class="loader-ripple">
-                            <div></div>
-                            <div></div>
+            <div class="az-col-map1" style="display:none;">
+                <div id="houzez-gmap-main" class="fave-screen-fix">
+                    <div id="mapViewHalfListings" class="map-half">
+                    </div>
+                    <div id="houzez-map-loading">
+                        <div class="mapPlaceholder">
+                            <div class="loader-ripple">
+                                <div></div>
+                                <div></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <?php wp_nonce_field('houzez_header_map_ajax_nonce', 'securityHouzezHeaderMap', true); ?>
+                    <?php wp_nonce_field('houzez_header_map_ajax_nonce', 'securityHouzezHeaderMap', true); ?>
 
-                <div  class="map-arrows-actions">
-                    <button id="listing-mapzoomin" class="map-btn"><i class="fa fa-plus"></i> </button>
-                    <button id="listing-mapzoomout" class="map-btn"><i class="fa fa-minus"></i></button>
-                    <input type="text" id="google-map-search" placeholder="<?php esc_html_e('Google Map Search', 'houzez'); ?>" class="map-search">
-                </div>
-                <div class="map-next-prev-actions">
-                    <ul class="dropdown-menu" aria-labelledby="houzez-gmap-view">
-                        <li><a href="#" class="houzezMapType" data-maptype="roadmap"><span><?php esc_html_e( 'Roadmap', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="satellite"><span><?php esc_html_e( 'Satelite', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="hybrid"><span><?php esc_html_e( 'Hybrid', 'houzez' ); ?></span></a></li>
-                        <li><a href="#" class="houzezMapType" data-maptype="terrain"><span><?php esc_html_e( 'Terrain', 'houzez' ); ?></span></a></li>
-                    </ul>
-                    <button id="houzez-gmap-view" class="map-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-globe"></i> <span><?php esc_html_e( 'View', 'houzez' ); ?></span></button>
+                    <div  class="map-arrows-actions">
+                        <button id="listing-mapzoomin" class="map-btn"><i class="fa fa-plus"></i> </button>
+                        <button id="listing-mapzoomout" class="map-btn"><i class="fa fa-minus"></i></button>
+                        <input type="text" id="google-map-search" placeholder="<?php esc_html_e('Google Map Search', 'houzez'); ?>" class="map-search">
+                    </div>
+                    <div class="map-next-prev-actions">
+                        <ul class="dropdown-menu" aria-labelledby="houzez-gmap-view">
+                            <li><a href="#" class="houzezMapType" data-maptype="roadmap"><span><?php esc_html_e( 'Roadmap', 'houzez' ); ?></span></a></li>
+                            <li><a href="#" class="houzezMapType" data-maptype="satellite"><span><?php esc_html_e( 'Satelite', 'houzez' ); ?></span></a></li>
+                            <li><a href="#" class="houzezMapType" data-maptype="hybrid"><span><?php esc_html_e( 'Hybrid', 'houzez' ); ?></span></a></li>
+                            <li><a href="#" class="houzezMapType" data-maptype="terrain"><span><?php esc_html_e( 'Terrain', 'houzez' ); ?></span></a></li>
+                        </ul>
+                        <button id="houzez-gmap-view" class="map-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-globe"></i> <span><?php esc_html_e( 'View', 'houzez' ); ?></span></button>
 
-                    <button id="houzez-gmap-prev" class="map-btn"><i class="fa fa-chevron-left"></i> <span><?php esc_html_e('Prev', 'houzez'); ?></span></button>
-                    <button id="houzez-gmap-next" class="map-btn"><span><?php esc_html_e('Next', 'houzez'); ?></span> <i class="fa fa-chevron-right"></i></button>
-                </div>
-                <div  class="map-zoom-actions">
-                    <?php if( $geo_location != 0 ) { ?>
-                        <span id="houzez-gmap-location" class="map-btn"><i class="fa fa-map-marker"></i> <span><?php esc_html_e('My location', 'houzez'); ?></span></span>
-                    <?php } ?>
-                    <?php if( $map_fullscreen != 0 ) { ?>
-                        <span id="houzez-gmap-full"  class="map-btn"><i class="fa fa-arrows-alt"></i> <span><?php esc_html_e('Fullscreen', 'houzez'); ?></span></span>
-                    <?php } ?>
-                </div>
+                        <button id="houzez-gmap-prev" class="map-btn"><i class="fa fa-chevron-left"></i> <span><?php esc_html_e('Prev', 'houzez'); ?></span></button>
+                        <button id="houzez-gmap-next" class="map-btn"><span><?php esc_html_e('Next', 'houzez'); ?></span> <i class="fa fa-chevron-right"></i></button>
+                    </div>
+                    <div  class="map-zoom-actions">
+                        <?php if( $geo_location != 0 ) { ?>
+                            <span id="houzez-gmap-location" class="map-btn"><i class="fa fa-map-marker"></i> <span><?php esc_html_e('My location', 'houzez'); ?></span></span>
+                        <?php } ?>
+                        <?php if( $map_fullscreen != 0 ) { ?>
+                            <span id="houzez-gmap-full"  class="map-btn"><i class="fa fa-arrows-alt"></i> <span><?php esc_html_e('Fullscreen', 'houzez'); ?></span></span>
+                        <?php } ?>
+                    </div>
 
+                </div>
             </div>
-        </div>
-        <div class="az-col-map az-col-map3">
-            <div class="module-half map-module-half fave-screen-fix">
-                <?php get_template_part('template-parts/advanced-search/half-map'); ?>
-                <!--start latest listing module-->
-                <div class="houzez-module">
-                    <!--start list tabs-->
-                    <div class="list-tabs table-list full-width">
-                        <div class="tabs table-cell">
-                            <h2 class="tabs-title"><?php the_title(); ?></h2>
+            <div class="az-col-map az-col-map3">
+             <!-- fave-screen-fix module-half-->
+                <div class="map-module-half az-sticky">
+                    <?php get_template_part('template-parts/advanced-search/half-map'); ?>
+                    <!--start latest listing module-->
+                    <div class="houzez-module">
+                        <!--start list tabs-->
+                        <div class="list-tabs table-list full-width">
+                            <div class="tabs table-cell">
+                                <h2 class="tabs-title"><?php the_title(); ?></h2>
+                            </div>
+                            <div class="sort-tab table-cell text-right">
+                                <span class="view-btn btn-list"><i class="fa fa-th-list"></i></span>
+                                <span class="view-btn btn-grid active"><i class="fa fa-th-large"></i></span>
+                                <span class="view-btn btn-map"><i class="fa fa-columns" aria-hidden="true"></i></span>
+                            </div>
                         </div>
-                        <div class="sort-tab table-cell text-right">
-                            <span class="view-btn btn-list"><i class="fa fa-th-list"></i></span>
-                            <span class="view-btn btn-grid active"><i class="fa fa-th-large"></i></span>
-                            <span class="view-btn btn-map"><i class="fa fa-columns" aria-hidden="true"></i></span>
+                        <!--end list tabs-->
+                        <?php if( 0/*$enable_disable_save_search != 0*/ ) { ?>
+                        <div class="tabs table-cell v-align-top">
+                            <p><?php echo $houzez_local['save_search'];?></p>
                         </div>
-                    </div>
-                    <!--end list tabs-->
-                    <?php if( 0/*$enable_disable_save_search != 0*/ ) { ?>
-                    <div class="tabs table-cell v-align-top">
-                        <p><?php echo $houzez_local['save_search'];?></p>
-                    </div>
-                    <?php } ?>
-                    <?php
-                    if( $enable_disable_save_search != 0 ) {
-                        get_template_part('template-parts/save', 'search');
-                    }?>
-                    <div class="property-listing grid-view">
-                        <div class="row">
+                        <?php } ?>
+                        <?php
+                        if( $enable_disable_save_search != 0 ) {
+                            get_template_part('template-parts/save', 'search');
+                        }?>
+                        <div class="property-listing grid-view">
+                            <div class="row">
                             
                                 
                                 <div id="houzez_ajax_container">
@@ -256,6 +216,7 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
                       <?php get_template_part( 'template-parts/az-form' ); ?>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -264,14 +225,14 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
 
 </div><!-- #section Body -->
 <?php if ( qtrans_getLanguage() == 'en' ) {?>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.js"></script> -->
 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.ru.js"></script>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.ru.js"></script>
+<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/moment.min.ru.js"></script> -->
+<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.ru.js"></script> -->
 <?php } ?>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script>
-<?php wp_footer(); ?>
+<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script> -->
+<?php //wp_footer(); ?>
 <?php //global $max_price, $min_price ?>
 <script type="text/javascript">
     // if(1$( ".price-range-advanced").length > 0 ) {
@@ -279,6 +240,6 @@ $latest_listing_args = houzez_prop_sort ( $latest_listing_args );
         // price_range_main_search( <?php //echo $_SESSION['az_half_map_min_price'] ?>, <?php //echo $_SESSION['az_half_map_max_price'] ?> );
     // }
 </script>
-
+<?php get_footer(); ?>
 </body>
 </html>

@@ -14,9 +14,9 @@ var nice = false;
 "use strict";
 
 /*ajax puller*/
-    
+    // alert($('body').html());
     $(document).ready(function(){
-        
+        // alert(1);
         
         
         var az_number = $(".az-number");
@@ -203,7 +203,7 @@ var nice = false;
     /* ------------------------------------------------------------------------ */
     /*  PAYPAL & Stripe OPTIONS
      /* ------------------------------------------------------------------------ */
-
+// alert(1);
     $('.method-select input').on('change',function () {
         if($(this).is(':checked')) {
             $('.method-option').slideUp();
@@ -1022,6 +1022,8 @@ var nice = false;
             $('.az-col-map1').fadeIn(0);
             $('.az-col-map').addClass('az-col-map2').removeClass('az-col-map3');
             $('#half_map_update').trigger('click');
+            $("#houzez-gmap-main").sticky({topSpacing:0});
+            // alert(1);
         }
     });
 

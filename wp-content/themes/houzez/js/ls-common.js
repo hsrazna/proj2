@@ -7,6 +7,11 @@
     // alert(1);
     $(document).ready(function(){
 
+        // $('.btn-map').click(function(){
+        //     alert(1);
+        // });
+        $('.az-col-map1').theiaStickySidebar({additionalMarginTop: 80});
+
         var az_gmt_moscow = (new Date().getTimezoneOffset() + 180) * 60 * 1000;
         var az_gmt_phuket = (new Date().getTimezoneOffset() + 420) * 60 * 1000;
         // alert(az_gmt_moscow);

@@ -141,19 +141,20 @@ $az_eu = [
 ];
 
     $geoip = geoip_detect2_get_info_from_current_ip();
+    // $geoip = geoip_detect2_get_info_from_ip('93.210.15.68');
     $country = $geoip->raw[ 'country' ][ 'iso_code' ];
     // if ( 'US' !== $country ) {
         
         // $title = str_replace( 'soccer', 'football', $country );
     // }
-    if(isset($az_eu[$country]) && $az_eu[$country] == "EU"):
-
+    $az_is_cookie = (isset($az_eu[$country]) && $az_eu[$country] == "EU")?true:false;
+    $bar_style .= $az_is_cookie ? 'opacity: 1;' : 'opacity: 0; z-index: -1;';
 ?>
 
 
 <div id="cookie-law-bar" style="<?php echo $bar_style; ?>"><?php echo $continent[$country]; ?><?php echo stripslashes_deep(get_option("clb_bar_msg")); ?><button id="cookie-law-btn" style="<?php echo $btn_style; ?>" onclick="clb_accept();"><?php echo esc_attr(get_option("clb_btn_msg")); ?></button></div>
 <!-- End Cookie Bar --><?php
-    endif;
+    // endif;
 }
 add_action('wp_footer', 'clb_output_footer');
 

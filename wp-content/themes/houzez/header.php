@@ -17,10 +17,14 @@ $houzez_local = houzez_get_localization();
 	<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-daterangepicker/daterangepicker.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.css" />
-	<script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAp04yNttlQq-7b4aZI_jL5hQYPm-xtd00hTQOC0OXpAMO40FHAxQMnH50uBbWoKVHwgpklyirDEregg"></script>
+
+	<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/jquery.sticky.js"></script> -->
+	<!-- <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAp04yNttlQq-7b4aZI_jL5hQYPm-xtd00hTQOC0OXpAMO40FHAxQMnH50uBbWoKVHwgpklyirDEregg"></script> -->
 	<!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
 	<!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.js"></script>
 	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script> -->
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ResizeSensor.js"></script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/theia-sticky-sidebar.js"></script>
 	<?php wp_head(); ?>
 </head>
 
