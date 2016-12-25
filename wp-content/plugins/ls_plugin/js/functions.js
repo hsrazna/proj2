@@ -170,7 +170,7 @@ var az_json =
                     'http://kvartirka.com/netcat_files/thumbs/flat/0/132/132815/662019_w468h312.jpg'
                   ]
     },
-        {
+    {
         id : '4',
         card_id : '123',
         card_name : '',
@@ -227,7 +227,7 @@ var az_json =
                     'http://kvartirka.com/netcat_files/thumbs/flat/0/132/132815/662019_w468h312.jpg'
                   ]
     },
-        {
+    {
         id : '5',
         card_id : '123',
         card_name : '',

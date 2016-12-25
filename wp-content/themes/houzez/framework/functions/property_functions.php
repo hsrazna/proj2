@@ -1151,7 +1151,14 @@ if( !function_exists('houzez_property_search_2') ) {
                     $keyword = trim($_GET['keyword']);
                     if (!empty($keyword)) {
                         $search_query['s'] = $keyword;
+                        $meta_query[] = array(
+                            'key' => 'additional_features',
+                            'value' => $keyword,
+                            // 'type' => 'CHAR',
+                            'compare' => 'LIKE',
+                        );
                     }
+
                 }
             } elseif(is_page_template( 'template/property-listings-map.php' )){
                 // if('/advanced-search/' == $_SERVER['REQUEST_URI']){
@@ -1224,6 +1231,12 @@ if( !function_exists('houzez_property_search_2') ) {
                             $keyword = trim($_SESSION['az_half_map_keyword']);
                             if (!empty($keyword)) {
                                 $search_query['s'] = $keyword;
+                                $meta_query[] = array(
+                                    'key' => 'additional_features',
+                                    'value' => $keyword,
+                                    // 'type' => 'CHAR',
+                                    'compare' => 'LIKE',
+                                );
                             }
                         }
                     }
@@ -1593,6 +1606,12 @@ if( !function_exists('houzez_property_search_2') ) {
                     $keyword = trim($_POST['keyword']);
                     if (!empty($keyword)) {
                         $search_query['s'] = $keyword;
+                        $meta_query[] = array(
+                            'key' => 'additional_features',
+                            'value' => $keyword,
+                            // 'type' => 'CHAR',
+                            'compare' => 'LIKE',
+                        );
                     }
                 }
             }
