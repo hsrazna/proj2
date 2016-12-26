@@ -17033,7 +17033,8 @@ body.transparent-yes .banner-caption {
 .article-footer .meta-tags a {
   display: block;
   padding: 4px 10px 5px 10px;
-  background-color: #4cc6f4;
+  /*background-color: #4cc6f4;*/
+  background-color: #bf1e2e;
   color: #fff;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
