@@ -1,4 +1,4 @@
-<div class="next-prev-block next-prev-blog blog-section clearfix">
+<div class="next-prev-block next-prev-blog blog-section clearfix az-blog-section">
 
     <div class="prev-box pull-left">
         <?php
