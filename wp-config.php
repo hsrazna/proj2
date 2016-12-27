@@ -43,7 +43,7 @@ if($_SERVER['HTTP_HOST'] == 'starasiaphuket.com' || $_SERVER['HTTP_HOST'] == 'st
 define('DB_NAME', 'starasia');
 define('DB_USER', 'starasia');
 define('DB_PASSWORD', 'dEgWtnJmpqM4kAtq');
-define('DB_HOST', 'localhost'); 
+define('DB_HOST', '127.0.0.1'); 
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
@@ -52,7 +52,7 @@ define('DB_COLLATE', '');
 define('DB_NAME', 'starasia');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
-define('DB_HOST', 'localhost'); 
+define('DB_HOST', '127.0.0.1'); 
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 

@@ -16943,7 +16943,8 @@ body.transparent-yes .banner-caption {
   color: #000;
 }
 .article-detail .article-title a:hover, .comments-block .article-title a:hover {
-  color: #4cc6f4;
+  /*color: #4cc6f4;*/
+  color: #bf1e2e;
 }
 .article-detail p:last-child, .comments-block p:last-child {
   margin: 0;
