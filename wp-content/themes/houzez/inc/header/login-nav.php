@@ -42,15 +42,16 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 <?php if( is_user_logged_in() ) { ?>
     <ul class="account-action az-ul-account-action">
         <li class="az-li-account-action">
-            <span class="hidden-sm hidden-xs az-login"><?php echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span>
+            <!-- <span class="hidden-sm hidden-xs az-login"><?php //echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span> -->
             <img src="<?php echo esc_url( $user_custom_picture ); ?>" width="36" height="36" class="user-image" alt="profile image">
 
             <div class="account-dropdown">
                 <ul>
+                    <!-- <li><span class="az-login"><?php //echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span></li> -->
                     <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <?php
                         if( $home_link != $dash_profile_link ) {
-                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_html__('My profile', 'houzez') . '</a></li>';
+                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_attr( $current_user->display_name )/*esc_html__('My profile', 'houzez')*/ . '</a></li>';
                         }
                         if( $home_link != $dashboard_listings && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '"> <i class="fa fa-building"></i>' . esc_html__('My Properties', 'houzez') . '</a></li>';
@@ -74,7 +75,7 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                     <?php
                         if( $home_link != $dash_profile_link ) {
-                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '" class="az-text3"> <i class="fa fa-user"></i>' . esc_html__('Профиль', 'houzez') . '</a></li>';
+                            echo '<li ' . esc_attr( $ac_profile ) . ' class="az-continue"> <a href="' . esc_url($dash_profile_link) . '" class="az-text3"> <i class="fa fa-user"></i>' . esc_attr( $current_user->display_name )/*esc_html__('Профиль', 'houzez')*/ . '</a></li>';
                         }
                         if( $home_link != $dashboard_listings && houzez_check_role() ) {
                             echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '" class="az-text3"> <i class="fa fa-building"></i>' . esc_html__('Недвижимость', 'houzez') . '</a></li>';

@@ -90,6 +90,15 @@
 .az-blog-section{
     padding: 38px 0 !important;
 }
+.az-continue{
+    max-width: 265px;
+    a{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;        
+    }
+}
+
 // .az-second2{
 //     opacity: 0.5;
 //     z-index: 9;

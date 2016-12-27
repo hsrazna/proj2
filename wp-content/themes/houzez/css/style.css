@@ -79,6 +79,13 @@
 .az-blog-section {
   padding: 38px 0 !important; }
 
+.az-continue {
+  max-width: 265px; }
+  .az-continue a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+
 .az-stamp {
   position: absolute;
   top: 50px;
