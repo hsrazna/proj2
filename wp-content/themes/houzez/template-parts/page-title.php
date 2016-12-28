@@ -29,7 +29,9 @@ $search_result_layout = houzez_option('search_result_layout');
 
                     } elseif (is_author()) {
                         _e ( 'Author Archive', 'houzez' );
-                    } else {
+                    } elseif(is_tax()){
+                        single_term_title();
+                    }else {
                         if( !is_front_page() ) {
                             the_title();
                         }

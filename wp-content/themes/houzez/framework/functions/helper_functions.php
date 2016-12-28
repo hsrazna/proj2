@@ -3259,11 +3259,16 @@ if ( ! function_exists( 'houzez_breadcrumbs' ) ) {
 
             if (is_category() || is_tax())
             {
+                
                 $term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
 
                 if( $term ) {
 
                     $taxonomy_object = get_taxonomy( get_query_var( 'taxonomy' ) );
+                    if($taxonomy_object->rewrite['slug'] == 'servicescat'){
+                        $az_page_id = 2002;
+                        echo '<li><a href="' . esc_url(get_page_link($az_page_id)) . '">' . esc_attr( get_the_title($az_page_id) ). '</a></li>';
+                    }
                     //echo '<li><a>'.$taxonomy_object->rewrite['slug'].'</a></li>';
 
                     $parent = $term->parent;
@@ -3336,7 +3341,7 @@ if ( ! function_exists( 'houzez_breadcrumbs' ) ) {
             else if (is_single() && !is_attachment()) {
 
                 // custom post type
-                if (get_post_type() != 'post' && get_post_type() != 'property' ) {
+                if (get_post_type() != 'post' && get_post_type() != 'property' && get_post_type() != 'services' ) {
 
                     $post_type = get_post_type_object(get_post_type());
                     //printf($link, get_post_type_archive_link(get_post_type()), $post_type->labels->name);
@@ -3345,9 +3350,28 @@ if ( ! function_exists( 'houzez_breadcrumbs' ) ) {
                         echo esc_attr($delimiter) . $before . get_the_title() . $after;
                     }
                 }
-                elseif( get_post_type() == 'property' ){
+                elseif( get_post_type() == 'property'){
 
                     $terms = get_the_terms( get_the_ID(), 'property_type' );
+                    if( !empty($terms) ) {
+                        foreach ($terms as $term) {
+                            $term_link = get_term_link($term);
+                            // If there was an error, continue to the next term.
+                            if (is_wp_error($term_link)) {
+                                continue;
+                            }
+                            echo '<li><a href="' . esc_url($term_link) . '">' . esc_attr( $term->name ). '</a></li>';
+                        }
+                    }
+
+                    if ($show_current == 1) {
+                        echo esc_attr($delimiter) . $before . get_the_title() . $after;
+                    }
+                }
+                elseif( get_post_type() == 'services'){
+                    $az_page_id = 2002;
+                    echo '<li><a href="' . esc_url(get_page_link($az_page_id)) . '">' . esc_attr( get_the_title($az_page_id) ). '</a></li>';
+                    $terms = get_the_terms( get_the_ID(), 'servicescat' );
                     if( !empty($terms) ) {
                         foreach ($terms as $term) {
                             $term_link = get_term_link($term);

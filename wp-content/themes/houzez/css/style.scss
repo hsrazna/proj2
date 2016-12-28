@@ -98,6 +98,24 @@
         text-overflow: ellipsis;        
     }
 }
+.az-post-card-item{
+    font-size: 0px;
+}
+.az-item-thumb{
+    float: left;
+    width: 100%;
+    // max-width: 300px;
+    // padding: 15px;
+}
+.az-post-card-body{
+    float: left;
+    // min-width: calc(100% - 330px);
+    width: 100%;
+    // margin-left: 15px;
+    .post-card-description{
+        border: none;
+    }
+}
 
 // .az-second2{
 //     opacity: 0.5;
@@ -1155,6 +1173,9 @@ input[name="daterange"]{
 .az-margin-none{
     margin: 0px !important;
 }
+.az-margin-top15{
+    margin-top: 15px;
+}
 .az-message{
     padding: 30px 15px;
 }
@@ -1322,6 +1343,21 @@ input[name="daterange"]{
 }
 
 @media only screen and (min-width: 768px){
+    .az-item-thumb{
+        float: left;
+        width: 40%;
+        max-width: 300px;
+        // padding: 15px;
+    }
+    .az-post-card-body{
+        float: left;
+        min-width: calc(100% - 330px);
+        width: 60%;
+        // margin-left: 15px;
+        .post-card-description{
+            border: none;
+        }
+    }
     // .list-view{
     //     .az-col{
     //         width: 100%;

@@ -525,4 +525,69 @@ add_filter( 'post_row_actions', 'true_duplicate_post_link', 10, 2);
 add_filter( 'page_row_actions', 'true_duplicate_post_link', 10, 2);
 
 
+
+add_action( 'init', 'register_services_post_type' );
+function register_services_post_type() {
+	// Раздел вопроса - faqcat
+	register_taxonomy('servicescat', array('services'), array(
+		'label'                 => 'Раздел услуг', // определяется параметром $labels->name
+		'labels'                => array(
+			'name'              => 'Разделы услуг',
+			'singular_name'     => 'Раздел услуг',
+			'search_items'      => 'Искать Раздел услуг',
+			'all_items'         => 'Все Разделы услуг',
+			'parent_item'       => 'Родит. раздел услуги',
+			'parent_item_colon' => 'Родит. раздел услуги:',
+			'edit_item'         => 'Ред. Раздел услуги',
+			'update_item'       => 'Обновить Раздел услуги',
+			'add_new_item'      => 'Добавить Раздел услуги',
+			'new_item_name'     => 'Новый Раздел услуги',
+			'menu_name'         => 'Раздел услуги',
+		),
+		'description'           => 'Рубрики для раздела услуг', // описание таксономии
+		'public'                => true,
+		'show_in_nav_menus'     => true, // равен аргументу public
+		'show_ui'               => true, // равен аргументу public
+		'show_tagcloud'         => false, // равен аргументу show_ui
+		'hierarchical'          => true,
+		// 'rewrite'               => array('slug'=>'services', 'hierarchical'=>false, 'with_front'=>false, 'feed'=>false ),
+		'show_admin_column'     => true, // Позволить или нет авто-создание колонки таксономии в таблице ассоциированного типа записи. (с версии 3.5)
+	) );
+
+	// тип записи - вопросы - faq
+	register_post_type('services', array(
+		'label'               => 'Услуги',
+		'labels'              => array(
+			'name'          => 'Услуги',
+			'singular_name' => 'Услуга',
+			'menu_name'     => 'Услуги',
+			'all_items'     => 'Все услуги',
+			'add_new'       => 'Добавить услугу',
+			'add_new_item'  => 'Добавить новую услугу',
+			'edit'          => 'Редактировать',
+			'edit_item'     => 'Редактировать услугу',
+			'new_item'      => 'Новая услуга',
+		),
+		'description'         => '',
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_rest'        => true,
+		'rest_base'           => '',
+		'show_in_menu'        => true,
+		'exclude_from_search' => false,
+		'capability_type'     => 'post',
+		'map_meta_cap'        => true,
+		'hierarchical'        => false,
+		// 'rewrite'             => array( 'slug'=>'services/%servicescat%', 'with_front'=>false, 'pages'=>false, 'feeds'=>false, 'feed'=>false ),
+		'has_archive'         => 'services',
+		'query_var'           => true,
+		'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+		'taxonomies'          => array( 'servicescat' ),
+	) );
+
+}
+
+flush_rewrite_rules();
+
 ?>

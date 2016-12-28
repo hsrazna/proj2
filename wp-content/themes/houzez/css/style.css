@@ -86,6 +86,19 @@
     overflow: hidden;
     text-overflow: ellipsis; }
 
+.az-post-card-item {
+  font-size: 0px; }
+
+.az-item-thumb {
+  float: left;
+  width: 100%; }
+
+.az-post-card-body {
+  float: left;
+  width: 100%; }
+  .az-post-card-body .post-card-description {
+    border: none; }
+
 .az-stamp {
   position: absolute;
   top: 50px;
@@ -890,6 +903,9 @@ input[name="daterange"] {
 .az-margin-none {
   margin: 0px !important; }
 
+.az-margin-top15 {
+  margin-top: 15px; }
+
 .az-message {
   padding: 30px 15px; }
 
@@ -1006,6 +1022,18 @@ input[name="daterange"] {
     width: calc(100% - 250px);
     left: 125px; } }
 @media only screen and (min-width: 768px) {
+  .az-item-thumb {
+    float: left;
+    width: 40%;
+    max-width: 300px; }
+
+  .az-post-card-body {
+    float: left;
+    min-width: calc(100% - 330px);
+    width: 60%; }
+    .az-post-card-body .post-card-description {
+      border: none; }
+
   .az-stamp {
     font-size: 30px; }
 
