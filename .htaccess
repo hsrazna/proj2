@@ -6,7 +6,7 @@ RewriteBase /
 RewriteRule ^index\.php$ - [L] 
 
 #START - WP Hide & Security Enhancer
-#WriteCheckString:1482898086_97923
+#WriteCheckString:1482999736_42553
 <IfModule mod_env.c>
 SetEnv HTTP_MOD_REWRITE On
 </IfModule>
