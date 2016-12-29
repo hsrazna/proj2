@@ -3,17 +3,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
-RewriteRule ^index\.php$ - [L] 
-
-#START - WP Hide & Security Enhancer
-#WriteCheckString:1483004675_17497
-<IfModule mod_env.c>
-SetEnv HTTP_MOD_REWRITE On
-</IfModule>
-#END - WP Hide & Security Enhancer
-
-RewriteRule ^starasia-login.php(.*) /wp-login.php$1 [QSA,L]
-RewriteRule ^starasia-login.php/(.*) /wp-login.php$1 [QSA,L]
+RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
