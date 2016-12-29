@@ -6,7 +6,7 @@ RewriteBase /
 RewriteRule ^index\.php$ - [L] 
 
 #START - WP Hide & Security Enhancer
-#WriteCheckString:1482999736_42553
+#WriteCheckString:1483002924_54493
 <IfModule mod_env.c>
 SetEnv HTTP_MOD_REWRITE On
 </IfModule>
@@ -71,14 +71,12 @@ RewriteRule ^user-input.php /wp-comments-post.php [L,QSA]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^wp-comments-post.php /index.php [L]
 
-RewriteRule ^contents/(.+) /wp-content/$1 [L,QSA]
+RewriteRule ^assets/(.+) /wp-content/$1 [L,QSA]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{HTTP_COOKIE} !^.*wordpress_logged_in.*$ [NC]
 RewriteRule ^wp-content(.+) /index.php [L]
 #END - WP Hide & Security Enhancer
 
-RewriteRule ^starasia-login.php(.*) /wp-login.php$1 [QSA,L]
-RewriteRule ^starasia-login.php/(.*) /wp-login.php$1 [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
