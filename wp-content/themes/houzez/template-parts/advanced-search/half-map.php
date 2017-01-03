@@ -136,7 +136,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $_SESSION['az_half_map_bathrooms'] = $bathrooms;
     }
     $_SESSION['az_half_map_bathrooms'] = $searched_num;
-    header("Location: " . $_SERVER['REQUEST_URI']);
+    ?>
+    <script type="text/javascript">
+        document.location.href = document.location.href;
+    </script>
+    <?php
+    // header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
     // print_r($_SESSION);
     // echo $_SERVER["PHP_SELF"];
