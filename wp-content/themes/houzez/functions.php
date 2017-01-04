@@ -588,6 +588,6 @@ function register_services_post_type() {
 
 }
 
-flush_rewrite_rules();
+//flush_rewrite_rules();
 
 ?>
