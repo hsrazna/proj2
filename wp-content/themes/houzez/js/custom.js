@@ -1080,7 +1080,7 @@ var nice = false;
 
         var admin_bar_height = $('#wpadminbar').innerHeight();
         var innerHeaderH = $('.header-section').innerHeight();
-        var outerHeaderH = $('#header-section').innerHeight();
+        var outerHeaderH = 0;//$('#header-section').innerHeight();
         var splashFootH = $('.splash-footer').innerHeight();
         var advancedSearchH = $('.advance-search-header').innerHeight();
         var topbarH = $('.top-bar').innerHeight();
@@ -1097,8 +1097,9 @@ var nice = false;
         }
 
         if(getWindowWidth() >= 992){
+
             if($('#header-section').length){
-                totalTopBarsHeight = outerHeaderH;
+                totalTopBarsHeight = outerHeaderH;//alert(1);
             }
             if($('#header-section').length
                 && $('.advance-search-header').length
@@ -1107,7 +1108,7 @@ var nice = false;
             }
             if($('#header-section').is('*')
                 && $('.advance-search-header').hasClass('search-hidden')) {
-                totalTopBarsHeight = outerHeaderH;
+                totalTopBarsHeight = outerHeaderH;//alert(1);
             }
 
             if($('#header-section').length
@@ -1212,12 +1213,15 @@ var nice = false;
         var topBarsHeight =  getWindowHeight() - totalTopBarsHeight;
         // alert(menu_above);
         if (isChrome){
+            // $('.fave-screen-fix').css( 'height', topBarsHeight-1-menu_above );
             $('.fave-screen-fix').css( 'height', topBarsHeight-1-menu_above );
         }else{
+            // $('.fave-screen-fix').css( 'height', topBarsHeight-menu_above );
             $('.fave-screen-fix').css( 'height', topBarsHeight-menu_above );
         }
 
-        $('.banner-parallax-fix').css( 'height', topBarsHeight-menu_above );
+        // $('.banner-parallax-fix').css( 'height', topBarsHeight-menu_above );
+        $('.banner-parallax-fix').css( 'height', topBarsHeight - menu_above  );
 
         if(getWindowWidth() > 768){
             var image_url = $('.banner-parallax-auto .banner-inner').css('background-image');

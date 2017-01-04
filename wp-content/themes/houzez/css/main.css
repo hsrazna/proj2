@@ -4651,7 +4651,8 @@ input[type="button"].btn-block {
   background-color: transparent;
 }
 .header-section-4 .navi > ul > li.active > a {
-  color: rgba(0, 174, 239, 0.5);
+  /*color: rgba(0, 174, 239, 0.5);*/
+  color: #fff;
   background-color: transparent;
 }
 .header-section-4 .navi > ul > li.active ul {
@@ -4673,8 +4674,17 @@ input[type="button"].btn-block {
 .header-section-4 .account-action li.active .account-dropdown {
   top: 90px;
 }
+.sticky_nav .header-section-4 .account-action li.active .account-dropdown {
+  top: 60px;
+}
+
 .header-section-4 .account-dropdown {
   top: 110px;
+  /* mini phones and down */
+  /* mini phones and down */
+}
+.sticky_nav .header-section-4 .account-dropdown {
+  top: 80px;
   /* mini phones and down */
   /* mini phones and down */
 }

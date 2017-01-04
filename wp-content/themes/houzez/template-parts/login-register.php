@@ -134,6 +134,7 @@ $allowed_html_array = array(
                     </select>
                 <?php endif; ?>
             </div>
+            <?php if(0): ?>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -146,6 +147,7 @@ $allowed_html_array = array(
                     </label>
                 </div>
             </div>
+            <?php endif; ?>
             <?php wp_nonce_field( 'houzez_register_nonce', 'houzez_register_security' ); ?>
             <input type="hidden" name="action" value="houzez_register" id="register_action">
             <?php if ( qtrans_getLanguage() == 'en' ) {?>

@@ -352,7 +352,7 @@ $checked = true;
                                 <!-- </div> -->
                             <!-- </div> -->
                             <?php } ?>
-                            <div class="az-price">
+                            <!-- <div class="az-price">
                                 <input class="az-number" type="text" readonly value="<?=isset($_SESSION['min-price'])?$_SESSION['min-price']:'10000'?>" name="min-price">
                                 <span class="az-before">от</span>
                                 <span class="az-after">฿</span>
@@ -361,9 +361,9 @@ $checked = true;
                                 <input class="az-number" type="text" readonly value="<?=isset($_SESSION['max-price'])?$_SESSION['max-price']:'50000'?>" name="max-price">
                                 <span class="az-before">до</span>
                                 <span class="az-after">฿</span>
-                            </div>
+                            </div> -->
                            
-                            <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.js"></script>
+                            <!-- <script type="text/javascript" src="<?php //echo get_template_directory_uri(); ?>/lib/bootstrap-touchspin-master/src/jquery.bootstrap-touchspin.js"></script> -->
                             <script type="text/javascript">
                              // alert(1);
                                 // $(document).ready(function(){
