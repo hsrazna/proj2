@@ -832,11 +832,14 @@ function qtranxf_use_term($lang, $obj, $taxonomy) {
 		if(isset($q_config['term_name'][$obj->name][$lang])) {
 			//qtranxf_dbg_echo('qtranxf_translate_term: object: ',$obj,true);
 			$obj->name = $q_config['term_name'][$obj->name][$lang];
+			$obj->description = qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage($obj->description);
+
 		} 
 	} elseif(isset($q_config['term_name'][$obj][$lang])) {
 		//qtranxf_dbg_echo('qtranxf_translate_term: string: ',$obj,true);
 		$obj = $q_config['term_name'][$obj][$lang];
 	}
+	// print_r($obj);
 	return $obj;
 }
 

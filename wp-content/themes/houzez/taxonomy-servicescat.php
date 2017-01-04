@@ -42,7 +42,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                         
                                     ?>
                                     <a href="<?php the_permalink(); ?>" class="hover-effect">
-                                        <?php the_post_thumbnail(); ?>
+                                        <?php the_post_thumbnail('medium'); ?>
                                     </a> 
                                     
                                  </figure>
