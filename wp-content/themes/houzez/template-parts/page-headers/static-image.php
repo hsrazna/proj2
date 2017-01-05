@@ -60,7 +60,8 @@ if( !empty( $img_url[0] ) ) {
     </div>
     <div class="banner-caption">
     <?php if(is_front_page()): ?>
-        <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
+        <div class="ls-mask2">
+                            <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
                                     <div class="ls-form-owl">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
@@ -97,6 +98,7 @@ if( !empty( $img_url[0] ) ) {
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
+                                </div>
     <?php else: ?>
         <?php if( $page_head_search != 'yes' ) { ?>
             <h1><?php echo esc_attr($splash_welcome_text); ?></h1>
