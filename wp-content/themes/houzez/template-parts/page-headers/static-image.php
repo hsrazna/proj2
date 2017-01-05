@@ -59,7 +59,45 @@ if( !empty( $img_url[0] ) ) {
         </div>
     </div>
     <div class="banner-caption">
-
+    <?php if(is_front_page()): ?>
+        <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
+                                    <div class="ls-form-owl">
+                                        <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
+                                        <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins">
+                                                <option value>Badrooms</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="any">Any</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                                <option value>Phuket</option>
+                                                <option data-parentcity="" value="Phang Nga">Phang Nga</option>
+                                                <option data-parentcity="" value="Mai Khao">Mai Khao</option>
+                                                <option data-parentcity="" value="Nai Yang">Nai Yang</option>
+                                                <option data-parentcity="" value="East">East</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <input type="text" name="daterange" value="" id="as123"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="ls-submit-owl">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-orange">Go</button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+    <?php else: ?>
         <?php if( $page_head_search != 'yes' ) { ?>
             <h1><?php echo esc_attr($splash_welcome_text); ?></h1>
             <h2><?php echo esc_attr($page_head_subtitle); ?></h2>
@@ -69,7 +107,7 @@ if( !empty( $img_url[0] ) ) {
         if( $page_head_search != 'no' ) {
             get_template_part( 'template-parts/splash', 'search' );
         }?>
-
+    <?php endif; ?>
     </div>
     <?php
     if( $adv_search_which_header_show['header_image'] != 0 ) {

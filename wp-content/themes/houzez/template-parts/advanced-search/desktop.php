@@ -117,9 +117,10 @@ $checked = true;
     <div class="<?php echo esc_attr( $search_width ); ?>">
         <div class="row">
             <div class="col-sm-12">
-                <form method="post" action="<?php echo esc_url( $search_template ); ?>">
+                <!-- <form method="post" action="<?php echo esc_url( $search_template ); ?>"> -->
+                <form method="get" action="/">
 
-
+                <?php if(0): ?>
                     <?php if( $search_style == 'style_1' ) { ?>
 
                     <?php if( $enable_radius_search == 1 ) { ?>
@@ -381,9 +382,9 @@ $checked = true;
                                     //     });
                                     // }
 
-// $('body').on('change','input[name="min-price"], input[name="max-price"], select[name="type"], select[name="area"], select[name="beds"], input[name="keyword"]', function(){
-    // alert(1);
-// });
+                        // $('body').on('change','input[name="min-price"], input[name="max-price"], select[name="type"], select[name="area"], select[name="beds"], input[name="keyword"]', function(){
+                            // alert(1);
+                        // });
                                 // });
                             </script>
                             <!-- <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/js/ls-common.js"></script> -->
@@ -445,6 +446,20 @@ $checked = true;
                     <?php } ?>
 
                     <?php } ?>
+                <?php else: ?>
+                    <div class="form-group search-long">
+                        <div class="search">
+                            <?php if ($adv_show_hide['keyword'] != 1) { ?>
+                            <div class="input-search input-icon">
+                                <input class="form-control" type="text" value="<?php echo isset ( $_GET['keyword'] ) ? $_GET['keyword'] : $_SESSION['keyword'] ? $_SESSION['keyword'] : ''; ?>" name="s" placeholder="<?php echo $keyword_field_placeholder; ?>">
+                            </div>
+                            <?php } ?>
+                            <div class="search-btn">
+                                <button class="btn btn-orange"><?php echo $houzez_local['go']; ?></button>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
                     <!-- <div class="advance-fields">
                         <div class="row">
