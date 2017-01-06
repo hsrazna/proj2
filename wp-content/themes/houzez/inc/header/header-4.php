@@ -168,7 +168,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
                     <div class="ls-lang az-margin-right15">
                         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
                     </div>
-                    <?php if(!is_user_logged_in()): ?>
+                    <?php if(1/*!is_user_logged_in()*/): ?>
                     <div class="ls-favorites az-margin-right15">
                         <a href="/favorite/"><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
                     </div>
