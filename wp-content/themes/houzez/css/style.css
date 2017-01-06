@@ -1,5 +1,25 @@
+* {
+  font-family: "OpenSans-Regular"; }
+
 .az-form-group_style {
   margin-top: 13px; }
+
+.az-title1 {
+  font-family: "OpenSans-Semibold" !important; }
+
+.btn {
+  font-family: "OpenSans-Regular"; }
+
+.az-text1 {
+  font-family: "OpenSans-Regular"; }
+  .az-text1 * {
+    font-family: "OpenSans-Regular"; }
+
+.az-text2 {
+  font-family: "OpenSans-Regular"; }
+
+.az-text3 {
+  font-family: "OpenSans-Regular" !important; }
 
 .az-w-100 {
   width: 100% !important; }
@@ -16,6 +36,7 @@
   z-index: 9; }
 
 .az-login {
+  font-family: "OpenSans-Regular" !important;
   font-size: 16px !important;
   text-transform: none !important; }
 
@@ -124,12 +145,16 @@
     visibility: hidden;
     max-width: 400px;
     top: 100px; }
+    .ls-md-menu .mobile-nav .nav-trigger + .nav-dropdown a {
+      font-family: "OpenSans-Regular"; }
   .ls-md-menu .mobile-nav .nav-trigger.mobile-open + .nav-dropdown {
     opacity: 1;
     filter: alpha(opacity=100);
     visibility: visible;
     max-width: 400px;
     top: 80px; }
+    .ls-md-menu .mobile-nav .nav-trigger.mobile-open + .nav-dropdown a {
+      font-family: "OpenSans-Regular"; }
   .ls-md-menu .nav-dropdown {
     max-width: 400px;
     top: 80px; }
@@ -199,7 +224,8 @@
     width: 359px;
     padding: 5px 22px 5px 5px;
     height: 40px;
-    font-size: 19px; }
+    font-size: 19px;
+    font-family: "OpenSans-Semibold"; }
   .ls-search input[type="text"].slide ~ button[type="submit"] {
     display: block;
     position: absolute;
@@ -235,6 +261,7 @@
   float: right;
   line-height: 45px; }
   .az-tels span strong, .az-tels a strong {
+    font-family: "OpenSans-Semibold" !important;
     color: #000; }
 
 .main-nav2 {
@@ -457,10 +484,14 @@
 .ls-form-owl-ru {
   float: left;
   width: 100%; }
+  .ls-form-owl-ru * {
+    font-family: "OpenSans-Regular"; }
 
 .ls-submit-owl-ru {
   float: left;
   width: 100%; }
+  .ls-submit-owl-ru * {
+    font-family: "OpenSans-Regular"; }
   .ls-submit-owl-ru button {
     width: 100%;
     text-align: center;
@@ -615,6 +646,8 @@
   padding-bottom: 170px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px; }
+  .ls-mask * {
+    font-family: "OpenSans-Regular"; }
 
 .ls-mask2 {
   padding-top: 30px;
@@ -627,8 +660,11 @@
   padding-bottom: 30px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px; }
+  .ls-mask3 * {
+    font-family: "OpenSans-Regular"; }
 
 .main-nav li a {
+  font-family: "OpenSans-Semibold";
   font-size: 14px  !important; }
 
 .az-col-map1 {
@@ -667,7 +703,8 @@ input[name="daterange"] {
   border-radius: 4px;
   vertical-align: middle;
   padding: 6px 11px;
-  font-size: 16px; }
+  font-size: 16px;
+  font-family: "OpenSans-Regular"; }
 
 /*slide arrows*/
 .tparrows {
