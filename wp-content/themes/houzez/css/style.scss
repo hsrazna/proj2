@@ -77,16 +77,54 @@
     background-color: #fff;
 }
 .az-ul-account-action{
-    line-height: 89px;
+    line-height: 90px;
+    // height: 90px;
 }
 .sticky_nav .az-ul-account-action{
     line-height: 59px;
 }
 .az-li-account-action{
-    //line-height: 35px !important;
-    padding: 0 10px;
+    line-height: 90px !important;
+    // height: 90px;
+    // vertical-align: top;
+    display: block;
+    // padding: 0 10px;
     border-radius: 4px;
     background: transparent !important;
+    .az-span-account-action{
+        // font-size: 17px;
+        // line-height: 35px !important;
+        display: block;
+        border-radius: 4px;
+        text-align: center !important;
+        width: 35px;
+        height: 35px;
+        vertical-align: middle;
+        .fa{
+            line-height: 35px !important;
+            // vertical-align: top;
+            font-size: 17px;
+        }
+        .fa-user-circle{
+            display: block;
+        }
+        .fa-user-circle-o{
+            display: none;
+        }
+    }
+
+}
+.az-li-account-action:hover{
+    .az-span-account-action{
+        background: #bf1e2e;
+        .fa-user-circle{
+            display: none;
+        }
+        .fa-user-circle-o{
+            display: block;
+            color: #fff;
+        }
+    }
 }
 .az-blog-section{
     padding: 38px 0 !important;
@@ -955,7 +993,7 @@ input[name="daterange"]{
     }
     .account-action{
         float: right;
-        margin-right: 15px !important;
+        // margin-right: 15px !important;
     }
 }
 

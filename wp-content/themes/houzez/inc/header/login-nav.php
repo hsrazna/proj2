@@ -42,10 +42,7 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 <?php if( is_user_logged_in() ) { ?>
     <ul class="account-action az-ul-account-action">
         <li class="az-li-account-action">
-            <!-- <span class="hidden-sm hidden-xs az-login"><?php //echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span> -->
-            <img src="<?php echo esc_url( $user_custom_picture ); ?>" width="36" height="36" class="user-image" alt="profile image">
-            <!-- <a href="#" data-toggle="modal" data-target="#pop-login"><i class="fa fa-user-o" aria-hidden="true"></i><i class="fa fa-user"></i></a> -->
-            <!-- <a><i class="fa fa-user-circle" aria-hidden="true"></i></a> -->
+            <span class="az-span-account-action"><i class="fa fa-user-circle"></i><i class="fa fa-user-circle-o"></i></span>
             <div class="account-dropdown">
                 <ul>
                     <!-- <li><span class="az-login"><?php //echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span></li> -->

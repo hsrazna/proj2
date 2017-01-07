@@ -66,15 +66,38 @@
   background-color: #fff; }
 
 .az-ul-account-action {
-  line-height: 89px; }
+  line-height: 90px; }
 
 .sticky_nav .az-ul-account-action {
   line-height: 59px; }
 
 .az-li-account-action {
-  padding: 0 10px;
+  line-height: 90px !important;
+  display: block;
   border-radius: 4px;
   background: transparent !important; }
+  .az-li-account-action .az-span-account-action {
+    display: block;
+    border-radius: 4px;
+    text-align: center !important;
+    width: 35px;
+    height: 35px;
+    vertical-align: middle; }
+    .az-li-account-action .az-span-account-action .fa {
+      line-height: 35px !important;
+      font-size: 17px; }
+    .az-li-account-action .az-span-account-action .fa-user-circle {
+      display: block; }
+    .az-li-account-action .az-span-account-action .fa-user-circle-o {
+      display: none; }
+
+.az-li-account-action:hover .az-span-account-action {
+  background: #bf1e2e; }
+  .az-li-account-action:hover .az-span-account-action .fa-user-circle {
+    display: none; }
+  .az-li-account-action:hover .az-span-account-action .fa-user-circle-o {
+    display: block;
+    color: #fff; }
 
 .az-blog-section {
   padding: 38px 0 !important; }
@@ -765,8 +788,7 @@ input[name="daterange"] {
     width: calc(25% - 70px) !important; }
 
   .account-action {
-    float: right;
-    margin-right: 15px !important; } }
+    float: right; } }
 .az-dispay-lg {
   display: none !important; }
 
