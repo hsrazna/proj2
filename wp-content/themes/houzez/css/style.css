@@ -72,17 +72,16 @@
   line-height: 59px; }
 
 .az-li-account-action {
-  line-height: 90px !important;
+  height: 90px;
   display: block;
   border-radius: 4px;
   background: transparent !important; }
   .az-li-account-action .az-span-account-action {
-    display: block;
+    display: inline-block;
     border-radius: 4px;
     text-align: center !important;
     width: 35px;
-    height: 35px;
-    vertical-align: middle; }
+    height: 35px; }
     .az-li-account-action .az-span-account-action .fa {
       line-height: 35px !important;
       font-size: 17px; }
@@ -98,6 +97,9 @@
   .az-li-account-action:hover .az-span-account-action .fa-user-circle-o {
     display: block;
     color: #fff; }
+
+.sticky_nav .az-li-account-action {
+  line-height: 59px; }
 
 .az-blog-section {
   padding: 38px 0 !important; }
@@ -781,8 +783,7 @@ input[name="daterange"] {
     width: calc(50% - 94px) !important; }
 
   .account-action {
-    float: right;
-    margin-right: 15px !important; } }
+    float: right; } }
 @media only screen and (min-width: 401px) {
   .header-mobile .header-user {
     width: calc(25% - 70px) !important; }

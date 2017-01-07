@@ -84,8 +84,8 @@
     line-height: 59px;
 }
 .az-li-account-action{
-    line-height: 90px !important;
-    // height: 90px;
+    // line-height: 90px !important;
+    height: 90px;
     // vertical-align: top;
     display: block;
     // padding: 0 10px;
@@ -94,12 +94,12 @@
     .az-span-account-action{
         // font-size: 17px;
         // line-height: 35px !important;
-        display: block;
+        display: inline-block;
         border-radius: 4px;
         text-align: center !important;
         width: 35px;
         height: 35px;
-        vertical-align: middle;
+        // vertical-align: middle;
         .fa{
             line-height: 35px !important;
             // vertical-align: top;
@@ -125,6 +125,9 @@
             color: #fff;
         }
     }
+}
+.sticky_nav .az-li-account-action{
+    line-height: 59px;
 }
 .az-blog-section{
     padding: 38px 0 !important;
@@ -984,7 +987,7 @@ input[name="daterange"]{
     }
     .account-action{
         float: right;
-        margin-right: 15px !important;
+        // margin-right: 15px !important;
     }
 }
 @media only screen and (min-width: 401px){

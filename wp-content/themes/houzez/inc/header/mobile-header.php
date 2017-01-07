@@ -22,9 +22,9 @@ if ( is_page_template( 'template/template-onepage.php' ) ) {
 		<div class="ls-lang">
         <?php the_widget('qTranslateXWidget', array('type' => 'image', 'hide-title' => true, 'widget-css-off' => true) ); ?>
 	    </div>
-	    <?php if(!is_user_logged_in()): ?>
+	    <?php if(1/*!is_user_logged_in()*/): ?>
 	        <div class="ls-favorites">
-	            <a href="/saved-searches/"><!-- <i class="fa fa-star-o" aria-hidden="true"></i> --><i class="fa fa-star" aria-hidden="true"></i></a>
+	            <a href="/favorite/"><!-- <i class="fa fa-star-o" aria-hidden="true"></i> --><i class="fa fa-star" aria-hidden="true"></i></a>
 	        </div>
         <?php endif; ?>
 		<?php if( class_exists('Houzez_login_register') ): ?>

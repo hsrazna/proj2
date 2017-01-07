@@ -41,35 +41,86 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 
 <?php if( is_user_logged_in() ) { ?>
     <ul class="account-action">
-        <li>
-            <span class="hidden-sm hidden-xs"><?php echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span>
-            <img src="<?php echo esc_url( $user_custom_picture ); ?>" width="36" height="36" class="user-image" alt="profile image">
+        <li class="az-li-account-action-mobile">
+            <span class="az-span-account-action-mobile"><i class="fa fa-user-circle-o"></i></span>
+            <!-- <span class="hidden-sm hidden-xs"><?php //echo esc_attr( $current_user->display_name ); ?> <i class="fa fa-angle-down"></i></span> -->
+            <!-- <img src="<?php //echo esc_url( $user_custom_picture ); ?>" width="36" height="36" class="user-image" alt="profile image"> -->
 
             <div class="account-dropdown">
                 <ul>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <?php
-                    if( $home_link != $dash_profile_link ) {
-                        echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_html__('My profile', 'houzez') . '</a></li>';
-                    }
-                    if( $home_link != $dashboard_listings && houzez_check_role() ) {
-                        echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '"> <i class="fa fa-building"></i>' . esc_html__('My Properties', 'houzez') . '</a></li>';
-                    }
-                    if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
-                        echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '"> <i class="fa fa-plus-circle"></i>' . esc_html__('Add new property', 'houzez') . '</a></li>';
-                    }
-                    if( $home_link != $dashboard_favorites ) {
-                        echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '"> <i class="fa fa-heart"></i>' . esc_html__('Favourite properties', 'houzez') . '</a></li>';
-                    }
-                    if( $home_link != $dashboard_search ) {
-                        echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '"> <i class="fa fa-search-plus"></i>' . esc_html__('Saved searches', 'houzez') . '</a></li>';
-                    }
-                    if( $home_link != $dashboard_invoices && houzez_check_role() ) {
-                        echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '"> <i class="fa fa-file"></i>' . esc_html__('Invoices', 'houzez') . '</a></li>';
-                    }
+                        if( $home_link != $dash_profile_link ) {
+                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_attr( $current_user->display_name )/*esc_html__('My profile', 'houzez')*/ . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_listings && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '"> <i class="fa fa-building"></i>' . esc_html__('My Properties', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '"> <i class="fa fa-plus-circle"></i>' . esc_html__('Add new property', 'houzez') . '</a></li>';
+                        }
+                        // <i class="fa fa-heart"></i>
+                        if( 0/*$home_link != $dashboard_favorites*/ ) {
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '"> <i class="fa fa-star" aria-hidden="true"></i>' . esc_html__('Favourite properties', 'houzez') . '</a></li>';
+                        }
+                        if( 0/*$home_link != $dashboard_search*/ ) {
+                            echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '"> <i class="fa fa-search-plus"></i>' . esc_html__('Saved searches', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_invoices && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '"> <i class="fa fa-file"></i>' . esc_html__('Invoices', 'houzez') . '</a></li>';
+                        }
 
-                    echo '<li><a href="'.wp_logout_url( home_url('/') ).'"> <i class="fa fa-unlock"></i>'.esc_html__( 'Log out', 'houzez' ).'</a></li>';
+                        echo '<li><a href="'.wp_logout_url( home_url('/') ).'"> <i class="fa fa-unlock"></i>'.esc_html__( 'Log out', 'houzez' ).'</a></li>';
                     ?>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <?php
+                        if( $home_link != $dash_profile_link ) {
+                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '" class="az-text3"> <i class="fa fa-user"></i>' . esc_attr( $current_user->display_name )/*esc_html__('Профиль', 'houzez')*/ . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_listings && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '" class="az-text3"> <i class="fa fa-building"></i>' . esc_html__('Недвижимость', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '" class="az-text3"> <i class="fa fa-plus-circle"></i>' . esc_html__('Добавить нов. недв.', 'houzez') . '</a></li>';
+                        }
+                        //<i class="fa fa-heart">
+                        if( 0/*$home_link != $dashboard_favorites*/ ) {
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '" class="az-text3"> <i class="fa fa-star" aria-hidden="true"></i></i>' . esc_html__('Избранное', 'houzez') . '</a></li>';
+                        }
+                        if( 0/*$home_link != $dashboard_search*/ ) {
+                            echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '" class="az-text3"> <i class="fa fa-search-plus"></i>' . esc_html__('Сохр. поиск', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_invoices && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '" class="az-text3"> <i class="fa fa-file"></i>' . esc_html__('Счета', 'houzez') . '</a></li>';
+                        }
 
+                        echo '<li><a href="'.wp_logout_url( home_url('/') ).'" class="az-text3"> <i class="fa fa-unlock"></i>'.esc_html__( 'Выход', 'houzez' ).'</a></li>';
+                    ?>
+                    <?php } ?>
+                    <?php if(0): ?>
+                        <?php
+                        if( $home_link != $dash_profile_link ) {
+                            echo '<li ' . esc_attr( $ac_profile ) . '> <a href="' . esc_url($dash_profile_link) . '"> <i class="fa fa-user"></i>' . esc_html__('My profile', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_listings && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_props ) . '> <a href="' . esc_url($dashboard_listings) . '"> <i class="fa fa-building"></i>' . esc_html__('My Properties', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_add_listing && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_add_prop ) . '> <a href="' . esc_url($dashboard_add_listing) . '"> <i class="fa fa-plus-circle"></i>' . esc_html__('Add new property', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_favorites ) {
+                            echo '<li ' . esc_attr( $ac_fav ) . '> <a href="' . esc_url($dashboard_favorites) . '"> <i class="fa fa-heart"></i>' . esc_html__('Favourite properties', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_search ) {
+                            echo '<li ' . esc_attr( $ac_search ) . '> <a href="' . esc_url($dashboard_search) . '"> <i class="fa fa-search-plus"></i>' . esc_html__('Saved searches', 'houzez') . '</a></li>';
+                        }
+                        if( $home_link != $dashboard_invoices && houzez_check_role() ) {
+                            echo '<li ' . esc_attr( $ac_invoices ) . '> <a href="' . esc_url($dashboard_invoices) . '"> <i class="fa fa-file"></i>' . esc_html__('Invoices', 'houzez') . '</a></li>';
+                        }
+
+                        echo '<li><a href="'.wp_logout_url( home_url('/') ).'"> <i class="fa fa-unlock"></i>'.esc_html__( 'Log out', 'houzez' ).'</a></li>';
+                        ?>
+                    <?php endif; ?>
                 </ul>
             </div>
 
@@ -78,7 +129,9 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
 <?php } else { ?>
     <ul class="account-action">
         <li>
-            <span class="user-icon1"><i class="fa fa-user"></i></span>
+            <!-- <span class="user-icon1"><i class="fa fa-user"></i></span> -->
+            <span data-toggle="modal" data-target="#pop-login"><i class="fa fa-user"></i></span>
+            <?php if(0): ?>
             <div class="account-dropdown">
                 <ul>
                     <?php
@@ -98,6 +151,7 @@ if( is_page_template( 'template/user_dashboard_profile.php' ) ) {
                     ?>
                 </ul>
             </div>
+            <?php endif; ?>
         </li>
     </ul>
 <?php } ?>
