@@ -36,7 +36,7 @@ if( ( isset($_GET['code']) && isset($_GET['state']) ) ){
 <?php get_template_part( 'template-parts/dashboard-title'); ?>
 
 <div class="user-dashboard-full">
-    <?php get_template_part( 'template-parts/dashboard', 'menu' ); ?>
+    <?php //get_template_part( 'template-parts/dashboard', 'menu' ); ?>
     <div class="profile-area-content">
         <?php get_template_part('template-parts/user-profile'); ?>
     </div>

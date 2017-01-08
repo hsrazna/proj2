@@ -40,7 +40,7 @@ get_header();
 				        <?php if ( qtrans_getLanguage() == 'en' ) {?>
 					        <h2 class="title">Favorite</h2>
 		            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-			            <h2 class="title az-title1">Избранное</h2>
+			            <h2 class="title az-title1">Избранные объекты</h2>
 		            <?php } ?>
 			            <!-- <h2 class="title"><?php //the_title(); ?></h2> -->
 			        </div>
@@ -93,7 +93,7 @@ get_header();
 		        		<?php if ( qtrans_getLanguage() == 'en' ) {?>
 					        <h2 class="title">Saved search</h2>
 		            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-			            <h2 class="title az-title1">Сохр. поиск</h2>
+			            <h2 class="title az-title1">Избранные выборки</h2>
 		            <?php } ?>
 			            <!-- <h2 class="title"><?php //the_title(); ?></h2> -->
 			        </div>

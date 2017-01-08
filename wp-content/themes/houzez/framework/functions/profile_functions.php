@@ -746,9 +746,9 @@ if( !function_exists('az_request_form') ) {
 
         $send_data = $_POST['send_data'];
         $send_property = $_POST['send_property'];
-        $str = '';
+        // $str = '';
         for($az_i = 0; $az_i < count($send_data); $az_i++){
-            $str.= $send_data[$az_i]['name'].'//';
+            // $str.= $send_data[$az_i]['name'].'//';
             if($send_data[$az_i]['name'] == 'az-name'){$az_name = $send_data[$az_i]['value'];}
             elseif($send_data[$az_i]['name'] == 'az-email'){$az_email = trim( sanitize_text_field( wp_kses( $send_data[$az_i]['value'], $allowed_html ) ));}
             elseif($send_data[$az_i]['name'] == 'az-reg'){$az_reg = $send_data[$az_i]['value'];}
@@ -763,6 +763,9 @@ if( !function_exists('az_request_form') ) {
             elseif($send_data[$az_i]['name'] == 'az-child'){$az_child = $send_data[$az_i]['value'];}
             elseif($send_data[$az_i]['name'] == 'az-message'){$az_message = $send_data[$az_i]['value'];}
             elseif($send_data[$az_i]['name'] == 'az_request_form_security'){$az_request_form_security = $send_data[$az_i]['value'];}
+            elseif($send_data[$az_i]['name'] == 'az-page-id'){$az_page_id = $send_data[$az_i]['value'];}
+            elseif($send_data[$az_i]['name'] == 'az-page-name'){$az_page_name = $send_data[$az_i]['value'];}
+            elseif($send_data[$az_i]['name'] == 'az-page-url'){$az_page_url = $send_data[$az_i]['value'];}
         }
         if(wp_verify_nonce($az_request_form_security, 'az_request_form_nonce')){
             // echo json_encode($az_request_form_security);
@@ -811,6 +814,7 @@ if( !function_exists('az_request_form') ) {
             $msg  = "<html><body>";
             $msg .= "<h2>Новое сообщение</h2>\r\n";
             $msg .= "<p><strong>Заявка:</strong> форма запроса от ".$az_name."</p>\r\n";
+            if($az_page_name){$msg .= "<p><strong>Со страницы:</strong> <a data-page-id='{$az_page_id}' href='{$az_page_url}'>".$az_page_name."</a></p>\r\n";}
             if($postPhone!=0){$msg .= "<p><strong>Телефон:</strong> ".$az_phone."</p>\r\n";}
             if($userEmail!==""){$msg .= "<p><strong>Email:</strong> ".$az_email."</p>\r\n";}
             if($az_best_time!==""){$msg .= "<p><strong>Удобное время для связи:</strong> ".$az_best_time."</p>\r\n";}
@@ -831,9 +835,14 @@ if( !function_exists('az_request_form') ) {
             $msg .= "</body></html>";
 
             // отправка сообщения
-            if(!@mail(get_option('admin_email'), $subject, $msg, $headers)) {
+            if(mail(get_option('admin_email'), $subject, $msg, $headers)) {
                 // echo "true";
             } else {
+                echo json_encode(array(
+                    'success' => false,
+                    'msg' => esc_html__( 'Your request isn\'t sent!', 'houzez')
+                ));
+                exit;
                 // echo "false";
             }
 

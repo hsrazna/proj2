@@ -5,7 +5,7 @@
                   <input class="form-control az-name" name="az-name"
              placeholder="<?php esc_html_e('Your Name', 'houzez'); ?>" type="text">
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control az-name" style="font-family: 'OpenSans-Regular';" name="az-name" placeholder="<?php esc_html_e('Имя', 'houzez'); ?>" type="text">
+                  <input class="form-control az-name" name="az-name" placeholder="<?php esc_html_e('Имя', 'houzez'); ?>" type="text">
               <?php } ?>
                 
             </div>
@@ -36,7 +36,7 @@
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
                   <input class="form-control" name="az-phone" placeholder="<?php esc_html_e('Your phone', 'houzez'); ?>" type="text">
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-phone" placeholder="<?php esc_html_e('Телефон', 'houzez'); ?>" type="text">
+                  <input class="form-control" name="az-phone" placeholder="<?php esc_html_e('Телефон', 'houzez'); ?>" type="text">
               <?php } ?>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
                   <input class="form-control" name="az-best-time" placeholder="<?php esc_html_e('Convenient time to call back', 'houzez'); ?>" type="text">
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-best-time" placeholder="<?php esc_html_e('Удобное время для связи', 'houzez'); ?>" type="text">
+                  <input class="form-control" name="az-best-time" placeholder="<?php esc_html_e('Удобное время для связи', 'houzez'); ?>" type="text">
               <?php } ?>
             </div>
         </div>
@@ -58,10 +58,10 @@
         <div class="col-sm-6 col-xs-12">
           <div class="form-group az-second">
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
-            <a href="tel:+66600035625" class="btn btn-orange az-w-100" style="font-family: 'OpenSans-Regular';">Call me I'll tell you the details</a>
+            <a href="tel:+66600035625" class="btn btn-orange az-w-100">Call me I'll tell you the details</a>
                   <!-- <input class="form-control" name="az-call-me" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text"> -->
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                <a href="tel:+74996771664" class="btn btn-orange az-w-100" style="font-family: 'OpenSans-Regular';">Позвоните мне я расскажу детали</a>
+                <a href="tel:+74996771664" class="btn btn-orange az-w-100">Позвоните мне я расскажу детали</a>
                   <!-- <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-call-me" placeholder="<?php esc_html_e('Позвоните мне я расскажу детали', 'houzez'); ?>" type="text"> -->
               <?php } ?>
             </div>
@@ -101,7 +101,7 @@
             <?php if ( qtrans_getLanguage() == 'en' ) {?>
                   <input class="form-control" name="az-prefer" placeholder="<?php esc_html_e('', 'houzez'); ?>" type="text">
               <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                  <input class="form-control" style="font-family: 'OpenSans-Regular';" name="az-prefer" placeholder="<?php esc_html_e('Предпочтения по району и типу жилья', 'houzez'); ?>" type="text">
+                  <input class="form-control" name="az-prefer" placeholder="<?php esc_html_e('Предпочтения по району и типу жилья', 'houzez'); ?>" type="text">
               <?php } ?>
             </div>
         </div>
@@ -152,9 +152,10 @@
 
           <div class="col-sm-12 col-xs-12">
             <div class="form-group">
-              <input type="hidden" name="page-id" value="<?php echo get_the_id(); ?>">
+              <input type="hidden" name="az-page-name" value="<?php the_title(); ?>">
+              <input type="hidden" name="az-page-id" value="<?php echo get_the_id(); ?>">
               <?php $houzez_site_name = sprintf( "%s://%s", isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http', $_SERVER['SERVER_NAME']); ?>
-              <input type="hidden" name="page-url" value="<?php echo $houzez_site_name.$_SERVER['REQUEST_URI']; ?>">
+              <input type="hidden" name="az-page-url" value="<?php echo $houzez_site_name.$_SERVER['REQUEST_URI']; ?>">
             	<?php wp_nonce_field( 'az_request_form_nonce', 'az_request_form_security' ); ?>
               <?php if ( qtrans_getLanguage() == 'en' ) {?>
                     <button class="btn btn-orange az-w-100"><?php esc_html_e('Request info', 'houzez'); ?></button>
