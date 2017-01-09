@@ -590,4 +590,17 @@ function register_services_post_type() {
 
 //flush_rewrite_rules();
 
+// qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage
+
+add_filter( 'get_terms', 'az_get_terms', 10, 4 );
+function az_get_terms( $terms, $taxonomies, $args, $term_query ){
+	// print_r($terms);
+	foreach($terms as &$term){
+		$term->description = qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage($term->description);
+	}
+
+	return $terms;
+}
+
+
 ?>
