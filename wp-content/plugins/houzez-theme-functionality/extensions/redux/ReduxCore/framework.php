@@ -1664,6 +1664,7 @@
                         foreach ( $this->typography as $key => $value ) {
                             $families[] = $key;
                         }
+                        if(0):
                         ?>
                         <script>
                             /* You can add more configuration options to webfontloader by previously defining the WebFontConfig with your options */
@@ -1682,6 +1683,7 @@
                             })();
                         </script>
                         <?php
+                        endif;
                     } elseif ( ! $this->args['disable_google_fonts_link'] ) {
                         $protocol = ( ! empty ( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443 ) ? "https:" : "http:";
 
