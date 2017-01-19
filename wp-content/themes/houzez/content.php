@@ -13,7 +13,11 @@ global $houzez_local;
 
 		<?php the_excerpt(); ?>
 
+		<div class="article-footer-right az-right">
+			<a href="<?php the_permalink(); ?>" class="btn btn-primary"><?php echo $houzez_local['read_more'];?></a>
+		</div>
 	</div>
+	<?php if(0): ?>
 	<div class="article-footer">
 
 		<ul class="author-meta">
@@ -34,4 +38,5 @@ global $houzez_local;
 			<a href="<?php the_permalink(); ?>" class="btn btn-primary"><?php echo $houzez_local['read_more'];?></a>
 		</div>
 	</div>
+	<?php endif; ?>
 </article>

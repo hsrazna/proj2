@@ -1,6 +1,9 @@
 * {
   font-family: "OpenSans-Regular"; }
 
+.az-right {
+  text-align: right; }
+
 .az-form-group_style {
   margin-top: 13px; }
 
