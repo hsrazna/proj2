@@ -644,7 +644,7 @@ function houzez_custom_styling() {
             color: {$mob_link_color};
         }
         .mobile-nav a {
-            font-family: 'OpenSans-Regular'/*{$typo_mobile_menu['font-family']}*/;
+            font-family: {$typo_mobile_menu['font-family']};
             font-size: {$typo_mobile_menu['font-size']};
             font-weight: {$typo_mobile_menu['font-weight']};
             line-height: {$typo_mobile_menu['line-height']};
@@ -1001,7 +1001,7 @@ function houzez_custom_styling() {
             font-size: 24px;
             line-height: 32px;
             margin: 0 0 10px 0;
-            font-family: 'OpenSans-Regular';
+            font-family: {$typo_headings['font-family']};
         }
         .houzez-module .module-title-nav h2 {
             margin: 0;

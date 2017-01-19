@@ -89,7 +89,7 @@
         }
 
         var $nonce = $parent.attr( "data-nonce" );
-
+        // alert(redux.args.opt_name + "_ajax_save");
         jQuery.ajax(
             {
                 type: "post",
