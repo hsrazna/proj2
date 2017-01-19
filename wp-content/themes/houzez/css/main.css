@@ -4564,7 +4564,8 @@ input[type="button"].btn-block {
   background-color: #fff;
 }
 .header-section-4 .logo {
-  line-height: 85px;
+  /*line-height: 85px;*/
+  line-height: 90px;
 }
 .header-section-4 .header-left {
   float: left;
