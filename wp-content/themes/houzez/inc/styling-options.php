@@ -111,6 +111,16 @@ function houzez_custom_styling() {
             background-color: {$adv_btn_bg_regular};
             border: 1px solid {$adv_btn_border_regular};
         }
+        /*az*/
+        .advance-search-header .houzez-theme-button:hover,
+        .advanced-search-mobile .houzez-theme-button:hover,
+        .splash-search .btn-orange:hover,
+        .advanced-search .btn.btn-orange:hover {
+            color: #000;
+            background-color: {$adv_btn_bg_regular};
+            border: 1px solid {$adv_btn_border_regular};
+        }
+        /*az*/
         .advance-search-header .houzez-theme-button:focus,
         .advanced-search-mobile .houzez-theme-button:focus,
         .splash-search .btn-orange:focus {

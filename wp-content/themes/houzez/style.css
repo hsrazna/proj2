@@ -61,7 +61,8 @@ label.error {
     display: none;
 }
 a.btn-primary:hover {
-    color: #ffffff !important;
+    /*color: #ffffff !important;*/
+    color: #000000 !important;
 }
 .advance-search-header .advance-btn-holder {
     border-right: none !important;

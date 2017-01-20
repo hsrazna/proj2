@@ -152,7 +152,13 @@ if( is_page_template( 'template/property-listings-map.php' ) ) { $infobox_trigge
             <div class="body-right table-cell hidden-gird-cell">
                 <div class="info-row price"><?php //echo houzez_listing_price_v1(); ?></div>
                 <div class="info-row phone text-right">
-                    <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"><?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"><?php esc_html_e( 'Details', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="btn btn-primary"><?php esc_html_e( 'Детали', 'houzez' ); ?> <i class="fa fa-angle-right fa-right"></i></a>
+                    <?php } ?>
+                    
+
                 </div>
             </div>
 

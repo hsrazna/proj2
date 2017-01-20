@@ -53,7 +53,14 @@ class houzez_about_site extends WP_Widget {
                 
                 <p><?php echo wp_kses_post( $about_text ); ?></p>
                 <?php if( !empty($more_url) ) { ?>
-                <p class="read"><a href="<?php echo esc_url($more_url);?>"><?php esc_html_e( 'Read more', 'houzez' ); ?> <i class="fa fa-caret-right"></i></a></p>
+                <p class="read">
+                	<?php if ( qtrans_getLanguage() == 'en' ) {?>
+                      <a href="<?php echo esc_url($more_url);?>"><?php esc_html_e( 'Read more', 'houzez' ); ?> <i class="fa fa-caret-right"></i></a>
+                  <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                      <a href="<?php echo esc_url($more_url);?>"><?php esc_html_e( 'Узнать больше', 'houzez' ); ?> <i class="fa fa-caret-right"></i></a>
+                  <?php } ?>
+
+                </p>
                 <?php } ?>
             </div>
 

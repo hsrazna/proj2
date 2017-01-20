@@ -76,13 +76,21 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="firstname"><?php esc_html_e('First Name','houzez');?></label>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                            <label for="firstname"><?php esc_html_e('First Name','houzez');?></label>
+                        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                            <label for="firstname"><?php esc_html_e('Имя','houzez');?></label>
+                        <?php } ?>
                         <input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo esc_attr( $first_name );?>">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="lastname"><?php esc_html_e('Last Name','houzez');?></label>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                            <label for="lastname"><?php esc_html_e('Last Name','houzez');?></label>
+                        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                            <label for="lastname"><?php esc_html_e('Фамилия','houzez');?></label>
+                        <?php } ?>
                         <input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo esc_attr( $last_name );?>">
                     </div>
                 </div>

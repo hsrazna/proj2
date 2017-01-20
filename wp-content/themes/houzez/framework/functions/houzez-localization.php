@@ -228,7 +228,7 @@ if ( qtrans_getLanguage() == 'en' ) {
 			'enable' 			=> esc_html__( 'Включить', 'houzez' ),
 			'any' 				=> esc_html__( 'Любой', 'houzez' ),
 			'none'				=> esc_html__( 'Нет', 'houzez' ),
-			'by_text' 			=> esc_html__( 'by', 'houzez' ),
+			'by_text' 			=> esc_html__( '', 'houzez' ),
 			'at_text' 			=> esc_html__( 'в', 'houzez' ),
 			'goto_dash' 		=> esc_html__( 'Обратно на общую панель', 'houzez' ),
 			'read_more' 		=> esc_html__( 'Узнай больше', 'houzez' ),

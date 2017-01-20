@@ -57,7 +57,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <a href="tel:+66600035625"><strong>+66 (0) 60 00 35 625</strong></a>
             <span class="az-city">Пхукет</span>
             <span class="az-time"><strong>00<span>:</span>00</strong></span>
-            <a href="tel:+74996771664"><strong>+7499 677 1664</strong></a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="tel:+74996771664"><strong>+7499 677 1664</strong></a>
             <span class="az-city">Москва</span>
             <span class="az-time2"><strong>00<span>:</span>00</strong></span>
         </div>
