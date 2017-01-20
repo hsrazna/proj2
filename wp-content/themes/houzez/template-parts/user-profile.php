@@ -66,13 +66,26 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
                     <div id="errors-log"></div>
                     <div id="plupload-container"></div>
                 </div><!-- end of profile image controls -->
-                <a id="select-profile-image" class="btn btn-primary btn-block" href="javascript:;"><?php esc_html_e('Update Profile Picture','houzez'); ?></a>
-                <span class="profile-img-info"><?php esc_html_e( '*minimum 270px x 270px', 'houzez' ); ?><br/></span>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <a id="select-profile-image" class="btn btn-primary btn-block" href="javascript:;"><?php esc_html_e('Update Profile Picture','houzez'); ?></a>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <a id="select-profile-image" class="btn btn-primary btn-block" href="javascript:;"><?php esc_html_e('Обновить фото профиля','houzez'); ?></a>
+                <?php } ?>
+                
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <span class="profile-img-info"><?php esc_html_e( '*minimum 270px x 270px', 'houzez' ); ?><br/></span>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <span class="profile-img-info"><?php esc_html_e( '*минимум 270px x 270px', 'houzez' ); ?><br/></span>
+                <?php } ?>
             </div>
         </div>
 
         <div class="col-md-8 col-sm-7">
-            <h4><?php esc_html_e( 'Information', 'houzez' ); ?></h4>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                <h4><?php esc_html_e( 'Information', 'houzez' ); ?></h4>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                <h4><?php esc_html_e( 'Информация', 'houzez' ); ?></h4>
+            <?php } ?>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -102,13 +115,21 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="title"><?php esc_html_e('Title / Position','houzez');?></label>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                            <label for="title"><?php esc_html_e('Title / Position','houzez');?></label>
+                        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                            <label for="title"><?php esc_html_e('Звание / Должность','houzez');?></label>
+                        <?php } ?>
                         <input type="text" id="title" name="title" value="<?php echo esc_attr( $user_title );?>" class="form-control">
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="about"><?php esc_html_e( 'About me', 'houzez' ); ?></label>
+                        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                            <label for="about"><?php esc_html_e( 'About me', 'houzez' ); ?></label>
+                        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                            <label for="about"><?php esc_html_e( 'Обо мне', 'houzez' ); ?></label>
+                        <?php } ?>
                         <textarea id="about" class="form-control" rows="7"><?php echo esc_attr( $about_me );?></textarea>
                     </div>
                 </div>
@@ -119,13 +140,21 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="userphone"><?php esc_html_e('Phone','houzez');?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="userphone"><?php esc_html_e('Phone','houzez');?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="userphone"><?php esc_html_e('Телефон','houzez');?></label>
+                <?php } ?>
                 <input type="text" id="userphone" class="form-control" value="<?php echo esc_attr( $user_phone );?>" name="userphone">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="usermobile"><?php esc_html_e('Mobile','houzez');?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="usermobile"><?php esc_html_e('Mobile','houzez');?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="usermobile"><?php esc_html_e('Мобильный','houzez');?></label>
+                <?php } ?>
                 <input type="text" id="usermobile" class="form-control" value="<?php echo esc_attr( $user_mobile );?>" name="usermobile">
             </div>
         </div>
@@ -137,7 +166,11 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="website"><?php esc_html_e( 'Website URL', 'houzez' ); ?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="website"><?php esc_html_e( 'Website URL', 'houzez' ); ?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="website"><?php esc_html_e( 'Адрес сайта', 'houzez' ); ?></label>
+                <?php } ?>
                 <input type="text" id="website" class="form-control" value="<?php echo esc_url($website_url); ?>">
             </div>
         </div>
@@ -191,14 +224,22 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
         </div>
         <div class="col-sm-12 col-xs-12 text-right">
             <?php  wp_nonce_field( 'houzez_profile_ajax_nonce', 'houzez-security-profile' );   ?>
-            <button class="btn btn-primary" id="houzez_update_profile"><?php esc_html_e('Update Profile','houzez');?></button>
+            <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                <button class="btn btn-primary" id="houzez_update_profile"><?php esc_html_e('Update Profile','houzez');?></button>
+            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                <button class="btn btn-primary" id="houzez_update_profile"><?php esc_html_e('Обновить профиль','houzez');?></button>
+            <?php } ?>
             <div id="profile_message" class="houzez_messages message"></div>
         </div>
     </div>
 </div>
 
 <div class="profile-area account-block white-block">
-    <h4><?php esc_html_e( 'Change password', 'houzez' ); ?></h4>
+    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+        <h4><?php esc_html_e( 'Change password', 'houzez' ); ?></h4>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+        <h4><?php esc_html_e( 'Сменить пароль', 'houzez' ); ?></h4>
+    <?php } ?>
     <div class="row">
         <div class="col-sm-12">
             <div id="password_reset_msgs" class="houzez_messages message"></div>
@@ -207,25 +248,41 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="oldpass"><?php esc_html_e('Old Password','houzez');?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="oldpass"><?php esc_html_e('Old Password','houzez');?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="oldpass"><?php esc_html_e('Пароль','houzez');?></label>
+                <?php } ?>
                 <input  id="oldpass" value=""  class="form-control" name="oldpass" type="password">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="newpass"><?php esc_html_e('New Password ','houzez');?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="newpass"><?php esc_html_e('New Password ','houzez');?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="newpass"><?php esc_html_e('Новый пароль ','houzez');?></label>
+                <?php } ?>
                 <input  id="newpass" value="" class="form-control" name="newpass" type="password">
             </div>
         </div>
         <div class="col-sm-4">
             <div class="form-group">
-                <label for="confirmpass"><?php esc_html_e('Confirm New Password','houzez');?></label>
+                <?php if ( qtrans_getLanguage() == 'en' ) {?>
+                    <label for="confirmpass"><?php esc_html_e('Confirm New Password','houzez');?></label>
+                <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+                    <label for="confirmpass"><?php esc_html_e('Подтверждение пароля','houzez');?></label>
+                <?php } ?>
                 <input id="confirmpass" value="" class="form-control" name="confirmpass" type="password">
             </div>
         </div>
     </div>
     <?php   wp_nonce_field( 'houzez_pass_ajax_nonce', 'houzez-security-pass' );   ?>
-    <button class="btn btn-primary" id="houzez_change_pass"><?php esc_html_e('Update Password','houzez');?></button>
+    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+        <button class="btn btn-primary" id="houzez_change_pass"><?php esc_html_e('Update Password','houzez');?></button>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+        <button class="btn btn-primary" id="houzez_change_pass"><?php esc_html_e('Обновить пароль','houzez');?></button>
+    <?php } ?>
 </div>
 
 <?php if( $user_show_roles_profile != 0 ) { ?>
@@ -241,9 +298,17 @@ $user_show_roles_profile = houzez_option('user_show_roles_profile');
 <?php } ?>
 
 <div class="profile-area account-block white-block">
-    <h4 class="account-action-title"> <?php esc_html_e( 'Delete account', 'houzez' ); ?> </h4>
+    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+        <h4 class="account-action-title"> <?php esc_html_e( 'Delete account', 'houzez' ); ?> </h4>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+        <!-- <h4 class="account-action-title"> <?php esc_html_e( 'Delete account', 'houzez' ); ?> </h4> -->
+    <?php } ?>
     <div class="account-action-right">
         <input type="hidden" name="houzez_account_id" id="houzez_account_id" value="<?php echo $userID; ?>">
-        <button class="btn btn-danger" id="houzez_delete_account"> <?php esc_html_e( 'Detele My Account', 'houzez' ); ?> </button>
+        <?php if ( qtrans_getLanguage() == 'en' ) {?>
+            <button class="btn btn-danger" id="houzez_delete_account"> <?php esc_html_e( 'Detele My Account', 'houzez' ); ?> </button>
+        <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+            <button class="btn btn-danger" id="houzez_delete_account"> <?php esc_html_e( 'Удалить аккаунт', 'houzez' ); ?> </button>
+        <?php } ?>
     </div>
 </div>
