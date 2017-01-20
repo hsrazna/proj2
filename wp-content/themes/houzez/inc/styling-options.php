@@ -884,7 +884,7 @@ function houzez_custom_styling() {
              .dsidx-resp-area-submit input[type='submit']:hover,
              .dsidx-resp-area-submit input[type='submit']:focus,
              .dsidx-resp-area-submit input[type='submit']:active{
-                color: #fff;
+                color: #000;
                 background-color: {$houzez_secondary_color_hover};
                 border: 1px solid {$houzez_secondary_color_hover};
             }";
