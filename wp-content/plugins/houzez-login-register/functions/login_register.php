@@ -28,15 +28,31 @@ if( !function_exists('houzez_login') ) {
         }
 
         if( empty( $username ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The username field is empty.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Введите email.', 'houzez') ) );
+            }
+            
             wp_die();
         }
         if( empty( $pass ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The password field is empty.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The password field is empty.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Введите пароль.', 'houzez') ) );
+            }
+            
             wp_die();
         }
         if( !username_exists( $username ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Не верный email', 'houzez') ) );
+            }
+                // echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid username', 'houzez') ) );
+
             wp_die();
         }
 
@@ -51,10 +67,21 @@ if( !function_exists('houzez_login') ) {
         $user = wp_signon( $creds, false );
 
         if ( is_wp_error( $user ) ) {
-            echo json_encode( array(
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array(
                 'success' => false,
-                'msg' => sprintf( wp_kses(__('The password you entered for the username <strong>%s</strong> is incorrect.', 'houzez'), $allowed_html_array), $username )
+                'msg' => sprintf( wp_kses(__('The password or the email is incorrect.', 'houzez'), $allowed_html_array), $username )
                 ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array(
+                'success' => false,
+                'msg' => sprintf( wp_kses(__('пароль или email не правильные', 'houzez'), $allowed_html_array), $username )
+                ) );
+            }
+            // echo json_encode( array(
+                // 'success' => false,
+                // 'msg' => sprintf( wp_kses(__('The password you entered for the username <strong>%s</strong> is incorrect.', 'houzez'), $allowed_html_array), $username )
+                // ) );
 
             wp_die();
         } else {
@@ -63,8 +90,12 @@ if( !function_exists('houzez_login') ) {
             do_action('set_current_user');
             global $current_user;
             $current_user = wp_get_current_user();
-
-            echo json_encode( array( 'success' => true, 'msg' => esc_html__('Login successful, redirecting...', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Login successful, redirecting...', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Перенаправление', 'houzez') ) );
+            }
+            
             ///ueu
         }
         wp_die();
@@ -92,7 +123,7 @@ if( !function_exists('houzez_register') ) {
 
         $term_condition = ( $term_condition == 'on') ? true : false;
 
-        if( !$term_condition ) {
+        if( 0/*!$term_condition*/ ) {
             echo json_encode( array( 'success' => false, 'msg' => esc_html__('You need to agree with terms & conditions.', 'houzez') ) );
             wp_die();
         }
@@ -106,21 +137,38 @@ if( !function_exists('houzez_register') ) {
         //     wp_die();
         // }
         if( empty( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Введите email.', 'houzez') ) );
+            }
+            
             wp_die();
         }
         // if( username_exists( $usermane ) ) {
         if( username_exists( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email is already registered.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пользователь с таким email уже существует.', 'houzez') ) );
+            }
             wp_die();
         }
         if( email_exists( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пользователь с таким email уже существует.', 'houzez') ) );
+            }
             wp_die();
         }
 
         if( !is_email( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Не корректный email.', 'houzez') ) );
+            }
             wp_die();
         }
 
@@ -129,12 +177,20 @@ if( !function_exists('houzez_register') ) {
             $user_pass_retype  = trim( sanitize_text_field(wp_kses( $_POST['register_pass_retype'] ,$allowed_html) ) );
 
             if ($user_pass == '' || $user_pass_retype == '' ) {
-                echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode( array( 'success' => false, 'msg' => esc_html__('Одно из полей для ввода пароля пустое!', 'houzez') ) );
+                }
                 wp_die();
             }
 
             if ($user_pass !== $user_pass_retype ){
-                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пароли не совпадают', 'houzez') ) );
+                }
                 wp_die();
             }
         }
@@ -153,9 +209,17 @@ if( !function_exists('houzez_register') ) {
         } else {
 
             if( $enable_password =='yes' ) {
-                echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your account was created and you can login now!', 'houzez') ) );
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode( array( 'success' => true, 'msg' => esc_html__('Your account was created and you can login now!', 'houzez') ) );
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode( array( 'success' => true, 'msg' => esc_html__('Аккаунт создан и вы теперь можете войти!', 'houzez') ) );
+                }
             } else {
-                echo json_encode( array( 'success' => true, 'msg' => esc_html__('An email with the generated password was sent!', 'houzez') ) );
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode( array( 'success' => true, 'msg' => esc_html__('An email with the generated password was sent!', 'houzez') ) );
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode( array( 'success' => true, 'msg' => esc_html__('Сгенерированный пароль отправлен на почту!', 'houzez') ) );
+                }
             }
 
             houzez_update_profile( $user_id );
@@ -219,14 +283,22 @@ if( !function_exists('houzez_reset_password') ) {
         $user_login = wp_kses( $_POST['user_login'], $allowed_html );
 
         if ( empty( $user_login ) ) {
-            echo json_encode(array( 'success' => false, 'msg' => esc_html__('Enter a username or email address.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode(array( 'success' => false, 'msg' => esc_html__('Enter a email address.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode(array( 'success' => false, 'msg' => esc_html__('Введите email.', 'houzez') ) );
+            }
             wp_die();
         }
 
         if ( strpos( $user_login, '@' ) ) {
             $user_data = get_user_by( 'email', trim( $user_login ) );
             if ( empty( $user_data ) ) {
-                echo json_encode(array('success' => false, 'msg' => esc_html__('There is no user registered with that email address.', 'houzez')));
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode(array('success' => false, 'msg' => esc_html__('There is no user registered with that email address.', 'houzez')));
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode(array('success' => false, 'msg' => esc_html__('Пользователь с таким email не зарегистрирован.', 'houzez')));
+                }
                 wp_die();
             }
         } else {
@@ -234,7 +306,11 @@ if( !function_exists('houzez_reset_password') ) {
             $user_data = get_user_by('login', $login);
 
             if ( !$user_data ) {
-                echo json_encode(array( 'success' => false, 'msg' => esc_html__('Invalid username', 'houzez') ) );
+                if ( qtrans_getLanguage() == 'en' ) {
+                    echo json_encode(array( 'success' => false, 'msg' => esc_html__('Invalid email', 'houzez') ) );
+                } elseif ( qtrans_getLanguage() == 'ru' ) {
+                    echo json_encode(array( 'success' => false, 'msg' => esc_html__('Не верный email', 'houzez') ) );
+                }
                 wp_die();
             }
         }

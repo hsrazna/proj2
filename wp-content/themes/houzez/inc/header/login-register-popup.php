@@ -54,9 +54,9 @@
                     <div class="form-group">
                         <div class="input-user input-icon">
                             <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                                <input name="user_login_forgot" id="user_login_forgot" placeholder="<?php esc_html_e( 'Enter your username or email', 'houzez' ); ?>" class="form-control">
+                                <input name="user_login_forgot" id="user_login_forgot" placeholder="<?php esc_html_e( 'Enter your email', 'houzez' ); ?>" class="form-control">
                             <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                                <input name="user_login_forgot" style="font-family: 'OpenSans-Regular';" id="user_login_forgot" placeholder="<?php esc_html_e( 'Введите Ваш логин или адрес эл. почты', 'houzez' ); ?>" class="form-control">
+                                <input name="user_login_forgot" id="user_login_forgot" placeholder="<?php esc_html_e( 'Введите Ваш адрес эл. почты', 'houzez' ); ?>" class="form-control">
                             <?php } ?>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                                     <?php if ( qtrans_getLanguage() == 'en' ) {?>
                                         <input id="" name="az_phone" placeholder="<?php esc_html_e('Your phone','houzez'); ?>" type="text" />
                                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-                                        <input id="" name="az_phone" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
+                                        <input id="" name="az_phone" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
                                     <?php } ?>
                                 </div>
                             </div>
@@ -126,10 +126,10 @@
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                         <div class="form-group field-group">
                             <div class="input-user input-icon">
-                                <input id="" name="az_name" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваше имя','houzez'); ?>" type="text" />
+                                <input id="" name="az_name" placeholder="<?php esc_html_e('Ваше имя','houzez'); ?>" type="text" />
                             </div>
                             <div class="input-phone input-icon">
-                                <input id="" name="az_phone" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
+                                <input id="" name="az_phone" placeholder="<?php esc_html_e('Ваш телефон','houzez'); ?>" type="text" />
                             </div>
                         </div>
                     <?php } ?>

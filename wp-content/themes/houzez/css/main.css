@@ -2818,7 +2818,8 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary:hover {
-  color: #fff;
+  /*color: #fff;*/
+  color: #000;
   background-color: #4cc6f4;
   border-color: #204d74;
 }
@@ -3188,7 +3189,8 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger:hover {
-  color: #fff;
+  /*color: #fff;*/
+  color: #000;
   background-color: #c9302c;
   border-color: #ac2925;
 }
