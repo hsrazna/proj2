@@ -131,8 +131,7 @@ if( !function_exists('houzez_testimonials') ) {
                                         <p class="auther-info">
                                             <span><?php echo $houzez_local['by_text']; ?> <span
                                                     class="blue"><?php echo esc_attr($name); ?></span></span>
-                                            <span><?php echo esc_attr($position); ?>
-                                                , <?php echo esc_attr($company); ?></span>
+                                            <span><?php echo esc_attr($position); ?><?php echo esc_attr($company); ?></span>
                                         </p>
                                     </div>
                                 </div>

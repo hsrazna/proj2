@@ -922,7 +922,8 @@ textarea.wpcf7-form-control, .dsidx-resp-area input[type='text'], .dsidx-resp-ar
   margin: 0 0 15px 0;
   font-weight: 400;
   text-transform: inherit;
-  text-align: inherit;
+  /*text-align: inherit;*/
+  text-align: justify;
   /* mini phones and down */
   /* mini phones and down */
 }
@@ -10398,8 +10399,10 @@ div[class*="col-"] > .item-wrap {
 }
 .testimonial-item .auther-thumb, .agents-block .auther-thumb, .partner-block .auther-thumb {
   display: inline-block;
-  width: 70px;
-  height: 70px;
+  /*width: 70px;*/
+  width: 150px;
+  /*height: 70px;*/
+  height: 150px;
   overflow: hidden;
   text-align: center;
   margin-bottom: 20px;

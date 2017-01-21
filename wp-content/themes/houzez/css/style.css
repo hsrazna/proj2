@@ -7,6 +7,16 @@
 .az-title1 {
   font-weight: bold; }
 
+.az-pre-text {
+  color: #fff;
+  font-size: 18px;
+  line-height: 40px; }
+
+.az-post-text {
+  color: #fff;
+  font-size: 14px;
+  line-height: 30px; }
+
 .az-w-100 {
   width: 100% !important; }
 
@@ -652,6 +662,8 @@
 .ls-mask2 {
   padding-top: 30px;
   padding-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px; }
 
