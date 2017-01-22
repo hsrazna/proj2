@@ -59,7 +59,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <span class="az-time"><strong>00<span>:</span>00</strong></span>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="tel:+74996771664"><strong>+7499 677 1664</strong></a>
             <span class="az-city">Москва</span>
-            <span class="az-time2"><strong>00<span>:</span>00</strong></span>
+            <span class="az-time2"><strong>00<span>:</span>00</strong></span>&nbsp;&nbsp;|&nbsp;&nbsp;
         </div>
 <!-- $_SERVER['REMOTE_ADDR'] -->
 

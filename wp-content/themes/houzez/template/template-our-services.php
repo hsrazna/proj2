@@ -12,13 +12,25 @@ if ( is_front_page()  ) {
     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
 }
 ?>
-
-<?php get_template_part('template-parts/page-title'); ?>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title breadcrumb-single">
+            <div class="row">
+                <div class="col-sm-12">
+                    <?php //get_template_part( 'inc/breadcrumb' )?>
+                    <?php get_template_part( 'inc/breadcrumb-services' )?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="blog-article">
+    <?php get_template_part('template-parts/page-title'); ?>
+</div>
 <?php the_content(); ?>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div id="content-area">
-
             <div id="post-card-masonry-module" class="post-card-masonry az-margin-top15">
                 <?php
                     $terms = get_terms( array(
@@ -50,6 +62,7 @@ if ( is_front_page()  ) {
                         <?php //$term_query = new WP_Term_Query( Array('slug' => $term->slug) ); ?>
                         <div class="col-md-12 col-sm-12 col-xs-12 grid-item">
                             <div class="post-card-item az-post-card-item">
+
                                 <figure class="item-thumb az-item-thumb">
                                     <?php 
                                         $img = get_field('изображение', 'servicescat_'.$term->term_id);

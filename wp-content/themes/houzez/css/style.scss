@@ -61,6 +61,12 @@
     display: block !important;
 }
 
+.post-card-item.blog-article, .article-media{
+    img{
+        width: 100%;
+    }
+}
+
 .az-inner-padding{
     button{
         padding: 6px 25px !important;
