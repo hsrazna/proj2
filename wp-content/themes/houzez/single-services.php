@@ -31,7 +31,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
                             <article class="blog-article">
                                 <div class="page-title">
-                                    <h2><?php the_title(); ?></h2>
+                                    <h1><?php the_title(); ?></h1>
                                     <?php //get_template_part( 'single-post/post-meta' ); ?>
                                 </div>
                                 <?php houzez_post_thumbnail(); ?>

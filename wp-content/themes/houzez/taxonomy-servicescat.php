@@ -65,7 +65,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
                                     <div class="post-card-description">
                                         
-                                        <h3><?php the_title(); ?></h3>
+                                        <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                                         <p><?php the_excerpt();//houzez_clean_excerpt( '100', 'false' ); ?></p>
                                         <a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
                                     </div>

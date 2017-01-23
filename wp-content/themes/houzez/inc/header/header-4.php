@@ -119,7 +119,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <div class="ls-call">
                 <?php if(is_user_logged_in()): ?>
                     <?php if ( qtrans_getLanguage() == 'en' ) {?>
-                        <a href="#" class="btn btn-orange az-btn" data-user-id="<?=$userID?>" data-user-login="<?=$user_login?>" data-user-phone="<?=$az_phone?1:0?>" data-user-mobile="<?=$az_mobile?1:0?>">Feed back</a>
+                        <a href="#" class="btn btn-orange az-btn" data-user-id="<?=$userID?>" data-user-login="<?=$user_login?>" data-user-phone="<?=$az_phone?1:0?>" data-user-mobile="<?=$az_mobile?1:0?>">Request a call</a>
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                         <a href="#" class="btn btn-orange az-btn az-reg" data-user-id="<?=$userID?>" data-user-login="<?=$user_login?>" data-user-phone="<?=$az_phone?1:0?>" data-user-mobile="<?=$az_mobile?1:0?>">Заказать звонок</a>
                     <?php } ?>

@@ -1001,15 +1001,19 @@ function houzez_custom_styling() {
         h1,
         .page-title .title-head,
         .article-detail h1 {
-            font-size: 30px;
-            line-height: 38px;
+            /*font-size: 30px;*/
+            font-size: 20px;
+            /*line-height: 38px;*/
+            line-height: 28px;
             margin: 0 0 28px 0;
         }
         h2,
         .article-detail h2,
         .houzez-module .module-title-nav h2 {
-            font-size: 24px;
-            line-height: 32px;
+            /*font-size: 24px;*/
+            font-size: 18px;
+            /*line-height: 32px;*/
+            line-height: 26px;
             margin: 0 0 10px 0;
             font-family: {$typo_headings['font-family']};
         }

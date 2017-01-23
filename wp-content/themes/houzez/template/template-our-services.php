@@ -77,7 +77,7 @@ if ( is_front_page()  ) {
 
                                     <div class="post-card-description">
                                         
-                                        <h3><?php echo $term->name; ?></h3>
+                                        <h2><a href="<?php echo get_term_link($term->term_id); ?>"><?php echo $term->name; ?></a></h2>
                                         <p><?php echo $term->description;//houzez_clean_excerpt( '100', 'false' ); ?></p>
                                         <a href="<?php echo get_term_link($term->term_id); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
                                     </div>
