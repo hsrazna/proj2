@@ -1,6 +1,7 @@
 <?php 
 require_once "wp-load.php";
 echo mail('anzarsh@mail.ru', 'Subject', "message")?"the mail is sent":"the mail isn't sent";
+echo phpinfo();
 // try {
 //     $sent = @wp_mail( $to, $subject, $message );
 // } catch (Exception $e) {
