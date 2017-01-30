@@ -664,10 +664,10 @@ if( !function_exists('az_call_back') ) {
         if(is_user_logged_in()){
             if($userID == $postId && $userLogin == $postName && ($postPhone == 1 || $postMobile == 1)){
                 $subject  = "Новое сообщение";
-                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
-                $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
-                $headers .= "MIME-Version: 1.0\r\n";
-                $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+                // $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                // $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
+                // $headers .= "MIME-Version: 1.0\r\n";
+                // $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
                 $msg  = "<html><body>";
                 $msg .= "<h2>Новое сообщение</h2>\r\n";
                 $msg .= "<p><strong>Заявка:</strong> обратный звонок от ".$userLogin."</p>\r\n";
@@ -692,12 +692,12 @@ if( !function_exists('az_call_back') ) {
                 } else {
                     if ( qtrans_getLanguage() == 'en' ) {
                         echo json_encode(array(
-                            'success' => true,
+                            'success' => false,
                             'msg' => esc_html__( 'Your request isn\'t sent!', 'houzez')
                         ));
                     } elseif ( qtrans_getLanguage() == 'ru' ) {
                         echo json_encode(array(
-                            'success' => true,
+                            'success' => false,
                             'msg' => esc_html__( 'Ваш запрос не отправлен!', 'houzez')
                         ));
                     }
@@ -710,7 +710,7 @@ if( !function_exists('az_call_back') ) {
                     wp_die();
                 }
                 $subject  = "Новое сообщение";
-                $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+                $headers  = "From: " . "starasiaphuket.com" . "\r\n";
                 $headers .= "Reply-To: ". strip_tags($userEmail) . "\r\n";
                 $headers .= "MIME-Version: 1.0\r\n";
                 $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
@@ -736,12 +736,12 @@ if( !function_exists('az_call_back') ) {
                 } else {
                     if ( qtrans_getLanguage() == 'en' ) {
                         echo json_encode(array(
-                            'success' => true,
+                            'success' => false,
                             'msg' => esc_html__( 'Your request isn\'t sent!', 'houzez')
                         ));
                     } elseif ( qtrans_getLanguage() == 'ru' ) {
                         echo json_encode(array(
-                            'success' => true,
+                            'success' => false,
                             'msg' => esc_html__( 'Ваш запрос не отправлен!', 'houzez')
                         ));
                     }
@@ -778,7 +778,7 @@ if( !function_exists('az_call_back') ) {
             //     wp_die();
             // }
             $subject  = "Новое сообщение";
-            $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+            $headers  = "From: " . "starasiaphuket.com" . "\r\n";
             $headers .= "Reply-To: ". "\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
@@ -926,7 +926,7 @@ if( !function_exists('az_request_form') ) {
             }
 
             $subject  = "Новое сообщение";
-            $headers  = "From: " . "StarAsiaPhuket" . "\r\n";
+            $headers  = "From: " . "starasiaphuket.com" . "\r\n";
             $headers .= "Reply-To: ". strip_tags($az_email) . "\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
