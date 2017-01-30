@@ -926,10 +926,14 @@ if( !function_exists('az_request_form') ) {
             }
 
             $subject  = "Новое сообщение";
-            $headers  = "From: " . "starasiaphuket.com" . "\r\n";
-            $headers .= "Reply-To: ". strip_tags($az_email) . "\r\n";
+            $headers  = "From: " . "user@starasiaphuket.com" . "\r\n";
+            // $headers .= "Reply-To: ". "\r\n";
             $headers .= "MIME-Version: 1.0\r\n";
             $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
+            // $headers  = "From: " . "starasiaphuket.com" . "\r\n";
+            // $headers .= "Reply-To: ". "\r\n";
+            // $headers .= "MIME-Version: 1.0\r\n";
+            // $headers .= "Content-Type: text/html;charset=utf-8 \r\n";
             $msg  = "<html><body>";
             $msg .= "<h2>Новое сообщение</h2>\r\n";
             $msg .= "<p><strong>Заявка:</strong> форма запроса от ".$az_name."</p>\r\n";
