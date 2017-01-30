@@ -677,7 +677,7 @@ if( !function_exists('az_call_back') ) {
                 $msg .= "</body></html>";
 
                 // отправка сообщения
-                if(mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                if(wp_mail(get_option('admin_email'), $subject, $msg, $headers)) {
                     if ( qtrans_getLanguage() == 'en' ) {
                         echo json_encode(array(
                             'success' => true,
@@ -721,7 +721,7 @@ if( !function_exists('az_call_back') ) {
                 $msg .= "</body></html>";
 
                 // отправка сообщения
-                if(mail(get_option('admin_email'), $subject, $msg, $headers)) {
+                if(wp_mail(get_option('admin_email'), $subject, $msg, $headers)) {
                     if ( qtrans_getLanguage() == 'en' ) {
                         echo json_encode(array(
                             'success' => true,
@@ -789,7 +789,7 @@ if( !function_exists('az_call_back') ) {
             $msg .= "</body></html>";
 
             // отправка сообщения
-            if(mail(get_option('admin_email'), $subject, $msg, $headers)) {
+            if(wp_mail(get_option('admin_email'), $subject, $msg, $headers)) {
                 if ( qtrans_getLanguage() == 'en' ) {
                     echo json_encode(array(
                         'success' => true,
@@ -954,7 +954,7 @@ if( !function_exists('az_request_form') ) {
             $msg .= "</body></html>";
 
             // отправка сообщения
-            if(mail(get_option('admin_email'), $subject, $msg, $headers)) {
+            if(wp_mail(get_option('admin_email'), $subject, $msg, $headers)) {
                 if ( qtrans_getLanguage() == 'en' ) {
                     echo json_encode(array(
                         'success' => true,
