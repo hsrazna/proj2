@@ -804,12 +804,12 @@ if( !function_exists('az_call_back') ) {
             } else {
                 if ( qtrans_getLanguage() == 'en' ) {
                     echo json_encode(array(
-                        'success' => true,
+                        'success' => false,
                         'msg' => esc_html__( 'Your request isn\'t sent!', 'houzez')
                     ));
                 } elseif ( qtrans_getLanguage() == 'ru' ) {
                     echo json_encode(array(
-                        'success' => true,
+                        'success' => false,
                         'msg' => esc_html__( 'Ваш запрос не отправлен!', 'houzez')
                     ));
                 }
@@ -969,12 +969,12 @@ if( !function_exists('az_request_form') ) {
             } else {
                 if ( qtrans_getLanguage() == 'en' ) {
                     echo json_encode(array(
-                        'success' => true,
+                        'success' => false,
                         'msg' => esc_html__( 'Your request isn\'t sent!', 'houzez')
                     ));
                 } elseif ( qtrans_getLanguage() == 'ru' ) {
                     echo json_encode(array(
-                        'success' => true,
+                        'success' => false,
                         'msg' => esc_html__( 'Ваш запрос не отправлен!', 'houzez')
                     ));
                 }
