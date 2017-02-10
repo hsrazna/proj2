@@ -50,7 +50,32 @@ h1, h2, h3, h4, h5, h6{
 .az-rel{
     position: relative;
 }
-
+.az-date-style{
+    line-height: 29px;
+    margin-right: 10px;
+}
+.az-meta-tags{
+    li{
+        display: inline-block;
+    }
+     a{
+        color: #fff;
+        background-color: #bf1e2e;
+        border: 1px solid #bf1e2e;
+        font-size: 14px;
+        line-height: 1;
+        margin: 0 3px 3px 0;
+        font-weight: 400;
+        text-transform: inherit;
+        text-align: inherit;
+        display: inline-block;
+        padding: 4px 10px 5px 10px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+    }
+}
 .next-prev-blog .media-left a:hover, .next-prev-blog .media-right a:hover{
     color: #bf1e2e !important;
 }
@@ -76,7 +101,10 @@ h1, h2, h3, h4, h5, h6{
 .az-disp-block{
     display: block !important;
 }
+.az-border-bottomnone{
+    border-bottom: none !important;
 
+}
 .post-card-item.blog-article, .article-media{
     img{
         width: 100%;

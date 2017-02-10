@@ -9,7 +9,7 @@ global $houzez_local;
 	<?php houzez_post_thumbnail(); ?>
 
 	<div class="article-detail">
-		<?php the_title( '<h1 class="article-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
+		<div class="pull-left az-date-style hidden-xs"><i class="fa fa-calendar"></i> <?php the_date('d.m.Y'); ?></div><?php the_title( '<h1 class="article-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
 
 		<?php the_excerpt(); ?>
 

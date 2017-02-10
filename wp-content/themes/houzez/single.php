@@ -33,7 +33,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                 <div class="page-title">
                                     <h2><?php the_title(); ?></h2>
                                     <?php get_template_part( 'single-post/post-meta' ); ?>
-                                    <?php get_template_part( 'single-post/tags' ); ?>
+                                    <?php //get_template_part( 'single-post/tags' ); ?>
                                 </div>
                                 <?php houzez_post_thumbnail(); ?>
 

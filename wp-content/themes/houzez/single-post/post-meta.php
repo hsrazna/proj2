@@ -12,8 +12,10 @@ if( empty($author_image) ) {
     </li>
 	<?php endif; ?>
     <li><i class="fa fa-calendar"></i> <?php the_date('d.m.Y'); ?> </li>
-    <li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
+    <li><?php the_tags( '<ul class="az-meta-tags"><li>', '</li><li>', '</li></ul>' ); ?></li>
     <?php if(0): ?>
+    <li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
+    
     <li><i class="fa fa-comments-o"></i> <?php echo comments_number( '0', '1' ); ?></li>
     <?php endif; ?>
 </ul>

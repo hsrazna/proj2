@@ -25,10 +25,12 @@ global $houzez_local;
 		</div>
 		<div class="post-card-body">
 
-			<div class="post-card-description">
+			<div class="post-card-description az-border-bottomnone">
 				<ul class="list-inline">
 					<li><time datetime="<?php esc_attr( the_time( get_option( 'date_format' ) ));?>"><i class="fa fa-calendar"></i> <?php esc_attr( the_time( get_option( 'date_format' ) ));?></time></li>
+					<?php if(0): ?>
 					<li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
+					<?php endif; ?>
 				</ul>
 				<h3 class="post-card-title"><?php the_title(); ?></h3>
 				<p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
