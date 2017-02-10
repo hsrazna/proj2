@@ -94,7 +94,11 @@ if ( is_front_page()  ) {
             <!--start Pagination-->
             <?php houzez_pagination( $the_query->max_num_pages, $range = 2 ); ?>
             <!--start Pagination-->
-
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+              <?php get_template_part( 'template-parts/az-form' ); ?>
+                </div>
+            </div>
         </div>
     </div><!-- end container-content -->
 

@@ -18,7 +18,7 @@ if( $related_posts ) {
     <?php if ( qtrans_getLanguage() == 'en' ) {?>
     <h3 class="blog-section-title"><?php esc_html_e( 'Related posts', 'houzez' ); ?></h3>
     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-    <h3 class="blog-section-title"><?php esc_html_e( 'Похожие статьи', 'houzez' ); ?></h3>
+    <h3 class="blog-section-title"><?php esc_html_e( 'Еще вас может заинтересовать:', 'houzez' ); ?></h3>
     <?php } ?>
     <div class="row grid-row">
     <?php foreach( $related_posts as $post ): setup_postdata( $post ); ?>

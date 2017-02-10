@@ -1,5 +1,5 @@
 <div class="next-prev-block next-prev-blog blog-section clearfix az-blog-section ">
-    <h3 class="blog-section-title"><?php esc_html_e( 'Еще вас может заинтересовать:', 'houzez' ); ?></h3>
+    
     <div class="prev-box pull-left">
         <?php
         $prevPost = get_previous_post(true);

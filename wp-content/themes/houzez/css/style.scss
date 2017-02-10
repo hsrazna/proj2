@@ -54,7 +54,12 @@ h1, h2, h3, h4, h5, h6{
 .next-prev-blog .media-left a:hover, .next-prev-blog .media-right a:hover{
     color: #bf1e2e !important;
 }
-
+.az-tags{
+    .article-footer{
+        border-top: none;
+        padding: 30px 0 0 0;
+    }
+}
 .az-abs{
     position: absolute;
     top: 50%;

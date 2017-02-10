@@ -29,10 +29,11 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                         // Start the Loop.
                         while ( have_posts() ) : the_post(); ?>
 
-                            <article class="blog-article">
+                            <article class="blog-article az-tags">
                                 <div class="page-title">
                                     <h2><?php the_title(); ?></h2>
                                     <?php get_template_part( 'single-post/post-meta' ); ?>
+                                    <?php get_template_part( 'single-post/tags' ); ?>
                                 </div>
                                 <?php houzez_post_thumbnail(); ?>
 
@@ -54,7 +55,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                                     wp_link_pages( $args );
                                     ?>
                                 </div>
-                                <?php get_template_part( 'single-post/tags' ); ?>
+                                <?php //get_template_part( 'single-post/tags' ); ?>
                             </article>
 
                             <?php get_template_part( 'single-post/post-nav' ); ?>
@@ -62,15 +63,20 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                             <?php //get_template_part( 'single-post/author' ); ?>
 
                             <?php get_template_part( 'single-post/related-posts' ); ?>
-
+            
                             <?php
                             // If comments are open or we have at least one comment, load up the comment template.
                             if ( comments_open() || get_comments_number() ) {
                                 comments_template();
                             }
+
                         endwhile;
                     ?>
-
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                      <?php get_template_part( 'template-parts/az-form' ); ?>
+                        </div>
+                    </div>
                 </div>
                 
             </div>

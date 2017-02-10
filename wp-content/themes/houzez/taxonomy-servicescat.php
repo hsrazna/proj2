@@ -75,6 +75,11 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                         </div>
                     <?php endwhile; endif; ?>
                     <?php wp_reset_postdata(); ?>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                      <?php get_template_part( 'template-parts/az-form' ); ?>
+                        </div>
+                    </div>
                 </div>
 			</div>
 			<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar <?php //if( isset( $sticky_sidebar['default_sidebar'] ) && $sticky_sidebar['default_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">

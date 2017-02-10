@@ -34,17 +34,19 @@ global $houzez_local;
 				<p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
 				<a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
 			</div>
+			<?php if(0): ?>
 			<div class="post-card-author">
 				<?php if( get_the_author_meta( 'fave_author_custom_picture' ) != '' ) { ?>
 				<div class="author-image">
 					<img width="40" height="40" src="<?php echo esc_url(get_the_author_meta( 'fave_author_custom_picture' )); ?>" alt="<?php the_author(); ?>" class="img-circle">
 				</div>
 				<?php } ?>
+
 				<div class="author-name">
 					<span><?php echo $houzez_local['by_text']; ?> <?php the_author(); ?></span>
 				</div>
 			</div>
-
+			<?php endif; ?>
 		</div>
 	</div>
 </div>
