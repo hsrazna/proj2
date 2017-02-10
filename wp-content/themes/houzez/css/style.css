@@ -26,6 +26,9 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 .az-rel {
   position: relative; }
 
+.next-prev-blog .media-left a:hover, .next-prev-blog .media-right a:hover {
+  color: #bf1e2e !important; }
+
 .az-abs {
   position: absolute;
   top: 50%;
@@ -124,6 +127,9 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   width: 100%; }
   .az-post-card-body .post-card-description {
     border: none; }
+
+.az-post-card-body2 .post-card-description {
+  border: none; }
 
 .az-stamp {
   position: absolute;

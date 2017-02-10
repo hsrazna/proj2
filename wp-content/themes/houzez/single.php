@@ -59,7 +59,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
                             <?php get_template_part( 'single-post/post-nav' ); ?>
 
-                            <?php get_template_part( 'single-post/author' ); ?>
+                            <?php //get_template_part( 'single-post/author' ); ?>
 
                             <?php get_template_part( 'single-post/related-posts' ); ?>
 

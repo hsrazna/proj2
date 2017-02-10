@@ -54,7 +54,7 @@ if ( is_front_page()  ) {
                                         <?php } ?>
                                     </figcaption>
                                 </figure>
-                                <div class="post-card-body">
+                                <div class="post-card-body az-post-card-body2">
 
                                     <div class="post-card-description">
                                         <ul class="list-inline">
@@ -65,6 +65,7 @@ if ( is_front_page()  ) {
                                         <p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
                                         <a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
                                     </div>
+                                    <?php if(0): ?>
                                     <div class="post-card-author">
                                         <?php if( get_the_author_meta( 'fave_author_custom_picture' ) != '' ) { ?>
                                             <div class="author-image">
@@ -75,7 +76,7 @@ if ( is_front_page()  ) {
                                             <span><?php echo $houzez_local['by_text']; ?> <?php the_author(); ?></span>
                                         </div>
                                     </div>
-
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
