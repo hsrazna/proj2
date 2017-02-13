@@ -78,7 +78,7 @@ if( !empty( $img_url[0] ) ) {
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
                                         <div class="col-md-4 col-sm-12 az-sm-margin10">
-                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins">
+                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins" disabled>
                                                 <option value>Badrooms</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -124,19 +124,20 @@ if( !empty( $img_url[0] ) ) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="az-left">
+                            <span class="az-pre-text">Отдых твоей мечты</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="ls-mask2">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="az-right">
-                                        <span class="az-pre-text">Отдых твоей мечты</span>
-                                    </div>
-                                </div>
-                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
+                                
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/" disabled>
                                     <div class="ls-form-owl-ru">
                                         <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
                                         <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
                                         <div class="col-md-4 col-sm-12 az-sm-margin10">
-                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins">
+                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins" disabled>
                                                 <option value>Кол. спален</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -147,7 +148,7 @@ if( !empty( $img_url[0] ) ) {
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-sm-12 az-sm-margin10">
-                                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins" disabled>
                                                 <option value>Весь Пхукет</option>
                                                 <option data-parentcity="" value="Phang Nga">Панг Нга</option>
                                                 <option data-parentcity="" value="Mai Khao">Май Као</option>
@@ -156,24 +157,25 @@ if( !empty( $img_url[0] ) ) {
                                             </select>
                                         </div>
                                         <div class="col-md-4 col-sm-12 az-sm-margin10">
-                                            <input type="text" name="daterange" value="" id="as123"/>
+                                            <input type="text" name="daterange" value="" id="as123" disabled/>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="ls-submit-owl-ru">
                                         <div class="col-md-12">
-                                            <button class="btn btn-orange"><?php echo $houzez_local['search']; ?></button>
+                                            <button class="btn btn-orange" disabled><?php echo $houzez_local['search']; ?></button>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
-                                <div class="col-md-12">
-                                    <div class="az-right">
-                                        <span class="az-post-text">начинается здесь</span>
-                                    </div>
-                                </div>
+                                
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="az-left">
+                            <span class="az-post-text">начинается здесь</span>
                         </div>
                     </div>
                 </div>

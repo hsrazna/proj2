@@ -36,12 +36,12 @@ h1, h2, h3, h4, h5, h6{
 }
 .az-pre-text{
     color: #fff;
-    font-size: 18px;
+    font-size: 26px;//18px;
     line-height: 40px;
 }
 .az-post-text{
     color: #fff;
-    font-size: 14px;
+    font-size: 20px;//14px;
     line-height: 30px;
 }
 .az-w-100{
@@ -53,6 +53,15 @@ h1, h2, h3, h4, h5, h6{
 .az-date-style{
     line-height: 29px;
     margin-right: 10px;
+}
+input[name="daterange"]{
+    cursor: not-allowed !important;
+    opacity: .65;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 .az-meta-tags{
     li{
