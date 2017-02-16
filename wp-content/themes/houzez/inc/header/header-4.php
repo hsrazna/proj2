@@ -57,8 +57,17 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             ?>
         </nav>
         <div class="az-tels">
+            <span><?php //print_r( getdate(time(
+            // gmdate("H"),
+            // gmdate("i"),
+            // gmdate("s"),
+            // gmdate("n"),
+            // gmdate("j"),
+            // gmdate("Y")
+            // ))); 
+            // print_r(echo getdate(time())); ?></span>
             <span><?php //echo geoip_continent_code_by_name(); ?></span>
-            <a href="tel:+66600035625"><strong>+66 (0) 60 00 35 625</strong></a>
+            <a href="tel:+66600035625"><strong>+66 (0) 60 00 35 625 </strong></a>
             <span class="az-city">Пхукет</span>
             <span class="az-time"><strong>00<span>:</span>00</strong></span>
             &nbsp;&nbsp;|&nbsp;&nbsp;<a href="tel:+74996771664"><strong>+7499 677 1664</strong></a>
@@ -70,8 +79,15 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
         (function($){
         //var az_delta = <?php //echo time() ?>*1000 - new Date();
         //(new Date().getTimezoneOffset() + 420) * 60 * 1000;
-        var az_gmt_phuket = (<?php echo time() ?>*1000) - (new Date().getTime());// + (60 * 60 * 1000);
-        var az_gmt_moscow = az_gmt_phuket - (240 * 60 * 1000);
+        var az_gmt_moscow = (new Date().getTime()) - ((<?php echo time(
+            gmdate("H"),
+            gmdate("i"),
+            gmdate("s"),
+            gmdate("n"),
+            gmdate("j"),
+            gmdate("Y")
+            )//echo time() ?>*1000));// + (420 * 60 * 1000));// + (60 * 60 * 1000);
+        var az_gmt_phuket = az_gmt_moscow + (240 * 60 * 1000);
         // alert(az_gmt_moscow);
         var az_interval = 0;
 
