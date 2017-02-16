@@ -25,9 +25,13 @@ global $houzez_local;
 		</div>
 		<div class="post-card-body">
 
+<?php //echo iconv("Windows-1251","UTF-8", get_the_time( get_option( 'date_format' )  ));?>
+<?php //echo get_the_time(); ?>
+<?php //the_time( get_option( 'date_format' ) ) ?>
+<?php //echo date_i18n(get_option( 'date_format' ), get_the_time('U')); ?>
 			<div class="post-card-description az-border-bottomnone">
 				<ul class="list-inline">
-					<li><time datetime="<?php esc_attr( the_time( get_option( 'date_format' ) ));?>"><i class="fa fa-calendar"></i> <?php echo iconv("Windows-1251","UTF-8", get_the_time( get_option( 'date_format' )  ));?></time></li>
+					<li><time datetime="<?php esc_attr( the_time( get_option( 'date_format' ) ));?>"><i class="fa fa-calendar"></i> <?php esc_attr( print date_i18n(get_option( 'date_format' ), get_the_time('U')));?></time></li>
 					<?php if(0): ?>
 					<li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
 					<?php endif; ?>
