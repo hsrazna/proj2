@@ -70,7 +70,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
         (function($){
         //var az_delta = <?php //echo time() ?>*1000 - new Date();
         //(new Date().getTimezoneOffset() + 420) * 60 * 1000;
-        var az_gmt_phuket = (new Date().getTime()) - (<?php echo time() ?>*1000+(60 * 60 * 1000));// + (60 * 60 * 1000);
+        var az_gmt_phuket = (new Date().getTime()) - (<?php echo time() ?>*1000);// + (60 * 60 * 1000);
         var az_gmt_moscow = az_gmt_phuket - (240 * 60 * 1000);
         // alert(az_gmt_moscow);
         var az_interval = 0;
