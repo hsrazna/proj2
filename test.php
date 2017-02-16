@@ -1,4 +1,7 @@
 <?php 
+echo date('Y-m-d H:i', time());
+echo '<br />'. time();
+
 // require_once "wp-load.php";
 // @ini_set( 'display_errors', 1 );
 // error_reporting(-1);

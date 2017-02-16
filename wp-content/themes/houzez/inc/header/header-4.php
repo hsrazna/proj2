@@ -86,7 +86,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             gmdate("n"),
             gmdate("j"),
             gmdate("Y")
-            )//echo time() ?>*1000));// + (420 * 60 * 1000));// + (60 * 60 * 1000);
+            ) + (180 * 60 * 1000);//echo time() ?>*1000));// + (420 * 60 * 1000));// + (60 * 60 * 1000);
         var az_gmt_phuket = az_gmt_moscow + (240 * 60 * 1000);
         // alert(az_gmt_moscow);
         var az_interval = 0;
