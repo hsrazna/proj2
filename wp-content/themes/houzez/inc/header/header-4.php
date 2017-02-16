@@ -85,7 +85,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 
 
 
-        // alert(<?php echo( $date_arr["hours"]); ?> +'//'+new Date().getHours());
+        // alert(<?php //echo( $date_arr["hours"]); ?> +'//'+new Date().getHours());
 
 
 
