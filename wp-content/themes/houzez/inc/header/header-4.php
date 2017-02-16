@@ -57,7 +57,8 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             ?>
         </nav>
         <div class="az-tels">
-            <span><?php //print_r( getdate(time(
+            <span><?php //print_r( getDate((int)date_i18n( _x('U', 'timezone date format'), false, true ))); ?>
+            <?php //print_r( getdate(time(
             // gmdate("H"),
             // gmdate("i"),
             // gmdate("s"),
@@ -77,16 +78,19 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 <!-- $_SERVER['REMOTE_ADDR'] -->
     <script>
         (function($){
+            <?php $date_arr = getDate((int)date_i18n( _x('U', 'timezone date format'), false, true )); ?>
         //var az_delta = <?php //echo time() ?>*1000 - new Date();
         //(new Date().getTimezoneOffset() + 420) * 60 * 1000;
-        var az_gmt_moscow = (new Date().getTime()) - ((<?php echo time(
-            gmdate("H"),
-            gmdate("i"),
-            gmdate("s"),
-            gmdate("n"),
-            gmdate("j"),
-            gmdate("Y")
-            ) + (180 * 60 * 1000);//echo time() ?>*1000));// + (420 * 60 * 1000));// + (60 * 60 * 1000);
+        var az_gmt_moscow = (new Date().getTime()) - ((new Date(<?php echo $date_arr['year'] ?>, <?php echo $date_arr['mon'] ?>, <?php echo $date_arr['mday'] ?>, <?php echo $date_arr['hours'] ?>, <?php echo $date_arr['minutes'] ?>, <?php echo $date_arr['seconds'] ?>).getTime()) + (180 * 60 * 1000));
+
+
+
+        // alert(<?php echo( $date_arr["hours"]); ?> +'//'+new Date().getHours());
+
+
+
+
+
         var az_gmt_phuket = az_gmt_moscow + (240 * 60 * 1000);
         // alert(az_gmt_moscow);
         var az_interval = 0;
