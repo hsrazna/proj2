@@ -12,50 +12,7 @@
         // });
         $('.az-col-map1').theiaStickySidebar({additionalMarginTop: 80});
 
-        var az_gmt_moscow = (new Date().getTimezoneOffset() + 180) * 60 * 1000;
-        var az_gmt_phuket = (new Date().getTimezoneOffset() + 420) * 60 * 1000;
-        // alert(az_gmt_moscow);
-        var az_interval = 0;
-
-
-        setInterval(function( )
-            {
-                var currentTime = new Date ( );
-                currentTime.setTime((new Date().getTime()) + az_gmt_phuket);
-                var currentTime_Moscow = new Date ( );
-                currentTime_Moscow.setTime((new Date().getTime()) + az_gmt_moscow);
-                
-                var currentHours = currentTime.getHours ( );
-                var currentMinutes = currentTime.getMinutes ( );
-                var currentHours_Moscow = currentTime_Moscow.getHours ( );
-                var currentMinutes_Moscow = currentTime_Moscow.getMinutes ( );
-                // var currentSeconds = currentTime.getSeconds ( );
-
-                // Pad the minutes and seconds with leading zeros, if required
-                currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
-                currentMinutes_Moscow = ( currentMinutes_Moscow < 10 ? "0" : "" ) + currentMinutes_Moscow;
-                // currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
-
-                // Choose either "AM" or "PM" as appropriate
-                var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
-
-                // Convert the hours component to 12-hour format if needed
-                currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
-
-                // Convert an hours component of "0" to "12"
-                currentHours = ( currentHours == 0 ) ? 12 : currentHours;
-
-                // Compose the string for display
-                var currentTimeString = "<strong>" + currentHours + ((az_interval%2==0)?"<span>:</span>":"<span style='opacity: 0;'>:</span>") + currentMinutes + " " + timeOfDay + "</strong>";
-                var currentTimeString_Moscow = "<strong>" + currentHours_Moscow + ((az_interval%2==0)?"<span>:</span>":"<span style='opacity: 0;'>:</span>") + currentMinutes_Moscow + " </strong>";
-                
-                
-                $(".az-time").html(currentTimeString);
-                $(".az-time2").html(currentTimeString_Moscow);
-
-                az_interval++;
-
-            }, 1000);
+        
         // alert(1);
 
         // var az_number = $(".az-number");
