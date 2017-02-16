@@ -81,7 +81,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
             <?php $date_arr = getDate((int)date_i18n( _x('U', 'timezone date format'), false, true )); ?>
         //var az_delta = <?php //echo time() ?>*1000 - new Date();
         //(new Date().getTimezoneOffset() + 420) * 60 * 1000;
-        var az_gmt_moscow = (new Date().getTime()) - ((new Date(<?php echo $date_arr['year'] ?>, <?php echo $date_arr['mon'] ?>, <?php echo $date_arr['mday'] ?>, <?php echo $date_arr['hours'] ?>, <?php echo $date_arr['minutes'] ?>, <?php echo $date_arr['seconds'] ?>).getTime()) + (180 * 60 * 1000));
+        var az_gmt_moscow = ((new Date(<?php echo $date_arr['year'] ?>, <?php echo $date_arr['mon'] ?>, <?php echo $date_arr['mday'] ?>, <?php echo $date_arr['hours'] ?>, <?php echo $date_arr['minutes'] ?>, <?php echo $date_arr['seconds'] ?>).getTime()) - (new Date().getTime()) + (180 * 60 * 1000));
 
 
 
@@ -92,7 +92,7 @@ if( $header_4_menu_align == 'nav-right' && $header_login != 'yes' ) {
 
 
         var az_gmt_phuket = az_gmt_moscow + (240 * 60 * 1000);
-        // alert(az_gmt_moscow);
+        // alert(az_gmt_moscow/(60*60*1000) +'//'+az_gmt_phuket/(60*60*1000));
         var az_interval = 0;
 
 
