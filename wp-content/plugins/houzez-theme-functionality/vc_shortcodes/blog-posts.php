@@ -37,7 +37,7 @@ if( !function_exists('houzez_blog_posts') ) {
             $posts_limit = get_option('posts_per_page');
         }
         $wp_query_args['posts_per_page'] = $posts_limit;
-        $wp_query_args['category__not_in'] = 70;
+        // $wp_query_args['category__not_in'] = 70;
         // 'category__not_in' => 70,
 
         $the_query = New WP_Query($wp_query_args);
