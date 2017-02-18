@@ -1876,7 +1876,7 @@ jQuery(document).ready(function ($) {
                     $messages.empty().append('<p class="success text-success"> '+ login_sending +'</p>');
                 },
                 success: function (data) {
-                    alert(data);
+                    // alert(data);
                     window.location.href = data;
                 },
                 error: function(xhr, status, error) {

@@ -7,6 +7,9 @@
     // alert(1);
     $(document).ready(function(){
 
+        if (window.location.hash && window.location.hash == '#_=_') {
+            window.location.hash = '';
+        }
         // $('.btn-map').click(function(){
         //     alert(1);
         // });
