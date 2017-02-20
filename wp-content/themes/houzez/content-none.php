@@ -25,12 +25,11 @@ $allowed_html_array = array(
 					<?php elseif ( is_search() ) : ?>
 						
 						<?php if ( qtrans_getLanguage() == 'en' ) {?>
-							<p><?php esc_html_e( 'Sorryн, but nothing matched your search terms. Please try again with some different keywords.', 'houzez' ); ?></p>
+							<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'houzez' ); ?></p>
 			            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-			            	<p><?php esc_html_e( "По вашему запросу {$_GET[s]}, к сожалению, ничего не удалось найти.", 'houzez' ); ?></p>
+			            	<p><?php esc_html_e( "По вашему запросу \"{$_GET[s]}\", к сожалению, ничего не удалось найти.", 'houzez' ); ?></p>
 			            <?php } ?>
 							
-						<p><?php esc_html_e( 'Sorryн, but nothing matched your search terms. Please try again with some different keywords.', 'houzez' ); ?></p>
 						<div class="widget_search">
 							<?php get_search_form(); ?>
 						</div>

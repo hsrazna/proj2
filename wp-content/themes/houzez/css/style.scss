@@ -8,6 +8,11 @@ h1, h2, h3, h4, h5, h6{
     }
 }
 
+mark{
+    color: inherit !important;
+    background: #ff0 !important;
+}
+
 .az-right{
     text-align: right;
 }
@@ -1285,6 +1290,9 @@ input[name="daterange"]{
 }
 
 /*margins*/
+.az-margin-search-head{
+    margin: 40px 0 30px;
+}
 .az-margin-right15{
     margin-right: 15px;
 }
