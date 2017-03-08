@@ -611,6 +611,19 @@ function cc_mime_types($mimes) {
 add_filter('upload_mimes', 'cc_mime_types');
 
 
+// add_action('init', 'do_rewrite');
+// function do_rewrite(){
+// 	// Правило перезаписи
+// 	add_rewrite_rule( '^(services)/([^/]*)/?', '/?services=$matches[1]', 'top' );
 
+// 	// скажем WP, что есть новые параметры запроса
+// 	add_filter( 'query_vars', function( $vars ){
+// 		$vars[] = 'services';
+// 		// $vars[] = 'variety';
+// 		return $vars;
+// 	} );
+// }
+
+// flush_rewrite_rules();
 
 ?>
