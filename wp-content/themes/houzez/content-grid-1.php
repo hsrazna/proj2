@@ -25,26 +25,30 @@ global $houzez_local;
 		</div>
 		<div class="post-card-body">
 
-			<div class="post-card-description">
+			<div class="post-card-description az-border-bottomnone">
 				<ul class="list-inline">
-					<li><time datetime="<?php esc_attr( the_time( get_option( 'date_format' ) ));?>"><i class="fa fa-calendar"></i> <?php esc_attr( the_time( get_option( 'date_format' ) ));?></time></li>
+					<li><time datetime="<?php esc_attr( the_time( get_option( 'date_format' ) ));?>"><i class="fa fa-calendar"></i> <?php esc_attr( print date_i18n(get_option( 'date_format' ), get_the_time('U')));?></time></li>
+					<?php if(0): ?>
 					<li><i class="fa fa-bookmark-o"></i> <?php the_category(', '); ?></li>
+					<?php endif; ?>
 				</ul>
 				<h3 class="post-card-title"><?php the_title(); ?></h3>
 				<p><?php echo houzez_clean_excerpt( '100', 'false' ); ?></p>
 				<a href="<?php the_permalink(); ?>" class="read"><?php echo $houzez_local['continue_reading']; ?> <i class="fa fa-caret-right"></i></a>
 			</div>
+			<?php if(0): ?>
 			<div class="post-card-author">
 				<?php if( get_the_author_meta( 'fave_author_custom_picture' ) != '' ) { ?>
 				<div class="author-image">
 					<img width="40" height="40" src="<?php echo esc_url(get_the_author_meta( 'fave_author_custom_picture' )); ?>" alt="<?php the_author(); ?>" class="img-circle">
 				</div>
 				<?php } ?>
+
 				<div class="author-name">
 					<span><?php echo $houzez_local['by_text']; ?> <?php the_author(); ?></span>
 				</div>
 			</div>
-
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

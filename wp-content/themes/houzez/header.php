@@ -1,4 +1,6 @@
 <?php
+// error_reporting(0);
+
 global $houzez_options, $houzez_local;
 $houzez_local = houzez_get_localization();
 /**

@@ -69,6 +69,7 @@ if( !function_exists( 'houzez_property_post_type' ) ){
             'has_archive' => true,
             'capability_type' => 'post',
             'map_meta_cap'    => true,
+            'taxonomies' => Array('post_tag'),
             //'capabilities'    => houzez_get_property_capabilities(),
             'hierarchical' => true,
             'menu_icon' => 'dashicons-building',

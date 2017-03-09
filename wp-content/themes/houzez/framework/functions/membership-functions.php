@@ -34,22 +34,42 @@ if( !function_exists('houzez_register_user_with_membership') ) {
         //     wp_die();
         // }
         if( empty( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('The email field is empty.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Введите email.', 'houzez') ) );
+            }
+            
             wp_die();
         }
 
         // if( username_exists( $username ) ) {
         if( username_exists( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пользователь с таким email уже зарегистрирован.', 'houzez') ) );
+            }
+            // echo json_encode( array( 'success' => false, 'msg' => esc_html__('This username is already registered.', 'houzez') ) );
             wp_die();
         }
         if( email_exists( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пользователь с таким email уже зарегистрирован.', 'houzez') ) );
+            }
+            // echo json_encode( array( 'success' => false, 'msg' => esc_html__('This email address is already registered.', 'houzez') ) );
             wp_die();
         }
 
         if( !is_email( $email ) ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+               echo json_encode( array( 'success' => false, 'msg' => esc_html__('Не правильный адрес email.', 'houzez') ) );
+            }
+            // echo json_encode( array( 'success' => false, 'msg' => esc_html__('Invalid email address.', 'houzez') ) );
             wp_die();
         }
 
@@ -57,12 +77,22 @@ if( !function_exists('houzez_register_user_with_membership') ) {
         $user_pass_retype  = trim( sanitize_text_field(wp_kses( $_POST['register_pass_retype'] ,$allowed_html) ) );
 
         if ($user_pass == '' || $user_pass_retype == '' ) {
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('One of the password field is empty!', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Одно из полей ввода пароля пустое!', 'houzez') ) );
+            }
+            
             wp_die();
         }
 
         if ($user_pass !== $user_pass_retype ){
-            echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+            if ( qtrans_getLanguage() == 'en' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Passwords do not match', 'houzez') ) );
+            } elseif ( qtrans_getLanguage() == 'ru' ) {
+                echo json_encode( array( 'success' => false, 'msg' => esc_html__('Пароли не совпадают', 'houzez') ) );
+            }
+            
             wp_die();
         }
 

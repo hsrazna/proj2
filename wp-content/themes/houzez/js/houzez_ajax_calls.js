@@ -1865,7 +1865,7 @@ jQuery(document).ready(function ($) {
         var houzez_login_via_facebook = function ( current ) {
             var $form = current.parents('form');
             var $messages = current.parents('.login-block').find('.houzez_messages');
-
+            // alert(1);
             $.ajax({
                 type: 'POST',
                 url: ajaxurl,
@@ -1876,6 +1876,7 @@ jQuery(document).ready(function ($) {
                     $messages.empty().append('<p class="success text-success"> '+ login_sending +'</p>');
                 },
                 success: function (data) {
+                    // alert(data);
                     window.location.href = data;
                 },
                 error: function(xhr, status, error) {

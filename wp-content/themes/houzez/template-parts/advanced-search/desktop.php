@@ -282,7 +282,7 @@ $checked = true;
                                     <?php } ?>
                                 </div>
                                 <div class="search-btn">
-                                    <button class="btn btn-orange"><?php echo $houzez_local['go']; ?></button>
+                                    <button class="btn btn-orange"><?php echo $houzez_local['search'];//echo $houzez_local['go']; ?></button>
                                 </div>
                             </div>
 
@@ -440,7 +440,7 @@ $checked = true;
 
                         </div>
                         <div class="search-btn">
-                            <button class="btn btn-orange"><?php echo $houzez_local['go']; ?></button>
+                            <button class="btn btn-orange"><?php echo $houzez_local['search'];//echo $houzez_local['go']; ?></button>
                         </div>
                     </div>
                     <?php } ?>
@@ -455,7 +455,7 @@ $checked = true;
                             </div>
                             <?php } ?>
                             <div class="search-btn">
-                                <button class="btn btn-orange"><?php echo $houzez_local['go']; ?></button>
+                                <button class="btn btn-orange"><?php echo $houzez_local['search'];//echo $houzez_local['go']; ?></button>
                             </div>
                         </div>
                     </div>

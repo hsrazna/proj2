@@ -2,6 +2,17 @@
     //font-family: "OpenSans-Regular";
 }
 
+h1, h2, h3, h4, h5, h6{
+    a{
+        color: #000;
+    }
+}
+
+mark{
+    color: inherit !important;
+    background: #ff0 !important;
+}
+
 .az-right{
     text-align: right;
 }
@@ -28,11 +39,65 @@
 .az-text3{
     //font-family: "OpenSans-Regular" !important;
 }
+.az-pre-text{
+    color: #fff;
+    font-size: 26px;//18px;
+    line-height: 40px;
+}
+.az-post-text{
+    color: #fff;
+    font-size: 20px;//14px;
+    line-height: 30px;
+}
 .az-w-100{
     width: 100% !important;
 }
 .az-rel{
     position: relative;
+}
+.az-date-style{
+    line-height: 29px;
+    margin-right: 10px;
+}
+input[name="daterange"]{
+    cursor: not-allowed !important;
+    opacity: .65;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.az-meta-tags{
+    li{
+        display: inline-block;
+    }
+     a{
+        color: #fff;
+        background-color: #bf1e2e;
+        border: 1px solid #bf1e2e;
+        font-size: 14px;
+        line-height: 1;
+        margin: 0 3px 3px 0;
+        font-weight: 400;
+        text-transform: inherit;
+        text-align: inherit;
+        display: inline-block;
+        padding: 4px 10px 5px 10px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+    }
+}
+.next-prev-blog .media-left a:hover, .next-prev-blog .media-right a:hover{
+    color: #bf1e2e !important;
+}
+.az-tags{
+    .article-footer{
+        border-top: none;
+        padding: 30px 0 0 0;
+    }
 }
 .az-abs{
     position: absolute;
@@ -49,6 +114,15 @@
 }
 .az-disp-block{
     display: block !important;
+}
+.az-border-bottomnone{
+    border-bottom: none !important;
+
+}
+.post-card-item.blog-article, .article-media{
+    img{
+        width: 100%;
+    }
 }
 
 .az-inner-padding{
@@ -163,7 +237,12 @@
         border: none;
     }
 }
+.az-post-card-body2{
 
+    .post-card-description{
+        border: none;
+    }
+}
 // .az-second2{
 //     opacity: 0.5;
 //     z-index: 9;
@@ -792,6 +871,8 @@
 .ls-mask2{
     padding-top: 30px;
     padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
     background: rgba(0,0,0, 0.5);
     border-radius: 5px;
 }
@@ -1209,6 +1290,9 @@ input[name="daterange"]{
 }
 
 /*margins*/
+.az-margin-search-head{
+    margin: 40px 0 30px;
+}
 .az-margin-right15{
     margin-right: 15px;
 }

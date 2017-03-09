@@ -23,8 +23,13 @@ $allowed_html_array = array(
 
 						<p><?php printf( wp_kses(__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>', 'houzez' ), $allowed_html_array ), admin_url( 'post-new.php' ) ); ?></p>
 					<?php elseif ( is_search() ) : ?>
-
-						<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'houzez' ); ?></p>
+						
+						<?php if ( qtrans_getLanguage() == 'en' ) {?>
+							<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'houzez' ); ?></p>
+			            <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+			            	<p><?php esc_html_e( "По вашему запросу \"{$_GET[s]}\", к сожалению, ничего не удалось найти.", 'houzez' ); ?></p>
+			            <?php } ?>
+							
 						<div class="widget_search">
 							<?php get_search_form(); ?>
 						</div>

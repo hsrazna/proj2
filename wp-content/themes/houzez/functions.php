@@ -583,7 +583,7 @@ function register_services_post_type() {
 		'has_archive'         => 'services',
 		'query_var'           => true,
 		'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-		'taxonomies'          => array( 'servicescat' ),
+		'taxonomies'          => array( 'servicescat', 'post_tag' ),
 	) );
 
 }
@@ -594,9 +594,11 @@ function register_services_post_type() {
 
 add_filter( 'get_terms', 'az_get_terms', 10, 4 );
 function az_get_terms( $terms, $taxonomies, $args, $term_query ){
-	// print_r($terms);
+
 	foreach($terms as &$term){
-		$term->description = qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage($term->description);
+		if(is_object($term)){
+			$term->description = qtranxf_useCurrentLanguageIfNotFoundUseDefaultLanguage($term->description);
+		}
 	}
 
 	return $terms;
@@ -608,5 +610,20 @@ function cc_mime_types($mimes) {
 }
 add_filter('upload_mimes', 'cc_mime_types');
 
+
+// add_action('init', 'do_rewrite');
+// function do_rewrite(){
+// 	// Правило перезаписи
+// 	add_rewrite_rule( '^(services)/([^/]*)/?', '/?services=$matches[1]', 'top' );
+
+// 	// скажем WP, что есть новые параметры запроса
+// 	add_filter( 'query_vars', function( $vars ){
+// 		$vars[] = 'services';
+// 		// $vars[] = 'variety';
+// 		return $vars;
+// 	} );
+// }
+
+// flush_rewrite_rules();
 
 ?>

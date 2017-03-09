@@ -35,10 +35,10 @@ $allowed_html_array = array(
                 <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                     <!-- input-user -->
                     <div class="input-email input-icon">
-                        <input id="login_username" name="username" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Email','houzez'); ?>" type="text" />
+                        <input id="login_username" name="username" placeholder="<?php esc_html_e('Email','houzez'); ?>" type="text" />
                     </div>
                     <div class="input-pass input-icon">
-                        <input id="password" name="password" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
+                        <input id="password" name="password" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
                     </div>
                 <?php } ?>
             </div>
@@ -103,7 +103,7 @@ $allowed_html_array = array(
                         <input id="register_username" name="username" style="font-family: 'OpenSans-Regular';" type="text" placeholder="<?php esc_html_e('Логин','houzez'); ?>" />
                     </div> -->
                     <div class="input-email input-icon">
-                        <input id="useremail" name="useremail" style="font-family: 'OpenSans-Regular';" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
+                        <input id="useremail" name="useremail" type="email" placeholder="<?php esc_html_e('Email','houzez'); ?>" />
                     </div>
                 <?php } ?>
 
@@ -117,10 +117,10 @@ $allowed_html_array = array(
                         </div>
                     <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
                         <div class="input-pass input-icon">
-                        <input id="register_pass" name="register_pass" style="font-family: 'OpenSans-Regular';" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
+                        <input id="register_pass" name="register_pass" placeholder="<?php esc_html_e('Пароль','houzez'); ?>" type="password" />
                     </div>
                     <div class="input-pass input-icon">
-                        <input id="register_pass_retype" name="register_pass_retype" placeholder="<?php esc_html_e('Подтверждение пароля','houzez'); ?>" style="font-family: 'OpenSans-Regular';" type="password" />
+                        <input id="register_pass_retype" name="register_pass_retype" placeholder="<?php esc_html_e('Подтверждение пароля','houzez'); ?>" type="password" />
                     </div>
                     <?php } ?>
                 <?php } ?>

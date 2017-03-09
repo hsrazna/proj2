@@ -922,7 +922,8 @@ textarea.wpcf7-form-control, .dsidx-resp-area input[type='text'], .dsidx-resp-ar
   margin: 0 0 15px 0;
   font-weight: 400;
   text-transform: inherit;
-  text-align: inherit;
+  /*text-align: inherit;*/
+  text-align: justify;
   /* mini phones and down */
   /* mini phones and down */
 }
@@ -2818,7 +2819,8 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary:hover {
-  color: #fff;
+  /*color: #fff;*/
+  color: #000;
   background-color: #4cc6f4;
   border-color: #204d74;
 }
@@ -3188,7 +3190,8 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger:hover {
-  color: #fff;
+  /*color: #fff;*/
+  color: #000;
   background-color: #c9302c;
   border-color: #ac2925;
 }
@@ -10396,8 +10399,10 @@ div[class*="col-"] > .item-wrap {
 }
 .testimonial-item .auther-thumb, .agents-block .auther-thumb, .partner-block .auther-thumb {
   display: inline-block;
-  width: 70px;
-  height: 70px;
+  /*width: 70px;*/
+  width: 150px;
+  /*height: 70px;*/
+  height: 150px;
   overflow: hidden;
   text-align: center;
   margin-bottom: 20px;

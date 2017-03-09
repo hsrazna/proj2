@@ -1,6 +1,8 @@
 <?php
 global $post, $splash_welcome_text, $page_head_subtitle, $adv_search_which_header_show, $adv_search_over_header_pages, $adv_search_selected_pages;
 
+global $houzez_local;
+
 $image_id = get_post_meta( $post->ID, 'fave_page_header_image', true );
 $image_height = get_post_meta( $post->ID, 'fave_page_header_image_height', true );
 $img_url = wp_get_attachment_image_src( $image_id, 'full' );
@@ -61,84 +63,122 @@ if( !empty( $img_url[0] ) ) {
     <div class="banner-caption">
     <?php if(is_front_page()): ?>
         <?php if ( qtrans_getLanguage() == 'en' ) {?>
-            <div class="ls-mask2">
-                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
-                    <div class="ls-form-owl">
-                        <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
-                        <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins">
-                                <option value>Badrooms</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="any">Any</option>
-                            </select>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ls-mask2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="az-right">
+                                        <span class="az-pre-text">The rest of your dream</span>
+                                    </div>
+                                </div>
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
+                                    <div class="ls-form-owl">
+                                        <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
+                                        <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins" disabled>
+                                                <option value>Badrooms</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="any">Any</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
+                                                <option value>Phuket</option>
+                                                <option data-parentcity="" value="Phang Nga">Phang Nga</option>
+                                                <option data-parentcity="" value="Mai Khao">Mai Khao</option>
+                                                <option data-parentcity="" value="Nai Yang">Nai Yang</option>
+                                                <option data-parentcity="" value="East">East</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <input type="text" name="daterange" value="" id="as123"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="ls-submit-owl">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-orange"><?php echo $houzez_local['search']; ?></button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                                <div class="col-md-12">
+                                    <div class="az-right">
+                                        <span class="az-post-text">starts here</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                                <option value>Phuket</option>
-                                <option data-parentcity="" value="Phang Nga">Phang Nga</option>
-                                <option data-parentcity="" value="Mai Khao">Mai Khao</option>
-                                <option data-parentcity="" value="Nai Yang">Nai Yang</option>
-                                <option data-parentcity="" value="East">East</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <input type="text" name="daterange" value="" id="as123"/>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <div class="ls-submit-owl">
-                        <div class="col-md-12">
-                            <button class="btn btn-orange">Go</button>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </form>
+                </div>
             </div>
         <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
-            <div class="ls-mask2">
-                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/">
-                    <div class="ls-form-owl-ru">
-                        <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
-                        <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins">
-                                <option value>Кол. спален</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="any">Любое</option>
-                            </select>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="az-left">
+                            <span class="az-pre-text">Отдых твоей мечты</span>
                         </div>
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins">
-                                <option value>Весь Пхукет</option>
-                                <option data-parentcity="" value="Phang Nga">Панг Нга</option>
-                                <option data-parentcity="" value="Mai Khao">Май Као</option>
-                                <option data-parentcity="" value="Nai Yang">Най Янг</option>
-                                <option data-parentcity="" value="East">Восток</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 col-sm-12 az-sm-margin10">
-                            <input type="text" name="daterange" value="" id="as123"/>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <div class="ls-submit-owl-ru">
-                        <div class="col-md-12">
-                            <button class="btn btn-orange">Поиск</button>
+                    <div class="col-md-12">
+                        <div class="ls-mask2">
+                            <div class="row">
+                                
+                                <form role="search" method="post" id="searchform" class="searchform" action="/advanced-search/" disabled>
+                                    <div class="ls-form-owl-ru">
+                                        <input type="hidden" name="min-price" class="min-price-range-hidden range-input" readonly="" value="$1,000">
+                                        <input type="hidden" name="max-price" class="max-price-range-hidden range-input" readonly="" value="$500,000">
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select class="selectpicker" name="bedrooms" data-live-search="false" data-live-search-style="begins" disabled>
+                                                <option value>Кол. спален</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="any">Любое</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <select name="area" class="selectpicker" data-live-search="false" data-live-search-style="begins" disabled>
+                                                <option value>Весь Пхукет</option>
+                                                <option data-parentcity="" value="Phang Nga">Панг Нга</option>
+                                                <option data-parentcity="" value="Mai Khao">Май Као</option>
+                                                <option data-parentcity="" value="Nai Yang">Най Янг</option>
+                                                <option data-parentcity="" value="East">Восток</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 az-sm-margin10">
+                                            <input type="text" name="daterange" value="" id="as123" disabled/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="ls-submit-owl-ru">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-orange" disabled><?php echo $houzez_local['search']; ?></button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                                
+                            </div>
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                </form>
+                    <div class="col-md-12">
+                        <div class="az-left">
+                            <span class="az-post-text">начинается здесь</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         <?php } ?>
     <?php else: ?>

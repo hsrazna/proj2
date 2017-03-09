@@ -1,5 +1,5 @@
-<div class="next-prev-block next-prev-blog blog-section clearfix az-blog-section">
-
+<div class="next-prev-block next-prev-blog blog-section clearfix az-blog-section ">
+    
     <div class="prev-box pull-left">
         <?php
         $prevPost = get_previous_post(true);
@@ -17,7 +17,12 @@
                     <a href="#"><i class="fa fa-arrow-circle-left"></i></a>
                 </div>
                 <div class="media-body media-middle">
-                    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"> <?php esc_html_e( 'Previous post', 'houzez' ); ?></a></h3>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"> <?php esc_html_e( 'Previous post', 'houzez' ); ?></a></h3>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"> <?php esc_html_e( 'Предыдущая статья', 'houzez' ); ?></a></h3>
+    <?php } ?>
+                    
                     <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                 </div>
             </div>
@@ -43,7 +48,12 @@
             ?>
             <div class="media">
                 <div class="media-body media-middle text-right">
-                    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"><?php esc_html_e( 'Next post', 'houzez' ); ?></a></h3>
+                    <?php if ( qtrans_getLanguage() == 'en' ) {?>
+    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"><?php esc_html_e( 'Next post', 'houzez' ); ?></a></h3>
+    <?php } elseif ( qtrans_getLanguage() == 'ru' ) { ?>
+    <h3 class="media-heading"><a href="<?php the_permalink(); ?>"><?php esc_html_e( 'Следующая статья', 'houzez' ); ?></a></h3>
+    <?php } ?>
+                    
                     <h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
                 </div>
                 <div class="media-right">

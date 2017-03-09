@@ -1,0 +1,2 @@
+<?php
+	houzez_breadcrumbs();

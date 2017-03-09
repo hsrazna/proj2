@@ -15,12 +15,14 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                 <div class="page-title breadcrumb-single">
                     <div class="row">
                         <div class="col-sm-12">
-                            <?php get_template_part( 'inc/breadcrumb' )?>
+                            <?php //get_template_part( 'inc/breadcrumb' )?>
+                            <?php get_template_part( 'inc/breadcrumb-services' )?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container-contentbar">
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
                 <div class="article-main">
                     
                     <?php
@@ -29,7 +31,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
 
                             <article class="blog-article">
                                 <div class="page-title">
-                                    <h2><?php the_title(); ?></h2>
+                                    <h1><?php the_title(); ?></h1>
                                     <?php //get_template_part( 'single-post/post-meta' ); ?>
                                 </div>
                                 <?php houzez_post_thumbnail(); ?>
@@ -75,6 +77,7 @@ $sticky_sidebar = houzez_option('sticky_sidebar');
                   <?php get_template_part( 'template-parts/az-form' ); ?>
                     </div>
                 </div>
+            <!-- </div> -->
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-3 container-sidebar  <?php if( isset( $sticky_sidebar['default_sidebar'] ) && $sticky_sidebar['default_sidebar'] != 0 ){ echo 'houzez_sticky'; }?>">
                 <?php get_sidebar(); ?>

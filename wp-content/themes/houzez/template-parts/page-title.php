@@ -1,6 +1,7 @@
 <?php
 $active = houzez_option('search_result_posts_layout');
 $search_result_layout = houzez_option('search_result_layout');
+$months = ["01" => "Январь", "02" => "Февраль", "03" => "Март", "04" => "Апрель", "05" => "Май", "06" => "Июнь", "07" => "Июль", "08" => "Август", "09" => "Сентябрь", "10" => "Октябрь", "11" => "Ноябрь", "12" => "Декабрь" ];
 ?>
 <div class="page-title breadcrumb-top">
     <div class="row">
@@ -19,7 +20,7 @@ $search_result_layout = houzez_option('search_result_layout');
                         printf( esc_html__( '%s', 'houzez' ), get_the_date() );
 
                     } elseif (is_month()) {
-                        printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'houzez' ) ) );
+                        printf( esc_html__( '%s %s', 'houzez' ), $months[get_the_date( 'm' )], get_the_date( _x( 'Y', 'monthly archives date format', 'houzez' ) ) );
 
                     } elseif (is_year()) {
                         printf( esc_html__( '%s', 'houzez' ), get_the_date( _x( 'Y', 'yearly archives date format', 'houzez' ) ) );
